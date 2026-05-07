@@ -1,0 +1,86 @@
+<?php
+
+declare(strict_types=1);
+
+namespace PhpNoobs\MemberGraph\Application\Resolver\Expression;
+
+use PhpNoobs\MemberGraph\Application\Resolver\Contracts\ExpressionResolverInterface;
+use PhpNoobs\MemberGraph\Application\Resolver\Contracts\ExpressionTypeResolverInterface;
+use PhpNoobs\MemberGraph\Application\Resolver\ExpressionResolutionContext;
+use PhpNoobs\MemberGraph\Application\Resolver\Service\ArrayLiteralStructuredTypeResolver;
+use PhpNoobs\MemberGraph\Domain\Symbol\SymbolCollection;
+use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
+use PhpParser\Node;
+use PhpParser\Node\Expr;
+use PhpParser\Node\Expr\Array_;
+
+/**
+ * Resolves array expressions.
+ */
+final readonly class ArrayExpressionResolver implements ExpressionResolverInterface
+{
+    /**
+     * Constructor.
+     *
+     * @param ArrayLiteralStructuredTypeResolver $arrayLiteralStructuredTypeResolver The literal array structured type resolver.
+     */
+    public function __construct(private ArrayLiteralStructuredTypeResolver $arrayLiteralStructuredTypeResolver)
+    {
+    }
+
+    /**
+     * Tells whether this resolver can handle the given node.
+     *
+     * @param Node $expression The expression or expression-like node to inspect.
+     *
+     * @return bool
+     */
+    public function supports(Node $expression): bool
+    {
+        return $expression instanceof Array_;
+    }
+
+    /**
+     * Resolves symbols produced by an array expression.
+     *
+     * Array expressions currently expose their useful information through structured PHPDoc types.
+     *
+     * @param Node $expression The array expression.
+     * @param ExpressionResolutionContext $context The current expression resolution context.
+     * @param ExpressionTypeResolverInterface $fallbackResolver The facade resolver for recursive resolution.
+     *
+     * @return SymbolCollection|null
+     */
+    public function resolve(
+        Node $expression,
+        ExpressionResolutionContext $context,
+        ExpressionTypeResolverInterface $fallbackResolver,
+    ): ?SymbolCollection {
+        if (!$expression instanceof Array_) {
+            return null;
+        }
+
+        return new SymbolCollection();
+    }
+
+    /**
+     * Resolves the structured PHPDoc type produced by an array expression.
+     *
+     * @param Expr $expression The array expression.
+     * @param ExpressionResolutionContext $context The current expression resolution context.
+     * @param ExpressionTypeResolverInterface $fallbackResolver The facade resolver for recursive resolution.
+     *
+     * @return ResolvedPhpDocType|null
+     */
+    public function resolveStructuredPhpDocType(
+        Expr $expression,
+        ExpressionResolutionContext $context,
+        ExpressionTypeResolverInterface $fallbackResolver,
+    ): ?ResolvedPhpDocType {
+        if (!$expression instanceof Array_) {
+            return null;
+        }
+
+        return $this->arrayLiteralStructuredTypeResolver->resolve($expression, $context, $fallbackResolver);
+    }
+}

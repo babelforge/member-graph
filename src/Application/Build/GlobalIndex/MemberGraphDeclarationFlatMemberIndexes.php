@@ -1,0 +1,29 @@
+<?php
+
+declare(strict_types=1);
+
+namespace PhpNoobs\MemberGraph\Application\Build\GlobalIndex;
+
+use PhpNoobs\MemberGraph\Domain\Index\Constant\ClassConstantTypeIndex;
+use PhpNoobs\MemberGraph\Domain\Index\Constant\ClassConstantValueIndex;
+use PhpNoobs\MemberGraph\Domain\Index\Property\PropertyTypeIndex;
+
+/**
+ * Carries flat member indexes rebuilt from cacheable declaration snapshots.
+ */
+final readonly class MemberGraphDeclarationFlatMemberIndexes
+{
+    /**
+     * Constructor.
+     *
+     * @param PropertyTypeIndex $propertyTypeIndex The property type index.
+     * @param ClassConstantTypeIndex $classConstantTypeIndex The class constant type index.
+     * @param ClassConstantValueIndex $classConstantValueIndex The scalar class constant value index.
+     */
+    public function __construct(
+        public PropertyTypeIndex $propertyTypeIndex,
+        public ClassConstantTypeIndex $classConstantTypeIndex,
+        public ClassConstantValueIndex $classConstantValueIndex,
+    ) {
+    }
+}

@@ -1,0 +1,169 @@
+<?php
+
+declare(strict_types=1);
+
+namespace PhpNoobs\MemberGraph\Application\Resolver\Service;
+
+use PhpNoobs\MemberGraph\Domain\Index\Constant\ClassConstantTypeIndex;
+use PhpNoobs\MemberGraph\Domain\Owner\KnownOwner;
+use PhpNoobs\MemberGraph\Domain\Owner\KnownOwnerCollection;
+use PhpNoobs\MemberGraph\Domain\Symbol\SymbolCollection;
+
+/**
+ * Resolves the declaring owner of class-like constants through inheritance, interfaces, and traits.
+ */
+final readonly class ClassConstantOwnerResolver
+{
+    /**
+     * Constructor.
+     *
+     * @param ClassConstantTypeIndex $classConstantTypeIndex The class constant type index.
+     * @param KnownOwnerCollection $knownOwners The known owners collection.
+     */
+    public function __construct(
+        private ClassConstantTypeIndex $classConstantTypeIndex,
+        private KnownOwnerCollection $knownOwners,
+    ) {
+    }
+
+    /**
+     * Resolves the class constant declared type through inheritance.
+     *
+     * @param string $owner The starting owner.
+     * @param string $constantName The constant name.
+     *
+     * @return SymbolCollection
+     */
+    public function resolve(string $owner, string $constantName): SymbolCollection
+    {
+        return $this->resolveRecursive($owner, $constantName, []);
+    }
+
+    /**
+     * Resolves one class constant owner through classes, interfaces, and traits.
+     *
+     * @param string $owner The current owner to inspect.
+     * @param string $constantName The constant name.
+     * @param array<string, bool> $visited The visited owners.
+     *
+     * @return SymbolCollection
+     */
+    private function resolveRecursive(
+        string $owner,
+        string $constantName,
+        array $visited,
+    ): SymbolCollection {
+        $owners = new SymbolCollection();
+
+        if ('' === $owner || isset($visited[$owner])) {
+            return $owners;
+        }
+
+        $visited[$owner] = true;
+
+        $resolved = $this->classConstantTypeIndex->get($owner, $constantName);
+
+        if (null !== $resolved && '' !== $resolved) {
+            return $owners->add($resolved);
+        }
+
+        $knownOwner = $this->knownOwners->get($owner);
+
+        if (!$knownOwner instanceof KnownOwner) {
+            return $owners;
+        }
+
+        $parentOwners = $this->resolveParentOwners($knownOwner, $constantName, $visited);
+
+        if (!$parentOwners->isEmpty()) {
+            return $parentOwners;
+        }
+
+        $interfaceOwners = $this->resolveInterfaceOwners($knownOwner, $constantName, $visited);
+
+        if (!$interfaceOwners->isEmpty()) {
+            return $interfaceOwners;
+        }
+
+        return $this->resolveTraitOwners($knownOwner, $constantName, $visited);
+    }
+
+    /**
+     * Resolves parent class owners.
+     *
+     * @param KnownOwner $knownOwner The owner metadata.
+     * @param string $constantName The constant name.
+     * @param array<string, bool> $visited The visited owners.
+     *
+     * @return SymbolCollection
+     */
+    private function resolveParentOwners(
+        KnownOwner $knownOwner,
+        string $constantName,
+        array $visited,
+    ): SymbolCollection {
+        if (null === $knownOwner->parentFqcn || '' === $knownOwner->parentFqcn) {
+            return new SymbolCollection();
+        }
+
+        return $this->resolveRecursive($knownOwner->parentFqcn, $constantName, $visited);
+    }
+
+    /**
+     * Resolves interface owners.
+     *
+     * @param KnownOwner $knownOwner The owner metadata.
+     * @param string $constantName The constant name.
+     * @param array<string, bool> $visited The visited owners.
+     *
+     * @return SymbolCollection
+     */
+    private function resolveInterfaceOwners(
+        KnownOwner $knownOwner,
+        string $constantName,
+        array $visited,
+    ): SymbolCollection {
+        foreach ($knownOwner->interfaces as $interfaceOwner) {
+            $interfaceOwners = $this->resolveRecursive($interfaceOwner, $constantName, $visited);
+
+            if (!$interfaceOwners->isEmpty()) {
+                return $interfaceOwners;
+            }
+        }
+
+        foreach ($knownOwner->extendsInterfaces as $interfaceOwner) {
+            $interfaceOwners = $this->resolveRecursive($interfaceOwner, $constantName, $visited);
+
+            if (!$interfaceOwners->isEmpty()) {
+                return $interfaceOwners;
+            }
+        }
+
+        return new SymbolCollection();
+    }
+
+    /**
+     * Resolves trait owners.
+     *
+     * @param KnownOwner $knownOwner The owner metadata.
+     * @param string $constantName The constant name.
+     * @param array<string, bool> $visited The visited owners.
+     *
+     * @return SymbolCollection
+     */
+    private function resolveTraitOwners(
+        KnownOwner $knownOwner,
+        string $constantName,
+        array $visited,
+    ): SymbolCollection {
+        foreach ($knownOwner->traits as $traitOwner) {
+            $traitOwners = $this->resolveRecursive($traitOwner, $constantName, $visited);
+
+            if (!$traitOwners->isEmpty()) {
+                return $traitOwners;
+            }
+        }
+
+        return new SymbolCollection();
+    }
+}

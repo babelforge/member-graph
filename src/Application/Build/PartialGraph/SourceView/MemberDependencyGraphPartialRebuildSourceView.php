@@ -1,0 +1,29 @@
+<?php
+
+declare(strict_types=1);
+
+namespace PhpNoobs\MemberGraph\Application\Build\PartialGraph\SourceView;
+
+use PhpNoobs\MemberGraph\Application\Build\GlobalIndexRebuild\MemberGraphGlobalIndexRebuildInput;
+use PhpNoobs\MemberGraph\Application\Build\PartialGraph\Loading\MemberDependencyGraphPartialRebuildLoadedInput;
+use PhpNoobs\MemberGraph\Application\Cache\Snapshot\MemberGraphVirtualSourceMetadataCollection;
+
+/**
+ * Carries the complete source metadata view prepared for a future partial rebuild.
+ */
+final readonly class MemberDependencyGraphPartialRebuildSourceView
+{
+    /**
+     * Constructor.
+     *
+     * @param MemberGraphGlobalIndexRebuildInput $globalIndexRebuildInput The reusable global-index rebuild input.
+     * @param MemberDependencyGraphPartialRebuildLoadedInput $loadedInput The source data loaded from files to rebuild.
+     * @param MemberGraphVirtualSourceMetadataCollection $allSourceMetadata The complete source metadata view.
+     */
+    public function __construct(
+        public MemberGraphGlobalIndexRebuildInput $globalIndexRebuildInput,
+        public MemberDependencyGraphPartialRebuildLoadedInput $loadedInput,
+        public MemberGraphVirtualSourceMetadataCollection $allSourceMetadata,
+    ) {
+    }
+}

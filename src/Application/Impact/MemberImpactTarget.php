@@ -1,0 +1,112 @@
+<?php
+
+declare(strict_types=1);
+
+namespace PhpNoobs\MemberGraph\Application\Impact;
+
+use PhpNoobs\MemberGraph\Domain\Graph\MemberId;
+use PhpNoobs\MemberGraph\Domain\Graph\MemberType;
+use PhpNoobs\MemberGraph\Domain\Parameter\ParameterId;
+
+/**
+ * Represents one member-impact query target.
+ */
+final readonly class MemberImpactTarget
+{
+    /**
+     * Constructor.
+     *
+     * @param MemberId|null $memberId The targeted member identifier.
+     * @param ParameterId|null $parameterId The targeted parameter identifier.
+     */
+    private function __construct(
+        public ?MemberId $memberId,
+        public ?ParameterId $parameterId,
+    ) {
+    }
+
+    /**
+     * Creates a method impact target.
+     *
+     * @param string $owner The method owner FQCN.
+     * @param string $name The method name.
+     *
+     * @return self
+     */
+    public static function method(string $owner, string $name): self
+    {
+        return self::member($owner, $name, MemberType::METHOD);
+    }
+
+    /**
+     * Creates a property impact target.
+     *
+     * @param string $owner The property owner FQCN.
+     * @param string $name The property name.
+     *
+     * @return self
+     */
+    public static function property(string $owner, string $name): self
+    {
+        return self::member($owner, $name, MemberType::PROPERTY);
+    }
+
+    /**
+     * Creates a class-constant impact target.
+     *
+     * @param string $owner The class-constant owner FQCN.
+     * @param string $name The class-constant name.
+     *
+     * @return self
+     */
+    public static function classConstant(string $owner, string $name): self
+    {
+        return self::member($owner, $name, MemberType::CLASS_CONSTANT);
+    }
+
+    /**
+     * Creates a function impact target.
+     *
+     * @param string $name The fully-qualified function name.
+     *
+     * @return self
+     */
+    public static function forFunction(string $name): self
+    {
+        return self::member('', $name, MemberType::FUNCTION_);
+    }
+
+    /**
+     * Creates a parameter impact target.
+     *
+     * @param string $owner The owner FQCN, or an empty string for functions.
+     * @param string $functionLikeName The method name or fully-qualified function name.
+     * @param string $parameterName The parameter name without "$".
+     *
+     * @return self
+     */
+    public static function parameter(string $owner, string $functionLikeName, string $parameterName): self
+    {
+        return new self(
+            memberId: null,
+            parameterId: new ParameterId($owner, $functionLikeName, $parameterName),
+        );
+    }
+
+    /**
+     * Creates a member impact target.
+     *
+     * @param string $owner The member owner FQCN.
+     * @param string $name The member name.
+     * @param MemberType $type The member type.
+     *
+     * @return self
+     */
+    private static function member(string $owner, string $name, MemberType $type): self
+    {
+        return new self(
+            memberId: new MemberId($owner, $name, $type),
+            parameterId: null,
+        );
+    }
+}

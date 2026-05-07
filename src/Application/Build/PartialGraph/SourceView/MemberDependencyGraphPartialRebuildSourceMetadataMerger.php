@@ -1,0 +1,46 @@
+<?php
+
+declare(strict_types=1);
+
+namespace PhpNoobs\MemberGraph\Application\Build\PartialGraph\SourceView;
+
+use PhpNoobs\MemberGraph\Application\Build\PartialGraph\Execution\MemberDependencyGraphPartialRebuildExecutionResult;
+use PhpNoobs\MemberGraph\Application\Build\PartialGraph\Input\MemberDependencyGraphPartialRebuildPreparedInput;
+use PhpNoobs\MemberGraph\Application\Cache\Snapshot\MemberGraphGlobalIndexInputSnapshotBuilder;
+use PhpNoobs\MemberGraph\Application\Cache\Snapshot\MemberGraphVirtualSourceMetadataCollection;
+
+/**
+ * Merges reusable and rebuilt source metadata after a partial rebuild execution.
+ */
+final readonly class MemberDependencyGraphPartialRebuildSourceMetadataMerger
+{
+    /**
+     * Builds the source metadata view that should be persisted after a partial rebuild.
+     *
+     * @param MemberDependencyGraphPartialRebuildPreparedInput $preparedInput The prepared partial rebuild input.
+     * @param MemberDependencyGraphPartialRebuildExecutionResult $executionResult The partial rebuild execution result.
+     *
+     * @return MemberGraphVirtualSourceMetadataCollection
+     */
+    public function merge(
+        MemberDependencyGraphPartialRebuildPreparedInput $preparedInput,
+        MemberDependencyGraphPartialRebuildExecutionResult $executionResult,
+    ): MemberGraphVirtualSourceMetadataCollection {
+        $sourceMetadata = new MemberGraphVirtualSourceMetadataCollection();
+
+        foreach ($preparedInput->sourceView->allSourceMetadata as $metadata) {
+            $sourceMetadata->add($metadata);
+        }
+
+        $rebuiltSourceMetadata = new MemberGraphGlobalIndexInputSnapshotBuilder()->build(
+            virtualFiles: $executionResult->rebuiltVirtualFiles,
+            knownOwners: $executionResult->memberDependencyGraph->knownOwners,
+        )->sources;
+
+        foreach ($rebuiltSourceMetadata as $metadata) {
+            $sourceMetadata->add($metadata);
+        }
+
+        return $sourceMetadata;
+    }
+}

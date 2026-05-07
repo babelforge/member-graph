@@ -1,0 +1,195 @@
+<?php
+
+declare(strict_types=1);
+
+namespace PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Extractor;
+
+use PhpNoobs\MemberGraph\Domain\Index\Template\PhpDocTemplateDefinitionCollection;
+use PhpNoobs\MemberGraph\Domain\Type\TypeIndexContext;
+use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Inheritance\PhpDocInheritDocResolver;
+use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\PhpDocTagKind;
+use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\PhpDocTypeNodeResolverInterface;
+use PhpNoobs\MemberGraph\Infrastructure\UseStatements\UsesByAliasCollection;
+use PhpParser\Comment\Doc;
+use PhpParser\Node;
+use PhpParser\Node\Expr\Assign;
+use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Stmt\Expression;
+use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
+use PHPStan\PhpDocParser\Lexer\Lexer;
+use PHPStan\PhpDocParser\Parser\PhpDocParser;
+use PHPStan\PhpDocParser\Parser\TokenIterator;
+use Throwable;
+
+/**
+ * Extracts local @'var annotations from statements using PHPStan PhpDocParser.
+ */
+final readonly class LocalVarPhpDocTypeExtractor
+{
+    /**
+     * @param Lexer $lexer The PHPDoc lexer.
+     * @param PhpDocParser $phpDocParser The PHPDoc parser.
+     * @param PhpDocTypeNodeResolverInterface $phpDocTypeNodeResolver The PHPDoc type resolver.
+     */
+    public function __construct(
+        private Lexer                           $lexer,
+        private PhpDocParser                    $phpDocParser,
+        private PhpDocTypeNodeResolverInterface $phpDocTypeNodeResolver,
+    ) {
+    }
+
+    /**
+     * Extracts local variable types from the given statement docblock when possible.
+     *
+     * Supported forms:
+     * - /** @ var Foo $bar *'/
+     * - /** @ var Foo *'/ applied to `$bar = ...`
+     * - unions such as /** @ var A|B $bar *'/
+     *
+     * @param Node $node The statement node carrying the docblock.
+     * @param string $currentNamespace The current namespace.
+     * @param UsesByAliasCollection $usesByAlias The current use imports map.
+     * @param PhpDocTemplateDefinitionCollection $templateDefinitions The declared template definitions.
+     * @param TypeIndexContext $context The type index context.
+     * @param PhpDocTagKind $kind The kind of the PHPDoc tag.
+     *
+     * @return LocalVarPhpDocType|null
+     */
+    public function extract(
+        Node                               $node,
+        string                             $currentNamespace,
+        UsesByAliasCollection              $usesByAlias,
+        PhpDocTemplateDefinitionCollection $templateDefinitions,
+        TypeIndexContext                   $context,
+        PhpDocTagKind                      $kind
+    ): ?LocalVarPhpDocType {
+        $docComment = PhpDocInheritDocResolver::getEffectiveDocComment($node);
+
+        if (!$docComment instanceof Doc) {
+            return null;
+        }
+
+        $phpDocNode = $this->parsePhpDocNode($docComment);
+
+        if (null === $phpDocNode) {
+            return null;
+        }
+
+        foreach ($phpDocNode->getVarTagValues() as $varTagValue) {
+            $resolved = $this->extractFromVarTagValue(
+                $node,
+                $varTagValue,
+                $currentNamespace,
+                $usesByAlias,
+                $templateDefinitions,
+                $context,
+                $kind
+            );
+
+            if (null !== $resolved) {
+                return $resolved;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Parses one doc comment into a PhpDocNode.
+     *
+     * @param Doc $docComment The doc comment to parse.
+     *
+     * @return PhpDocNode|null
+     */
+    private function parsePhpDocNode(Doc $docComment): ?PhpDocNode
+    {
+        try {
+            $tokens = new TokenIterator($this->lexer->tokenize($docComment->getText()));
+
+            return $this->phpDocParser->parse($tokens);
+        } catch (Throwable) {
+            return null;
+        }
+    }
+
+    /**
+     * Extracts variable type information from one @var tag value.
+     *
+     * @param Node $node The original statement node.
+     * @param VarTagValueNode $varTagValue The parsed @var tag value.
+     * @param string $currentNamespace The current namespace.
+     * @param UsesByAliasCollection $usesByAlias The current use imports map.
+     * @param PhpDocTemplateDefinitionCollection $templateDefinitions The declared template definitions.
+     * @param TypeIndexContext $context The type index context.
+     * @param PhpDocTagKind $kind The kind of the PHPDoc tag.
+     *
+     * @return LocalVarPhpDocType|null
+     */
+    private function extractFromVarTagValue(
+        Node                               $node,
+        VarTagValueNode                    $varTagValue,
+        string                             $currentNamespace,
+        UsesByAliasCollection              $usesByAlias,
+        PhpDocTemplateDefinitionCollection $templateDefinitions,
+        TypeIndexContext                   $context,
+        PhpDocTagKind                      $kind
+    ): ?LocalVarPhpDocType {
+        $structuredType = $this->phpDocTypeNodeResolver->resolveStructured(
+            $varTagValue->type,
+            $currentNamespace,
+            $usesByAlias,
+            $templateDefinitions,
+            $context,
+            $kind
+        );
+
+        $resolvedTypes = $this->phpDocTypeNodeResolver->extractValueUsage($structuredType);
+
+        $hasCallableStructuredType = $structuredType->isCallable();
+
+        if ($resolvedTypes->isEmpty() && !$hasCallableStructuredType) {
+            return null;
+        }
+
+        $variableName = $this->resolveVariableName($node, $varTagValue);
+
+        if (null === $variableName || '' === $variableName) {
+            return null;
+        }
+
+        return new LocalVarPhpDocType(
+            variableName: $variableName,
+            types: $resolvedTypes,
+            structuredType: $structuredType,
+        );
+    }
+
+    /**
+     * Resolves the target variable name for one @ var tag.
+     *
+     * @param Node $node The statement node.
+     * @param VarTagValueNode $varTagValue The @var tag value.
+     *
+     * @return string|null
+     */
+    private function resolveVariableName(Node $node, VarTagValueNode $varTagValue): ?string
+    {
+        $phpDocVariableName = ltrim($varTagValue->variableName, '$');
+
+        if ('' !== $phpDocVariableName) {
+            return $phpDocVariableName;
+        }
+
+        if (
+            $node instanceof Expression
+            && $node->expr instanceof Assign
+            && $node->expr->var instanceof Variable
+            && is_string($node->expr->var->name)
+        ) {
+            return $node->expr->var->name;
+        }
+
+        return null;
+    }
+}

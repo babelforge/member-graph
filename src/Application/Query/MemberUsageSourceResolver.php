@@ -1,0 +1,43 @@
+<?php
+
+declare(strict_types=1);
+
+namespace PhpNoobs\MemberGraph\Application\Query;
+
+use PhpNoobs\MemberGraph\Domain\Graph\MemberId;
+use PhpNoobs\MemberGraph\Domain\Graph\MemberType;
+
+/**
+ * Resolves a member usage source symbol into a member identifier when possible.
+ */
+final class MemberUsageSourceResolver
+{
+    /**
+     * Resolves one source symbol into a member identifier.
+     *
+     * @param string $sourceSymbol The source symbol to resolve.
+     *
+     * @return MemberId|null
+     */
+    public function resolve(string $sourceSymbol): ?MemberId
+    {
+        if ('' === $sourceSymbol) {
+            return null;
+        }
+
+        $separatorPosition = strpos($sourceSymbol, '::');
+
+        if (false === $separatorPosition) {
+            return new MemberId('', $sourceSymbol, MemberType::FUNCTION_);
+        }
+
+        $owner = substr($sourceSymbol, 0, $separatorPosition);
+        $name = substr($sourceSymbol, $separatorPosition + 2);
+
+        if ('' === $owner || '' === $name || 'global' === $owner) {
+            return null;
+        }
+
+        return new MemberId($owner, $name, MemberType::METHOD);
+    }
+}

@@ -1,0 +1,6 @@
+/**/.DS_Store
+/.idea
+/ai
+/var/
+/vendor/
+/.phpunit.cache/
