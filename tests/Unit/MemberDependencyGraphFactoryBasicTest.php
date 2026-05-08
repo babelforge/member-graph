@@ -1,0 +1,672 @@
+<?php
+
+declare(strict_types=1);
+
+namespace PhpNoobs\MemberGraph\Tests\Unit;
+
+use PhpNoobs\MemberGraph\Application\Build\Factory\MemberDependencyGraphBuild;
+use PhpNoobs\MemberGraph\Application\Build\Factory\MemberDependencyGraphFactory;
+use PhpNoobs\MemberGraph\Application\Build\Factory\MemberDependencyGraphFactoryOptions;
+use PhpNoobs\MemberGraph\Application\Build\Factory\Mode\MemberDependencyGraphFactoryBuildMode;
+use PhpNoobs\MemberGraph\Application\Build\Factory\Mode\MemberDependencyGraphFactoryRebuildMode;
+use PhpNoobs\MemberGraph\Application\Build\Factory\Mode\MemberDependencyGraphFactoryRebuildReason;
+use PhpNoobs\MemberGraph\Application\Issue\MemberGraphIssueCollection;
+use PhpNoobs\MemberGraph\Application\Query\MemberDependency;
+use PhpNoobs\MemberGraph\Application\Query\MemberGraphQueryService;
+use PhpNoobs\MemberGraph\Domain\Graph\MemberId;
+use PhpNoobs\MemberGraph\Domain\Graph\MemberType;
+use PhpNoobs\MemberGraph\Domain\Usage\MemberUsageType;
+
+/**
+ * Covers basic member dependency graph factory build behavior.
+ */
+final class MemberDependencyGraphFactoryBasicTest extends MemberDependencyGraphFactoryTestCase
+{
+    /**
+     * Ensures directory builds include recursive PHP files and exclude configured directories.
+     *
+     * @return void
+     */
+    public function testItBuildsFromDirectoryWithExclusions(): void
+    {
+        $srcDirectory = $this->workspace . '/src';
+        $excludedDirectory = $srcDirectory . '/Excluded';
+
+        mkdir($excludedDirectory, 0777, true);
+        file_put_contents($srcDirectory . '/Included.php', <<<'PHP'
+<?php
+
+namespace App;
+
+final class Included
+{
+    public function run(): void
+    {
+    }
+}
+PHP);
+        file_put_contents($excludedDirectory . '/Skipped.php', <<<'PHP'
+<?php
+
+namespace App\Excluded;
+
+final class Skipped
+{
+    public function run(): void
+    {
+    }
+}
+PHP);
+        file_put_contents($srcDirectory . '/notes.txt', 'ignored');
+
+        $issues = new MemberGraphIssueCollection();
+        $factory = MemberDependencyGraphFactory::fromDirectory(
+            directories: [$srcDirectory],
+            cacheFilePath: $this->workspace . '/member-graph.cache',
+            excludedDirectories: [$excludedDirectory],
+            dependencyGraphIssues: $issues,
+        );
+
+        self::assertInstanceOf(MemberDependencyGraphBuild::class, $factory);
+        self::assertSame($issues, $factory->dependencyGraphIssues);
+        self::assertSame(MemberDependencyGraphFactoryBuildMode::FULL_BUILD, $factory->buildReport->buildMode);
+        self::assertSame(MemberDependencyGraphFactoryRebuildMode::FULL_BUILD, $factory->buildReport->rebuildPlan->mode);
+        self::assertSame(
+            MemberDependencyGraphFactoryRebuildReason::GLOBAL_INDEX_REBUILD_REQUIRED,
+            $factory->buildReport->rebuildPlan->reason,
+        );
+        self::assertTrue($factory->usedFullBuild());
+        self::assertFalse($factory->usedFastPath());
+        self::assertTrue($factory->hasLoadedVirtualFiles());
+        self::assertSame($factory->virtualFiles, $factory->loadedVirtualFiles());
+        self::assertSame(1, $factory->buildReport->scannedFileCount);
+        self::assertSame(1, $factory->buildReport->loadedVirtualFileCount);
+        self::assertSame(1, $factory->buildReport->virtualFileReferenceCount);
+        self::assertCount(1, $factory->virtualFiles);
+        self::assertCount(1, $factory->virtualFileReferences);
+        self::assertNotNull($factory->knownOwners->get('App\\Included'));
+        self::assertNull($factory->knownOwners->get('App\\Excluded\\Skipped'));
+        self::assertNotNull($factory->memberDependencyGraph->declarations->get(
+            new MemberId('App\\Included', 'run', MemberType::METHOD),
+        ));
+        self::assertNull($factory->memberDependencyGraph->declarations->get(
+            new MemberId('App\\Excluded\\Skipped', 'run', MemberType::METHOD),
+        ));
+        self::assertNotNull($factory->virtualFileReferences->getByVirtualFilePath(
+            (realpath($srcDirectory . '/Included.php') ?: $srcDirectory . '/Included.php') . '.virtual.0',
+        ));
+        self::assertCount(1, $factory->virtualFileReferences->getByFullFilePath(
+            realpath($srcDirectory . '/Included.php') ?: $srcDirectory . '/Included.php',
+        ));
+    }
+
+    /**
+     * Ensures factory results expose the graph recomposed from fragments.
+     *
+     * @return void
+     */
+    public function testItReturnsMergedGraphFromFragments(): void
+    {
+        $srcDirectory = $this->workspace . '/src';
+        $aFilePath = $srcDirectory . '/A.php';
+        $bFilePath = $srcDirectory . '/B.php';
+        $aRun = new MemberId('App\\A', 'run', MemberType::METHOD);
+        $bSend = new MemberId('App\\B', 'send', MemberType::METHOD);
+
+        mkdir($srcDirectory, 0777, true);
+        file_put_contents($aFilePath, <<<'PHP'
+<?php
+
+namespace App;
+
+final class A
+{
+    public function run(): void
+    {
+        B::send();
+    }
+}
+PHP);
+        file_put_contents($bFilePath, <<<'PHP'
+<?php
+
+namespace App;
+
+final class B
+{
+    public static function send(): void
+    {
+    }
+}
+PHP);
+
+        $factory = MemberDependencyGraphFactory::fromDirectory(
+            directories: [$srcDirectory],
+            cacheFilePath: $this->workspace . '/member-graph.cache',
+        );
+        $query = MemberGraphQueryService::fromGraph($factory->memberDependencyGraph);
+
+        self::assertNotNull($factory->memberDependencyGraph->declarations->get($aRun));
+        self::assertNotNull($factory->memberDependencyGraph->declarations->get($bSend));
+        self::assertCount(1, $factory->memberDependencyGraph->usages);
+        self::assertTrue($query->dependenciesOfMember($aRun)->contains(new MemberDependency(
+            source: $aRun,
+            target: $bSend,
+            usageType: MemberUsageType::STATIC_METHOD_CALL,
+            file: (realpath($aFilePath) ?: $aFilePath) . '.virtual.0',
+        )));
+    }
+
+    /**
+     * Ensures unchanged files can rebuild the graph from cached fragments without loading virtual files.
+     *
+     * @return void
+     */
+    public function testItUsesFastPathFromFreshCachedFragments(): void
+    {
+        $srcDirectory = $this->workspace . '/src';
+        $aFilePath = $srcDirectory . '/A.php';
+        $bFilePath = $srcDirectory . '/B.php';
+        $cacheFilePath = $this->workspace . '/member-graph.cache';
+        $aRun = new MemberId('App\\A', 'run', MemberType::METHOD);
+        $bSend = new MemberId('App\\B', 'send', MemberType::METHOD);
+
+        mkdir($srcDirectory, 0777, true);
+        file_put_contents($aFilePath, <<<'PHP'
+<?php
+
+namespace App;
+
+final class A
+{
+    public function run(): void
+    {
+        B::send();
+    }
+}
+PHP);
+        file_put_contents($bFilePath, <<<'PHP'
+<?php
+
+namespace App;
+
+final class B
+{
+    public static function send(): void
+    {
+    }
+}
+PHP);
+
+        MemberDependencyGraphFactory::fromDirectory(
+            directories: [$srcDirectory],
+            cacheFilePath: $cacheFilePath,
+        );
+
+        $factory = MemberDependencyGraphFactory::fromDirectory(
+            directories: [$srcDirectory],
+            cacheFilePath: $cacheFilePath,
+        );
+        $query = MemberGraphQueryService::fromGraph($factory->memberDependencyGraph);
+
+        self::assertInstanceOf(MemberDependencyGraphBuild::class, $factory);
+        self::assertSame(MemberDependencyGraphFactoryBuildMode::FAST_PATH, $factory->buildReport->buildMode);
+        self::assertSame(MemberDependencyGraphFactoryRebuildMode::FAST_PATH, $factory->buildReport->rebuildPlan->mode);
+        self::assertTrue($factory->usedFastPath());
+        self::assertFalse($factory->usedFullBuild());
+        self::assertFalse($factory->hasLoadedVirtualFiles());
+        self::assertSame(
+            MemberDependencyGraphFactoryRebuildReason::CACHE_FAST_PATH_AVAILABLE,
+            $factory->buildReport->rebuildPlan->reason,
+        );
+        self::assertNull($factory->buildReport->partialRebuildInput);
+        self::assertSame(2, $factory->buildReport->scannedFileCount);
+        self::assertSame(0, $factory->buildReport->loadedVirtualFileCount);
+        self::assertSame(2, $factory->buildReport->virtualFileReferenceCount);
+        self::assertCount(2, $factory->buildReport->cachePlan->freshFiles);
+        self::assertCount(0, $factory->buildReport->rebuildPlan->filesToBuild);
+        self::assertCount(2, $factory->buildReport->rebuildPlan->fragmentsToReuse);
+        self::assertCount(0, $factory->virtualFiles);
+        self::assertCount(0, $factory->loadedVirtualFiles());
+        self::assertCount(2, $factory->virtualFileReferences);
+        self::assertNotNull($factory->knownOwners->get('App\\A'));
+        self::assertNotNull($factory->knownOwners->get('App\\B'));
+        self::assertNotNull($factory->memberDependencyGraph->declarations->get($aRun));
+        self::assertNotNull($factory->memberDependencyGraph->declarations->get($bSend));
+        self::assertTrue($query->dependenciesOfMember($aRun)->contains(new MemberDependency(
+            source: $aRun,
+            target: $bSend,
+            usageType: MemberUsageType::STATIC_METHOD_CALL,
+            file: (realpath($aFilePath) ?: $aFilePath) . '.virtual.0',
+        )));
+    }
+
+    /**
+     * Ensures changed-only cache plans can be reported as partial candidates while still executing full builds by default.
+     *
+     * @return void
+     */
+    public function testBuildReportExposesPartialBuildCandidateWhenNoFragmentsCanBeReused(): void
+    {
+        $srcDirectory = $this->workspace . '/src';
+        $filePath = $srcDirectory . '/A.php';
+        $cacheFilePath = $this->workspace . '/member-graph.cache';
+
+        mkdir($srcDirectory, 0777, true);
+        file_put_contents($filePath, <<<'PHP'
+<?php
+
+namespace App;
+
+final class A
+{
+    public function run(): void
+    {
+    }
+}
+PHP);
+
+        MemberDependencyGraphFactory::fromDirectory(
+            directories: [$srcDirectory],
+            cacheFilePath: $cacheFilePath,
+        );
+
+        sleep(1);
+        file_put_contents($filePath, <<<'PHP'
+<?php
+
+namespace App;
+
+final class A
+{
+    public function changed(): void
+    {
+    }
+}
+PHP);
+
+        $factory = MemberDependencyGraphFactory::fromDirectory(
+            directories: [$srcDirectory],
+            cacheFilePath: $cacheFilePath,
+        );
+
+        self::assertSame(MemberDependencyGraphFactoryBuildMode::FULL_BUILD, $factory->buildReport->buildMode);
+        self::assertSame(
+            MemberDependencyGraphFactoryRebuildMode::PARTIAL_BUILD_CANDIDATE,
+            $factory->buildReport->rebuildPlan->mode,
+        );
+        self::assertTrue($factory->usedFullBuild());
+        self::assertFalse($factory->usedFastPath());
+        self::assertTrue($factory->hasLoadedVirtualFiles());
+        self::assertSame(
+            MemberDependencyGraphFactoryRebuildReason::PARTIAL_REBUILD_CANDIDATE,
+            $factory->buildReport->rebuildPlan->reason,
+        );
+        self::assertSame(1, $factory->buildReport->scannedFileCount);
+        self::assertSame(1, $factory->buildReport->loadedVirtualFileCount);
+        self::assertSame(1, $factory->buildReport->virtualFileReferenceCount);
+        self::assertCount(1, $factory->buildReport->cachePlan->staleFiles);
+        self::assertCount(1, $factory->buildReport->rebuildPlan->filesToBuild);
+        self::assertCount(0, $factory->buildReport->rebuildPlan->fragmentsToReuse);
+    }
+
+    /**
+     * Ensures partial rebuild candidates remain executed as full builds for now.
+     *
+     * @return void
+     */
+    public function testBuildReportExposesPartialBuildCandidateAfterOneFileChanges(): void
+    {
+        $srcDirectory = $this->workspace . '/src';
+        $aFilePath = $srcDirectory . '/A.php';
+        $bFilePath = $srcDirectory . '/B.php';
+        $cacheFilePath = $this->workspace . '/member-graph.cache';
+
+        mkdir($srcDirectory, 0777, true);
+        file_put_contents($aFilePath, <<<'PHP'
+<?php
+
+namespace App;
+
+final class A
+{
+    public function run(): void
+    {
+    }
+}
+PHP);
+        file_put_contents($bFilePath, <<<'PHP'
+<?php
+
+namespace App;
+
+final class B
+{
+    public function run(): void
+    {
+    }
+}
+PHP);
+
+        MemberDependencyGraphFactory::fromDirectory(
+            directories: [$srcDirectory],
+            cacheFilePath: $cacheFilePath,
+        );
+
+        sleep(1);
+        file_put_contents($bFilePath, <<<'PHP'
+<?php
+
+namespace App;
+
+final class B
+{
+    public function changed(): void
+    {
+    }
+}
+PHP);
+
+        $factory = MemberDependencyGraphFactory::fromDirectory(
+            directories: [$srcDirectory],
+            cacheFilePath: $cacheFilePath,
+        );
+
+        self::assertSame(MemberDependencyGraphFactoryBuildMode::FULL_BUILD, $factory->buildReport->buildMode);
+        self::assertSame(
+            MemberDependencyGraphFactoryRebuildMode::PARTIAL_BUILD_CANDIDATE,
+            $factory->buildReport->rebuildPlan->mode,
+        );
+        self::assertSame(
+            MemberDependencyGraphFactoryRebuildReason::PARTIAL_REBUILD_CANDIDATE,
+            $factory->buildReport->rebuildPlan->reason,
+        );
+        self::assertTrue($factory->usedFullBuild());
+        self::assertFalse($factory->usedFastPath());
+        self::assertNotNull($factory->buildReport->partialRebuildInput);
+        self::assertNotNull($factory->buildReport->partialRebuildWorkingSet);
+        self::assertCount(1, $factory->buildReport->rebuildPlan->filesToBuild);
+        self::assertCount(1, $factory->buildReport->rebuildPlan->fragmentsToReuse);
+        self::assertTrue($factory->buildReport->rebuildPlan->filesToBuild->contains(
+            realpath($bFilePath) ?: $bFilePath,
+        ));
+        self::assertTrue($factory->buildReport->rebuildPlan->fragmentsToReuse->contains(
+            realpath($aFilePath) ?: $aFilePath,
+        ));
+        self::assertTrue($factory->buildReport->partialRebuildWorkingSet->hasFileToParseForContext(
+            realpath($bFilePath) ?: $bFilePath,
+        ));
+        self::assertTrue($factory->buildReport->partialRebuildWorkingSet->hasFileToRebuildGraph(
+            realpath($bFilePath) ?: $bFilePath,
+        ));
+        self::assertCount(1, $factory->buildReport->partialRebuildWorkingSet->filesToParseForContext);
+        self::assertCount(1, $factory->buildReport->partialRebuildWorkingSet->filesToRebuildGraph);
+        self::assertCount(1, $factory->buildReport->partialRebuildWorkingSet->fragmentsToReuse);
+    }
+
+    /**
+     * Ensures partial rebuild execution can be enabled explicitly.
+     *
+     * @return void
+     */
+    public function testItUsesPartialBuildWhenOptionIsEnabled(): void
+    {
+        $srcDirectory = $this->workspace . '/src';
+        $aFilePath = $srcDirectory . '/A.php';
+        $bFilePath = $srcDirectory . '/B.php';
+        $cacheFilePath = $this->workspace . '/member-graph.cache';
+
+        mkdir($srcDirectory, 0777, true);
+        file_put_contents($aFilePath, <<<'PHP'
+<?php
+
+namespace App;
+
+final class A
+{
+    public function run(): void
+    {
+    }
+}
+PHP);
+        file_put_contents($bFilePath, <<<'PHP'
+<?php
+
+namespace App;
+
+final class B
+{
+    public function old(): void
+    {
+    }
+}
+PHP);
+
+        MemberDependencyGraphFactory::fromDirectory(
+            directories: [$srcDirectory],
+            cacheFilePath: $cacheFilePath,
+        );
+
+        sleep(1);
+        file_put_contents($bFilePath, <<<'PHP'
+<?php
+
+namespace App;
+
+final class B
+{
+    public function changed(): void
+    {
+    }
+}
+PHP);
+
+        $factory = MemberDependencyGraphFactory::fromDirectory(
+            directories: [$srcDirectory],
+            cacheFilePath: $cacheFilePath,
+            options: new MemberDependencyGraphFactoryOptions(enablePartialRebuild: true),
+        );
+
+        self::assertSame(MemberDependencyGraphFactoryBuildMode::PARTIAL_BUILD, $factory->buildReport->buildMode);
+        self::assertTrue($factory->usedPartialBuild());
+        self::assertFalse($factory->usedFullBuild());
+        self::assertNotNull($factory->buildReport->partialRebuildInput);
+        self::assertNotNull($factory->buildReport->partialRebuildWorkingSet);
+        self::assertNotNull($factory->memberDependencyGraph->declarations->get(new MemberId(
+            owner: 'App\\A',
+            name: 'run',
+            type: MemberType::METHOD,
+        )));
+        self::assertNotNull($factory->memberDependencyGraph->declarations->get(new MemberId(
+            owner: 'App\\B',
+            name: 'changed',
+            type: MemberType::METHOD,
+        )));
+        self::assertNull($factory->memberDependencyGraph->declarations->get(new MemberId(
+            owner: 'App\\B',
+            name: 'old',
+            type: MemberType::METHOD,
+        )));
+    }
+
+    /**
+     * Ensures opt-in partial factory builds match a fresh full factory build.
+     *
+     * @return void
+     */
+    public function testPartialBuildMatchesFreshFullBuildFacts(): void
+    {
+        $srcDirectory = $this->workspace . '/src';
+        $aFilePath = $srcDirectory . '/A.php';
+        $bFilePath = $srcDirectory . '/B.php';
+        $partialCacheFilePath = $this->workspace . '/partial-member-graph.cache';
+        $fullCacheFilePath = $this->workspace . '/full-member-graph.cache';
+
+        mkdir($srcDirectory, 0777, true);
+        file_put_contents($aFilePath, <<<'PHP'
+<?php
+
+namespace App;
+
+final class A
+{
+    public function run(B $b): void
+    {
+        $b->changed();
+    }
+}
+PHP);
+        file_put_contents($bFilePath, <<<'PHP'
+<?php
+
+namespace App;
+
+final class B
+{
+    public function changed(): void
+    {
+    }
+}
+PHP);
+
+        MemberDependencyGraphFactory::fromDirectory(
+            directories: [$srcDirectory],
+            cacheFilePath: $partialCacheFilePath,
+        );
+
+        sleep(1);
+        file_put_contents($bFilePath, <<<'PHP'
+<?php
+
+namespace App;
+
+final class B
+{
+    public function changed(): void
+    {
+        $value = 1;
+    }
+}
+PHP);
+
+        $partialBuild = MemberDependencyGraphFactory::fromDirectory(
+            directories: [$srcDirectory],
+            cacheFilePath: $partialCacheFilePath,
+            options: new MemberDependencyGraphFactoryOptions(enablePartialRebuild: true),
+        );
+        $fullBuild = MemberDependencyGraphFactory::fromDirectory(
+            directories: [$srcDirectory],
+            cacheFilePath: $fullCacheFilePath,
+            clearCache: true,
+        );
+
+        self::assertTrue($partialBuild->usedPartialBuild());
+        self::assertTrue($fullBuild->usedFullBuild());
+        self::assertSame(
+            $this->declarationHashes($fullBuild->memberDependencyGraph),
+            $this->declarationHashes($partialBuild->memberDependencyGraph),
+        );
+        self::assertSame(
+            $this->usageSignatures($fullBuild->memberDependencyGraph),
+            $this->usageSignatures($partialBuild->memberDependencyGraph),
+        );
+        self::assertSame(
+            $this->availableMemberSignatures($fullBuild->memberDependencyGraph),
+            $this->availableMemberSignatures($partialBuild->memberDependencyGraph),
+        );
+    }
+
+    /**
+     * Ensures partial cache updates preserve rebuilt physical files that produce several virtual files.
+     *
+     * @return void
+     */
+    public function testPartialBuildPersistsRebuiltVirtualFileReferences(): void
+    {
+        $srcDirectory = $this->workspace . '/src-partial-virtual-references';
+        $aFilePath = $srcDirectory . '/A.php';
+        $bFilePath = $srcDirectory . '/B.php';
+        $cacheFilePath = $this->workspace . '/partial-virtual-references.cache';
+
+        mkdir($srcDirectory, 0777, true);
+        file_put_contents($aFilePath, <<<'PHP'
+<?php
+
+namespace App;
+
+final class A
+{
+    public function run(): void
+    {
+    }
+}
+PHP);
+        file_put_contents($bFilePath, <<<'PHP'
+<?php
+
+namespace App;
+
+final class B
+{
+    public function old(): void
+    {
+    }
+}
+PHP);
+
+        MemberDependencyGraphFactory::fromDirectory(
+            directories: [$srcDirectory],
+            cacheFilePath: $cacheFilePath,
+        );
+
+        sleep(1);
+        file_put_contents($bFilePath, <<<'PHP'
+<?php
+
+namespace App;
+
+final class B
+{
+    public function changed(): void
+    {
+    }
+}
+
+final class C
+{
+    public function added(): void
+    {
+    }
+}
+PHP);
+
+        $partialBuild = MemberDependencyGraphFactory::fromDirectory(
+            directories: [$srcDirectory],
+            cacheFilePath: $cacheFilePath,
+            options: new MemberDependencyGraphFactoryOptions(enablePartialRebuild: true),
+        );
+        $fastPathBuild = MemberDependencyGraphFactory::fromDirectory(
+            directories: [$srcDirectory],
+            cacheFilePath: $cacheFilePath,
+            options: new MemberDependencyGraphFactoryOptions(enablePartialRebuild: true),
+        );
+
+        self::assertTrue($partialBuild->usedPartialBuild());
+        self::assertSame(2, $partialBuild->buildReport->loadedVirtualFileCount);
+        self::assertSame(3, $partialBuild->buildReport->virtualFileReferenceCount);
+        self::assertCount(2, $partialBuild->virtualFileReferences->getByFullFilePath(realpath($bFilePath) ?: $bFilePath));
+        self::assertNotNull($partialBuild->memberDependencyGraph->declarations->get(new MemberId(
+            owner: 'App\\C',
+            name: 'added',
+            type: MemberType::METHOD,
+        )));
+        self::assertTrue($fastPathBuild->usedFastPath());
+        self::assertSame(3, $fastPathBuild->buildReport->virtualFileReferenceCount);
+        self::assertNotNull($fastPathBuild->memberDependencyGraph->declarations->get(new MemberId(
+            owner: 'App\\C',
+            name: 'added',
+            type: MemberType::METHOD,
+        )));
+    }
+
+}

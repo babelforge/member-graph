@@ -22,7 +22,7 @@ final class MemberGraphVirtualFileReferenceCollection implements Countable, Iter
     private array $byVirtualFilePath = [];
 
     /**
-     * @var MemberGraphVirtualFileReference
+     * @var array<string, MemberGraphVirtualFileReference[]>
      */
     private array $byFullFilePath = [];
 

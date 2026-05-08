@@ -17,14 +17,14 @@ use Traversable;
 final class MemberUsageCollection implements Countable, IteratorAggregate
 {
     /**
-     * @var MemberUsage
+     * @var array<string, MemberUsage[]>
      */
     public array $byTarget = [];
 
     /**
      * Returns all usages grouped by target member hash.
      *
-     * @return MemberUsage
+     * @return array<string, MemberUsage[]>
      */
     public function all(): array
     {

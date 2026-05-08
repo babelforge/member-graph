@@ -21,14 +21,14 @@ final class AvailableMemberCompatibilityGroups implements Countable, IteratorAgg
     /**
      * Available properties indexed by member name.
      *
-     * @var AvailableMember
+     * @var array<string, AvailableMember[]>
      */
     private array $propertiesByName = [];
 
     /**
      * Available class constants indexed by member name.
      *
-     * @var AvailableMember
+     * @var array<string, AvailableMember[]>
      */
     private array $constantsByName = [];
 

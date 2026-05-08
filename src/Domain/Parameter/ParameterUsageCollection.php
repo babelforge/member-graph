@@ -16,7 +16,7 @@ use Traversable;
 final class ParameterUsageCollection implements Countable, IteratorAggregate
 {
     /**
-     * @var ParameterUsage
+     * @var array<string, ParameterUsage[]>
      */
     private array $byTarget = [];
 
@@ -35,7 +35,7 @@ final class ParameterUsageCollection implements Countable, IteratorAggregate
     /**
      * Get all collection items.
      *
-     * @return ParameterUsage
+     * @return array<string, ParameterUsage[]>
      */
     public function all(): array
     {

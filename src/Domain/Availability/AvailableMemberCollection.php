@@ -20,7 +20,7 @@ use Traversable;
 final class AvailableMemberCollection implements Countable, IteratorAggregate
 {
     /**
-     * @var AvailableMember
+     * @var array<string, array<string, AvailableMember>>
      */
     private array $byOwner = [];
 
@@ -82,7 +82,7 @@ final class AvailableMemberCollection implements Countable, IteratorAggregate
     /**
      * Returns all indexed available members grouped by owner.
      *
-     * @return AvailableMember
+     * @return array<string, array<string, AvailableMember>>
      */
     public function all(): array
     {

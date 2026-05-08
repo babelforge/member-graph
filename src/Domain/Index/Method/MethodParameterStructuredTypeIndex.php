@@ -12,7 +12,7 @@ use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
 final class MethodParameterStructuredTypeIndex
 {
     /**
-     * @var ResolvedPhpDocType
+     * @var array<string, array<string, ResolvedPhpDocType>>
      */
     private array $items = [];
 

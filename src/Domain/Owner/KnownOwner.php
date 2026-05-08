@@ -20,7 +20,7 @@ final readonly class KnownOwner
      * @param list<string> $traits The directly used traits.
      * @param list<string> $interfaces The directly used interfaces.
      * @param list<string> $extendsInterfaces The directly extended interfaces.
-     * @param TraitAliasAdaptation $traitAliasAdaptations The trait aliases. [traitFqcn][methodName] => adaptation
+     * @param array<string, array<string, TraitAliasAdaptation>> $traitAliasAdaptations The trait aliases. [traitFqcn][methodName] => adaptation
      * @param TraitInsteadOfAdaptation[] $traitInsteadOfAdaptations
      */
     public function __construct(

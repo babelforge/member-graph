@@ -29,7 +29,7 @@ final class MemberGraphFileIndex
     private array $filesByMember = [];
 
     /**
-     * @var MemberId
+     * @var array<string, array<string, MemberId>>
      */
     private array $membersByFile = [];
 
