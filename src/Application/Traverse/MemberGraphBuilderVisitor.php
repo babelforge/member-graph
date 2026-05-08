@@ -25,6 +25,7 @@ use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\PhpDocTagKind;
 use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\StructuredPhpDocTypeSelector;
 use PhpNoobs\MemberGraph\Infrastructure\UseStatements\UsesByAliasCollection;
 use PhpParser\Node;
+use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\ArrowFunction;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\ClassConstFetch;
@@ -49,6 +50,7 @@ use PhpParser\Node\Stmt\Namespace_;
 use PhpParser\Node\Stmt\Property;
 use PhpParser\Node\Stmt\Return_;
 use PhpParser\Node\Stmt\Trait_;
+use PhpParser\Node\VariadicPlaceholder;
 use PhpParser\Node\VarLikeIdentifier;
 use PhpParser\NodeVisitorAbstract;
 
@@ -143,7 +145,7 @@ final class MemberGraphBuilderVisitor extends NodeVisitorAbstract
     public function enterNode(Node $node): null
     {
         if ($node instanceof Namespace_) {
-            $this->state->enterNamespace($node->name->toString());
+            $this->state->enterNamespace($node->name?->toString() ?? '');
         }
 
         if ((
@@ -298,6 +300,10 @@ final class MemberGraphBuilderVisitor extends NodeVisitorAbstract
      */
     private function enterClassLikeNode(Class_|Trait_|Interface_|Enum_ $node): void
     {
+        if (null === $node->namespacedName) {
+            return;
+        }
+
         $this->state->enterClassLike($node->namespacedName->toString());
         $this->collectTemplateDefinitions($node);
     }
@@ -332,6 +338,10 @@ final class MemberGraphBuilderVisitor extends NodeVisitorAbstract
      */
     private function enterFunctionNode(Function_ $node): void
     {
+        if (null === $node->namespacedName) {
+            return;
+        }
+
         $this->state->enterFunction($node, $node->namespacedName->toString());
         $this->collectTemplateDefinitions($node);
         $this->localVariableTypeCollector->collectParameters(
@@ -487,7 +497,7 @@ final class MemberGraphBuilderVisitor extends NodeVisitorAbstract
                 sourceSymbol: $this->state->sourceSymbol(),
                 owner: $owner,
                 functionLikeName: $methodName,
-                args: $node->args,
+                args: $this->callArguments($node->args),
             );
         }
     }
@@ -520,7 +530,7 @@ final class MemberGraphBuilderVisitor extends NodeVisitorAbstract
             sourceSymbol: $this->state->sourceSymbol(),
             owner: $owner,
             functionLikeName: $methodName,
-            args: $node->args,
+            args: $this->callArguments($node->args),
         );
     }
 
@@ -548,7 +558,7 @@ final class MemberGraphBuilderVisitor extends NodeVisitorAbstract
         $this->parameterUsageCollector->collectFunctionNamedArguments(
             $this->state->sourceSymbol(),
             $functionName,
-            $node->args,
+            $this->callArguments($node->args),
         );
     }
 
@@ -652,7 +662,11 @@ final class MemberGraphBuilderVisitor extends NodeVisitorAbstract
         $owners = $this->resolveStaticCallOwner($className);
 
         if (!$owners->isEmpty()) {
-            return $owners->first();
+            $owner = $owners->first();
+
+            if (null !== $owner) {
+                return $owner;
+            }
         }
 
         return 'unknown';
@@ -720,5 +734,17 @@ final class MemberGraphBuilderVisitor extends NodeVisitorAbstract
         }
 
         return $name->toString();
+    }
+
+    /**
+     * Filters parser call arguments to concrete argument nodes.
+     *
+     * @param array<array-key, Arg|VariadicPlaceholder> $arguments The parser arguments.
+     *
+     * @return array<int, Arg>
+     */
+    private function callArguments(array $arguments): array
+    {
+        return array_values(array_filter($arguments, static fn (mixed $argument): bool => $argument instanceof Arg));
     }
 }

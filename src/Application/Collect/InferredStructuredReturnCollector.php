@@ -122,6 +122,10 @@ final readonly class InferredStructuredReturnCollector
             $structuredType,
         );
 
+        if (!$chosenType instanceof ResolvedPhpDocType) {
+            return;
+        }
+
         $this->methodReturnInferredStructuredTypeIndex->set(
             $state->currentClass(),
             $state->currentMethod(),
@@ -177,6 +181,10 @@ final readonly class InferredStructuredReturnCollector
             $declaredStructuredReturnType,
             $structuredType,
         );
+
+        if (!$chosenType instanceof ResolvedPhpDocType) {
+            return;
+        }
 
         $this->functionReturnInferredStructuredTypeIndex->set(
             $state->currentFunction(),

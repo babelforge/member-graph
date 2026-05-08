@@ -99,6 +99,10 @@ final readonly class EffectivePhpDocRenderer
         $lines = preg_split('/\R/', $raw);
         $clean = [];
 
+        if (false === $lines) {
+            return [];
+        }
+
         foreach ($lines as $line) {
             $line = trim($line);
             $line = ltrim($line, '/* ');
@@ -166,7 +170,7 @@ final readonly class EffectivePhpDocRenderer
     {
         $line = '@template ' . $templateDefinition->name;
 
-        if ($this->isRenderableBound($templateDefinition->bound)) {
+        if ($templateDefinition->bound instanceof ResolvedPhpDocType && $this->isRenderableBound($templateDefinition->bound)) {
             $bound = $this->resolvedPhpDocNodeRenderer->toDocString($templateDefinition->bound);
 
             if ('' !== $bound) {

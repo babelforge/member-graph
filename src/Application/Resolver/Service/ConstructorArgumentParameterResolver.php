@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PhpNoobs\MemberGraph\Application\Resolver\Service;
 
 use PhpParser\Node\Arg;
+use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\ClassMethod;
 
 /**
@@ -29,7 +30,7 @@ final readonly class ConstructorArgumentParameterResolver
 
         $parameter = $constructorNode->params[$position] ?? null;
 
-        if (null === $parameter || !is_string($parameter->var->name)) {
+        if (null === $parameter || !$parameter->var instanceof Variable || !is_string($parameter->var->name)) {
             return null;
         }
 

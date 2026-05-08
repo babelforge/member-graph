@@ -290,7 +290,7 @@ final class PhpDocInheritDocResolver
             doc: $doc,
         );
 
-        return $this->phpDocValidityChecker->collectSemanticProblems($semanticState);
+        return array_values($this->phpDocValidityChecker->collectSemanticProblems($semanticState));
     }
 
     /**
@@ -511,6 +511,10 @@ final class PhpDocInheritDocResolver
         $raw = $doc->getText();
         $lines = preg_split('/\R/', $raw);
         $clean = [];
+
+        if (false === $lines) {
+            return [];
+        }
 
         foreach ($lines as $line) {
             $line = trim($line);

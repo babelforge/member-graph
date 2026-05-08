@@ -94,9 +94,11 @@ final readonly class ClosureDocTagExtractor
             return null;
         }
 
-        preg_match(self::LOCAL_VAR_DOC_TYPE_PATTERN, $doc->getText(), $matches);
+        if (1 !== preg_match(self::LOCAL_VAR_DOC_TYPE_PATTERN, $doc->getText(), $matches)) {
+            return null;
+        }
 
-        return $matches;
+        return [$matches[0], $matches[1]];
     }
 
     /**

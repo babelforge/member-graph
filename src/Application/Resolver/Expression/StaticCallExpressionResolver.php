@@ -115,7 +115,7 @@ final readonly class StaticCallExpressionResolver implements ExpressionResolverI
             return null;
         }
 
-        if (!$expression->name instanceof Identifier) {
+        if (!$expression->class instanceof Name || !$expression->name instanceof Identifier) {
             return null;
         }
 

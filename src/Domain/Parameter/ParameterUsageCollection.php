@@ -16,7 +16,7 @@ use Traversable;
 final class ParameterUsageCollection implements Countable, IteratorAggregate
 {
     /**
-     * @var array<string, ParameterUsage[]>
+     * @var array<string, list<ParameterUsage>>
      */
     private array $byTarget = [];
 
@@ -35,7 +35,7 @@ final class ParameterUsageCollection implements Countable, IteratorAggregate
     /**
      * Get all collection items.
      *
-     * @return array<string, ParameterUsage[]>
+     * @return array<string, list<ParameterUsage>>
      */
     public function all(): array
     {
@@ -51,7 +51,7 @@ final class ParameterUsageCollection implements Countable, IteratorAggregate
      */
     public function getByTarget(ParameterId $parameterId): array
     {
-        return $this->byTarget[$parameterId->hash()] ?? [];
+        return array_values($this->byTarget[$parameterId->hash()] ?? []);
     }
 
     /**
@@ -61,7 +61,9 @@ final class ParameterUsageCollection implements Countable, IteratorAggregate
      */
     public function getIterator(): Traversable
     {
-        yield from $this->byTarget;
+        foreach ($this->byTarget as $target => $usages) {
+            yield $target => array_values($usages);
+        }
     }
 
     /**

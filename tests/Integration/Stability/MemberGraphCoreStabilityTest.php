@@ -225,7 +225,7 @@ PHP,
         $foundIssue = false;
 
         /** @var PhpDocResolutionIssue $issue */
-        foreach ($memberDependencyGraph->dependencyGraphIssues as $issue) {
+        foreach ($memberDependencyGraph->dependencyGraphIssues ?? [] as $issue) {
             $foundIssue = $foundIssue ||
                 ((PhpDocResolutionIssueType::RETURN_TAG_NOT_USABLE === $issue->type)
                     && ('TestCase101\\ParentService' === $issue->owner)
@@ -266,7 +266,7 @@ PHP,
         $foundIssue = false;
 
         /** @var PhpDocResolutionIssue $issue */
-        foreach ($memberDependencyGraph->dependencyGraphIssues as $issue) {
+        foreach ($memberDependencyGraph->dependencyGraphIssues ?? [] as $issue) {
             $foundIssue = $foundIssue ||
                 ((PhpDocResolutionIssueType::PARAM_TAG_NOT_USABLE === $issue->type)
                     && ('TestCase102\\ParentService' === $issue->owner)

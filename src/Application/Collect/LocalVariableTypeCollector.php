@@ -17,6 +17,7 @@ use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\PhpDocTagKind;
 use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
 use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\StructuredPhpDocTypeSelector;
 use PhpNoobs\MemberGraph\Infrastructure\UseStatements\UsesByAliasCollection;
+use PhpParser\Node\ComplexType;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\Variable;
@@ -258,12 +259,12 @@ final readonly class LocalVariableTypeCollector
     /**
      * Resolves parameter types from a declared parameter type node.
      *
-     * @param null|Identifier|Name|NullableType|UnionType|IntersectionType $type The parameter type node.
+     * @param null|Identifier|Name|ComplexType $type The parameter type node.
      *
      * @return SymbolCollection
      */
     private function resolveParameterTypes(
-        null|Identifier|Name|NullableType|UnionType|IntersectionType $type,
+        null|Identifier|Name|ComplexType $type,
     ): SymbolCollection {
         if ($type instanceof Name) {
             $resolvedName = $type->getAttribute('resolvedName');

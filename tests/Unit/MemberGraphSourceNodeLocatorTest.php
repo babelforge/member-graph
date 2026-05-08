@@ -696,7 +696,7 @@ final class MemberGraphSourceNodeLocatorTest extends TestCase
      *
      * @param VirtualPhpSourceFileNodeMatchCollection $matches The match collection.
      * @param VirtualPhpSourceFileNodeMatchRole $role The expected role.
-     * @param class-string $nodeClass The expected node class.
+     * @param class-string<Node> $nodeClass The expected node class.
      *
      * @return int
      */

@@ -147,6 +147,10 @@ final readonly class PhpDocTypeNodeResolver implements PhpDocTypeNodeResolverInt
 
             $fqcn = $this->resolveIdentifier($name, $currentNamespace, $usesByAlias);
 
+            if (null === $fqcn) {
+                return ResolvedPhpDocType::regular(new SymbolCollection());
+            }
+
             if (!$this->fileRegistry->fqcnExists($fqcn)) {
                 PhpDocIssueCollection::add(
                     $this->issues,
@@ -232,6 +236,10 @@ final readonly class PhpDocTypeNodeResolver implements PhpDocTypeNodeResolverInt
         if ($usesByAlias->has($firstSegment)) {
             $resolvedBase = $usesByAlias->get($firstSegment);
             $suffix = substr($rawType, strlen($firstSegment));
+
+            if (null === $resolvedBase) {
+                return null;
+            }
 
             return $resolvedBase . $suffix;
         }

@@ -17,14 +17,14 @@ use Traversable;
 final class MemberUsageCollection implements Countable, IteratorAggregate
 {
     /**
-     * @var array<string, MemberUsage[]>
+     * @var array<string, list<MemberUsage>>
      */
     public array $byTarget = [];
 
     /**
      * Returns all usages grouped by target member hash.
      *
-     * @return array<string, MemberUsage[]>
+     * @return array<string, list<MemberUsage>>
      */
     public function all(): array
     {
@@ -53,7 +53,7 @@ final class MemberUsageCollection implements Countable, IteratorAggregate
      */
     public function getByTarget(MemberId $id): array
     {
-        return $this->byTarget[$id->hash()] ?? [];
+        return array_values($this->byTarget[$id->hash()] ?? []);
     }
 
     /**
@@ -63,7 +63,9 @@ final class MemberUsageCollection implements Countable, IteratorAggregate
      */
     public function getIterator(): Traversable
     {
-        yield from $this->byTarget;
+        foreach ($this->byTarget as $target => $usages) {
+            yield $target => array_values($usages);
+        }
     }
 
     /**

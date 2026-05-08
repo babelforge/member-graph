@@ -21,14 +21,14 @@ final class AvailableMemberCompatibilityGroups implements Countable, IteratorAgg
     /**
      * Available properties indexed by member name.
      *
-     * @var array<string, AvailableMember[]>
+     * @var array<string, list<AvailableMember>>
      */
     private array $propertiesByName = [];
 
     /**
      * Available class constants indexed by member name.
      *
-     * @var array<string, AvailableMember[]>
+     * @var array<string, list<AvailableMember>>
      */
     private array $constantsByName = [];
 
@@ -84,11 +84,11 @@ final class AvailableMemberCompatibilityGroups implements Countable, IteratorAgg
     public function getIterator(): Traversable
     {
         foreach ($this->propertiesByName as $memberName => $group) {
-            yield $memberName => $group;
+            yield $memberName => array_values($group);
         }
 
         foreach ($this->constantsByName as $memberName => $group) {
-            yield $memberName => $group;
+            yield $memberName => array_values($group);
         }
     }
 

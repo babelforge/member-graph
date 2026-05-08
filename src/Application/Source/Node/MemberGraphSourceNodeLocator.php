@@ -26,6 +26,7 @@ use PhpParser\Node\Expr\NullsafeMethodCall;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Expr\StaticPropertyFetch;
+use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\Param;
@@ -774,6 +775,8 @@ final readonly class MemberGraphSourceNodeLocator
     {
         return $node instanceof Param
             && 0 !== $node->flags
+            && $node->var instanceof Variable
+            && is_string($node->var->name)
             && $node->var->name === $memberId->name;
     }
 
@@ -864,6 +867,8 @@ final readonly class MemberGraphSourceNodeLocator
     ): bool {
         return $parameterId->owner === $currentOwner
             && $parameterId->functionLikeName === $currentFunctionLike
+            && $node->var instanceof Variable
+            && is_string($node->var->name)
             && $node->var->name === $parameterId->parameterName;
     }
 

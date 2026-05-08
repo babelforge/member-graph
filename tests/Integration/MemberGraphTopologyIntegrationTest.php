@@ -78,6 +78,7 @@ final class MemberGraphTopologyIntegrationTest extends TestCase
         $mermaid = $api->export($topology, new MemberGraphTopologyMermaidExporter());
         $decoded = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
 
+        self::assertIsArray($decoded);
         self::assertSame('codebase', $array['rootNodeId']);
         self::assertSame('codebase', $decoded['rootNodeId']);
         self::assertTrue($this->hasNode($array['nodes'], 'owner:App\\A', 'OWNER'));

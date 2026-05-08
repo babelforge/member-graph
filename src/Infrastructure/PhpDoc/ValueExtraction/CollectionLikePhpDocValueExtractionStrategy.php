@@ -63,11 +63,23 @@ final readonly class CollectionLikePhpDocValueExtractionStrategy implements PhpD
         }
 
         if ($this->isSingleValueCollectionLike($mainSymbol) && (1 === $type->genericArguments->count())) {
-            return $this->fallbackStrategy->extract($type->genericArguments->getItemByIndex(0));
+            $valueType = $type->genericArguments->getItemByIndex(0);
+
+            if (!$valueType instanceof ResolvedPhpDocType) {
+                return new SymbolCollection();
+            }
+
+            return $this->fallbackStrategy->extract($valueType);
         }
 
         if ($this->isKeyValueCollectionLike($mainSymbol) && $type->genericArguments->hasItemIndex(1)) {
-            return $this->fallbackStrategy->extract($type->genericArguments->getItemByIndex(1));
+            $valueType = $type->genericArguments->getItemByIndex(1);
+
+            if (!$valueType instanceof ResolvedPhpDocType) {
+                return new SymbolCollection();
+            }
+
+            return $this->fallbackStrategy->extract($valueType);
         }
 
         return $this->fallbackStrategy->extract($type);

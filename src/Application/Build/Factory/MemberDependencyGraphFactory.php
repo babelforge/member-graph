@@ -97,7 +97,12 @@ final readonly class MemberDependencyGraphFactory
             );
         }
 
-        if ($options->enablePartialRebuild && null !== $partialRebuildPreparedInput && null !== $partialRebuildWorkingSet) {
+        if (
+            $options->enablePartialRebuild
+            && null !== $partialRebuildInput
+            && null !== $partialRebuildPreparedInput
+            && null !== $partialRebuildWorkingSet
+        ) {
             return new MemberDependencyGraphPartialBuildRunner($fileRegistry)->run(
                 files: $files,
                 cache: $cache,

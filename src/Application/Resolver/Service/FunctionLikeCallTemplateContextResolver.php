@@ -9,6 +9,7 @@ use PhpNoobs\MemberGraph\Application\Resolver\ExpressionResolutionContext;
 use PhpNoobs\MemberGraph\Domain\Type\FunctionLikeReturnType;
 use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
 use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Template\PhpDocTemplateSubstitutionContext;
+use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\NullsafeMethodCall;
@@ -78,6 +79,10 @@ final readonly class FunctionLikeCallTemplateContextResolver
         }
 
         foreach ($expression->args as $position => $arg) {
+            if (!$arg instanceof Arg) {
+                continue;
+            }
+
             $parameterName = $this->parameterResolver->resolveCallParameterName(
                 $arg,
                 $position,

@@ -91,7 +91,7 @@ final readonly class MemberGraphGlobalIndexBuilder
         $classLikeNodeIndexesByVirtualFile = [];
 
         foreach ($input->virtualFiles as $virtualFile) {
-            $indexes = $this->structuralNodeIndexBuilder->build($virtualFile->nodes);
+            $indexes = $this->structuralNodeIndexBuilder->build(array_values($virtualFile->nodes));
             $methodNodeIndex->merge($indexes->methodNodeIndex);
             $functionNodeIndex->merge($indexes->functionNodeIndex);
             $classLikeNodeIndex->merge($indexes->classLikeNodeIndex);

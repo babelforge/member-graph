@@ -1,5 +1,7 @@
 # MemberGraph
 
+[![CI](https://github.com/php-noobs/member-graph/actions/workflows/ci.yml/badge.svg)](https://github.com/php-noobs/member-graph/actions/workflows/ci.yml)
+
 PHP member-level dependency graph builder.
 
 `MemberGraph` analyzes PHP source code and builds dependency facts at member level: methods, functions, properties, class constants, enum cases, and named parameters.
@@ -123,8 +125,6 @@ The documentation covers:
 - query service;
 - topology service;
 - public API entry points.
-
-Historical AI planning notes live in [`ai/`](ai/). They are not public documentation.
 
 ## Boundaries
 

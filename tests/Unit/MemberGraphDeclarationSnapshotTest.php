@@ -107,11 +107,18 @@ final class MemberGraphDeclarationSnapshotTest extends TestCase
         ));
 
         $method = $methods->get('App\\Box', 'get');
+        $function = $functions->get('App\\make_box');
+        $methodParameter = $method?->parameters->get('App\\Box::get', 'id');
+        $methodTemplate = $method?->templates->get('App\\Box::get', 'TValue');
 
-        self::assertSame('App\\Box::get', $method?->callableId());
-        self::assertSame('positive-int', $method->parameters->get('App\\Box::get', 'id')->phpDocType);
-        self::assertSame('object', $method->templates->get('App\\Box::get', 'TValue')->boundType);
-        self::assertSame('Box', $functions->get('App\\make_box')?->nativeReturnType);
+        self::assertNotNull($method);
+        self::assertNotNull($function);
+        self::assertNotNull($methodParameter);
+        self::assertNotNull($methodTemplate);
+        self::assertSame('App\\Box::get', $method->callableId());
+        self::assertSame('positive-int', $methodParameter->phpDocType);
+        self::assertSame('object', $methodTemplate->boundType);
+        self::assertSame('Box', $function->nativeReturnType);
     }
 
     /**

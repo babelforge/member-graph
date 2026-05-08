@@ -59,7 +59,7 @@ final class MemberGraphBuilder implements MemberGraphBuilderInterface
         $declarations = new MemberDeclarationCollection();
         $usages = new MemberUsageCollection();
         $parameterUsages = new ParameterUsageCollection();
-        $usesByAlias = new UseStatementsMapBuilder()->build($ast);
+        $usesByAlias = new UseStatementsMapBuilder()->build(array_values($ast));
 
         $collectorVisitor = new MemberGraphBuilderVisitor(
             $fullFilePath,

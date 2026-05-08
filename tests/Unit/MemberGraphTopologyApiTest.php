@@ -88,6 +88,7 @@ final class MemberGraphTopologyApiTest extends TestCase
         );
         $decoded = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
 
+        self::assertIsArray($decoded);
         self::assertSame('owner:App\\A', $decoded['rootNodeId']);
         self::assertSame('OUTGOING', $decoded['direction']);
     }

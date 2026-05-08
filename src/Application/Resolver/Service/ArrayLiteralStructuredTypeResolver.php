@@ -127,7 +127,13 @@ final readonly class ArrayLiteralStructuredTypeResolver
 
         if (1 === $valueTypes->count()) {
             $genericArguments = new ResolvedPhpDocTypeCollection();
-            $genericArguments->add($valueTypes->getItemByIndex(0));
+            $firstValueType = $valueTypes->getItemByIndex(0);
+
+            if (!$firstValueType instanceof ResolvedPhpDocType) {
+                return $this->buildRegularArrayStructuredType();
+            }
+
+            $genericArguments->add($firstValueType);
 
             return ResolvedPhpDocType::newGeneric($symbols, $genericArguments);
         }

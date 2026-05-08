@@ -304,6 +304,10 @@ final class FileTypeIndexesBuilderVisitor extends NodeVisitorAbstract
      */
     private function enterClassLike(ClassLike $classLike): void
     {
+        if (null === $classLike->namespacedName) {
+            return;
+        }
+
         $this->currentClass = $classLike->namespacedName->toString();
         $this->classTemplateDefinitionsStack[] = $this->phpDocTemplateDefinitionExtractor->extract(
             $classLike,
@@ -405,11 +409,17 @@ final class FileTypeIndexesBuilderVisitor extends NodeVisitorAbstract
     {
         $parent = $parameter->getAttribute('parent');
 
+        if (!$parameter->var instanceof Variable || !is_string($parameter->var->name)) {
+            return;
+        }
+
+        $parameterName = $parameter->var->name;
+
         if ('' !== $this->currentMethod && $parent instanceof ClassMethod) {
             $this->methodParameterTypeIndex->set(
                 owner: $this->currentClass,
                 methodName: $this->currentMethod,
-                parameterName: $parameter->var->name,
+                parameterName: $parameterName,
                 details: new MethodParameterType(
                     types: $this->typeResolver->resolve($parameter->type),
                     parameterNode: $parameter,
@@ -423,7 +433,7 @@ final class FileTypeIndexesBuilderVisitor extends NodeVisitorAbstract
         if ('' !== $this->currentFunction && $parent instanceof Function_) {
             $this->functionParameterTypeIndex->set(
                 functionName: $this->currentFunction,
-                parameterName: $parameter->var->name,
+                parameterName: $parameterName,
                 details: new FunctionParameterType(
                     types: $this->typeResolver->resolve($parameter->type),
                     parameterNode: $parameter,

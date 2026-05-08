@@ -70,7 +70,7 @@ final readonly class MemberGraphTopologyMermaidExporter implements MemberGraphTo
             return [];
         }
 
-        return array_values(array_filter($nodes, 'is_array'));
+        return $this->arrayItems($nodes);
     }
 
     /**
@@ -88,7 +88,39 @@ final readonly class MemberGraphTopologyMermaidExporter implements MemberGraphTo
             return [];
         }
 
-        return array_values(array_filter($edges, 'is_array'));
+        return $this->arrayItems($edges);
+    }
+
+    /**
+     * Keeps only associative array payload items.
+     *
+     * @param array<mixed> $items The raw exported payload items.
+     *
+     * @return list<array<string, mixed>>
+     */
+    private function arrayItems(array $items): array
+    {
+        $filteredItems = [];
+
+        foreach ($items as $item) {
+            if (!is_array($item)) {
+                continue;
+            }
+
+            $normalizedItem = [];
+
+            foreach ($item as $key => $value) {
+                if (!is_string($key)) {
+                    continue;
+                }
+
+                $normalizedItem[$key] = $value;
+            }
+
+            $filteredItems[] = $normalizedItem;
+        }
+
+        return $filteredItems;
     }
 
     /**

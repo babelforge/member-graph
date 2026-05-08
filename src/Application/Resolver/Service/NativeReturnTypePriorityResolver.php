@@ -42,6 +42,10 @@ final readonly class NativeReturnTypePriorityResolver
             return false;
         }
 
+        if (!$details instanceof FunctionLikeReturnType) {
+            return false;
+        }
+
         $nativeTypes = $details->returnTypes;
         $structuredBaseTypes = $structuredReturnType->symbols;
 

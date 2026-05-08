@@ -154,6 +154,10 @@ final class KnownOwnersCollectionBuilderVisitor extends NodeVisitorAbstract
                 }
 
                 if ($adaptation instanceof Precedence) {
+                    if (!$adaptation->trait instanceof Name) {
+                        continue;
+                    }
+
                     $preferredTraitFqcn = $this->resolveName($adaptation->trait);
                     $methodName = $adaptation->method->toString();
 
@@ -217,7 +221,7 @@ final class KnownOwnersCollectionBuilderVisitor extends NodeVisitorAbstract
     {
         $resolved = $name->getAttribute('resolvedName');
 
-        if (null !== $resolved) {
+        if ($resolved instanceof Name) {
             return $resolved->toString();
         }
 

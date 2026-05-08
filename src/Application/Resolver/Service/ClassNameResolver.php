@@ -58,6 +58,10 @@ final readonly class ClassNameResolver
         if ($usesByAlias->has($firstPart)) {
             $fqcn = $usesByAlias->get($firstPart);
 
+            if (null === $fqcn) {
+                return $raw;
+            }
+
             $remainingParts = $name->getParts();
             array_shift($remainingParts);
 

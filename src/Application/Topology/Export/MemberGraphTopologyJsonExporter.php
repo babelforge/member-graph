@@ -37,6 +37,12 @@ final readonly class MemberGraphTopologyJsonExporter implements MemberGraphTopol
      */
     public function export(MemberGraphTopology $topology): string
     {
-        return json_encode($this->arrayExporter->export($topology), $this->jsonFlags);
+        $json = json_encode($this->arrayExporter->export($topology), $this->jsonFlags);
+
+        if (false === $json) {
+            throw new JsonException(json_last_error_msg(), json_last_error());
+        }
+
+        return $json;
     }
 }

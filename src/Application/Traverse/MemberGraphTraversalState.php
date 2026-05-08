@@ -22,7 +22,7 @@ final class MemberGraphTraversalState
     private array $variableTypes = [];
 
     /**
-     * @var VariableTypeInfo[]
+     * @var list<array<string, VariableTypeInfo>>
      */
     private array $variableTypesStack = [];
 

@@ -77,6 +77,10 @@ final readonly class ClassConstFetchExpressionResolver implements ExpressionReso
         }
 
         $owner = $owners->first();
+        if (null === $owner) {
+            return $types;
+        }
+
         $type = $this->classConstantOwnerResolver->resolve($owner, $expression->name->toString());
 
         if ($type->isEmpty()) {

@@ -74,28 +74,50 @@ PHP;
             new VirtualPhpSourceFileCollection()->add($virtualFile),
         );
 
-        self::assertSame(OwnerKind::CLASS_, $snapshot->owners->get('App\\Box')->kind);
-        self::assertSame('App\\BaseBox', $snapshot->owners->get('App\\Box')->parentFqcn);
-        self::assertSame(['App\\Timestamped'], $snapshot->owners->get('App\\Box')->traits);
-        self::assertSame(['App\\BoxContract'], $snapshot->owners->get('App\\Box')->interfaces);
-        self::assertSame('object', $snapshot->templates->get('App\\Box', 'T')->boundType);
+        $owner = $snapshot->owners->get('App\\Box');
+        $ownerTemplate = $snapshot->templates->get('App\\Box', 'T');
+        $method = $snapshot->methods->get('App\\Box', 'get');
+        $methodTemplate = $snapshot->templates->get('App\\Box::get', 'TValue');
+        $methodParameter = $snapshot->parameters->get('App\\Box::get', 'id');
+        $nameProperty = $snapshot->properties->get('App\\Box', 'name');
+        $idProperty = $snapshot->properties->get('App\\Box', 'id');
+        $limitConstant = $snapshot->classConstants->get('App\\Box', 'LIMIT');
+        $function = $snapshot->functions->get('App\\make_box');
+        $functionParameter = $snapshot->parameters->get('App\\make_box', 'name');
 
-        self::assertSame('protected', $snapshot->methods->get('App\\Box', 'get')->visibility);
-        self::assertSame('object', $snapshot->methods->get('App\\Box', 'get')->nativeReturnType);
-        self::assertSame('TValue', $snapshot->methods->get('App\\Box', 'get')->phpDocReturnType);
-        self::assertSame('object', $snapshot->templates->get('App\\Box::get', 'TValue')->boundType);
-        self::assertSame('int', $snapshot->parameters->get('App\\Box::get', 'id')->nativeType);
-        self::assertSame('positive-int', $snapshot->parameters->get('App\\Box::get', 'id')->phpDocType);
+        self::assertNotNull($owner);
+        self::assertNotNull($ownerTemplate);
+        self::assertNotNull($method);
+        self::assertNotNull($methodTemplate);
+        self::assertNotNull($methodParameter);
+        self::assertNotNull($nameProperty);
+        self::assertNotNull($idProperty);
+        self::assertNotNull($limitConstant);
+        self::assertNotNull($function);
+        self::assertNotNull($functionParameter);
 
-        self::assertSame('string', $snapshot->properties->get('App\\Box', 'name')->nativeType);
-        self::assertSame('non-empty-string', $snapshot->properties->get('App\\Box', 'name')->phpDocType);
-        self::assertSame('int', $snapshot->properties->get('App\\Box', 'id')->nativeType);
-        self::assertTrue($snapshot->properties->get('App\\Box', 'id')->isPromoted);
-        self::assertSame(10, $snapshot->classConstants->get('App\\Box', 'LIMIT')->scalarValue);
+        self::assertSame(OwnerKind::CLASS_, $owner->kind);
+        self::assertSame('App\\BaseBox', $owner->parentFqcn);
+        self::assertSame(['App\\Timestamped'], $owner->traits);
+        self::assertSame(['App\\BoxContract'], $owner->interfaces);
+        self::assertSame('object', $ownerTemplate->boundType);
 
-        self::assertSame('App\\Box', $snapshot->functions->get('App\\make_box')->nativeReturnType);
-        self::assertSame('Box', $snapshot->functions->get('App\\make_box')->phpDocReturnType);
-        self::assertSame('string', $snapshot->parameters->get('App\\make_box', 'name')->nativeType);
-        self::assertSame('string', $snapshot->parameters->get('App\\make_box', 'name')->phpDocType);
+        self::assertSame('protected', $method->visibility);
+        self::assertSame('object', $method->nativeReturnType);
+        self::assertSame('TValue', $method->phpDocReturnType);
+        self::assertSame('object', $methodTemplate->boundType);
+        self::assertSame('int', $methodParameter->nativeType);
+        self::assertSame('positive-int', $methodParameter->phpDocType);
+
+        self::assertSame('string', $nameProperty->nativeType);
+        self::assertSame('non-empty-string', $nameProperty->phpDocType);
+        self::assertSame('int', $idProperty->nativeType);
+        self::assertTrue($idProperty->isPromoted);
+        self::assertSame(10, $limitConstant->scalarValue);
+
+        self::assertSame('App\\Box', $function->nativeReturnType);
+        self::assertSame('Box', $function->phpDocReturnType);
+        self::assertSame('string', $functionParameter->nativeType);
+        self::assertSame('string', $functionParameter->phpDocType);
     }
 }

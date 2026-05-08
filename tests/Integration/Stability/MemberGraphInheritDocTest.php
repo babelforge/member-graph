@@ -602,7 +602,7 @@ PHP,
         $foundIssue = false;
 
         /** @var PhpDocResolutionIssue $issue */
-        foreach ($memberDependencyGraph->dependencyGraphIssues as $issue) {
+        foreach ($memberDependencyGraph->dependencyGraphIssues ?? [] as $issue) {
             $foundIssue = $foundIssue ||
                 ((PhpDocResolutionIssueType::INHERIT_DOC_MERGE_INCOHERENT === $issue->type)
                     && ('TestCase96\\ChildService' === $issue->owner)
@@ -738,7 +738,7 @@ PHP,
         $foundIssue = false;
 
         /** @var PhpDocResolutionIssue $issue */
-        foreach ($memberDependencyGraph->dependencyGraphIssues as $issue) {
+        foreach ($memberDependencyGraph->dependencyGraphIssues ?? [] as $issue) {
             $foundIssue = $foundIssue ||
                 ((PhpDocResolutionIssueType::INHERIT_DOC_PARENT_NOT_FOUND === $issue->type)
                     && ('TestCase98\\ChildService' === $issue->owner)
@@ -790,7 +790,7 @@ PHP,
         $foundIssue = false;
 
         /** @var PhpDocResolutionIssue $issue */
-        foreach ($memberDependencyGraph->dependencyGraphIssues as $issue) {
+        foreach ($memberDependencyGraph->dependencyGraphIssues ?? [] as $issue) {
             $foundIssue = $foundIssue ||
                 ((PhpDocResolutionIssueType::RETURN_TAG_NOT_USABLE === $issue->type)
                     && ('TestCase99\\ChildService' === $issue->owner)

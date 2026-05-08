@@ -7,6 +7,7 @@ namespace PhpNoobs\MemberGraph\Domain\Type;
 use PhpNoobs\MemberGraph\Domain\Symbol\SymbolCollection;
 use PhpNoobs\MemberGraph\Infrastructure\UseStatements\UsesByAliasCollection;
 use PhpParser\Node;
+use PhpParser\Node\FunctionLike;
 
 /**
  * Class MethodReturnType
@@ -33,7 +34,11 @@ final class FunctionLikeReturnType
 
     public function getReturnType(): ?Node
     {
-        return $this->parentNode->returnType ?? null;
+        if (!$this->parentNode instanceof FunctionLike) {
+            return null;
+        }
+
+        return $this->parentNode->getReturnType();
     }
 
     public function setResolved(): void

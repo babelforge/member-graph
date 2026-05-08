@@ -46,7 +46,7 @@ final readonly class MemberGraphDeclarationSnapshotBuilder
         $snapshot = new MemberGraphDeclarationSnapshot();
 
         foreach ($virtualFiles as $virtualFile) {
-            $this->buildFromNodes($virtualFile->nodes, $virtualFile, '', $snapshot);
+            $this->buildFromNodes(array_values($virtualFile->nodes), $virtualFile, '', $snapshot);
         }
 
         return $snapshot;
@@ -71,7 +71,7 @@ final readonly class MemberGraphDeclarationSnapshotBuilder
         foreach ($nodes as $node) {
             if ($node instanceof Namespace_) {
                 $this->buildFromNodes(
-                    nodes: $node->stmts,
+                    nodes: array_values($node->stmts),
                     virtualFile: $virtualFile,
                     namespace: $node->name?->toString() ?? '',
                     snapshot: $snapshot,
@@ -170,7 +170,7 @@ final readonly class MemberGraphDeclarationSnapshotBuilder
         $methodName = $node->name->toString();
         $callableId = $ownerFqcn . '::' . $methodName;
         $docText = $this->docText($node);
-        $parameters = $this->parameterSnapshots($callableId, $node->params, $this->phpDocParameterTypes($docText));
+        $parameters = $this->parameterSnapshots($callableId, array_values($node->params), $this->phpDocParameterTypes($docText));
         $templates = $this->templateSnapshots($callableId, $docText);
         $methodSnapshot = new MethodDeclarationSnapshot(
             ownerFqcn: $ownerFqcn,
@@ -214,7 +214,7 @@ final readonly class MemberGraphDeclarationSnapshotBuilder
     ): void {
         $functionName = $this->qualifiedName($node->name->toString(), $namespace);
         $docText = $this->docText($node);
-        $parameters = $this->parameterSnapshots($functionName, $node->params, $this->phpDocParameterTypes($docText));
+        $parameters = $this->parameterSnapshots($functionName, array_values($node->params), $this->phpDocParameterTypes($docText));
         $templates = $this->templateSnapshots($functionName, $docText);
 
         $snapshot->functions->add(new FunctionDeclarationSnapshot(
@@ -592,7 +592,7 @@ final readonly class MemberGraphDeclarationSnapshotBuilder
     private function interfaceNames(ClassLike $node): array
     {
         if ($node instanceof Class_ || $node instanceof Enum_) {
-            return array_map(static fn (Name $name): string => $name->toString(), $node->implements);
+            return array_values(array_map(static fn (Name $name): string => $name->toString(), $node->implements));
         }
 
         return [];
@@ -608,7 +608,7 @@ final readonly class MemberGraphDeclarationSnapshotBuilder
     private function extendsInterfaceNames(ClassLike $node): array
     {
         if ($node instanceof Interface_) {
-            return array_map(static fn (Name $name): string => $name->toString(), $node->extends);
+            return array_values(array_map(static fn (Name $name): string => $name->toString(), $node->extends));
         }
 
         return [];

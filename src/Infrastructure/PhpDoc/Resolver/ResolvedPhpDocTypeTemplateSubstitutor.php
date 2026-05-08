@@ -27,7 +27,13 @@ final readonly class ResolvedPhpDocTypeTemplateSubstitutor
         $templateName = $type->templateReference->name;
 
         if ('' !== $templateName && $context->has($templateName)) {
-            $resolvedTemplateType = $this->cloneResolvedType($context->get($templateName));
+            $contextType = $context->get($templateName);
+
+            if (!$contextType instanceof ResolvedPhpDocType) {
+                return $this->substituteNonTemplateParts($type, $context);
+            }
+
+            $resolvedTemplateType = $this->cloneResolvedType($contextType);
 
             if ($this->isStandaloneTemplateNode($type)) {
                 return $resolvedTemplateType;

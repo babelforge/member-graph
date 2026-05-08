@@ -25,7 +25,7 @@ final readonly class MemberGraphKnownOwnersFromSourceMetadataBuilder
         $knownOwners = new KnownOwnerCollection();
 
         foreach ($sourceMetadata as $metadata) {
-            if (!$metadata->hasOwner()) {
+            if (null === $metadata->ownerName || null === $metadata->ownerKind) {
                 continue;
             }
 

@@ -166,7 +166,10 @@ PHP);
             virtualFiles: $this->lastFullBuildVirtualFiles,
         );
         $fragmentsToReuse = new MemberGraphFragmentCollection();
-        $fragmentsToReuse->add($aFilePath, $initialFragments->get($aFilePath));
+        $aFragment = $initialFragments->get($aFilePath);
+
+        self::assertInstanceOf(MemberDependencyGraph::class, $aFragment);
+        $fragmentsToReuse->add($aFilePath, $aFragment);
 
         file_put_contents($bFilePath, <<<'PHP'
 <?php
@@ -242,7 +245,10 @@ PHP);
             virtualFiles: $this->lastFullBuildVirtualFiles,
         );
         $fragmentsToReuse = new MemberGraphFragmentCollection();
-        $fragmentsToReuse->add($aFilePath, $initialFragments->get($aFilePath));
+        $aFragment = $initialFragments->get($aFilePath);
+
+        self::assertInstanceOf(MemberDependencyGraph::class, $aFragment);
+        $fragmentsToReuse->add($aFilePath, $aFragment);
 
         file_put_contents($bFilePath, <<<'PHP'
 <?php

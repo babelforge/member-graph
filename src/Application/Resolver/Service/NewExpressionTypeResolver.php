@@ -12,9 +12,11 @@ use PhpNoobs\MemberGraph\Domain\Symbol\SymbolCollection;
 use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocTemplateReference;
 use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
 use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocTypeCollection;
+use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\VariadicPlaceholder;
 
 /**
  * Resolves structured PHPDoc types produced by object construction expressions.
@@ -79,7 +81,7 @@ final readonly class NewExpressionTypeResolver
         }
 
         $substitutionContext = $this->constructorTemplateInferenceResolver->infer(
-            $expression->args,
+            $this->callArguments($expression->args),
             $constructorNode,
             $className,
             $context,
@@ -89,7 +91,11 @@ final readonly class NewExpressionTypeResolver
 
         foreach ($classTemplateDefinitions as $templateDefinition) {
             if ($substitutionContext->has($templateDefinition->name)) {
-                $genericArguments->add($substitutionContext->get($templateDefinition->name));
+                $substitutedType = $substitutionContext->get($templateDefinition->name);
+
+                if ($substitutedType instanceof ResolvedPhpDocType) {
+                    $genericArguments->add($substitutedType);
+                }
 
                 continue;
             }
@@ -127,5 +133,17 @@ final readonly class NewExpressionTypeResolver
         }
 
         return $this->specialClassReferenceNormalizer->normalize($type, $currentClass);
+    }
+
+    /**
+     * Filters parser call arguments to concrete argument nodes.
+     *
+     * @param array<array-key, Arg|VariadicPlaceholder> $arguments The parser arguments.
+     *
+     * @return list<Arg>
+     */
+    private function callArguments(array $arguments): array
+    {
+        return array_values(array_filter($arguments, static fn (mixed $argument): bool => $argument instanceof Arg));
     }
 }

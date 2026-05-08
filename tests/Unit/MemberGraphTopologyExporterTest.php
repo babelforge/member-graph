@@ -73,6 +73,7 @@ final class MemberGraphTopologyExporterTest extends TestCase
         )->export($topology);
         $decoded = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
 
+        self::assertIsArray($decoded);
         self::assertSame('codebase', $decoded['rootNodeId']);
         self::assertTrue($this->hasDependencyEdge($decoded['edges'], $aRun->hash(), $bRun->hash(), 'METHOD_CALL'));
     }

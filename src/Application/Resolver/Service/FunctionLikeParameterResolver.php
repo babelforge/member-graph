@@ -9,6 +9,7 @@ use PhpNoobs\MemberGraph\Domain\Index\Method\MethodParameterStructuredTypeIndex;
 use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
 use PhpParser\Node;
 use PhpParser\Node\Arg;
+use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
 use PhpParser\Node\VariadicPlaceholder;
@@ -116,7 +117,7 @@ final readonly class FunctionLikeParameterResolver
 
         $parameter = $methodNode->params[$position] ?? null;
 
-        if (null === $parameter || !is_string($parameter->var->name)) {
+        if (null === $parameter || !$parameter->var instanceof Variable || !is_string($parameter->var->name)) {
             return null;
         }
 
@@ -147,7 +148,7 @@ final readonly class FunctionLikeParameterResolver
 
         $parameter = $functionNode->params[$position] ?? null;
 
-        if (null === $parameter || !is_string($parameter->var->name)) {
+        if (null === $parameter || !$parameter->var instanceof Variable || !is_string($parameter->var->name)) {
             return null;
         }
 

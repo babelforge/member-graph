@@ -10,6 +10,7 @@ use PhpNoobs\MemberGraph\Application\Cache\Snapshot\Declaration\MemberGraphDecla
 use PhpNoobs\MemberGraph\Application\Cache\Snapshot\Declaration\MethodDeclarationSnapshot;
 use PhpNoobs\MemberGraph\Application\Cache\Snapshot\Declaration\ParameterDeclarationSnapshot;
 use PhpNoobs\MemberGraph\Application\Cache\Snapshot\Declaration\ParameterDeclarationSnapshotCollection;
+use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
 use PHPUnit\Framework\TestCase;
@@ -88,9 +89,12 @@ final class MemberGraphDeclarationCallableFlatIndexesBuilderTest extends TestCas
         self::assertSame(['App\\Foo', 'App\\Bar'], $indexes->methodParameterTypeIndex->getType('App\\Service', 'run', 'item')->all());
         self::assertSame(['App\\Output', 'App\\Fallback'], $indexes->functionReturnTypeIndex->getReturnType('App\\build')->all());
         self::assertSame(['string'], $indexes->functionParameterTypeIndex->getType('App\\build', 'name')->all());
+        self::assertInstanceOf(Variable::class, $methodParentNode->params[0]->var);
+        self::assertInstanceOf(Variable::class, $methodParentNode->params[1]->var);
         self::assertSame('id', $methodParentNode->params[0]->var->name);
         self::assertSame('item', $methodParentNode->params[1]->var->name);
         self::assertNotNull($functionReturnDetails->getReturnType());
+        self::assertInstanceOf(Variable::class, $functionParentNode->params[0]->var);
         self::assertSame('name', $functionParentNode->params[0]->var->name);
     }
 }

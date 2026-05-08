@@ -1009,7 +1009,7 @@ PHP,
         $foundIssue = false;
 
         /** @var PhpDocResolutionIssue $issue */
-        foreach ($memberDependencyGraph->dependencyGraphIssues as $issue) {
+        foreach ($memberDependencyGraph->dependencyGraphIssues ?? [] as $issue) {
             $foundIssue = $foundIssue ||
                 ((PhpDocResolutionIssueType::RETURN_TAG_NOT_USABLE === $issue->type)
                     && ('TestCase100\\ChildService' === $issue->owner)

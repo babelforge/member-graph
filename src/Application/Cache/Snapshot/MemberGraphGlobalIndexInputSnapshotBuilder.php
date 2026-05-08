@@ -49,8 +49,9 @@ final readonly class MemberGraphGlobalIndexInputSnapshotBuilder
         VirtualPhpSourceFile $virtualFile,
         KnownOwnerCollection $knownOwners,
     ): MemberGraphVirtualSourceMetadata {
-        $namespace = $this->namespaceForNodes($virtualFile->nodes);
-        $ownerName = $this->ownerNameForNodes($virtualFile->nodes, $namespace);
+        $nodes = array_values($virtualFile->nodes);
+        $namespace = $this->namespaceForNodes($nodes);
+        $ownerName = $this->ownerNameForNodes($nodes, $namespace);
 
         if (null === $ownerName) {
             return new MemberGraphVirtualSourceMetadata(
@@ -109,7 +110,7 @@ final readonly class MemberGraphGlobalIndexInputSnapshotBuilder
     {
         foreach ($nodes as $node) {
             if ($node instanceof Namespace_) {
-                return $this->ownerNameForNodes($node->stmts, $node->name?->toString());
+                return $this->ownerNameForNodes(array_values($node->stmts), $node->name?->toString());
             }
 
             if (!$node instanceof ClassLike || null === $node->name) {

@@ -9,7 +9,7 @@ use PhpNoobs\MemberGraph\Application\Topology\MemberGraphTopology;
 /**
  * Exports a member graph topology to a concrete representation.
  *
- * @template TExport
+ * @template-covariant TExport
  */
 interface MemberGraphTopologyExporterInterface
 {

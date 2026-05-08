@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PhpNoobs\MemberGraph\Infrastructure\PhpParser\Indexing;
 
 use PhpNoobs\MemberGraph\Domain\Symbol\SymbolCollection;
+use PhpParser\Node\ComplexType;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\IntersectionType;
 use PhpParser\Node\Name;
@@ -19,12 +20,12 @@ final readonly class ParserTypeNodeToSymbolCollectionResolver
     /**
      * Resolves one parser type node into symbols.
      *
-     * @param Identifier|Name|NullableType|UnionType|IntersectionType|null $type The type node.
+     * @param Identifier|Name|ComplexType|null $type The type node.
      *
      * @return SymbolCollection
      */
     public function resolve(
-        Identifier|Name|NullableType|UnionType|IntersectionType|null $type,
+        Identifier|Name|ComplexType|null $type,
     ): SymbolCollection {
         $resolved = new SymbolCollection();
 
