@@ -23,19 +23,15 @@ final class MemberDependencyGraphPartialRebuildLoaderTest extends TestCase
 
     /**
      * Prepares an isolated filesystem workspace.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
-        $this->workspace = sys_get_temp_dir() . '/member-graph-partial-loader-' . bin2hex(random_bytes(6));
-        mkdir($this->workspace, 0777, true);
+        $this->workspace = sys_get_temp_dir().'/member-graph-partial-loader-'.bin2hex(random_bytes(6));
+        mkdir($this->workspace, 0o777, true);
     }
 
     /**
      * Removes the isolated filesystem workspace.
-     *
-     * @return void
      */
     protected function tearDown(): void
     {
@@ -44,39 +40,37 @@ final class MemberDependencyGraphPartialRebuildLoaderTest extends TestCase
 
     /**
      * Ensures only files scheduled for rebuild are loaded.
-     *
-     * @return void
      */
     public function testItLoadsOnlyFilesScheduledForRebuild(): void
     {
-        $changedFilePath = $this->workspace . '/Changed.php';
-        $reusableFilePath = $this->workspace . '/Reusable.php';
+        $changedFilePath = $this->workspace.'/Changed.php';
+        $reusableFilePath = $this->workspace.'/Reusable.php';
         $filesToBuild = new MemberGraphCacheFileCollection();
 
         file_put_contents($changedFilePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class Changed
-{
-    /**
-     * @param positive-int $id
-     */
-    public function run(int $id): void
-    {
-    }
-}
-PHP);
+            final class Changed
+            {
+                /**
+                 * @param positive-int $id
+                 */
+                public function run(int $id): void
+                {
+                }
+            }
+            PHP);
         file_put_contents($reusableFilePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class Reusable
-{
-}
-PHP);
+            final class Reusable
+            {
+            }
+            PHP);
         $filesToBuild->add($changedFilePath);
         $fileRegistry = new MemberGraphPhpSourceRegistryInstance();
 
@@ -102,7 +96,7 @@ PHP);
             $loadedVirtualFile->virtualFilePath,
         ));
         self::assertNull($loadedInput->loadedSourceMetadata->sources->get(
-            (realpath($reusableFilePath) ?: $reusableFilePath) . '.virtual.0',
+            (realpath($reusableFilePath) ?: $reusableFilePath).'.virtual.0',
         ));
         self::assertCount(1, $fileRegistry->getAllVirtualFiles());
     }
@@ -110,9 +104,7 @@ PHP);
     /**
      * Removes a directory recursively.
      *
-     * @param string $directory The directory to remove.
-     *
-     * @return void
+     * @param string $directory the directory to remove
      */
     private function removeDirectory(string $directory): void
     {
@@ -131,7 +123,7 @@ PHP);
                 continue;
             }
 
-            $path = $directory . DIRECTORY_SEPARATOR . $item;
+            $path = $directory.DIRECTORY_SEPARATOR.$item;
 
             if (is_dir($path)) {
                 $this->removeDirectory($path);

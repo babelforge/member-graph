@@ -15,9 +15,9 @@ final readonly class MemberDeclaration
     /**
      * Constructor.
      *
-     * @param MemberId $id The declared member identifier.
-     * @param string $file The virtual file path containing the declaration.
-     * @param SourceNodeId|null $sourceNodeId The source node identifier when available.
+     * @param MemberId          $id           the declared member identifier
+     * @param string            $file         the virtual file path containing the declaration
+     * @param SourceNodeId|null $sourceNodeId the source node identifier when available
      */
     public function __construct(
         public MemberId $id,

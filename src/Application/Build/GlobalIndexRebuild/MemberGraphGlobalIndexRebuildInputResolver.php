@@ -16,7 +16,7 @@ final readonly class MemberGraphGlobalIndexRebuildInputResolver
     /**
      * Constructor.
      *
-     * @param MemberGraphCachePathNormalizer $pathNormalizer The cache path normalizer.
+     * @param MemberGraphCachePathNormalizer $pathNormalizer the cache path normalizer
      */
     public function __construct(
         private MemberGraphCachePathNormalizer $pathNormalizer = new MemberGraphCachePathNormalizer(),
@@ -26,9 +26,7 @@ final readonly class MemberGraphGlobalIndexRebuildInputResolver
     /**
      * Resolves reusable global-index inputs from a partial rebuild input.
      *
-     * @param MemberDependencyGraphPartialRebuildInput $partialRebuildInput The partial rebuild input.
-     *
-     * @return MemberGraphGlobalIndexRebuildInput
+     * @param MemberDependencyGraphPartialRebuildInput $partialRebuildInput the partial rebuild input
      */
     public function resolve(MemberDependencyGraphPartialRebuildInput $partialRebuildInput): MemberGraphGlobalIndexRebuildInput
     {

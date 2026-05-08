@@ -30,19 +30,15 @@ final class MemberGraphCacheStorageTest extends TestCase
 
     /**
      * Prepares an isolated filesystem workspace.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
-        $this->workspace = sys_get_temp_dir() . '/member-graph-cache-storage-' . bin2hex(random_bytes(6));
-        mkdir($this->workspace, 0777, true);
+        $this->workspace = sys_get_temp_dir().'/member-graph-cache-storage-'.bin2hex(random_bytes(6));
+        mkdir($this->workspace, 0o777, true);
     }
 
     /**
      * Removes the isolated filesystem workspace.
-     *
-     * @return void
      */
     protected function tearDown(): void
     {
@@ -51,12 +47,10 @@ final class MemberGraphCacheStorageTest extends TestCase
 
     /**
      * Ensures compatible payloads can be saved and loaded.
-     *
-     * @return void
      */
     public function testItSavesAndLoadsCompatiblePayload(): void
     {
-        $storage = new MemberGraphCacheStorage($this->workspace . '/nested/member-graph.cache');
+        $storage = new MemberGraphCacheStorage($this->workspace.'/nested/member-graph.cache');
         $payload = new MemberGraphCachePayload();
 
         $storage->save($payload);
@@ -68,8 +62,6 @@ final class MemberGraphCacheStorageTest extends TestCase
 
     /**
      * Ensures cache payload serialization is isolated from disk storage.
-     *
-     * @return void
      */
     public function testItSerializesAndDeserializesPayloads(): void
     {
@@ -84,12 +76,10 @@ final class MemberGraphCacheStorageTest extends TestCase
 
     /**
      * Ensures load results expose successful payload reads.
-     *
-     * @return void
      */
     public function testItReportsLoadedPayload(): void
     {
-        $storage = new MemberGraphCacheStorage($this->workspace . '/member-graph.cache');
+        $storage = new MemberGraphCacheStorage($this->workspace.'/member-graph.cache');
 
         $storage->save(new MemberGraphCachePayload());
         $loadResult = $storage->loadResult(clearCache: false);
@@ -104,12 +94,10 @@ final class MemberGraphCacheStorageTest extends TestCase
 
     /**
      * Ensures successful cache writes are reported explicitly.
-     *
-     * @return void
      */
     public function testItReportsSuccessfulPayloadWrites(): void
     {
-        $cacheFilePath = $this->workspace . '/nested/member-graph.cache';
+        $cacheFilePath = $this->workspace.'/nested/member-graph.cache';
         $storage = new MemberGraphCacheStorage($cacheFilePath);
         $writeResult = $storage->saveResult(new MemberGraphCachePayload());
 
@@ -124,13 +112,11 @@ final class MemberGraphCacheStorageTest extends TestCase
 
     /**
      * Ensures directory creation failures are reported explicitly.
-     *
-     * @return void
      */
     public function testItReportsDirectoryCreationFailures(): void
     {
-        $blockingPath = $this->workspace . '/blocked';
-        $cacheFilePath = $blockingPath . '/member-graph.cache';
+        $blockingPath = $this->workspace.'/blocked';
+        $cacheFilePath = $blockingPath.'/member-graph.cache';
 
         file_put_contents($blockingPath, 'not a directory');
 
@@ -146,12 +132,10 @@ final class MemberGraphCacheStorageTest extends TestCase
 
     /**
      * Ensures global-index input snapshots are persisted with cache payloads.
-     *
-     * @return void
      */
     public function testItPersistsGlobalIndexInputSnapshot(): void
     {
-        $storage = new MemberGraphCacheStorage($this->workspace . '/member-graph.cache');
+        $storage = new MemberGraphCacheStorage($this->workspace.'/member-graph.cache');
         $sources = new MemberGraphVirtualSourceMetadataCollection();
 
         $sources->add(new MemberGraphVirtualSourceMetadata(
@@ -172,12 +156,10 @@ final class MemberGraphCacheStorageTest extends TestCase
 
     /**
      * Ensures declaration snapshots are persisted with cache payloads.
-     *
-     * @return void
      */
     public function testItPersistsDeclarationSnapshot(): void
     {
-        $storage = new MemberGraphCacheStorage($this->workspace . '/member-graph.cache');
+        $storage = new MemberGraphCacheStorage($this->workspace.'/member-graph.cache');
         $owners = new OwnerDeclarationSnapshotCollection();
 
         $owners->add(new OwnerDeclarationSnapshot(
@@ -199,12 +181,10 @@ final class MemberGraphCacheStorageTest extends TestCase
 
     /**
      * Ensures clear-cache mode ignores existing payloads.
-     *
-     * @return void
      */
     public function testItIgnoresPayloadWhenClearCacheIsRequested(): void
     {
-        $storage = new MemberGraphCacheStorage($this->workspace . '/member-graph.cache');
+        $storage = new MemberGraphCacheStorage($this->workspace.'/member-graph.cache');
 
         $storage->save(new MemberGraphCachePayload());
 
@@ -217,12 +197,10 @@ final class MemberGraphCacheStorageTest extends TestCase
 
     /**
      * Ensures missing cache files are reported explicitly.
-     *
-     * @return void
      */
     public function testItReportsMissingCacheFile(): void
     {
-        $storage = new MemberGraphCacheStorage($this->workspace . '/missing.cache');
+        $storage = new MemberGraphCacheStorage($this->workspace.'/missing.cache');
         $loadResult = $storage->loadResult(clearCache: false);
 
         self::assertFalse($loadResult->isLoaded());
@@ -232,12 +210,10 @@ final class MemberGraphCacheStorageTest extends TestCase
 
     /**
      * Ensures invalid payload types are reported explicitly.
-     *
-     * @return void
      */
     public function testItReportsInvalidPayloadType(): void
     {
-        $cacheFilePath = $this->workspace . '/invalid-type.cache';
+        $cacheFilePath = $this->workspace.'/invalid-type.cache';
         $storage = new MemberGraphCacheStorage($cacheFilePath);
 
         file_put_contents($cacheFilePath, serialize(['not' => 'a cache payload']));
@@ -250,12 +226,10 @@ final class MemberGraphCacheStorageTest extends TestCase
 
     /**
      * Ensures incompatible schema versions are ignored.
-     *
-     * @return void
      */
     public function testItIgnoresIncompatibleSchemaVersion(): void
     {
-        $cacheFilePath = $this->workspace . '/member-graph.cache';
+        $cacheFilePath = $this->workspace.'/member-graph.cache';
         $storage = new MemberGraphCacheStorage($cacheFilePath);
 
         file_put_contents($cacheFilePath, serialize(new MemberGraphCachePayload(
@@ -273,8 +247,6 @@ final class MemberGraphCacheStorageTest extends TestCase
 
     /**
      * Ensures payload compatibility checks are centralized outside storage reads.
-     *
-     * @return void
      */
     public function testItChecksPayloadCompatibility(): void
     {
@@ -295,8 +267,6 @@ final class MemberGraphCacheStorageTest extends TestCase
 
     /**
      * Ensures payload migration results describe current and unsupported schemas.
-     *
-     * @return void
      */
     public function testItReportsPayloadMigrationStatus(): void
     {
@@ -320,9 +290,7 @@ final class MemberGraphCacheStorageTest extends TestCase
     /**
      * Removes a directory recursively.
      *
-     * @param string $directory The directory to remove.
-     *
-     * @return void
+     * @param string $directory the directory to remove
      */
     private function removeDirectory(string $directory): void
     {
@@ -341,7 +309,7 @@ final class MemberGraphCacheStorageTest extends TestCase
                 continue;
             }
 
-            $path = $directory . DIRECTORY_SEPARATOR . $item;
+            $path = $directory.DIRECTORY_SEPARATOR.$item;
 
             if (is_dir($path)) {
                 $this->removeDirectory($path);

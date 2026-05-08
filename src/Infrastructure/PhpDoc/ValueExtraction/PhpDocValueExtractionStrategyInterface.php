@@ -15,9 +15,7 @@ interface PhpDocValueExtractionStrategyInterface
     /**
      * Extracts value-like symbols from one resolved PHPDoc type tree.
      *
-     * @param ResolvedPhpDocType $type The resolved PHPDoc type tree.
-     *
-     * @return SymbolCollection
+     * @param ResolvedPhpDocType $type the resolved PHPDoc type tree
      */
     public function extract(ResolvedPhpDocType $type): SymbolCollection;
 }

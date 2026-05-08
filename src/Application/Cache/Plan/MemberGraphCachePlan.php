@@ -12,19 +12,19 @@ final readonly class MemberGraphCachePlan
     /**
      * Constructor.
      *
-     * @param MemberGraphCacheFileCollection $freshFiles Files with fresh cache entries and graph fragments.
-     * @param MemberGraphCacheFileCollection $staleFiles Files with cache entries that no longer match the filesystem.
-     * @param MemberGraphCacheFileCollection $missingFiles Files without cache entries or graph fragments.
-     * @param bool $canUseFastPath Whether the graph can be rebuilt from cache only.
-     * @param MemberGraphCacheFileCollection $deletedFiles Cached files that are no longer present in the scanned file set.
-     * @param MemberGraphCacheFileCollection $missingFilePayloads Files without cache entries.
-     * @param MemberGraphCacheFileCollection $missingGraphFragments Files with cache entries but without graph fragments.
-     * @param bool $hasKnownOwners Whether cached known owners are available.
-     * @param bool $hasVirtualFileReferences Whether cached virtual file references are available.
-     * @param bool $hasGlobalIndexInputSnapshot Whether a cached global-index input snapshot is available.
-     * @param bool $hasCompatibleGlobalIndexInputSnapshot Whether the cached global-index input snapshot is compatible.
-     * @param bool $hasDeclarationSnapshot Whether a cached declaration snapshot is available.
-     * @param MemberGraphCacheFastPathBlockerCollection $fastPathBlockers Reasons preventing fast-path reuse.
+     * @param MemberGraphCacheFileCollection            $freshFiles                            files with fresh cache entries and graph fragments
+     * @param MemberGraphCacheFileCollection            $staleFiles                            files with cache entries that no longer match the filesystem
+     * @param MemberGraphCacheFileCollection            $missingFiles                          files without cache entries or graph fragments
+     * @param bool                                      $canUseFastPath                        whether the graph can be rebuilt from cache only
+     * @param MemberGraphCacheFileCollection            $deletedFiles                          cached files that are no longer present in the scanned file set
+     * @param MemberGraphCacheFileCollection            $missingFilePayloads                   files without cache entries
+     * @param MemberGraphCacheFileCollection            $missingGraphFragments                 files with cache entries but without graph fragments
+     * @param bool                                      $hasKnownOwners                        whether cached known owners are available
+     * @param bool                                      $hasVirtualFileReferences              whether cached virtual file references are available
+     * @param bool                                      $hasGlobalIndexInputSnapshot           whether a cached global-index input snapshot is available
+     * @param bool                                      $hasCompatibleGlobalIndexInputSnapshot whether the cached global-index input snapshot is compatible
+     * @param bool                                      $hasDeclarationSnapshot                whether a cached declaration snapshot is available
+     * @param MemberGraphCacheFastPathBlockerCollection $fastPathBlockers                      reasons preventing fast-path reuse
      */
     public function __construct(
         public MemberGraphCacheFileCollection $freshFiles,

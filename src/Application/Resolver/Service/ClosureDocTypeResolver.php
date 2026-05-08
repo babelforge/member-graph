@@ -18,8 +18,8 @@ final readonly class ClosureDocTypeResolver
     /**
      * Constructor.
      *
-     * @param ClosureDocTagExtractor $closureDocTagExtractor The closure PHPDoc tag extractor.
-     * @param ClosureLocalPhpDocTypeResolver $closureLocalPhpDocTypeResolver The closure-local PHPDoc type resolver.
+     * @param ClosureDocTagExtractor         $closureDocTagExtractor         the closure PHPDoc tag extractor
+     * @param ClosureLocalPhpDocTypeResolver $closureLocalPhpDocTypeResolver the closure-local PHPDoc type resolver
      */
     public function __construct(
         private ClosureDocTagExtractor $closureDocTagExtractor,
@@ -30,8 +30,8 @@ final readonly class ClosureDocTypeResolver
     /**
      * Resolves closure PHPDoc parameter types indexed by parameter name.
      *
-     * @param Closure|ArrowFunction $expression The closure-like expression.
-     * @param ExpressionResolutionContext $context The current expression resolution context.
+     * @param Closure|ArrowFunction       $expression the closure-like expression
+     * @param ExpressionResolutionContext $context    the current expression resolution context
      *
      * @return array<string, ResolvedPhpDocType>
      */
@@ -65,10 +65,8 @@ final readonly class ClosureDocTypeResolver
     /**
      * Resolves a simple local PHPDoc var type inside a closure.
      *
-     * @param Node $node The node carrying the PHPDoc.
-     * @param ExpressionResolutionContext $context The current expression resolution context.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param Node                        $node    the node carrying the PHPDoc
+     * @param ExpressionResolutionContext $context the current expression resolution context
      */
     public function resolveLocalVarType(Node $node, ExpressionResolutionContext $context): ?ResolvedPhpDocType
     {

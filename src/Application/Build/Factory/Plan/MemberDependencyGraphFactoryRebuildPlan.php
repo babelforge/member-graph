@@ -17,12 +17,12 @@ final readonly class MemberDependencyGraphFactoryRebuildPlan
     /**
      * Constructor.
      *
-     * @param MemberDependencyGraphFactoryRebuildMode $mode The selected rebuild mode.
-     * @param MemberDependencyGraphFactoryRebuildReason $reason The reason for the selected mode.
-     * @param MemberGraphCachePlan $cachePlan The underlying cache plan.
-     * @param MemberGraphCacheFileCollection $filesToBuild Files that require a build.
-     * @param MemberGraphCacheFileCollection $fragmentsToReuse Files whose fragments can be reused.
-     * @param MemberGraphCacheFileCollection $filesToDelete Cached files that must be removed from the graph.
+     * @param MemberDependencyGraphFactoryRebuildMode   $mode             the selected rebuild mode
+     * @param MemberDependencyGraphFactoryRebuildReason $reason           the reason for the selected mode
+     * @param MemberGraphCachePlan                      $cachePlan        the underlying cache plan
+     * @param MemberGraphCacheFileCollection            $filesToBuild     files that require a build
+     * @param MemberGraphCacheFileCollection            $fragmentsToReuse files whose fragments can be reused
+     * @param MemberGraphCacheFileCollection            $filesToDelete    cached files that must be removed from the graph
      */
     public function __construct(
         public MemberDependencyGraphFactoryRebuildMode $mode,
@@ -37,9 +37,7 @@ final readonly class MemberDependencyGraphFactoryRebuildPlan
     /**
      * Creates a rebuild plan from a cache plan.
      *
-     * @param MemberGraphCachePlan $cachePlan The cache plan.
-     *
-     * @return self
+     * @param MemberGraphCachePlan $cachePlan the cache plan
      */
     public static function fromCachePlan(MemberGraphCachePlan $cachePlan): self
     {
@@ -88,10 +86,8 @@ final readonly class MemberDependencyGraphFactoryRebuildPlan
     /**
      * Indicates whether the cache plan carries enough information for a future partial rebuild.
      *
-     * @param MemberGraphCachePlan $cachePlan The cache plan.
-     * @param MemberGraphCacheFileCollection $filesToBuild Files that require rebuilding.
-     *
-     * @return bool
+     * @param MemberGraphCachePlan           $cachePlan    the cache plan
+     * @param MemberGraphCacheFileCollection $filesToBuild files that require rebuilding
      */
     private static function canUsePartialBuildCandidate(
         MemberGraphCachePlan $cachePlan,

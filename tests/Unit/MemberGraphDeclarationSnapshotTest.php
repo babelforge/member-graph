@@ -28,8 +28,6 @@ final class MemberGraphDeclarationSnapshotTest extends TestCase
 {
     /**
      * Ensures owner declaration snapshots keep class-like metadata and templates.
-     *
-     * @return void
      */
     public function testItStoresOwnerDeclarationSnapshots(): void
     {
@@ -65,8 +63,6 @@ final class MemberGraphDeclarationSnapshotTest extends TestCase
 
     /**
      * Ensures callable declaration snapshots keep parameters and templates.
-     *
-     * @return void
      */
     public function testItStoresCallableDeclarationSnapshots(): void
     {
@@ -123,8 +119,6 @@ final class MemberGraphDeclarationSnapshotTest extends TestCase
 
     /**
      * Ensures member declaration snapshots are indexed by owner and member name.
-     *
-     * @return void
      */
     public function testItStoresPropertyAndClassConstantDeclarationSnapshots(): void
     {
@@ -156,8 +150,6 @@ final class MemberGraphDeclarationSnapshotTest extends TestCase
 
     /**
      * Ensures collections replace snapshots with the same stable key.
-     *
-     * @return void
      */
     public function testCollectionsReplaceSnapshotsWithTheSameKey(): void
     {

@@ -12,25 +12,23 @@ use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Inheritance\ParentMethodNodeResol
 use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Template\PhpDocTemplateDefinitionExtractorFactory;
 
 /**
- * Class EffectivePhpDocEnricherFactory
+ * Class EffectivePhpDocEnricherFactory.
  */
 final class EffectivePhpDocEnricherFactory
 {
     /**
-     * @param MemberGraphIssueCollection|null $dependencyGraphIssues The optional dependency-graph issue collection.
+     * @param MemberGraphIssueCollection|null $dependencyGraphIssues the optional dependency-graph issue collection
      */
     public function __construct(
         private MemberGraphPhpSourceRegistryInstance $fileRegistry,
-        private ?MemberGraphIssueCollection $dependencyGraphIssues = null
+        private ?MemberGraphIssueCollection $dependencyGraphIssues = null,
     ) {
     }
 
     /**
      * Creates the effective PHPDoc enricher.
      *
-     * @param ParentMethodNodeResolver $parentMethodNodeResolver The parent method node resolver.
-     *
-     * @return EffectivePhpDocEnricher
+     * @param ParentMethodNodeResolver $parentMethodNodeResolver the parent method node resolver
      */
     public function create(ParentMethodNodeResolver $parentMethodNodeResolver): EffectivePhpDocEnricher
     {

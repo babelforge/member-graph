@@ -4,16 +4,12 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Application\Cache\Plan;
 
-use Countable;
-use IteratorAggregate;
-use Traversable;
-
 /**
  * Stores physical file paths without duplicates.
  *
- * @implements IteratorAggregate<int, string>
+ * @implements \IteratorAggregate<int, string>
  */
-final class MemberGraphCacheFileCollection implements Countable, IteratorAggregate
+final class MemberGraphCacheFileCollection implements \Countable, \IteratorAggregate
 {
     /**
      * @var array<string, true>
@@ -23,9 +19,7 @@ final class MemberGraphCacheFileCollection implements Countable, IteratorAggrega
     /**
      * Adds one file path.
      *
-     * @param string $filePath The physical file path.
-     *
-     * @return void
+     * @param string $filePath the physical file path
      */
     public function add(string $filePath): void
     {
@@ -39,9 +33,7 @@ final class MemberGraphCacheFileCollection implements Countable, IteratorAggrega
     /**
      * Indicates whether the collection contains one file path.
      *
-     * @param string $filePath The physical file path.
-     *
-     * @return bool
+     * @param string $filePath the physical file path
      */
     public function contains(string $filePath): bool
     {
@@ -61,17 +53,15 @@ final class MemberGraphCacheFileCollection implements Countable, IteratorAggrega
     /**
      * Returns an iterator over file paths.
      *
-     * @return Traversable<int, string>
+     * @return \Traversable<int, string>
      */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         yield from $this->all();
     }
 
     /**
      * Counts file paths.
-     *
-     * @return int
      */
     public function count(): int
     {

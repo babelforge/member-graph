@@ -18,11 +18,11 @@ final readonly class MemberGraphGlobalIndexRebuildInput
     /**
      * Constructor.
      *
-     * @param MemberGraphVirtualSourceMetadataCollection $reusableSources Snapshot sources that can be reused as global-index inputs.
-     * @param MemberGraphCacheFileCollection $filesToBuild Files that must be reloaded from source before index rebuilding.
-     * @param MemberGraphFragmentCollection $fragmentsToReuse Cached graph fragments associated with reusable files.
-     * @param KnownOwnerCollection $knownOwners Cached known owners.
-     * @param MemberGraphVirtualFileReferenceCollection $virtualFileReferences Cached virtual file references.
+     * @param MemberGraphVirtualSourceMetadataCollection $reusableSources       snapshot sources that can be reused as global-index inputs
+     * @param MemberGraphCacheFileCollection             $filesToBuild          files that must be reloaded from source before index rebuilding
+     * @param MemberGraphFragmentCollection              $fragmentsToReuse      cached graph fragments associated with reusable files
+     * @param KnownOwnerCollection                       $knownOwners           cached known owners
+     * @param MemberGraphVirtualFileReferenceCollection  $virtualFileReferences cached virtual file references
      */
     public function __construct(
         public MemberGraphVirtualSourceMetadataCollection $reusableSources,

@@ -20,7 +20,7 @@ final readonly class NativeVsStructuredPrecisionResolver
     /**
      * Constructor.
      *
-     * @param NativeTypeClassifier $nativeTypeClassifier The native type classifier.
+     * @param NativeTypeClassifier $nativeTypeClassifier the native type classifier
      */
     public function __construct(private NativeTypeClassifier $nativeTypeClassifier)
     {
@@ -29,10 +29,8 @@ final readonly class NativeVsStructuredPrecisionResolver
     /**
      * Tells whether one structured PHPDoc type is more precise than one native type.
      *
-     * @param Node|null $nativeTypeNode The native type node.
-     * @param ResolvedPhpDocType|null $structuredType The structured PHPDoc type.
-     *
-     * @return bool
+     * @param Node|null               $nativeTypeNode the native type node
+     * @param ResolvedPhpDocType|null $structuredType the structured PHPDoc type
      */
     public function isStructuredTypeMorePreciseThanNative(
         ?Node $nativeTypeNode,
@@ -72,10 +70,8 @@ final readonly class NativeVsStructuredPrecisionResolver
     /**
      * Tells whether one structured PHPDoc type is more precise than one native identifier type.
      *
-     * @param Identifier $nativeTypeNode The native identifier type.
-     * @param ResolvedPhpDocType $structuredType The structured PHPDoc type.
-     *
-     * @return bool
+     * @param Identifier         $nativeTypeNode the native identifier type
+     * @param ResolvedPhpDocType $structuredType the structured PHPDoc type
      */
     private function isStructuredTypeMorePreciseThanNativeIdentifier(
         Identifier $nativeTypeNode,
@@ -106,10 +102,8 @@ final readonly class NativeVsStructuredPrecisionResolver
     /**
      * Tells whether one structured PHPDoc type is more precise than one native named type.
      *
-     * @param Name $nativeTypeNode The native named type.
-     * @param ResolvedPhpDocType $structuredType The structured PHPDoc type.
-     *
-     * @return bool
+     * @param Name               $nativeTypeNode the native named type
+     * @param ResolvedPhpDocType $structuredType the structured PHPDoc type
      */
     private function isStructuredTypeMorePreciseThanNativeName(
         Name $nativeTypeNode,
@@ -141,10 +135,8 @@ final readonly class NativeVsStructuredPrecisionResolver
     /**
      * Tells whether one structured PHPDoc type is more precise than one native union type.
      *
-     * @param UnionType $nativeTypeNode The native union type.
-     * @param ResolvedPhpDocType $structuredType The structured PHPDoc type.
-     *
-     * @return bool
+     * @param UnionType          $nativeTypeNode the native union type
+     * @param ResolvedPhpDocType $structuredType the structured PHPDoc type
      */
     private function isStructuredTypeMorePreciseThanNativeUnion(
         UnionType $nativeTypeNode,
@@ -162,10 +154,8 @@ final readonly class NativeVsStructuredPrecisionResolver
     /**
      * Tells whether one structured PHPDoc type is more precise than one native intersection type.
      *
-     * @param IntersectionType $nativeTypeNode The native intersection type.
-     * @param ResolvedPhpDocType $structuredType The structured PHPDoc type.
-     *
-     * @return bool
+     * @param IntersectionType   $nativeTypeNode the native intersection type
+     * @param ResolvedPhpDocType $structuredType the structured PHPDoc type
      */
     private function isStructuredTypeMorePreciseThanNativeIntersection(
         IntersectionType $nativeTypeNode,

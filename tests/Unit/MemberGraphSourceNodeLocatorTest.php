@@ -48,8 +48,6 @@ final class MemberGraphSourceNodeLocatorTest extends TestCase
 {
     /**
      * Ensures method source lookup returns declaration and usage nodes.
-     *
-     * @return void
      */
     public function testItLocatesMethodDeclarationAndUsageNodes(): void
     {
@@ -111,8 +109,6 @@ final class MemberGraphSourceNodeLocatorTest extends TestCase
 
     /**
      * Ensures strict source lookup does not fallback to name matching without source-node identifiers.
-     *
-     * @return void
      */
     public function testItDoesNotFallbackToNameMatchingByDefault(): void
     {
@@ -161,8 +157,6 @@ final class MemberGraphSourceNodeLocatorTest extends TestCase
 
     /**
      * Ensures method source lookup returns static and nullsafe usage nodes.
-     *
-     * @return void
      */
     public function testItLocatesStaticAndNullsafeMethodUsageNodes(): void
     {
@@ -219,8 +213,6 @@ final class MemberGraphSourceNodeLocatorTest extends TestCase
 
     /**
      * Ensures source-node identifiers prevent same-name usage false positives.
-     *
-     * @return void
      */
     public function testItLocatesOnlyTheExactUsageNodeWhenSourceNodeIdIsAvailable(): void
     {
@@ -292,8 +284,6 @@ final class MemberGraphSourceNodeLocatorTest extends TestCase
 
     /**
      * Ensures property source lookup returns declaration and usage nodes.
-     *
-     * @return void
      */
     public function testItLocatesPropertyDeclarationAndUsageNodes(): void
     {
@@ -345,8 +335,6 @@ final class MemberGraphSourceNodeLocatorTest extends TestCase
 
     /**
      * Ensures property source lookup returns promoted declarations and static property usage nodes.
-     *
-     * @return void
      */
     public function testItLocatesPromotedPropertyDeclarationAndStaticPropertyUsageNodes(): void
     {
@@ -400,8 +388,6 @@ final class MemberGraphSourceNodeLocatorTest extends TestCase
 
     /**
      * Ensures class-constant source lookup returns declaration and usage nodes.
-     *
-     * @return void
      */
     public function testItLocatesClassConstantDeclarationAndUsageNodes(): void
     {
@@ -453,8 +439,6 @@ final class MemberGraphSourceNodeLocatorTest extends TestCase
 
     /**
      * Ensures function source lookup returns declaration and usage nodes.
-     *
-     * @return void
      */
     public function testItLocatesFunctionDeclarationAndUsageNodes(): void
     {
@@ -505,8 +489,6 @@ final class MemberGraphSourceNodeLocatorTest extends TestCase
 
     /**
      * Ensures parameter source lookup returns declaration and named-argument nodes.
-     *
-     * @return void
      */
     public function testItLocatesParameterDeclarationAndUsageNodes(): void
     {
@@ -574,8 +556,6 @@ final class MemberGraphSourceNodeLocatorTest extends TestCase
 
     /**
      * Ensures global function parameter lookup returns declaration and named-argument nodes.
-     *
-     * @return void
      */
     public function testItLocatesGlobalFunctionParameterDeclarationAndUsageNodes(): void
     {
@@ -635,11 +615,9 @@ final class MemberGraphSourceNodeLocatorTest extends TestCase
     /**
      * Creates a member dependency graph for source node locator tests.
      *
-     * @param list<MemberDeclaration> $declarations The declarations to add.
-     * @param list<MemberUsage> $memberUsages The member usages to add.
-     * @param list<ParameterUsage> $parameterUsages The parameter usages to add.
-     *
-     * @return MemberDependencyGraph
+     * @param list<MemberDeclaration> $declarations    the declarations to add
+     * @param list<MemberUsage>       $memberUsages    the member usages to add
+     * @param list<ParameterUsage>    $parameterUsages the parameter usages to add
      */
     private function createGraph(
         array $declarations = [],
@@ -676,11 +654,9 @@ final class MemberGraphSourceNodeLocatorTest extends TestCase
     /**
      * Creates one virtual registry file from PHP code.
      *
-     * @param string $fullFilePath The physical file path.
-     * @param string $virtualFilePath The virtual file path.
-     * @param string $code The PHP source code.
-     *
-     * @return VirtualPhpSourceFile
+     * @param string $fullFilePath    the physical file path
+     * @param string $virtualFilePath the virtual file path
+     * @param string $code            the PHP source code
      */
     private function createVirtualFile(string $fullFilePath, string $virtualFilePath, string $code): VirtualPhpSourceFile
     {
@@ -694,16 +670,14 @@ final class MemberGraphSourceNodeLocatorTest extends TestCase
     /**
      * Counts matches by role and node class.
      *
-     * @param VirtualPhpSourceFileNodeMatchCollection $matches The match collection.
-     * @param VirtualPhpSourceFileNodeMatchRole $role The expected role.
-     * @param class-string<Node> $nodeClass The expected node class.
-     *
-     * @return int
+     * @param VirtualPhpSourceFileNodeMatchCollection $matches   the match collection
+     * @param VirtualPhpSourceFileNodeMatchRole       $role      the expected role
+     * @param class-string<Node>                      $nodeClass the expected node class
      */
     private function countMatches(
         VirtualPhpSourceFileNodeMatchCollection $matches,
-        VirtualPhpSourceFileNodeMatchRole       $role,
-        string                                  $nodeClass,
+        VirtualPhpSourceFileNodeMatchRole $role,
+        string $nodeClass,
     ): int {
         return $matches->byRole($role)->byNodeClass($nodeClass)->count();
     }
@@ -711,14 +685,12 @@ final class MemberGraphSourceNodeLocatorTest extends TestCase
     /**
      * Counts matches by role.
      *
-     * @param VirtualPhpSourceFileNodeMatchCollection $matches The match collection.
-     * @param VirtualPhpSourceFileNodeMatchRole $role The expected role.
-     *
-     * @return int
+     * @param VirtualPhpSourceFileNodeMatchCollection $matches the match collection
+     * @param VirtualPhpSourceFileNodeMatchRole       $role    the expected role
      */
     private function countMatchesByRole(
         VirtualPhpSourceFileNodeMatchCollection $matches,
-        VirtualPhpSourceFileNodeMatchRole       $role,
+        VirtualPhpSourceFileNodeMatchRole $role,
     ): int {
         return $matches->byRole($role)->count();
     }
@@ -726,16 +698,14 @@ final class MemberGraphSourceNodeLocatorTest extends TestCase
     /**
      * Indicates whether a match exists for the given virtual file and role.
      *
-     * @param VirtualPhpSourceFileNodeMatchCollection $matches The match collection.
-     * @param string $virtualFilePath The expected virtual file path.
-     * @param VirtualPhpSourceFileNodeMatchRole $role The expected role.
-     *
-     * @return bool
+     * @param VirtualPhpSourceFileNodeMatchCollection $matches         the match collection
+     * @param string                                  $virtualFilePath the expected virtual file path
+     * @param VirtualPhpSourceFileNodeMatchRole       $role            the expected role
      */
     private function hasVirtualFileMatch(
         VirtualPhpSourceFileNodeMatchCollection $matches,
-        string                                  $virtualFilePath,
-        VirtualPhpSourceFileNodeMatchRole       $role,
+        string $virtualFilePath,
+        VirtualPhpSourceFileNodeMatchRole $role,
     ): bool {
         return !$matches->byVirtualFilePath($virtualFilePath)->byRole($role)->isEmpty();
     }
@@ -743,18 +713,16 @@ final class MemberGraphSourceNodeLocatorTest extends TestCase
     /**
      * Finds the nth node of the given class with the given identifier-like name.
      *
-     * @param VirtualPhpSourceFile $virtualFile The virtual file to inspect.
-     * @param class-string<Node> $nodeClass The node class to find.
-     * @param string $name The expected node name.
-     * @param int $index The zero-based matching node index.
-     *
-     * @return Node|null
+     * @param VirtualPhpSourceFile $virtualFile the virtual file to inspect
+     * @param class-string<Node>   $nodeClass   the node class to find
+     * @param string               $name        the expected node name
+     * @param int                  $index       the zero-based matching node index
      */
     private function findNthNodeByClassAndName(
         VirtualPhpSourceFile $virtualFile,
-        string               $nodeClass,
-        string               $name,
-        int                  $index,
+        string $nodeClass,
+        string $name,
+        int $index,
     ): ?Node {
         $matches = [];
 
@@ -768,12 +736,10 @@ final class MemberGraphSourceNodeLocatorTest extends TestCase
     /**
      * Collects nodes of the given class with the given identifier-like name.
      *
-     * @param Node $node The node to inspect.
-     * @param class-string<Node> $nodeClass The node class to find.
-     * @param string $name The expected node name.
-     * @param list<Node> $matches The collected matches.
-     *
-     * @return void
+     * @param Node               $node      the node to inspect
+     * @param class-string<Node> $nodeClass the node class to find
+     * @param string             $name      the expected node name
+     * @param list<Node>         $matches   the collected matches
      */
     private function collectNodesByClassAndName(Node $node, string $nodeClass, string $name, array &$matches): void
     {

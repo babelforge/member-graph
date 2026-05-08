@@ -31,17 +31,17 @@ final readonly class MemberDependencyGraphFullBuildRunner
     /**
      * Constructor.
      *
-     * @param MemberGraphFragmenter $fragmenter The graph fragmenter.
-     * @param MemberGraphFragmentMerger $fragmentMerger The graph fragment merger.
-     * @param MemberDependencyGraphFactoryBuildReportFactory $buildReportFactory The build report factory.
-     * @param MemberGraphCacheRefreshService $cacheRefreshService The cache refresh service.
+     * @param MemberGraphFragmenter                          $fragmenter          the graph fragmenter
+     * @param MemberGraphFragmentMerger                      $fragmentMerger      the graph fragment merger
+     * @param MemberDependencyGraphFactoryBuildReportFactory $buildReportFactory  the build report factory
+     * @param MemberGraphCacheRefreshService                 $cacheRefreshService the cache refresh service
      */
     public function __construct(
-        private MemberGraphPhpSourceRegistryInstance           $fileRegistry,
-        private MemberGraphFragmenter                          $fragmenter = new MemberGraphFragmenter(),
-        private MemberGraphFragmentMerger                      $fragmentMerger = new MemberGraphFragmentMerger(),
+        private MemberGraphPhpSourceRegistryInstance $fileRegistry,
+        private MemberGraphFragmenter $fragmenter = new MemberGraphFragmenter(),
+        private MemberGraphFragmentMerger $fragmentMerger = new MemberGraphFragmentMerger(),
         private MemberDependencyGraphFactoryBuildReportFactory $buildReportFactory = new MemberDependencyGraphFactoryBuildReportFactory(),
-        private MemberGraphCacheRefreshService                 $cacheRefreshService = new MemberGraphCacheRefreshService(),
+        private MemberGraphCacheRefreshService $cacheRefreshService = new MemberGraphCacheRefreshService(),
     ) {
         $this->sourceLoader = new MemberGraphSourceLoader($fileRegistry);
     }
@@ -49,23 +49,21 @@ final readonly class MemberDependencyGraphFullBuildRunner
     /**
      * Parses all scanned files, rebuilds the graph, and refreshes the cache payload.
      *
-     * @param list<string> $files The scanned physical files.
-     * @param MemberGraphCache $cache The member graph cache.
-     * @param MemberGraphCachePlan $cachePlan The selected cache plan.
-     * @param MemberDependencyGraphFactoryRebuildPlan $rebuildPlan The selected rebuild plan.
-     * @param MemberGraphIssueCollection $dependencyGraphIssues The dependency graph issues.
-     * @param MemberDependencyGraphPartialRebuildInput|null $partialRebuildInput The dry-run partial rebuild input, when available.
-     * @param MemberDependencyGraphPartialRebuildWorkingSet|null $partialRebuildWorkingSet The dry-run working set, when available.
-     *
-     * @return MemberDependencyGraphBuild
+     * @param list<string>                                       $files                    the scanned physical files
+     * @param MemberGraphCache                                   $cache                    the member graph cache
+     * @param MemberGraphCachePlan                               $cachePlan                the selected cache plan
+     * @param MemberDependencyGraphFactoryRebuildPlan            $rebuildPlan              the selected rebuild plan
+     * @param MemberGraphIssueCollection                         $dependencyGraphIssues    the dependency graph issues
+     * @param MemberDependencyGraphPartialRebuildInput|null      $partialRebuildInput      the dry-run partial rebuild input, when available
+     * @param MemberDependencyGraphPartialRebuildWorkingSet|null $partialRebuildWorkingSet the dry-run working set, when available
      */
     public function run(
-        array                                          $files,
-        MemberGraphCache                               $cache,
-        MemberGraphCachePlan                           $cachePlan,
-        MemberDependencyGraphFactoryRebuildPlan        $rebuildPlan,
-        MemberGraphIssueCollection                     $dependencyGraphIssues,
-        ?MemberDependencyGraphPartialRebuildInput      $partialRebuildInput,
+        array $files,
+        MemberGraphCache $cache,
+        MemberGraphCachePlan $cachePlan,
+        MemberDependencyGraphFactoryRebuildPlan $rebuildPlan,
+        MemberGraphIssueCollection $dependencyGraphIssues,
+        ?MemberDependencyGraphPartialRebuildInput $partialRebuildInput,
         ?MemberDependencyGraphPartialRebuildWorkingSet $partialRebuildWorkingSet,
     ): MemberDependencyGraphBuild {
         $sourceLoadResult = $this->sourceLoader->load($files);

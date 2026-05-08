@@ -17,10 +17,10 @@ final readonly class MemberGraphDeclarationCallableFlatIndexes
     /**
      * Constructor.
      *
-     * @param MethodReturnTypeIndex $methodReturnTypeIndex The method return type index.
-     * @param MethodParameterTypeIndex $methodParameterTypeIndex The method parameter type index.
-     * @param FunctionReturnTypeIndex $functionReturnTypeIndex The function return type index.
-     * @param FunctionParameterTypeIndex $functionParameterTypeIndex The function parameter type index.
+     * @param MethodReturnTypeIndex      $methodReturnTypeIndex      the method return type index
+     * @param MethodParameterTypeIndex   $methodParameterTypeIndex   the method parameter type index
+     * @param FunctionReturnTypeIndex    $functionReturnTypeIndex    the function return type index
+     * @param FunctionParameterTypeIndex $functionParameterTypeIndex the function parameter type index
      */
     public function __construct(
         public MethodReturnTypeIndex $methodReturnTypeIndex,

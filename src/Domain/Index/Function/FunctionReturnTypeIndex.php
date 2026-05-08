@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Domain\Index\Function;
 
-use IteratorAggregate;
 use PhpNoobs\MemberGraph\Domain\Symbol\SymbolCollection;
 use PhpNoobs\MemberGraph\Domain\Type\FunctionLikeReturnType;
-use Traversable;
 
 /**
  * Stores simple function return types.
  *
- * @implements IteratorAggregate<string, FunctionLikeReturnType>
+ * @implements \IteratorAggregate<string, FunctionLikeReturnType>
  */
-final class FunctionReturnTypeIndex implements IteratorAggregate
+final class FunctionReturnTypeIndex implements \IteratorAggregate
 {
     /**
      * @var array<string, FunctionLikeReturnType>
@@ -24,10 +22,8 @@ final class FunctionReturnTypeIndex implements IteratorAggregate
     /**
      * Stores one function return type.
      *
-     * @param string $functionName The function name.
-     * @param FunctionLikeReturnType $details The resolved return type FQCN.
-     *
-     * @return self
+     * @param string                 $functionName the function name
+     * @param FunctionLikeReturnType $details      the resolved return type FQCN
      */
     public function set(string $functionName, FunctionLikeReturnType $details): self
     {
@@ -43,9 +39,7 @@ final class FunctionReturnTypeIndex implements IteratorAggregate
     /**
      * Returns one method return type.
      *
-     * @param string $functionName The function name.
-     *
-     * @return FunctionLikeReturnType|null
+     * @param string $functionName the function name
      */
     public function get(string $functionName): ?FunctionLikeReturnType
     {
@@ -55,15 +49,12 @@ final class FunctionReturnTypeIndex implements IteratorAggregate
     /**
      * Returns one method return type.
      *
-     * @param string $functionName The function name.
-     *
-     * @return SymbolCollection
+     * @param string $functionName the function name
      */
     public function getReturnType(string $functionName): SymbolCollection
     {
         return $this->items[$functionName]->returnTypes ?? new SymbolCollection();
     }
-
 
     public function merge(self $other): self
     {
@@ -79,10 +70,7 @@ final class FunctionReturnTypeIndex implements IteratorAggregate
         return $this;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         yield from $this->items;
     }

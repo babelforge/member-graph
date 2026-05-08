@@ -30,8 +30,6 @@ final class MemberImpactResolverTest extends TestCase
 {
     /**
      * Ensures a method impact includes its declaration, direct usages, owners, and files.
-     *
-     * @return void
      */
     public function testItResolvesMethodImpact(): void
     {
@@ -65,8 +63,6 @@ final class MemberImpactResolverTest extends TestCase
 
     /**
      * Ensures property, class-constant, and function impact targets use their exact member identities.
-     *
-     * @return void
      */
     public function testItResolvesPropertyClassConstantAndFunctionImpact(): void
     {
@@ -100,8 +96,6 @@ final class MemberImpactResolverTest extends TestCase
 
     /**
      * Ensures a parameter impact includes named-argument usages and impacted usage locations.
-     *
-     * @return void
      */
     public function testItResolvesParameterImpact(): void
     {
@@ -131,11 +125,9 @@ final class MemberImpactResolverTest extends TestCase
     /**
      * Creates a member dependency graph for impact resolver tests.
      *
-     * @param list<MemberDeclaration> $declarations The declarations to add.
-     * @param list<MemberUsage> $memberUsages The member usages to add.
-     * @param list<ParameterUsage> $parameterUsages The parameter usages to add.
-     *
-     * @return MemberDependencyGraph
+     * @param list<MemberDeclaration> $declarations    the declarations to add
+     * @param list<MemberUsage>       $memberUsages    the member usages to add
+     * @param list<ParameterUsage>    $parameterUsages the parameter usages to add
      */
     private function createGraph(
         array $declarations = [],

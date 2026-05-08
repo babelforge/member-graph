@@ -4,16 +4,12 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Domain\Index\Template;
 
-use Countable;
-use IteratorAggregate;
-use Traversable;
-
 /**
- * Class PhpDocTemplateDefinitionCollection
+ * Class PhpDocTemplateDefinitionCollection.
  *
- * @implements IteratorAggregate<string, PhpDocTemplateDefinition>
+ * @implements \IteratorAggregate<string, PhpDocTemplateDefinition>
  */
-final class PhpDocTemplateDefinitionCollection implements IteratorAggregate, Countable
+final class PhpDocTemplateDefinitionCollection implements \IteratorAggregate, \Countable
 {
     /** @var array<string, PhpDocTemplateDefinition> */
     private array $definitions = [];
@@ -67,17 +63,11 @@ final class PhpDocTemplateDefinitionCollection implements IteratorAggregate, Cou
         return $clone;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         yield from $this->definitions;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function count(): int
     {
         return count($this->definitions);

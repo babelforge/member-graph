@@ -8,25 +8,20 @@ use PhpNoobs\MemberGraph\Domain\Index\Template\PhpDocTemplateDefinitionCollectio
 use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
 
 /**
- * Class SemanticState
+ * Class SemanticState.
  */
 final readonly class SemanticState
 {
     /**
-     * @param PhpDocTemplateDefinitionCollection $templates
-     * @param bool $hasTemplate
      * @param array<string, ResolvedPhpDocType> $paramsByName
-     * @param bool $hasParam
-     * @param ResolvedPhpDocType|null $returnType
-     * @param bool $hasReturnType
      */
     public function __construct(
         public PhpDocTemplateDefinitionCollection $templates,
-        public bool                               $hasTemplate,
-        public array                              $paramsByName,
-        public bool                               $hasParam,
-        public null|ResolvedPhpDocType            $returnType,
-        public bool                               $hasReturnType,
+        public bool $hasTemplate,
+        public array $paramsByName,
+        public bool $hasParam,
+        public ?ResolvedPhpDocType $returnType,
+        public bool $hasReturnType,
     ) {
     }
 }

@@ -18,7 +18,7 @@ final readonly class VariableTypePropagationResolver
     /**
      * Constructor.
      *
-     * @param FallbackPhpDocValueExtractionStrategy $fallbackStrategy The fallback structured PHPDoc extraction strategy.
+     * @param FallbackPhpDocValueExtractionStrategy $fallbackStrategy the fallback structured PHPDoc extraction strategy
      */
     public function __construct(
         private FallbackPhpDocValueExtractionStrategy $fallbackStrategy = new FallbackPhpDocValueExtractionStrategy(),
@@ -28,12 +28,10 @@ final readonly class VariableTypePropagationResolver
     /**
      * Builds variable type information for one assignment when the assigned value is meaningfully typed.
      *
-     * @param VariableTypeInfo|null $previousTypeInfo The previous variable type information, if any.
-     * @param SymbolCollection $resolvedTypes The flat symbols resolved from the assigned expression.
-     * @param ResolvedPhpDocType|null $currentStructuredType The structured type resolved from the assigned expression.
-     * @param SymbolCollection $structuredExtractedTypes The symbols extracted from the chosen structured type.
-     *
-     * @return VariableTypeInfo|null
+     * @param VariableTypeInfo|null   $previousTypeInfo         the previous variable type information, if any
+     * @param SymbolCollection        $resolvedTypes            the flat symbols resolved from the assigned expression
+     * @param ResolvedPhpDocType|null $currentStructuredType    the structured type resolved from the assigned expression
+     * @param SymbolCollection        $structuredExtractedTypes the symbols extracted from the chosen structured type
      */
     public function resolveAssignmentTypeInfo(
         ?VariableTypeInfo $previousTypeInfo,
@@ -65,10 +63,8 @@ final readonly class VariableTypePropagationResolver
     /**
      * Chooses the structured PHPDoc type that should be attached to one assignment.
      *
-     * @param VariableTypeInfo|null $previousTypeInfo The previous variable type information, if any.
-     * @param ResolvedPhpDocType|null $currentStructuredType The structured type resolved from the assigned expression.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param VariableTypeInfo|null   $previousTypeInfo      the previous variable type information, if any
+     * @param ResolvedPhpDocType|null $currentStructuredType the structured type resolved from the assigned expression
      */
     public function chooseAssignmentStructuredPhpDocType(
         ?VariableTypeInfo $previousTypeInfo,
@@ -88,9 +84,7 @@ final readonly class VariableTypePropagationResolver
     /**
      * Extracts assignment-level symbols from one structured PHPDoc type.
      *
-     * @param ResolvedPhpDocType $type The structured type assigned to the variable.
-     *
-     * @return SymbolCollection
+     * @param ResolvedPhpDocType $type the structured type assigned to the variable
      */
     public function extractAssignmentSymbols(ResolvedPhpDocType $type): SymbolCollection
     {
@@ -146,10 +140,8 @@ final readonly class VariableTypePropagationResolver
     /**
      * Chooses the richest structured PHPDoc type between the previous one and the newly resolved one.
      *
-     * @param ResolvedPhpDocType|null $previousType The previous structured PHPDoc type.
-     * @param ResolvedPhpDocType|null $currentType The current structured PHPDoc type.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param ResolvedPhpDocType|null $previousType the previous structured PHPDoc type
+     * @param ResolvedPhpDocType|null $currentType  the current structured PHPDoc type
      */
     private function chooseStructuredPhpDocType(
         ?ResolvedPhpDocType $previousType,
@@ -173,9 +165,7 @@ final readonly class VariableTypePropagationResolver
     /**
      * Filters unresolved or meaningless assignment symbols.
      *
-     * @param SymbolCollection $resolvedTypes The resolved assignment symbols.
-     *
-     * @return SymbolCollection
+     * @param SymbolCollection $resolvedTypes the resolved assignment symbols
      */
     private function filterResolvedTypes(SymbolCollection $resolvedTypes): SymbolCollection
     {
@@ -195,9 +185,7 @@ final readonly class VariableTypePropagationResolver
     /**
      * Tells whether one structured type carries usable assignment information.
      *
-     * @param ResolvedPhpDocType|null $structuredPhpDocType The structured type to inspect.
-     *
-     * @return bool
+     * @param ResolvedPhpDocType|null $structuredPhpDocType the structured type to inspect
      */
     private function hasUsableStructuredType(?ResolvedPhpDocType $structuredPhpDocType): bool
     {
@@ -214,9 +202,7 @@ final readonly class VariableTypePropagationResolver
     /**
      * Returns a heuristic richness score for one structured PHPDoc type.
      *
-     * @param ResolvedPhpDocType $type The structured PHPDoc type to score.
-     *
-     * @return int
+     * @param ResolvedPhpDocType $type the structured PHPDoc type to score
      */
     private function getStructuredPhpDocTypeRichnessScore(ResolvedPhpDocType $type): int
     {

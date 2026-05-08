@@ -14,7 +14,7 @@ use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\ClassMethod;
 
 /**
- * Class PhpDocVisibleTemplateResolver
+ * Class PhpDocVisibleTemplateResolver.
  */
 final readonly class PhpDocVisibleTemplateResolver
 {
@@ -66,9 +66,7 @@ final readonly class PhpDocVisibleTemplateResolver
     /**
      * Resolves the surrounding class-like node for one method.
      *
-     * @param ClassMethod $method The method node.
-     *
-     * @return ClassLike|null
+     * @param ClassMethod $method the method node
      */
     private function resolveClassLikeNode(ClassMethod $method): ?ClassLike
     {

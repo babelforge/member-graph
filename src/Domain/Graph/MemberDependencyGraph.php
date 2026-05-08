@@ -22,22 +22,22 @@ use PhpNoobs\MemberGraph\Domain\Usage\MemberUsageCollection;
 final readonly class MemberDependencyGraph
 {
     /**
-     * @param MemberDeclarationCollection $declarations Declared members.
-     * @param MemberUsageCollection $usages Member usages.
-     * @param ParameterUsageCollection $parameterUsages Parameter usages.
-     * @param AvailableMemberCollection $availableMembers Available members.
-     * @param KnownOwnerCollection $knownOwners Known owners
-     * @param PolymorphicImplementationsIndex $interfaceImplementationsIndex Reverse interface implementations index.
-     * @param MemberGraphIssueCollection|null $dependencyGraphIssues PHPDoc resolution issues.
+     * @param MemberDeclarationCollection     $declarations                  declared members
+     * @param MemberUsageCollection           $usages                        member usages
+     * @param ParameterUsageCollection        $parameterUsages               parameter usages
+     * @param AvailableMemberCollection       $availableMembers              available members
+     * @param KnownOwnerCollection            $knownOwners                   Known owners
+     * @param PolymorphicImplementationsIndex $interfaceImplementationsIndex reverse interface implementations index
+     * @param MemberGraphIssueCollection|null $dependencyGraphIssues         PHPDoc resolution issues
      */
     public function __construct(
-        public MemberDeclarationCollection     $declarations,
-        public MemberUsageCollection           $usages,
-        public ParameterUsageCollection        $parameterUsages,
-        public AvailableMemberCollection       $availableMembers,
-        public KnownOwnerCollection            $knownOwners,
+        public MemberDeclarationCollection $declarations,
+        public MemberUsageCollection $usages,
+        public ParameterUsageCollection $parameterUsages,
+        public AvailableMemberCollection $availableMembers,
+        public KnownOwnerCollection $knownOwners,
         public PolymorphicImplementationsIndex $interfaceImplementationsIndex,
-        public ?MemberGraphIssueCollection     $dependencyGraphIssues,
+        public ?MemberGraphIssueCollection $dependencyGraphIssues,
     ) {
     }
 }

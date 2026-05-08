@@ -4,16 +4,12 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Infrastructure\UseStatements;
 
-use Countable;
-use IteratorAggregate;
-use Traversable;
-
 /**
- * Class UsesByAliasCollection
+ * Class UsesByAliasCollection.
  *
- * @implements IteratorAggregate<string, string>
+ * @implements \IteratorAggregate<string, string>
  */
-final class UsesByAliasCollection implements Countable, IteratorAggregate
+final class UsesByAliasCollection implements \Countable, \IteratorAggregate
 {
     /** @var array<string, string> */
     private array $items = [];
@@ -44,17 +40,11 @@ final class UsesByAliasCollection implements Countable, IteratorAggregate
         return $this;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         yield from $this->items;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function count(): int
     {
         return count($this->items);

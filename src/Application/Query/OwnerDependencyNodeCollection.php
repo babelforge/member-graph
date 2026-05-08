@@ -4,16 +4,12 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Application\Query;
 
-use Countable;
-use IteratorAggregate;
-use Traversable;
-
 /**
  * Stores owner dependency graph nodes without duplicates.
  *
- * @implements IteratorAggregate<int, string>
+ * @implements \IteratorAggregate<int, string>
  */
-final class OwnerDependencyNodeCollection implements Countable, IteratorAggregate
+final class OwnerDependencyNodeCollection implements \Countable, \IteratorAggregate
 {
     /**
      * @var array<string, true>
@@ -23,9 +19,7 @@ final class OwnerDependencyNodeCollection implements Countable, IteratorAggregat
     /**
      * Adds one owner node.
      *
-     * @param string $owner The owner FQCN.
-     *
-     * @return void
+     * @param string $owner the owner FQCN
      */
     public function add(string $owner): void
     {
@@ -49,9 +43,7 @@ final class OwnerDependencyNodeCollection implements Countable, IteratorAggregat
     /**
      * Indicates whether the collection contains one owner node.
      *
-     * @param string $owner The owner FQCN.
-     *
-     * @return bool
+     * @param string $owner the owner FQCN
      */
     public function contains(string $owner): bool
     {
@@ -61,17 +53,15 @@ final class OwnerDependencyNodeCollection implements Countable, IteratorAggregat
     /**
      * Returns an iterator over owner nodes.
      *
-     * @return Traversable<int, string>
+     * @return \Traversable<int, string>
      */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         yield from $this->all();
     }
 
     /**
      * Counts owner nodes.
-     *
-     * @return int
      */
     public function count(): int
     {

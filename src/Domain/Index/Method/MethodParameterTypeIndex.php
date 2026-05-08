@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Domain\Index\Method;
 
-use IteratorAggregate;
 use PhpNoobs\MemberGraph\Domain\Symbol\SymbolCollection;
 use PhpNoobs\MemberGraph\Domain\Type\MethodParameterType;
-use Traversable;
 
 /**
  * Stores simple function return types.
  *
- * @implements IteratorAggregate<string, MethodParameterType>
+ * @implements \IteratorAggregate<string, MethodParameterType>
  */
-final class MethodParameterTypeIndex implements IteratorAggregate
+final class MethodParameterTypeIndex implements \IteratorAggregate
 {
     /**
      * @var array<string, MethodParameterType>
@@ -24,12 +22,10 @@ final class MethodParameterTypeIndex implements IteratorAggregate
     /**
      * Stores one function return type.
      *
-     * @param string $owner The owner FQCN.
-     * @param string $methodName The function name.
-     * @param string $parameterName The parameter name.
-     * @param MethodParameterType $details The resolved return type FQCN.
-     *
-     * @return self
+     * @param string              $owner         the owner FQCN
+     * @param string              $methodName    the function name
+     * @param string              $parameterName the parameter name
+     * @param MethodParameterType $details       the resolved return type FQCN
      */
     public function set(string $owner, string $methodName, string $parameterName, MethodParameterType $details): self
     {
@@ -47,11 +43,9 @@ final class MethodParameterTypeIndex implements IteratorAggregate
     /**
      * Returns one method return type.
      *
-     * @param string $owner The owner FQCN.
-     * @param string $methodName The function name.
-     * @param string $parameterName The parameter name.
-     *
-     * @return MethodParameterType|null
+     * @param string $owner         the owner FQCN
+     * @param string $methodName    the function name
+     * @param string $parameterName the parameter name
      */
     public function get(string $owner, string $methodName, string $parameterName): ?MethodParameterType
     {
@@ -63,11 +57,9 @@ final class MethodParameterTypeIndex implements IteratorAggregate
     /**
      * Returns one method return type.
      *
-     * @param string $owner The owner FQCN.
-     * @param string $methodName The function name.
-     * @param string $parameterName The parameter name.
-     *
-     * @return SymbolCollection
+     * @param string $owner         the owner FQCN
+     * @param string $methodName    the function name
+     * @param string $parameterName the parameter name
      */
     public function getType(string $owner, string $methodName, string $parameterName): SymbolCollection
     {
@@ -75,7 +67,6 @@ final class MethodParameterTypeIndex implements IteratorAggregate
 
         return $this->items[$key]->types ?? new SymbolCollection();
     }
-
 
     public function merge(self $other): self
     {
@@ -94,21 +85,16 @@ final class MethodParameterTypeIndex implements IteratorAggregate
     /**
      * Builds the internal key.
      *
-     * @param string $owner The owner FQCN.
-     * @param string $methodName The function name.
-     * @param string $parameterName The parameter name.
-     *
-     * @return string
+     * @param string $owner         the owner FQCN
+     * @param string $methodName    the function name
+     * @param string $parameterName the parameter name
      */
     private function buildKey(string $owner, string $methodName, string $parameterName): string
     {
-        return $owner . '::' . $methodName . '::' . $parameterName;
+        return $owner.'::'.$methodName.'::'.$parameterName;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         yield from $this->items;
     }

@@ -20,10 +20,10 @@ final readonly class ClosureExpressionStructuredTypeResolver
     /**
      * Constructor.
      *
-     * @param NativeTypeResolver $nativeTypeResolver The native type resolver.
-     * @param ClosureDocTypeResolver $closureDocTypeResolver The closure-local PHPDoc resolver.
-     * @param ClosureLocalVariableTypeResolver $closureLocalVariableTypeResolver The closure local variable resolver.
-     * @param ClosureReturnTypeResolver $closureReturnTypeResolver The closure return resolver.
+     * @param NativeTypeResolver               $nativeTypeResolver               the native type resolver
+     * @param ClosureDocTypeResolver           $closureDocTypeResolver           the closure-local PHPDoc resolver
+     * @param ClosureLocalVariableTypeResolver $closureLocalVariableTypeResolver the closure local variable resolver
+     * @param ClosureReturnTypeResolver        $closureReturnTypeResolver        the closure return resolver
      */
     public function __construct(
         private NativeTypeResolver $nativeTypeResolver,
@@ -36,11 +36,9 @@ final readonly class ClosureExpressionStructuredTypeResolver
     /**
      * Resolves one closure-like expression to a callable structured type.
      *
-     * @param Closure|ArrowFunction $expression The closure-like expression.
-     * @param ExpressionResolutionContext $context The current expression resolution context.
-     * @param ExpressionTypeResolverInterface $expressionTypeResolver The recursive expression resolver.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param Closure|ArrowFunction           $expression             the closure-like expression
+     * @param ExpressionResolutionContext     $context                the current expression resolution context
+     * @param ExpressionTypeResolverInterface $expressionTypeResolver the recursive expression resolver
      */
     public function resolve(
         Closure|ArrowFunction $expression,
@@ -89,10 +87,8 @@ final readonly class ClosureExpressionStructuredTypeResolver
     /**
      * Resolves closure-like callable parameter types from native or PHPDoc parameter types.
      *
-     * @param Closure|ArrowFunction $expression The closure-like expression.
-     * @param ExpressionResolutionContext $context The current expression resolution context.
-     *
-     * @return ResolvedPhpDocTypeCollection
+     * @param Closure|ArrowFunction       $expression the closure-like expression
+     * @param ExpressionResolutionContext $context    the current expression resolution context
      */
     private function resolveCallableParameterTypes(
         Closure|ArrowFunction $expression,

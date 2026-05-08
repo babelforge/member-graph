@@ -29,15 +29,13 @@ final readonly class CollectionLikePhpDocValueExtractionStrategy implements PhpD
      * - callable(...): T => T
      * - otherwise fallback
      *
-     * @param ResolvedPhpDocType $type The resolved PHPDoc type tree.
-     *
-     * @return SymbolCollection
+     * @param ResolvedPhpDocType $type the resolved PHPDoc type tree
      */
     public function extract(ResolvedPhpDocType $type): SymbolCollection
     {
         $symbols = $type->symbols->all();
 
-        if (count($symbols) !== 1) {
+        if (1 !== count($symbols)) {
             return $this->fallbackStrategy->extract($type);
         }
 
@@ -47,6 +45,7 @@ final readonly class CollectionLikePhpDocValueExtractionStrategy implements PhpD
             if ($type->isEmptyShape()) {
                 return new SymbolCollection();
             }
+
             return $this->fallbackStrategy->extract($type);
         }
 

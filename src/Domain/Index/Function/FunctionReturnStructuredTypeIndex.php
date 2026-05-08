@@ -7,7 +7,7 @@ namespace PhpNoobs\MemberGraph\Domain\Index\Function;
 use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
 
 /**
- * Class FunctionStructuredReturnTypeIndex
+ * Class FunctionStructuredReturnTypeIndex.
  */
 final class FunctionReturnStructuredTypeIndex
 {

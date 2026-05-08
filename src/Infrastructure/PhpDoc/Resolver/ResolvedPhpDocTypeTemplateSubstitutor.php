@@ -15,10 +15,8 @@ final readonly class ResolvedPhpDocTypeTemplateSubstitutor
     /**
      * Substitutes template references recursively.
      *
-     * @param ResolvedPhpDocType $type The type to substitute.
-     * @param PhpDocTemplateSubstitutionContext $context The substitution context.
-     *
-     * @return ResolvedPhpDocType
+     * @param ResolvedPhpDocType                $type    the type to substitute
+     * @param PhpDocTemplateSubstitutionContext $context the substitution context
      */
     public function substitute(
         ResolvedPhpDocType $type,
@@ -50,10 +48,8 @@ final readonly class ResolvedPhpDocTypeTemplateSubstitutor
     /**
      * Substitutes all non-template nested parts of one type.
      *
-     * @param ResolvedPhpDocType $type The type to substitute.
-     * @param PhpDocTemplateSubstitutionContext $context The substitution context.
-     *
-     * @return ResolvedPhpDocType
+     * @param ResolvedPhpDocType                $type    the type to substitute
+     * @param PhpDocTemplateSubstitutionContext $context the substitution context
      */
     private function substituteNonTemplateParts(
         ResolvedPhpDocType $type,
@@ -111,11 +107,6 @@ final readonly class ResolvedPhpDocTypeTemplateSubstitutor
 
     /**
      * Merges two resolved types into one union-like resolved type.
-     *
-     * @param ResolvedPhpDocType $left
-     * @param ResolvedPhpDocType $right
-     *
-     * @return ResolvedPhpDocType
      */
     private function mergeResolvedTypes(
         ResolvedPhpDocType $left,
@@ -166,8 +157,8 @@ final readonly class ResolvedPhpDocTypeTemplateSubstitutor
             $callableParameters->add($this->cloneResolvedType($callableParameterType));
         }
 
-        $callableReturnType = match(true) {
-            $left->callableReturnType instanceof ResolvedPhpDocType  => $this->cloneResolvedType($left->callableReturnType),
+        $callableReturnType = match (true) {
+            $left->callableReturnType instanceof ResolvedPhpDocType => $this->cloneResolvedType($left->callableReturnType),
             $right->callableReturnType instanceof ResolvedPhpDocType => $this->cloneResolvedType($right->callableReturnType),
             default => null,
         };
@@ -187,9 +178,7 @@ final readonly class ResolvedPhpDocTypeTemplateSubstitutor
     /**
      * Removes the template flag from one kind mask.
      *
-     * @param int $kinds The kinds mask.
-     *
-     * @return int
+     * @param int $kinds the kinds mask
      */
     private function removeTemplateFlag(int $kinds): int
     {
@@ -199,9 +188,7 @@ final readonly class ResolvedPhpDocTypeTemplateSubstitutor
     /**
      * Returns whether the current node is a standalone template node like "T".
      *
-     * @param ResolvedPhpDocType $type The type to inspect.
-     *
-     * @return bool
+     * @param ResolvedPhpDocType $type the type to inspect
      */
     private function isStandaloneTemplateNode(ResolvedPhpDocType $type): bool
     {
@@ -218,9 +205,7 @@ final readonly class ResolvedPhpDocTypeTemplateSubstitutor
     /**
      * Clones one resolved PHPDoc type recursively.
      *
-     * @param ResolvedPhpDocType $type The type to clone.
-     *
-     * @return ResolvedPhpDocType
+     * @param ResolvedPhpDocType $type the type to clone
      */
     private function cloneResolvedType(ResolvedPhpDocType $type): ResolvedPhpDocType
     {
@@ -277,9 +262,7 @@ final readonly class ResolvedPhpDocTypeTemplateSubstitutor
     /**
      * Clones one symbol collection.
      *
-     * @param SymbolCollection $symbols The symbols to clone.
-     *
-     * @return SymbolCollection
+     * @param SymbolCollection $symbols the symbols to clone
      */
     private function cloneSymbols(SymbolCollection $symbols): SymbolCollection
     {

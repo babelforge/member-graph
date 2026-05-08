@@ -12,7 +12,7 @@ final readonly class MemberDependencyGraphFactoryOptions
     /**
      * Constructor.
      *
-     * @param bool $enablePartialRebuild Whether partial rebuild execution may be used for eligible rebuild plans.
+     * @param bool $enablePartialRebuild whether partial rebuild execution may be used for eligible rebuild plans
      */
     public function __construct(
         public bool $enablePartialRebuild = false,

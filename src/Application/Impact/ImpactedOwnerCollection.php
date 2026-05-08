@@ -4,16 +4,12 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Application\Impact;
 
-use Countable;
-use IteratorAggregate;
-use Traversable;
-
 /**
  * Stores impacted owner symbols without duplicates.
  *
- * @implements IteratorAggregate<int, string>
+ * @implements \IteratorAggregate<int, string>
  */
-final class ImpactedOwnerCollection implements Countable, IteratorAggregate
+final class ImpactedOwnerCollection implements \Countable, \IteratorAggregate
 {
     /**
      * @var array<string, true>
@@ -23,9 +19,7 @@ final class ImpactedOwnerCollection implements Countable, IteratorAggregate
     /**
      * Adds one impacted owner.
      *
-     * @param string $owner The impacted owner FQCN.
-     *
-     * @return void
+     * @param string $owner the impacted owner FQCN
      */
     public function add(string $owner): void
     {
@@ -49,9 +43,7 @@ final class ImpactedOwnerCollection implements Countable, IteratorAggregate
     /**
      * Indicates whether the collection contains the given owner.
      *
-     * @param string $owner The owner FQCN to test.
-     *
-     * @return bool
+     * @param string $owner the owner FQCN to test
      */
     public function contains(string $owner): bool
     {
@@ -61,17 +53,15 @@ final class ImpactedOwnerCollection implements Countable, IteratorAggregate
     /**
      * Returns an iterator over impacted owners.
      *
-     * @return Traversable<int, string>
+     * @return \Traversable<int, string>
      */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         yield from $this->all();
     }
 
     /**
      * Counts impacted owners.
-     *
-     * @return int
      */
     public function count(): int
     {

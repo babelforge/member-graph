@@ -4,19 +4,15 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver;
 
-use Countable;
-use IteratorAggregate;
-use Traversable;
-
 /**
- * Class ResolvedPhpDocNodeCollection
+ * Class ResolvedPhpDocNodeCollection.
  *
- * @implements IteratorAggregate<ResolvedPhpDocNode>
+ * @implements \IteratorAggregate<ResolvedPhpDocNode>
  */
-final class ResolvedPhpDocNodeCollection implements Countable, IteratorAggregate
+final class ResolvedPhpDocNodeCollection implements \Countable, \IteratorAggregate
 {
     /**
-     * @var  ResolvedPhpDocNode[]
+     * @var ResolvedPhpDocNode[]
      */
     private array $items;
 
@@ -33,17 +29,11 @@ final class ResolvedPhpDocNodeCollection implements Countable, IteratorAggregate
         return $this->items;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         yield from $this->items;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function count(): int
     {
         return count($this->items);

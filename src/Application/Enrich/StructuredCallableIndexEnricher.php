@@ -23,20 +23,18 @@ final readonly class StructuredCallableIndexEnricher
     /**
      * Constructor.
      *
-     * @param MemberGraphIssueCollection|null $dependencyGraphIssues The optional dependency-graph issue collection.
+     * @param MemberGraphIssueCollection|null $dependencyGraphIssues the optional dependency-graph issue collection
      */
     public function __construct(
         private MemberGraphPhpSourceRegistryInstance $fileRegistry,
-        private ?MemberGraphIssueCollection          $dependencyGraphIssues = null,
+        private ?MemberGraphIssueCollection $dependencyGraphIssues = null,
     ) {
     }
 
     /**
      * Enriches the build context with callable structured type indexes.
      *
-     * @param MemberGraphBuildContext $context The member graph build context to enrich.
-     *
-     * @return void
+     * @param MemberGraphBuildContext $context the member graph build context to enrich
      */
     public function enrich(MemberGraphBuildContext $context): void
     {

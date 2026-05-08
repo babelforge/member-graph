@@ -10,17 +10,17 @@ use PhpParser\Node;
 use PhpParser\Node\FunctionLike;
 
 /**
- * Class MethodReturnType
+ * Class MethodReturnType.
  */
 final class FunctionLikeReturnType
 {
     public function __construct(
-        public SymbolCollection      $returnTypes,
-        public Node                  $parentNode,
-        public string                $namespace,
+        public SymbolCollection $returnTypes,
+        public Node $parentNode,
+        public string $namespace,
         public UsesByAliasCollection $usesByAlias,
-        public TypeIndexContext      $context,
-        public bool                  $resolved = false,
+        public TypeIndexContext $context,
+        public bool $resolved = false,
     ) {
     }
 

@@ -11,8 +11,8 @@ use PhpNoobs\MemberGraph\Domain\Graph\MemberId;
 use PhpNoobs\MemberGraph\Domain\Graph\MemberType;
 use PhpNoobs\MemberGraph\Domain\Parameter\ParameterId;
 use PhpNoobs\MemberGraph\Domain\Parameter\ParameterUsageType;
-use PhpNoobs\MemberGraph\Domain\Usage\MemberUsageType;
 use PhpNoobs\MemberGraph\Domain\Usage\MemberUsage;
+use PhpNoobs\MemberGraph\Domain\Usage\MemberUsageType;
 use PHPUnit\Framework\TestCase;
 use Random\RandomException;
 
@@ -26,20 +26,16 @@ abstract class AbstractMemberGraphStabilityTestCase extends TestCase
     /**
      * Creates a temporary workspace for one test.
      *
-     * @return void
      * @throws RandomException
      */
     protected function setUp(): void
     {
-        $this->workspace = sys_get_temp_dir() . '/member-graph-stability-' . bin2hex(random_bytes(6));
-        mkdir($this->workspace . '/src', 0777, true);
-        
+        $this->workspace = sys_get_temp_dir().'/member-graph-stability-'.bin2hex(random_bytes(6));
+        mkdir($this->workspace.'/src', 0o777, true);
     }
 
     /**
      * Removes the temporary workspace after one test.
-     *
-     * @return void
      */
     protected function tearDown(): void
     {
@@ -49,10 +45,8 @@ abstract class AbstractMemberGraphStabilityTestCase extends TestCase
     /**
      * Builds a member dependency graph from one inline PHP source.
      *
-     * @param string $source The PHP source code.
-     * @param string $fileName The source file name.
-     *
-     * @return MemberDependencyGraph
+     * @param string $source   the PHP source code
+     * @param string $fileName the source file name
      */
     protected function buildGraphFromSource(string $source, string $fileName = 'Fixture.php'): MemberDependencyGraph
     {
@@ -62,9 +56,7 @@ abstract class AbstractMemberGraphStabilityTestCase extends TestCase
     /**
      * Builds a member dependency graph from inline PHP sources.
      *
-     * @param array<string, string> $sourcesByFile Source code indexed by relative file name.
-     *
-     * @return MemberDependencyGraph
+     * @param array<string, string> $sourcesByFile source code indexed by relative file name
      */
     protected function buildGraphFromSources(array $sourcesByFile): MemberDependencyGraph
     {
@@ -73,39 +65,35 @@ abstract class AbstractMemberGraphStabilityTestCase extends TestCase
             $directory = dirname($filePath);
 
             if (!is_dir($directory)) {
-                mkdir($directory, 0777, true);
+                mkdir($directory, 0o777, true);
             }
 
             file_put_contents($filePath, $source);
         }
 
         return MemberDependencyGraphFactory::fromDirectory(
-            directories: [$this->workspace . '/src'],
-            cacheFilePath: $this->workspace . '/member-graph.cache',
+            directories: [$this->workspace.'/src'],
+            cacheFilePath: $this->workspace.'/member-graph.cache',
         )->memberDependencyGraph;
     }
 
     /**
      * Returns the absolute path of one inline source fixture.
      *
-     * @param string $fileName The source file name.
-     *
-     * @return string
+     * @param string $fileName the source file name
      */
     protected function sourceFilePath(string $fileName): string
     {
-        return $this->workspace . '/src/' . $fileName;
+        return $this->workspace.'/src/'.$fileName;
     }
 
     /**
      * Asserts that a member declaration exists.
      *
-     * @param MemberDependencyGraph $graph The graph to inspect.
-     * @param string $owner The declaring owner.
-     * @param string $name The member name.
-     * @param MemberType $type The member type.
-     *
-     * @return void
+     * @param MemberDependencyGraph $graph the graph to inspect
+     * @param string                $owner the declaring owner
+     * @param string                $name  the member name
+     * @param MemberType            $type  the member type
      */
     protected function assertMemberDeclarationExists(
         MemberDependencyGraph $graph,
@@ -119,13 +107,11 @@ abstract class AbstractMemberGraphStabilityTestCase extends TestCase
     /**
      * Asserts that a member usage exists.
      *
-     * @param MemberDependencyGraph $graph The graph to inspect.
-     * @param string $owner The targeted owner.
-     * @param string $name The targeted member name.
-     * @param ?MemberType $memberType The targeted member type.
-     * @param null|MemberUsageType $usageType The expected usage type.
-     *
-     * @return void
+     * @param MemberDependencyGraph $graph      the graph to inspect
+     * @param string                $owner      the targeted owner
+     * @param string                $name       the targeted member name
+     * @param ?MemberType           $memberType the targeted member type
+     * @param MemberUsageType|null  $usageType  the expected usage type
      */
     protected function assertMemberUsageExists(
         MemberDependencyGraph $graph,
@@ -136,7 +122,7 @@ abstract class AbstractMemberGraphStabilityTestCase extends TestCase
     ): void {
         foreach ($this->findMemberUsages($graph, $owner, $name, $memberType) as $usage) {
             if (null === $usageType || $usageType === $usage->type) {
-                /** @phpstan-ignore-next-line */
+                /* @phpstan-ignore-next-line */
                 self::assertTrue(true);
 
                 return;
@@ -149,13 +135,11 @@ abstract class AbstractMemberGraphStabilityTestCase extends TestCase
     /**
      * Asserts that a member usage does not exist.
      *
-     * @param MemberDependencyGraph $graph The graph to inspect.
-     * @param string $owner The unexpected targeted owner.
-     * @param string $name The unexpected targeted member name.
-     * @param MemberType|null $memberType The optional targeted member type.
-     * @param MemberUsageType|null $usageType The optional expected usage type.
-     *
-     * @return void
+     * @param MemberDependencyGraph $graph      the graph to inspect
+     * @param string                $owner      the unexpected targeted owner
+     * @param string                $name       the unexpected targeted member name
+     * @param MemberType|null       $memberType the optional targeted member type
+     * @param MemberUsageType|null  $usageType  the optional expected usage type
      */
     protected function assertMemberUsageDoesNotExist(
         MemberDependencyGraph $graph,
@@ -170,18 +154,16 @@ abstract class AbstractMemberGraphStabilityTestCase extends TestCase
             }
         }
 
-        /** @phpstan-ignore-next-line */
+        /* @phpstan-ignore-next-line */
         self::assertTrue(true);
     }
 
     /**
      * Asserts that a class constant usage exists.
      *
-     * @param MemberDependencyGraph $graph The graph to inspect.
-     * @param string $owner The expected targeted owner.
-     * @param string $name The expected targeted class constant name.
-     *
-     * @return void
+     * @param MemberDependencyGraph $graph the graph to inspect
+     * @param string                $owner the expected targeted owner
+     * @param string                $name  the expected targeted class constant name
      */
     protected function assertClassConstantUsageExists(
         MemberDependencyGraph $graph,
@@ -194,12 +176,10 @@ abstract class AbstractMemberGraphStabilityTestCase extends TestCase
     /**
      * Asserts that a named parameter usage exists.
      *
-     * @param MemberDependencyGraph $graph The graph to inspect.
-     * @param string $owner The targeted owner.
-     * @param string $functionLikeName The targeted method or function name.
-     * @param string $parameterName The targeted parameter name.
-     *
-     * @return void
+     * @param MemberDependencyGraph $graph            the graph to inspect
+     * @param string                $owner            the targeted owner
+     * @param string                $functionLikeName the targeted method or function name
+     * @param string                $parameterName    the targeted parameter name
      */
     protected function assertNamedParameterUsageExists(
         MemberDependencyGraph $graph,
@@ -211,7 +191,7 @@ abstract class AbstractMemberGraphStabilityTestCase extends TestCase
 
         foreach ($graph->parameterUsages->getByTarget($target) as $usage) {
             if (ParameterUsageType::NAMED_ARGUMENT === $usage->type) {
-                /** @phpstan-ignore-next-line */
+                /* @phpstan-ignore-next-line */
                 self::assertTrue(true);
 
                 return;
@@ -224,7 +204,7 @@ abstract class AbstractMemberGraphStabilityTestCase extends TestCase
     /**
      * Returns sorted declaration hashes.
      *
-     * @param MemberDependencyGraph $graph The graph to inspect.
+     * @param MemberDependencyGraph $graph the graph to inspect
      *
      * @return list<string>
      */
@@ -243,7 +223,7 @@ abstract class AbstractMemberGraphStabilityTestCase extends TestCase
     /**
      * Returns sorted member usage signatures.
      *
-     * @param MemberDependencyGraph $graph The graph to inspect.
+     * @param MemberDependencyGraph $graph the graph to inspect
      *
      * @return list<string>
      */
@@ -269,9 +249,7 @@ abstract class AbstractMemberGraphStabilityTestCase extends TestCase
     /**
      * Removes a directory recursively.
      *
-     * @param string $directory The directory to remove.
-     *
-     * @return void
+     * @param string $directory the directory to remove
      */
     private function removeDirectory(string $directory): void
     {
@@ -290,7 +268,7 @@ abstract class AbstractMemberGraphStabilityTestCase extends TestCase
                 continue;
             }
 
-            $path = $directory . DIRECTORY_SEPARATOR . $item;
+            $path = $directory.DIRECTORY_SEPARATOR.$item;
 
             if (is_dir($path)) {
                 $this->removeDirectory($path);
@@ -307,10 +285,10 @@ abstract class AbstractMemberGraphStabilityTestCase extends TestCase
     /**
      * Finds member usages by target identity.
      *
-     * @param MemberDependencyGraph $graph The graph to inspect.
-     * @param string $owner The targeted owner.
-     * @param string $name The targeted member name.
-     * @param MemberType|null $memberType The optional targeted member type.
+     * @param MemberDependencyGraph $graph      the graph to inspect
+     * @param string                $owner      the targeted owner
+     * @param string                $name       the targeted member name
+     * @param MemberType|null       $memberType the optional targeted member type
      *
      * @return list<MemberUsage>
      */

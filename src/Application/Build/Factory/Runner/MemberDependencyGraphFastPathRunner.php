@@ -26,8 +26,8 @@ final readonly class MemberDependencyGraphFastPathRunner
     /**
      * Constructor.
      *
-     * @param MemberGraphFragmentMerger $fragmentMerger The graph fragment merger.
-     * @param MemberDependencyGraphFactoryBuildReportFactory $buildReportFactory The build report factory.
+     * @param MemberGraphFragmentMerger                      $fragmentMerger     the graph fragment merger
+     * @param MemberDependencyGraphFactoryBuildReportFactory $buildReportFactory the build report factory
      */
     public function __construct(
         private MemberGraphFragmentMerger $fragmentMerger = new MemberGraphFragmentMerger(),
@@ -38,23 +38,21 @@ final readonly class MemberDependencyGraphFastPathRunner
     /**
      * Builds a result from cached graph fragments without parsing source files.
      *
-     * @param list<string> $files The scanned physical files.
-     * @param MemberGraphCache $cache The member graph cache.
-     * @param MemberGraphCachePlan $cachePlan The selected cache plan.
-     * @param MemberDependencyGraphFactoryRebuildPlan $rebuildPlan The selected rebuild plan.
-     * @param MemberGraphIssueCollection $dependencyGraphIssues The dependency graph issues.
-     * @param MemberDependencyGraphPartialRebuildInput|null $partialRebuildInput The dry-run partial rebuild input, when available.
-     * @param MemberDependencyGraphPartialRebuildWorkingSet|null $partialRebuildWorkingSet The dry-run working set, when available.
-     *
-     * @return MemberDependencyGraphBuild
+     * @param list<string>                                       $files                    the scanned physical files
+     * @param MemberGraphCache                                   $cache                    the member graph cache
+     * @param MemberGraphCachePlan                               $cachePlan                the selected cache plan
+     * @param MemberDependencyGraphFactoryRebuildPlan            $rebuildPlan              the selected rebuild plan
+     * @param MemberGraphIssueCollection                         $dependencyGraphIssues    the dependency graph issues
+     * @param MemberDependencyGraphPartialRebuildInput|null      $partialRebuildInput      the dry-run partial rebuild input, when available
+     * @param MemberDependencyGraphPartialRebuildWorkingSet|null $partialRebuildWorkingSet the dry-run working set, when available
      */
     public function run(
-        array                                          $files,
-        MemberGraphCache                               $cache,
-        MemberGraphCachePlan                           $cachePlan,
-        MemberDependencyGraphFactoryRebuildPlan        $rebuildPlan,
-        MemberGraphIssueCollection                     $dependencyGraphIssues,
-        ?MemberDependencyGraphPartialRebuildInput      $partialRebuildInput,
+        array $files,
+        MemberGraphCache $cache,
+        MemberGraphCachePlan $cachePlan,
+        MemberDependencyGraphFactoryRebuildPlan $rebuildPlan,
+        MemberGraphIssueCollection $dependencyGraphIssues,
+        ?MemberDependencyGraphPartialRebuildInput $partialRebuildInput,
         ?MemberDependencyGraphPartialRebuildWorkingSet $partialRebuildWorkingSet,
     ): MemberDependencyGraphBuild {
         $virtualFileReferences = $cache->virtualFileReferences();

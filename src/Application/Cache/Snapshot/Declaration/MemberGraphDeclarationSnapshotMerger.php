@@ -17,11 +17,9 @@ final readonly class MemberGraphDeclarationSnapshotMerger
      * Cached declarations belonging to rebuilt files are removed before loaded declarations are added, so deleted
      * members do not survive a partial rebuild.
      *
-     * @param MemberGraphDeclarationSnapshot $cachedSnapshot The cached declaration snapshot.
-     * @param MemberGraphDeclarationSnapshot $loadedSnapshot The declaration snapshot extracted from rebuilt files.
-     * @param MemberGraphCacheFileCollection $filesToBuild The physical files rebuilt from source.
-     *
-     * @return MemberGraphDeclarationSnapshot
+     * @param MemberGraphDeclarationSnapshot $cachedSnapshot the cached declaration snapshot
+     * @param MemberGraphDeclarationSnapshot $loadedSnapshot the declaration snapshot extracted from rebuilt files
+     * @param MemberGraphCacheFileCollection $filesToBuild   the physical files rebuilt from source
      */
     public function merge(
         MemberGraphDeclarationSnapshot $cachedSnapshot,
@@ -45,12 +43,10 @@ final readonly class MemberGraphDeclarationSnapshotMerger
     /**
      * Merges owner declarations.
      *
-     * @param MemberGraphDeclarationSnapshot $merged The target snapshot.
-     * @param MemberGraphDeclarationSnapshot $cachedSnapshot The cached snapshot.
-     * @param MemberGraphDeclarationSnapshot $loadedSnapshot The loaded snapshot.
-     * @param MemberGraphCacheFileCollection $filesToBuild The physical files rebuilt from source.
-     *
-     * @return void
+     * @param MemberGraphDeclarationSnapshot $merged         the target snapshot
+     * @param MemberGraphDeclarationSnapshot $cachedSnapshot the cached snapshot
+     * @param MemberGraphDeclarationSnapshot $loadedSnapshot the loaded snapshot
+     * @param MemberGraphCacheFileCollection $filesToBuild   the physical files rebuilt from source
      */
     private function mergeOwners(
         MemberGraphDeclarationSnapshot $merged,
@@ -74,12 +70,10 @@ final readonly class MemberGraphDeclarationSnapshotMerger
     /**
      * Merges method declarations.
      *
-     * @param MemberGraphDeclarationSnapshot $merged The target snapshot.
-     * @param MemberGraphDeclarationSnapshot $cachedSnapshot The cached snapshot.
-     * @param MemberGraphDeclarationSnapshot $loadedSnapshot The loaded snapshot.
-     * @param MemberGraphCacheFileCollection $filesToBuild The physical files rebuilt from source.
-     *
-     * @return void
+     * @param MemberGraphDeclarationSnapshot $merged         the target snapshot
+     * @param MemberGraphDeclarationSnapshot $cachedSnapshot the cached snapshot
+     * @param MemberGraphDeclarationSnapshot $loadedSnapshot the loaded snapshot
+     * @param MemberGraphCacheFileCollection $filesToBuild   the physical files rebuilt from source
      */
     private function mergeMethods(
         MemberGraphDeclarationSnapshot $merged,
@@ -103,12 +97,10 @@ final readonly class MemberGraphDeclarationSnapshotMerger
     /**
      * Merges function declarations.
      *
-     * @param MemberGraphDeclarationSnapshot $merged The target snapshot.
-     * @param MemberGraphDeclarationSnapshot $cachedSnapshot The cached snapshot.
-     * @param MemberGraphDeclarationSnapshot $loadedSnapshot The loaded snapshot.
-     * @param MemberGraphCacheFileCollection $filesToBuild The physical files rebuilt from source.
-     *
-     * @return void
+     * @param MemberGraphDeclarationSnapshot $merged         the target snapshot
+     * @param MemberGraphDeclarationSnapshot $cachedSnapshot the cached snapshot
+     * @param MemberGraphDeclarationSnapshot $loadedSnapshot the loaded snapshot
+     * @param MemberGraphCacheFileCollection $filesToBuild   the physical files rebuilt from source
      */
     private function mergeFunctions(
         MemberGraphDeclarationSnapshot $merged,
@@ -132,12 +124,10 @@ final readonly class MemberGraphDeclarationSnapshotMerger
     /**
      * Merges parameter declarations.
      *
-     * @param MemberGraphDeclarationSnapshot $merged The target snapshot.
-     * @param MemberGraphDeclarationSnapshot $cachedSnapshot The cached snapshot.
-     * @param MemberGraphDeclarationSnapshot $loadedSnapshot The loaded snapshot.
-     * @param array<string, true> $excludedScopes The callable scopes removed from cache.
-     *
-     * @return void
+     * @param MemberGraphDeclarationSnapshot $merged         the target snapshot
+     * @param MemberGraphDeclarationSnapshot $cachedSnapshot the cached snapshot
+     * @param MemberGraphDeclarationSnapshot $loadedSnapshot the loaded snapshot
+     * @param array<string, true>            $excludedScopes the callable scopes removed from cache
      */
     private function mergeParameters(
         MemberGraphDeclarationSnapshot $merged,
@@ -161,12 +151,10 @@ final readonly class MemberGraphDeclarationSnapshotMerger
     /**
      * Merges property declarations.
      *
-     * @param MemberGraphDeclarationSnapshot $merged The target snapshot.
-     * @param MemberGraphDeclarationSnapshot $cachedSnapshot The cached snapshot.
-     * @param MemberGraphDeclarationSnapshot $loadedSnapshot The loaded snapshot.
-     * @param MemberGraphCacheFileCollection $filesToBuild The physical files rebuilt from source.
-     *
-     * @return void
+     * @param MemberGraphDeclarationSnapshot $merged         the target snapshot
+     * @param MemberGraphDeclarationSnapshot $cachedSnapshot the cached snapshot
+     * @param MemberGraphDeclarationSnapshot $loadedSnapshot the loaded snapshot
+     * @param MemberGraphCacheFileCollection $filesToBuild   the physical files rebuilt from source
      */
     private function mergeProperties(
         MemberGraphDeclarationSnapshot $merged,
@@ -190,12 +178,10 @@ final readonly class MemberGraphDeclarationSnapshotMerger
     /**
      * Merges class constant declarations.
      *
-     * @param MemberGraphDeclarationSnapshot $merged The target snapshot.
-     * @param MemberGraphDeclarationSnapshot $cachedSnapshot The cached snapshot.
-     * @param MemberGraphDeclarationSnapshot $loadedSnapshot The loaded snapshot.
-     * @param MemberGraphCacheFileCollection $filesToBuild The physical files rebuilt from source.
-     *
-     * @return void
+     * @param MemberGraphDeclarationSnapshot $merged         the target snapshot
+     * @param MemberGraphDeclarationSnapshot $cachedSnapshot the cached snapshot
+     * @param MemberGraphDeclarationSnapshot $loadedSnapshot the loaded snapshot
+     * @param MemberGraphCacheFileCollection $filesToBuild   the physical files rebuilt from source
      */
     private function mergeClassConstants(
         MemberGraphDeclarationSnapshot $merged,
@@ -219,12 +205,10 @@ final readonly class MemberGraphDeclarationSnapshotMerger
     /**
      * Merges template declarations.
      *
-     * @param MemberGraphDeclarationSnapshot $merged The target snapshot.
-     * @param MemberGraphDeclarationSnapshot $cachedSnapshot The cached snapshot.
-     * @param MemberGraphDeclarationSnapshot $loadedSnapshot The loaded snapshot.
-     * @param array<string, true> $excludedScopes The scopes removed from cache.
-     *
-     * @return void
+     * @param MemberGraphDeclarationSnapshot $merged         the target snapshot
+     * @param MemberGraphDeclarationSnapshot $cachedSnapshot the cached snapshot
+     * @param MemberGraphDeclarationSnapshot $loadedSnapshot the loaded snapshot
+     * @param array<string, true>            $excludedScopes the scopes removed from cache
      */
     private function mergeTemplates(
         MemberGraphDeclarationSnapshot $merged,
@@ -248,8 +232,8 @@ final readonly class MemberGraphDeclarationSnapshotMerger
     /**
      * Builds the cached scopes that must be removed before loaded declarations are added.
      *
-     * @param MemberGraphDeclarationSnapshot $cachedSnapshot The cached declaration snapshot.
-     * @param MemberGraphCacheFileCollection $filesToBuild The physical files rebuilt from source.
+     * @param MemberGraphDeclarationSnapshot $cachedSnapshot the cached declaration snapshot
+     * @param MemberGraphCacheFileCollection $filesToBuild   the physical files rebuilt from source
      *
      * @return array<string, true>
      */

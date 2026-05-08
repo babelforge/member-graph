@@ -4,16 +4,12 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Application\Cache\Snapshot\Declaration;
 
-use Countable;
-use IteratorAggregate;
-use Traversable;
-
 /**
  * Stores owner declaration snapshots indexed by FQCN.
  *
- * @implements IteratorAggregate<string, OwnerDeclarationSnapshot>
+ * @implements \IteratorAggregate<string, OwnerDeclarationSnapshot>
  */
-final class OwnerDeclarationSnapshotCollection implements Countable, IteratorAggregate
+final class OwnerDeclarationSnapshotCollection implements \Countable, \IteratorAggregate
 {
     /**
      * @var array<string, OwnerDeclarationSnapshot>
@@ -23,9 +19,7 @@ final class OwnerDeclarationSnapshotCollection implements Countable, IteratorAgg
     /**
      * Adds one owner declaration snapshot.
      *
-     * @param OwnerDeclarationSnapshot $snapshot The snapshot to add.
-     *
-     * @return void
+     * @param OwnerDeclarationSnapshot $snapshot the snapshot to add
      */
     public function add(OwnerDeclarationSnapshot $snapshot): void
     {
@@ -35,9 +29,7 @@ final class OwnerDeclarationSnapshotCollection implements Countable, IteratorAgg
     /**
      * Returns one owner declaration snapshot.
      *
-     * @param string $fqcn The owner FQCN.
-     *
-     * @return OwnerDeclarationSnapshot|null
+     * @param string $fqcn the owner FQCN
      */
     public function get(string $fqcn): ?OwnerDeclarationSnapshot
     {
@@ -57,17 +49,15 @@ final class OwnerDeclarationSnapshotCollection implements Countable, IteratorAgg
     /**
      * Returns an iterator over owner declaration snapshots.
      *
-     * @return Traversable<string, OwnerDeclarationSnapshot>
+     * @return \Traversable<string, OwnerDeclarationSnapshot>
      */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         yield from $this->byFqcn;
     }
 
     /**
      * Counts owner declaration snapshots.
-     *
-     * @return int
      */
     public function count(): int
     {

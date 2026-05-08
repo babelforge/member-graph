@@ -50,8 +50,8 @@ final readonly class MemberGraphSourceNodeLocator
     /**
      * Constructor.
      *
-     * @param MemberGraphImpactService $impactService The impact service used to restrict source inspection.
-     * @param bool $allowFallbackMatching Whether name-based fallback matching is allowed when graph facts do not carry source-node identifiers. Use this only for legacy graphs or focused tests built manually without `SourceNodeId`; production source lookup should keep it disabled so returned nodes are exact.
+     * @param MemberGraphImpactService $impactService         the impact service used to restrict source inspection
+     * @param bool                     $allowFallbackMatching Whether name-based fallback matching is allowed when graph facts do not carry source-node identifiers. Use this only for legacy graphs or focused tests built manually without `SourceNodeId`; production source lookup should keep it disabled so returned nodes are exact.
      */
     public function __construct(
         private MemberGraphImpactService $impactService,
@@ -62,10 +62,8 @@ final readonly class MemberGraphSourceNodeLocator
     /**
      * Creates a source node locator from a factory build result.
      *
-     * @param MemberDependencyGraphBuild $build The member dependency graph build result.
-     * @param bool $allowFallbackMatching Whether name-based fallback matching is allowed when graph facts do not carry source-node identifiers. Use this only for legacy graphs or focused tests built manually without `SourceNodeId`; factory builds should normally keep it disabled so returned nodes are exact.
-     *
-     * @return self
+     * @param MemberDependencyGraphBuild $build                 the member dependency graph build result
+     * @param bool                       $allowFallbackMatching Whether name-based fallback matching is allowed when graph facts do not carry source-node identifiers. Use this only for legacy graphs or focused tests built manually without `SourceNodeId`; factory builds should normally keep it disabled so returned nodes are exact.
      */
     public static function fromBuild(MemberDependencyGraphBuild $build, bool $allowFallbackMatching = false): self
     {
@@ -75,16 +73,14 @@ final readonly class MemberGraphSourceNodeLocator
     /**
      * Creates a source node locator from a graph and its virtual files.
      *
-     * @param MemberDependencyGraph $graph The member dependency graph.
-     * @param VirtualPhpSourceFileCollection $virtualFiles The virtual files to inspect.
-     * @param bool $allowFallbackMatching Whether name-based fallback matching is allowed when graph facts do not carry source-node identifiers. Use this only for legacy graphs or focused tests built manually without `SourceNodeId`; production source lookup should keep it disabled so returned nodes are exact.
-     *
-     * @return self
+     * @param MemberDependencyGraph          $graph                 the member dependency graph
+     * @param VirtualPhpSourceFileCollection $virtualFiles          the virtual files to inspect
+     * @param bool                           $allowFallbackMatching Whether name-based fallback matching is allowed when graph facts do not carry source-node identifiers. Use this only for legacy graphs or focused tests built manually without `SourceNodeId`; production source lookup should keep it disabled so returned nodes are exact.
      */
     public static function fromGraphAndVirtualFiles(
-        MemberDependencyGraph          $graph,
+        MemberDependencyGraph $graph,
         VirtualPhpSourceFileCollection $virtualFiles,
-        bool                           $allowFallbackMatching = false,
+        bool $allowFallbackMatching = false,
     ): self {
         return new self(MemberGraphImpactService::fromGraphAndVirtualFiles($graph, $virtualFiles), $allowFallbackMatching);
     }
@@ -92,10 +88,8 @@ final readonly class MemberGraphSourceNodeLocator
     /**
      * Locates source nodes for one method target.
      *
-     * @param string $owner The method owner FQCN.
-     * @param string $name The method name.
-     *
-     * @return VirtualPhpSourceFileNodeMatchCollection
+     * @param string $owner the method owner FQCN
+     * @param string $name  the method name
      */
     public function method(string $owner, string $name): VirtualPhpSourceFileNodeMatchCollection
     {
@@ -105,10 +99,8 @@ final readonly class MemberGraphSourceNodeLocator
     /**
      * Locates source nodes for one property target.
      *
-     * @param string $owner The property owner FQCN.
-     * @param string $name The property name.
-     *
-     * @return VirtualPhpSourceFileNodeMatchCollection
+     * @param string $owner the property owner FQCN
+     * @param string $name  the property name
      */
     public function property(string $owner, string $name): VirtualPhpSourceFileNodeMatchCollection
     {
@@ -118,10 +110,8 @@ final readonly class MemberGraphSourceNodeLocator
     /**
      * Locates source nodes for one class-constant target.
      *
-     * @param string $owner The class-constant owner FQCN.
-     * @param string $name The class-constant name.
-     *
-     * @return VirtualPhpSourceFileNodeMatchCollection
+     * @param string $owner the class-constant owner FQCN
+     * @param string $name  the class-constant name
      */
     public function classConstant(string $owner, string $name): VirtualPhpSourceFileNodeMatchCollection
     {
@@ -131,9 +121,7 @@ final readonly class MemberGraphSourceNodeLocator
     /**
      * Locates source nodes for one function target.
      *
-     * @param string $name The fully-qualified function name.
-     *
-     * @return VirtualPhpSourceFileNodeMatchCollection
+     * @param string $name the fully-qualified function name
      */
     public function function(string $name): VirtualPhpSourceFileNodeMatchCollection
     {
@@ -143,11 +131,9 @@ final readonly class MemberGraphSourceNodeLocator
     /**
      * Locates source nodes for one parameter target.
      *
-     * @param string $owner The owner FQCN, or an empty string for functions.
-     * @param string $functionLikeName The method name or fully-qualified function name.
-     * @param string $parameterName The parameter name without "$".
-     *
-     * @return VirtualPhpSourceFileNodeMatchCollection
+     * @param string $owner            the owner FQCN, or an empty string for functions
+     * @param string $functionLikeName the method name or fully-qualified function name
+     * @param string $parameterName    the parameter name without "$"
      */
     public function parameter(
         string $owner,
@@ -160,9 +146,7 @@ final readonly class MemberGraphSourceNodeLocator
     /**
      * Locates source nodes for one impact target.
      *
-     * @param MemberImpactTarget $target The impact target.
-     *
-     * @return VirtualPhpSourceFileNodeMatchCollection
+     * @param MemberImpactTarget $target the impact target
      */
     public function target(MemberImpactTarget $target): VirtualPhpSourceFileNodeMatchCollection
     {
@@ -181,10 +165,8 @@ final readonly class MemberGraphSourceNodeLocator
     /**
      * Returns virtual files that should be inspected for one target impact.
      *
-     * @param MemberImpactTarget $target The impact target.
-     * @param MemberGraphImpact $impact The precomputed graph impact.
-     *
-     * @return VirtualPhpSourceFileCollection
+     * @param MemberImpactTarget $target the impact target
+     * @param MemberGraphImpact  $impact the precomputed graph impact
      */
     private function virtualFilesForImpact(
         MemberImpactTarget $target,
@@ -210,9 +192,7 @@ final readonly class MemberGraphSourceNodeLocator
     /**
      * Returns declaration virtual files for a parameter target's function-like owner.
      *
-     * @param ParameterId $parameterId The parameter identifier.
-     *
-     * @return VirtualPhpSourceFileCollection
+     * @param ParameterId $parameterId the parameter identifier
      */
     private function functionLikeDeclarationVirtualFiles(ParameterId $parameterId): VirtualPhpSourceFileCollection
     {
@@ -226,14 +206,12 @@ final readonly class MemberGraphSourceNodeLocator
     /**
      * Adds one virtual file if the collection does not already contain it.
      *
-     * @param VirtualPhpSourceFileCollection $virtualFiles The collection to update.
-     * @param VirtualPhpSourceFile $virtualFile The virtual file to add.
-     *
-     * @return void
+     * @param VirtualPhpSourceFileCollection $virtualFiles the collection to update
+     * @param VirtualPhpSourceFile           $virtualFile  the virtual file to add
      */
     private function addVirtualFileOnce(
         VirtualPhpSourceFileCollection $virtualFiles,
-        VirtualPhpSourceFile           $virtualFile,
+        VirtualPhpSourceFile $virtualFile,
     ): void {
         if (!$virtualFiles->has($virtualFile->virtualFilePath)) {
             $virtualFiles->add($virtualFile);
@@ -243,24 +221,22 @@ final readonly class MemberGraphSourceNodeLocator
     /**
      * Inspects one node and its descendants.
      *
-     * @param Node $node The node to inspect.
-     * @param VirtualPhpSourceFile $virtualFile The virtual file containing the node.
-     * @param MemberImpactTarget $target The target to locate.
-     * @param MemberGraphImpact $impact The precomputed graph impact.
-     * @param VirtualPhpSourceFileNodeMatchCollection $matches The output match collection.
-     * @param string $currentOwner The current class-like owner FQCN.
-     * @param string $currentFunctionLike The current function-like name.
-     *
-     * @return void
+     * @param Node                                    $node                the node to inspect
+     * @param VirtualPhpSourceFile                    $virtualFile         the virtual file containing the node
+     * @param MemberImpactTarget                      $target              the target to locate
+     * @param MemberGraphImpact                       $impact              the precomputed graph impact
+     * @param VirtualPhpSourceFileNodeMatchCollection $matches             the output match collection
+     * @param string                                  $currentOwner        the current class-like owner FQCN
+     * @param string                                  $currentFunctionLike the current function-like name
      */
     private function inspectNode(
-        Node                                    $node,
-        VirtualPhpSourceFile                    $virtualFile,
-        MemberImpactTarget                      $target,
-        MemberGraphImpact                       $impact,
+        Node $node,
+        VirtualPhpSourceFile $virtualFile,
+        MemberImpactTarget $target,
+        MemberGraphImpact $impact,
         VirtualPhpSourceFileNodeMatchCollection $matches,
-        string                                  $currentOwner = '',
-        string                                  $currentFunctionLike = '',
+        string $currentOwner = '',
+        string $currentFunctionLike = '',
     ): void {
         $nextOwner = $this->nextOwner($node, $currentOwner);
         $nextFunctionLike = $this->nextFunctionLike($node, $nextOwner, $currentFunctionLike);
@@ -290,10 +266,8 @@ final readonly class MemberGraphSourceNodeLocator
     /**
      * Returns the current owner after entering a node.
      *
-     * @param Node $node The node being entered.
-     * @param string $currentOwner The current owner before entering the node.
-     *
-     * @return string
+     * @param Node   $node         the node being entered
+     * @param string $currentOwner the current owner before entering the node
      */
     private function nextOwner(Node $node, string $currentOwner): string
     {
@@ -311,11 +285,9 @@ final readonly class MemberGraphSourceNodeLocator
     /**
      * Returns the current function-like name after entering a node.
      *
-     * @param Node $node The node being entered.
-     * @param string $currentOwner The current owner after entering the node.
-     * @param string $currentFunctionLike The current function-like name before entering the node.
-     *
-     * @return string
+     * @param Node   $node                the node being entered
+     * @param string $currentOwner        the current owner after entering the node
+     * @param string $currentFunctionLike the current function-like name before entering the node
      */
     private function nextFunctionLike(Node $node, string $currentOwner, string $currentFunctionLike): string
     {
@@ -333,24 +305,22 @@ final readonly class MemberGraphSourceNodeLocator
     /**
      * Matches one AST node against the target.
      *
-     * @param Node $node The node to match.
-     * @param VirtualPhpSourceFile $virtualFile The virtual file containing the node.
-     * @param MemberImpactTarget $target The target to locate.
-     * @param MemberGraphImpact $impact The precomputed graph impact.
-     * @param VirtualPhpSourceFileNodeMatchCollection $matches The output match collection.
-     * @param string $currentOwner The current class-like owner FQCN.
-     * @param string $currentFunctionLike The current function-like name.
-     *
-     * @return void
+     * @param Node                                    $node                the node to match
+     * @param VirtualPhpSourceFile                    $virtualFile         the virtual file containing the node
+     * @param MemberImpactTarget                      $target              the target to locate
+     * @param MemberGraphImpact                       $impact              the precomputed graph impact
+     * @param VirtualPhpSourceFileNodeMatchCollection $matches             the output match collection
+     * @param string                                  $currentOwner        the current class-like owner FQCN
+     * @param string                                  $currentFunctionLike the current function-like name
      */
     private function matchNode(
-        Node                                    $node,
-        VirtualPhpSourceFile                    $virtualFile,
-        MemberImpactTarget                      $target,
-        MemberGraphImpact                       $impact,
+        Node $node,
+        VirtualPhpSourceFile $virtualFile,
+        MemberImpactTarget $target,
+        MemberGraphImpact $impact,
         VirtualPhpSourceFileNodeMatchCollection $matches,
-        string                                  $currentOwner,
-        string                                  $currentFunctionLike,
+        string $currentOwner,
+        string $currentFunctionLike,
     ): void {
         if ($this->matchSourceNodeId($node, $virtualFile, $target, $impact, $matches)) {
             return;
@@ -384,19 +354,17 @@ final readonly class MemberGraphSourceNodeLocator
     /**
      * Matches one node by source-node identifier when graph facts carry one.
      *
-     * @param Node $node The node to match.
-     * @param VirtualPhpSourceFile $virtualFile The virtual file containing the node.
-     * @param MemberImpactTarget $target The original impact target.
-     * @param MemberGraphImpact $impact The precomputed graph impact.
-     * @param VirtualPhpSourceFileNodeMatchCollection $matches The output match collection.
-     *
-     * @return bool
+     * @param Node                                    $node        the node to match
+     * @param VirtualPhpSourceFile                    $virtualFile the virtual file containing the node
+     * @param MemberImpactTarget                      $target      the original impact target
+     * @param MemberGraphImpact                       $impact      the precomputed graph impact
+     * @param VirtualPhpSourceFileNodeMatchCollection $matches     the output match collection
      */
     private function matchSourceNodeId(
-        Node                                    $node,
-        VirtualPhpSourceFile                    $virtualFile,
-        MemberImpactTarget                      $target,
-        MemberGraphImpact                       $impact,
+        Node $node,
+        VirtualPhpSourceFile $virtualFile,
+        MemberImpactTarget $target,
+        MemberGraphImpact $impact,
         VirtualPhpSourceFileNodeMatchCollection $matches,
     ): bool {
         $sourceNodeId = SourceNodeId::fromNode($virtualFile->virtualFilePath, $node);
@@ -444,10 +412,8 @@ final readonly class MemberGraphSourceNodeLocator
     /**
      * Indicates whether one source node id matches an impacted declaration.
      *
-     * @param SourceNodeId $sourceNodeId The source node identifier.
-     * @param MemberGraphImpact $impact The graph impact.
-     *
-     * @return bool
+     * @param SourceNodeId      $sourceNodeId the source node identifier
+     * @param MemberGraphImpact $impact       the graph impact
      */
     private function matchesDeclarationSourceNodeId(SourceNodeId $sourceNodeId, MemberGraphImpact $impact): bool
     {
@@ -463,10 +429,8 @@ final readonly class MemberGraphSourceNodeLocator
     /**
      * Indicates whether one source node id matches an impacted member usage.
      *
-     * @param SourceNodeId $sourceNodeId The source node identifier.
-     * @param MemberGraphImpact $impact The graph impact.
-     *
-     * @return bool
+     * @param SourceNodeId      $sourceNodeId the source node identifier
+     * @param MemberGraphImpact $impact       the graph impact
      */
     private function matchesMemberUsageSourceNodeId(SourceNodeId $sourceNodeId, MemberGraphImpact $impact): bool
     {
@@ -484,10 +448,8 @@ final readonly class MemberGraphSourceNodeLocator
     /**
      * Indicates whether one source node id matches an impacted parameter usage.
      *
-     * @param SourceNodeId $sourceNodeId The source node identifier.
-     * @param MemberGraphImpact $impact The graph impact.
-     *
-     * @return bool
+     * @param SourceNodeId      $sourceNodeId the source node identifier
+     * @param MemberGraphImpact $impact       the graph impact
      */
     private function matchesParameterUsageSourceNodeId(SourceNodeId $sourceNodeId, MemberGraphImpact $impact): bool
     {
@@ -505,24 +467,22 @@ final readonly class MemberGraphSourceNodeLocator
     /**
      * Matches one node against a member target.
      *
-     * @param Node $node The node to match.
-     * @param VirtualPhpSourceFile $virtualFile The virtual file containing the node.
-     * @param MemberImpactTarget $target The original impact target.
-     * @param MemberGraphImpact $impact The precomputed graph impact.
-     * @param MemberId $memberId The member identifier.
-     * @param VirtualPhpSourceFileNodeMatchCollection $matches The output match collection.
-     * @param string $currentOwner The current class-like owner FQCN.
-     *
-     * @return void
+     * @param Node                                    $node         the node to match
+     * @param VirtualPhpSourceFile                    $virtualFile  the virtual file containing the node
+     * @param MemberImpactTarget                      $target       the original impact target
+     * @param MemberGraphImpact                       $impact       the precomputed graph impact
+     * @param MemberId                                $memberId     the member identifier
+     * @param VirtualPhpSourceFileNodeMatchCollection $matches      the output match collection
+     * @param string                                  $currentOwner the current class-like owner FQCN
      */
     private function matchMemberNode(
-        Node                                    $node,
-        VirtualPhpSourceFile                    $virtualFile,
-        MemberImpactTarget                      $target,
-        MemberGraphImpact                       $impact,
-        MemberId                                $memberId,
+        Node $node,
+        VirtualPhpSourceFile $virtualFile,
+        MemberImpactTarget $target,
+        MemberGraphImpact $impact,
+        MemberId $memberId,
         VirtualPhpSourceFileNodeMatchCollection $matches,
-        string                                  $currentOwner,
+        string $currentOwner,
     ): void {
         if (
             !$this->hasDeclarationSourceNodeIds($impact)
@@ -549,24 +509,22 @@ final readonly class MemberGraphSourceNodeLocator
     /**
      * Matches one parameter declaration node against a parameter target.
      *
-     * @param Node $node The node to match.
-     * @param VirtualPhpSourceFile $virtualFile The virtual file containing the node.
-     * @param MemberImpactTarget $target The original impact target.
-     * @param ParameterId $parameterId The parameter identifier.
-     * @param VirtualPhpSourceFileNodeMatchCollection $matches The output match collection.
-     * @param string $currentOwner The current class-like owner FQCN.
-     * @param string $currentFunctionLike The current function-like name.
-     *
-     * @return bool
+     * @param Node                                    $node                the node to match
+     * @param VirtualPhpSourceFile                    $virtualFile         the virtual file containing the node
+     * @param MemberImpactTarget                      $target              the original impact target
+     * @param ParameterId                             $parameterId         the parameter identifier
+     * @param VirtualPhpSourceFileNodeMatchCollection $matches             the output match collection
+     * @param string                                  $currentOwner        the current class-like owner FQCN
+     * @param string                                  $currentFunctionLike the current function-like name
      */
     private function matchParameterDeclarationNode(
-        Node                                    $node,
-        VirtualPhpSourceFile                    $virtualFile,
-        MemberImpactTarget                      $target,
-        ParameterId                             $parameterId,
+        Node $node,
+        VirtualPhpSourceFile $virtualFile,
+        MemberImpactTarget $target,
+        ParameterId $parameterId,
         VirtualPhpSourceFileNodeMatchCollection $matches,
-        string                                  $currentOwner,
-        string                                  $currentFunctionLike,
+        string $currentOwner,
+        string $currentFunctionLike,
     ): bool {
         if (!$node instanceof Param || !$this->isParameterDeclaration($node, $parameterId, $currentOwner, $currentFunctionLike)) {
             return false;
@@ -585,21 +543,19 @@ final readonly class MemberGraphSourceNodeLocator
     /**
      * Matches one parameter usage node against a parameter target through fallback matching.
      *
-     * @param Node $node The node to match.
-     * @param VirtualPhpSourceFile $virtualFile The virtual file containing the node.
-     * @param MemberImpactTarget $target The original impact target.
-     * @param MemberGraphImpact $impact The precomputed graph impact.
-     * @param ParameterId $parameterId The parameter identifier.
-     * @param VirtualPhpSourceFileNodeMatchCollection $matches The output match collection.
-     *
-     * @return void
+     * @param Node                                    $node        the node to match
+     * @param VirtualPhpSourceFile                    $virtualFile the virtual file containing the node
+     * @param MemberImpactTarget                      $target      the original impact target
+     * @param MemberGraphImpact                       $impact      the precomputed graph impact
+     * @param ParameterId                             $parameterId the parameter identifier
+     * @param VirtualPhpSourceFileNodeMatchCollection $matches     the output match collection
      */
     private function matchParameterUsageNode(
-        Node                                    $node,
-        VirtualPhpSourceFile                    $virtualFile,
-        MemberImpactTarget                      $target,
-        MemberGraphImpact                       $impact,
-        ParameterId                             $parameterId,
+        Node $node,
+        VirtualPhpSourceFile $virtualFile,
+        MemberImpactTarget $target,
+        MemberGraphImpact $impact,
+        ParameterId $parameterId,
         VirtualPhpSourceFileNodeMatchCollection $matches,
     ): void {
         if (
@@ -620,9 +576,7 @@ final readonly class MemberGraphSourceNodeLocator
     /**
      * Indicates whether impacted declarations carry source-node identifiers.
      *
-     * @param MemberGraphImpact $impact The graph impact.
-     *
-     * @return bool
+     * @param MemberGraphImpact $impact the graph impact
      */
     private function hasDeclarationSourceNodeIds(MemberGraphImpact $impact): bool
     {
@@ -638,9 +592,7 @@ final readonly class MemberGraphSourceNodeLocator
     /**
      * Indicates whether impacted member usages carry source-node identifiers.
      *
-     * @param MemberGraphImpact $impact The graph impact.
-     *
-     * @return bool
+     * @param MemberGraphImpact $impact the graph impact
      */
     private function hasMemberUsageSourceNodeIds(MemberGraphImpact $impact): bool
     {
@@ -658,9 +610,7 @@ final readonly class MemberGraphSourceNodeLocator
     /**
      * Indicates whether impacted parameter usages carry source-node identifiers.
      *
-     * @param MemberGraphImpact $impact The graph impact.
-     *
-     * @return bool
+     * @param MemberGraphImpact $impact the graph impact
      */
     private function hasParameterUsageSourceNodeIds(MemberGraphImpact $impact): bool
     {
@@ -678,11 +628,9 @@ final readonly class MemberGraphSourceNodeLocator
     /**
      * Indicates whether a node declares the target member.
      *
-     * @param Node $node The node to inspect.
-     * @param MemberId $memberId The member identifier.
-     * @param string $currentOwner The current class-like owner FQCN.
-     *
-     * @return bool
+     * @param Node     $node         the node to inspect
+     * @param MemberId $memberId     the member identifier
+     * @param string   $currentOwner the current class-like owner FQCN
      */
     private function isMemberDeclarationNode(Node $node, MemberId $memberId, string $currentOwner): bool
     {
@@ -719,10 +667,8 @@ final readonly class MemberGraphSourceNodeLocator
     /**
      * Indicates whether a node is a property declaration for the target.
      *
-     * @param Node $node The node to inspect.
-     * @param MemberId $memberId The property member identifier.
-     *
-     * @return bool
+     * @param Node     $node     the node to inspect
+     * @param MemberId $memberId the property member identifier
      */
     private function isPropertyPropertyDeclaration(Node $node, MemberId $memberId): bool
     {
@@ -734,10 +680,8 @@ final readonly class MemberGraphSourceNodeLocator
     /**
      * Indicates whether a node is a class-constant declaration for the target.
      *
-     * @param Node $node The node to inspect.
-     * @param MemberId $memberId The class-constant member identifier.
-     *
-     * @return bool
+     * @param Node     $node     the node to inspect
+     * @param MemberId $memberId the class-constant member identifier
      */
     private function isClassConstantDeclaration(Node $node, MemberId $memberId): bool
     {
@@ -752,10 +696,8 @@ final readonly class MemberGraphSourceNodeLocator
      * Enum cases are represented as CLASS_CONSTANT members in the graph, but PHPParser exposes declarations as
      * EnumCase nodes rather than Const_ nodes.
      *
-     * @param Node $node The node to inspect.
-     * @param MemberId $memberId The class-constant member identifier.
-     *
-     * @return bool
+     * @param Node     $node     the node to inspect
+     * @param MemberId $memberId the class-constant member identifier
      */
     private function isEnumCaseDeclaration(Node $node, MemberId $memberId): bool
     {
@@ -766,10 +708,8 @@ final readonly class MemberGraphSourceNodeLocator
     /**
      * Indicates whether a node is a promoted property declaration for the target.
      *
-     * @param Node $node The node to inspect.
-     * @param MemberId $memberId The property member identifier.
-     *
-     * @return bool
+     * @param Node     $node     the node to inspect
+     * @param MemberId $memberId the property member identifier
      */
     private function isPromotedPropertyDeclaration(Node $node, MemberId $memberId): bool
     {
@@ -783,10 +723,8 @@ final readonly class MemberGraphSourceNodeLocator
     /**
      * Indicates whether a node uses the target member.
      *
-     * @param Node $node The node to inspect.
-     * @param MemberId $memberId The member identifier.
-     *
-     * @return bool
+     * @param Node     $node     the node to inspect
+     * @param MemberId $memberId the member identifier
      */
     private function isMemberUsageNode(Node $node, MemberId $memberId): bool
     {
@@ -816,27 +754,23 @@ final readonly class MemberGraphSourceNodeLocator
     /**
      * Indicates whether a node uses a method with the given name.
      *
-     * @param Node $node The node to inspect.
-     * @param string $methodName The target method name.
-     *
-     * @return bool
+     * @param Node   $node       the node to inspect
+     * @param string $methodName the target method name
      */
     private function isMethodUsageNode(Node $node, string $methodName): bool
     {
-        return (
+        return
             ($node instanceof MethodCall || $node instanceof NullsafeMethodCall || $node instanceof StaticCall)
             && $node->name instanceof Identifier
             && $node->name->toString() === $methodName
-        );
+        ;
     }
 
     /**
      * Indicates whether a node uses a property with the given name.
      *
-     * @param Node $node The node to inspect.
-     * @param string $propertyName The target property name.
-     *
-     * @return bool
+     * @param Node   $node         the node to inspect
+     * @param string $propertyName the target property name
      */
     private function isPropertyUsageNode(Node $node, string $propertyName): bool
     {
@@ -852,12 +786,10 @@ final readonly class MemberGraphSourceNodeLocator
     /**
      * Indicates whether a node declares the target parameter.
      *
-     * @param Param $node The parameter node to inspect.
-     * @param ParameterId $parameterId The parameter identifier.
-     * @param string $currentOwner The current class-like owner FQCN.
-     * @param string $currentFunctionLike The current function-like name.
-     *
-     * @return bool
+     * @param Param       $node                the parameter node to inspect
+     * @param ParameterId $parameterId         the parameter identifier
+     * @param string      $currentOwner        the current class-like owner FQCN
+     * @param string      $currentFunctionLike the current function-like name
      */
     private function isParameterDeclaration(
         Param $node,
@@ -875,10 +807,8 @@ final readonly class MemberGraphSourceNodeLocator
     /**
      * Resolves a function declaration name.
      *
-     * @param Function_ $function The function node.
-     * @param string $currentOwner The current class-like owner FQCN.
-     *
-     * @return string
+     * @param Function_ $function     the function node
+     * @param string    $currentOwner the current class-like owner FQCN
      */
     private function resolvedFunctionName(Function_ $function, string $currentOwner): string
     {
@@ -898,9 +828,7 @@ final readonly class MemberGraphSourceNodeLocator
     /**
      * Resolves a name node with NameResolver attributes when available.
      *
-     * @param Name $name The name node.
-     *
-     * @return string
+     * @param Name $name the name node
      */
     private function resolvedName(Name $name): string
     {
@@ -926,10 +854,8 @@ final readonly class MemberGraphSourceNodeLocator
     /**
      * Indicates whether two function names designate the same target.
      *
-     * @param string $actualName The actual function name.
-     * @param string $targetName The target function name.
-     *
-     * @return bool
+     * @param string $actualName the actual function name
+     * @param string $targetName the target function name
      */
     private function functionNameMatches(string $actualName, string $targetName): bool
     {

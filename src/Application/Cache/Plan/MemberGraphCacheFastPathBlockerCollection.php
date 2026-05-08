@@ -4,16 +4,12 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Application\Cache\Plan;
 
-use Countable;
-use IteratorAggregate;
-use Traversable;
-
 /**
  * Stores fast-path blockers without duplicates.
  *
- * @implements IteratorAggregate<int, MemberGraphCacheFastPathBlocker>
+ * @implements \IteratorAggregate<int, MemberGraphCacheFastPathBlocker>
  */
-final class MemberGraphCacheFastPathBlockerCollection implements Countable, IteratorAggregate
+final class MemberGraphCacheFastPathBlockerCollection implements \Countable, \IteratorAggregate
 {
     /**
      * @var array<string, MemberGraphCacheFastPathBlocker>
@@ -23,9 +19,7 @@ final class MemberGraphCacheFastPathBlockerCollection implements Countable, Iter
     /**
      * Adds one blocker.
      *
-     * @param MemberGraphCacheFastPathBlocker $blocker The blocker to add.
-     *
-     * @return void
+     * @param MemberGraphCacheFastPathBlocker $blocker the blocker to add
      */
     public function add(MemberGraphCacheFastPathBlocker $blocker): void
     {
@@ -35,9 +29,7 @@ final class MemberGraphCacheFastPathBlockerCollection implements Countable, Iter
     /**
      * Indicates whether the collection contains one blocker.
      *
-     * @param MemberGraphCacheFastPathBlocker $blocker The blocker to inspect.
-     *
-     * @return bool
+     * @param MemberGraphCacheFastPathBlocker $blocker the blocker to inspect
      */
     public function contains(MemberGraphCacheFastPathBlocker $blocker): bool
     {
@@ -57,17 +49,15 @@ final class MemberGraphCacheFastPathBlockerCollection implements Countable, Iter
     /**
      * Returns an iterator over blockers.
      *
-     * @return Traversable<int, MemberGraphCacheFastPathBlocker>
+     * @return \Traversable<int, MemberGraphCacheFastPathBlocker>
      */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         yield from $this->all();
     }
 
     /**
      * Counts blockers.
-     *
-     * @return int
      */
     public function count(): int
     {

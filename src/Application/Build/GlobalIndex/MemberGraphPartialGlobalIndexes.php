@@ -23,16 +23,16 @@ final readonly class MemberGraphPartialGlobalIndexes
     /**
      * Constructor.
      *
-     * @param KnownOwnerCollection $knownOwners The rebuilt known owners.
-     * @param PolymorphicImplementationsIndex $polymorphicImplementationsIndex The rebuilt polymorphic implementations.
-     * @param PropertyTypeIndex $propertyTypeIndex The rebuilt property type index.
-     * @param ClassConstantTypeIndex $classConstantTypeIndex The rebuilt class constant owner index.
-     * @param ClassConstantValueIndex $classConstantValueIndex The rebuilt scalar class constant value index.
-     * @param MethodReturnTypeIndex $methodReturnTypeIndex The rebuilt method return type index.
-     * @param MethodParameterTypeIndex $methodParameterTypeIndex The rebuilt method parameter type index.
-     * @param FunctionReturnTypeIndex $functionReturnTypeIndex The rebuilt function return type index.
-     * @param FunctionParameterTypeIndex $functionParameterTypeIndex The rebuilt function parameter type index.
-     * @param MemberGraphDeclarationSnapshot $mergedDeclarationSnapshot The merged declaration snapshot used by index builders.
+     * @param KnownOwnerCollection            $knownOwners                     the rebuilt known owners
+     * @param PolymorphicImplementationsIndex $polymorphicImplementationsIndex the rebuilt polymorphic implementations
+     * @param PropertyTypeIndex               $propertyTypeIndex               the rebuilt property type index
+     * @param ClassConstantTypeIndex          $classConstantTypeIndex          the rebuilt class constant owner index
+     * @param ClassConstantValueIndex         $classConstantValueIndex         the rebuilt scalar class constant value index
+     * @param MethodReturnTypeIndex           $methodReturnTypeIndex           the rebuilt method return type index
+     * @param MethodParameterTypeIndex        $methodParameterTypeIndex        the rebuilt method parameter type index
+     * @param FunctionReturnTypeIndex         $functionReturnTypeIndex         the rebuilt function return type index
+     * @param FunctionParameterTypeIndex      $functionParameterTypeIndex      the rebuilt function parameter type index
+     * @param MemberGraphDeclarationSnapshot  $mergedDeclarationSnapshot       the merged declaration snapshot used by index builders
      */
     public function __construct(
         public KnownOwnerCollection $knownOwners,

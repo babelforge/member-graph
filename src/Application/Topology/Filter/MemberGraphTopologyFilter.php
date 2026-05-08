@@ -16,13 +16,13 @@ final readonly class MemberGraphTopologyFilter
     /**
      * Constructor.
      *
-     * @param list<MemberGraphTopologyNodeKind>|null $nodeKinds The allowed node kinds, or null for all.
-     * @param list<MemberGraphTopologyEdgeKind>|null $edgeKinds The allowed edge kinds, or null for all.
-     * @param list<string>|null $ownerPrefixes The allowed owner prefixes, or null for all.
-     * @param list<string>|null $excludedOwnerPrefixes The excluded owner prefixes, or null for none.
-     * @param list<MemberType>|null $memberTypes The allowed member types, or null for all.
-     * @param list<string>|null $files The allowed file prefixes or exact paths, or null for all.
-     * @param list<string>|null $excludedFiles The excluded file prefixes or exact paths, or null for none.
+     * @param list<MemberGraphTopologyNodeKind>|null $nodeKinds             the allowed node kinds, or null for all
+     * @param list<MemberGraphTopologyEdgeKind>|null $edgeKinds             the allowed edge kinds, or null for all
+     * @param list<string>|null                      $ownerPrefixes         the allowed owner prefixes, or null for all
+     * @param list<string>|null                      $excludedOwnerPrefixes the excluded owner prefixes, or null for none
+     * @param list<MemberType>|null                  $memberTypes           the allowed member types, or null for all
+     * @param list<string>|null                      $files                 the allowed file prefixes or exact paths, or null for all
+     * @param list<string>|null                      $excludedFiles         the excluded file prefixes or exact paths, or null for none
      */
     public function __construct(
         public ?array $nodeKinds = null,

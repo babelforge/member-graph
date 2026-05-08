@@ -22,7 +22,7 @@ final readonly class ArrayDimFetchExpressionResolver implements ExpressionResolv
     /**
      * Constructor.
      *
-     * @param ArrayShapeAccessResolver $arrayShapeAccessResolver The structured array-shape access resolver.
+     * @param ArrayShapeAccessResolver $arrayShapeAccessResolver the structured array-shape access resolver
      */
     public function __construct(private ArrayShapeAccessResolver $arrayShapeAccessResolver)
     {
@@ -31,9 +31,7 @@ final readonly class ArrayDimFetchExpressionResolver implements ExpressionResolv
     /**
      * Tells whether this resolver can handle the given node.
      *
-     * @param Node $expression The expression or expression-like node to inspect.
-     *
-     * @return bool
+     * @param Node $expression the expression or expression-like node to inspect
      */
     public function supports(Node $expression): bool
     {
@@ -43,11 +41,9 @@ final readonly class ArrayDimFetchExpressionResolver implements ExpressionResolv
     /**
      * Resolves symbols produced by an array-dimension fetch.
      *
-     * @param Node $expression The array-dimension-fetch expression.
-     * @param ExpressionResolutionContext $context The current expression resolution context.
-     * @param ExpressionTypeResolverInterface $fallbackResolver The facade resolver for recursive resolution.
-     *
-     * @return SymbolCollection|null
+     * @param Node                            $expression       the array-dimension-fetch expression
+     * @param ExpressionResolutionContext     $context          the current expression resolution context
+     * @param ExpressionTypeResolverInterface $fallbackResolver the facade resolver for recursive resolution
      */
     public function resolve(
         Node $expression,
@@ -70,11 +66,9 @@ final readonly class ArrayDimFetchExpressionResolver implements ExpressionResolv
     /**
      * Resolves the structured PHPDoc type produced by an array-dimension fetch.
      *
-     * @param Expr $expression The array-dimension-fetch expression.
-     * @param ExpressionResolutionContext $context The current expression resolution context.
-     * @param ExpressionTypeResolverInterface $fallbackResolver The facade resolver for recursive resolution.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param Expr                            $expression       the array-dimension-fetch expression
+     * @param ExpressionResolutionContext     $context          the current expression resolution context
+     * @param ExpressionTypeResolverInterface $fallbackResolver the facade resolver for recursive resolution
      */
     public function resolveStructuredPhpDocType(
         Expr $expression,

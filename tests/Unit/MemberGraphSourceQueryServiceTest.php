@@ -29,8 +29,6 @@ final class MemberGraphSourceQueryServiceTest extends TestCase
 {
     /**
      * Ensures source queries resolve graph file paths to virtual registry files.
-     *
-     * @return void
      */
     public function testItQueriesVirtualFilesFromGraphFacts(): void
     {
@@ -74,10 +72,8 @@ final class MemberGraphSourceQueryServiceTest extends TestCase
     /**
      * Creates a member dependency graph for source query tests.
      *
-     * @param list<MemberDeclaration> $declarations The declarations to add.
-     * @param list<MemberUsage> $memberUsages The member usages to add.
-     *
-     * @return MemberDependencyGraph
+     * @param list<MemberDeclaration> $declarations the declarations to add
+     * @param list<MemberUsage>       $memberUsages the member usages to add
      */
     private function createGraph(array $declarations = [], array $memberUsages = []): MemberDependencyGraph
     {
@@ -106,14 +102,12 @@ final class MemberGraphSourceQueryServiceTest extends TestCase
     /**
      * Creates one virtual registry file for tests.
      *
-     * @param string $virtualFilePath The virtual file path.
-     *
-     * @return VirtualPhpSourceFile
+     * @param string $virtualFilePath the virtual file path
      */
     private function createVirtualFile(string $virtualFilePath): VirtualPhpSourceFile
     {
         return new VirtualPhpSourceFile(
-            fullFilePath: '/project/' . $virtualFilePath,
+            fullFilePath: '/project/'.$virtualFilePath,
             virtualFilePath: $virtualFilePath,
             nodes: [],
         );
@@ -122,7 +116,7 @@ final class MemberGraphSourceQueryServiceTest extends TestCase
     /**
      * Returns virtual file paths from a virtual registry file collection.
      *
-     * @param VirtualPhpSourceFileCollection $virtualFiles The virtual files.
+     * @param VirtualPhpSourceFileCollection $virtualFiles the virtual files
      *
      * @return list<string>
      */

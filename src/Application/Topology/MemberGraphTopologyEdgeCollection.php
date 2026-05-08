@@ -4,16 +4,12 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Application\Topology;
 
-use Countable;
-use IteratorAggregate;
-use Traversable;
-
 /**
  * Stores topology edges without duplicates.
  *
- * @implements IteratorAggregate<string, MemberGraphTopologyEdge>
+ * @implements \IteratorAggregate<string, MemberGraphTopologyEdge>
  */
-final class MemberGraphTopologyEdgeCollection implements Countable, IteratorAggregate
+final class MemberGraphTopologyEdgeCollection implements \Countable, \IteratorAggregate
 {
     /**
      * @var array<string, MemberGraphTopologyEdge>
@@ -23,9 +19,7 @@ final class MemberGraphTopologyEdgeCollection implements Countable, IteratorAggr
     /**
      * Adds one topology edge.
      *
-     * @param MemberGraphTopologyEdge $edge The topology edge to add.
-     *
-     * @return void
+     * @param MemberGraphTopologyEdge $edge the topology edge to add
      */
     public function add(MemberGraphTopologyEdge $edge): void
     {
@@ -35,9 +29,7 @@ final class MemberGraphTopologyEdgeCollection implements Countable, IteratorAggr
     /**
      * Indicates whether the collection contains the given topology edge.
      *
-     * @param MemberGraphTopologyEdge $edge The topology edge to test.
-     *
-     * @return bool
+     * @param MemberGraphTopologyEdge $edge the topology edge to test
      */
     public function contains(MemberGraphTopologyEdge $edge): bool
     {
@@ -57,17 +49,15 @@ final class MemberGraphTopologyEdgeCollection implements Countable, IteratorAggr
     /**
      * Returns an iterator over topology edges.
      *
-     * @return Traversable<string, MemberGraphTopologyEdge>
+     * @return \Traversable<string, MemberGraphTopologyEdge>
      */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         yield from $this->edges;
     }
 
     /**
      * Counts topology edges.
-     *
-     * @return int
      */
     public function count(): int
     {

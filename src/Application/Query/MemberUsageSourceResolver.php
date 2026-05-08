@@ -15,9 +15,7 @@ final class MemberUsageSourceResolver
     /**
      * Resolves one source symbol into a member identifier.
      *
-     * @param string $sourceSymbol The source symbol to resolve.
-     *
-     * @return MemberId|null
+     * @param string $sourceSymbol the source symbol to resolve
      */
     public function resolve(string $sourceSymbol): ?MemberId
     {

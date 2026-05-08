@@ -18,11 +18,11 @@ final readonly class MethodStructuredReturnResolver
     /**
      * Constructor.
      *
-     * @param MethodReturnTypeIndex $methodReturnTypeIndex The method return type index.
-     * @param MethodReturnStructuredTypeIndex $methodStructuredReturnTypeIndex The method structured return type index.
-     * @param MethodReturnInferredStructuredTypeIndex $methodReturnInferredStructuredTypeIndex The method inferred structured return type index.
-     * @param DeclaringMethodResolver $declaringMethodResolver The declaring method resolver.
-     * @param StructuredReturnTypeSelector $structuredReturnTypeSelector The declared-vs-inferred selector.
+     * @param MethodReturnTypeIndex                   $methodReturnTypeIndex                   the method return type index
+     * @param MethodReturnStructuredTypeIndex         $methodStructuredReturnTypeIndex         the method structured return type index
+     * @param MethodReturnInferredStructuredTypeIndex $methodReturnInferredStructuredTypeIndex the method inferred structured return type index
+     * @param DeclaringMethodResolver                 $declaringMethodResolver                 the declaring method resolver
+     * @param StructuredReturnTypeSelector            $structuredReturnTypeSelector            the declared-vs-inferred selector
      */
     public function __construct(
         private MethodReturnTypeIndex $methodReturnTypeIndex,
@@ -36,10 +36,8 @@ final readonly class MethodStructuredReturnResolver
     /**
      * Returns the native return metadata of one method.
      *
-     * @param string|null $owner The owner FQCN.
-     * @param string $methodName The method name.
-     *
-     * @return FunctionLikeReturnType|null
+     * @param string|null $owner      the owner FQCN
+     * @param string      $methodName the method name
      */
     public function resolveReturnTypeDetails(?string $owner, string $methodName): ?FunctionLikeReturnType
     {
@@ -55,10 +53,8 @@ final readonly class MethodStructuredReturnResolver
     /**
      * Returns the structured return type of one method.
      *
-     * @param string|null $owner The owner FQCN.
-     * @param string $methodName The method name.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param string|null $owner      the owner FQCN
+     * @param string      $methodName the method name
      */
     public function resolveStructuredReturnType(?string $owner, string $methodName): ?ResolvedPhpDocType
     {

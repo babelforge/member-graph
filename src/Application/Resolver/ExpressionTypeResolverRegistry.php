@@ -24,7 +24,7 @@ final readonly class ExpressionTypeResolverRegistry
     /**
      * Constructor.
      *
-     * @param iterable<ExpressionResolverInterface> $resolvers The ordered expression resolvers.
+     * @param iterable<ExpressionResolverInterface> $resolvers the ordered expression resolvers
      */
     public function __construct(iterable $resolvers = [])
     {
@@ -40,11 +40,9 @@ final readonly class ExpressionTypeResolverRegistry
     /**
      * Resolves symbols through the first resolver that supports the node.
      *
-     * @param Node $expression The expression or expression-like node to resolve.
-     * @param ExpressionResolutionContext $context The current expression resolution context.
-     * @param ExpressionTypeResolverInterface $fallbackResolver The facade resolver for recursive resolution.
-     *
-     * @return SymbolCollection|null
+     * @param Node                            $expression       the expression or expression-like node to resolve
+     * @param ExpressionResolutionContext     $context          the current expression resolution context
+     * @param ExpressionTypeResolverInterface $fallbackResolver the facade resolver for recursive resolution
      */
     public function resolve(
         Node $expression,
@@ -69,11 +67,9 @@ final readonly class ExpressionTypeResolverRegistry
     /**
      * Resolves a structured PHPDoc type through the first resolver that supports the expression.
      *
-     * @param Expr $expression The expression to resolve.
-     * @param ExpressionResolutionContext $context The current expression resolution context.
-     * @param ExpressionTypeResolverInterface $fallbackResolver The facade resolver for recursive resolution.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param Expr                            $expression       the expression to resolve
+     * @param ExpressionResolutionContext     $context          the current expression resolution context
+     * @param ExpressionTypeResolverInterface $fallbackResolver the facade resolver for recursive resolution
      */
     public function resolveStructuredPhpDocType(
         Expr $expression,

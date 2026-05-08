@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Domain\Availability;
 
-use Countable;
-use IteratorAggregate;
 use PhpNoobs\MemberGraph\Domain\Graph\MemberId;
-use Traversable;
 
 /**
  * Stores available members indexed by owner.
@@ -15,9 +12,9 @@ use Traversable;
  * The collection storage stays grouped by owner, while iteration exposes the
  * flattened available members indexed by their stable member key.
  *
- * @implements IteratorAggregate<string, array<string, AvailableMember>>
+ * @implements \IteratorAggregate<string, array<string, AvailableMember>>
  */
-final class AvailableMemberCollection implements Countable, IteratorAggregate
+final class AvailableMemberCollection implements \Countable, \IteratorAggregate
 {
     /**
      * @var array<string, array<string, AvailableMember>>
@@ -33,10 +30,6 @@ final class AvailableMemberCollection implements Countable, IteratorAggregate
      * - member name
      *
      * Declaration sources are merged.
-     *
-     * @param AvailableMember $availableMember
-     *
-     * @return void
      */
     public function add(AvailableMember $availableMember): void
     {
@@ -55,7 +48,7 @@ final class AvailableMemberCollection implements Countable, IteratorAggregate
     /**
      * Returns available members for one owner.
      *
-     * @param string $owner The owner FQCN.
+     * @param string $owner the owner FQCN
      *
      * @return list<AvailableMember>
      */
@@ -67,9 +60,7 @@ final class AvailableMemberCollection implements Countable, IteratorAggregate
     /**
      * Returns one available member for the given owner/member pair.
      *
-     * @param MemberId $member The member identity as exposed on the owner.
-     *
-     * @return AvailableMember|null
+     * @param MemberId $member the member identity as exposed on the owner
      */
     public function get(MemberId $member): ?AvailableMember
     {
@@ -89,30 +80,26 @@ final class AvailableMemberCollection implements Countable, IteratorAggregate
         return $this->byOwner;
     }
 
-
     /**
-     * @return Traversable<string, array<string, AvailableMember>>
+     * @return \Traversable<string, array<string, AvailableMember>>
      */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         yield from $this->byOwner;
     }
 
     /**
-     * @return Traversable<string, AvailableMember>
+     * @return \Traversable<string, AvailableMember>
      */
-    public function iterateMembers(): Traversable
+    public function iterateMembers(): \Traversable
     {
         foreach ($this->byOwner as $availableMembersByOwner) {
             yield from $availableMembersByOwner;
         }
     }
 
-
     /**
      * Counts all available members.
-     *
-     * @return int
      */
     public function count(): int
     {
@@ -128,9 +115,7 @@ final class AvailableMemberCollection implements Countable, IteratorAggregate
     /**
      * Builds the internal member key.
      *
-     * @param MemberId $member The member.
-     *
-     * @return string
+     * @param MemberId $member the member
      */
     private function memberKey(MemberId $member): string
     {

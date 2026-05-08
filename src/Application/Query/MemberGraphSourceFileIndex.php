@@ -21,9 +21,7 @@ final class MemberGraphSourceFileIndex
     /**
      * Creates an index from virtual registry files.
      *
-     * @param VirtualPhpSourceFileCollection $virtualFiles The virtual files to index.
-     *
-     * @return self
+     * @param VirtualPhpSourceFileCollection $virtualFiles the virtual files to index
      */
     public static function fromVirtualFiles(VirtualPhpSourceFileCollection $virtualFiles): self
     {
@@ -39,9 +37,7 @@ final class MemberGraphSourceFileIndex
     /**
      * Adds one virtual registry file.
      *
-     * @param VirtualPhpSourceFile $virtualFile The virtual file to index.
-     *
-     * @return void
+     * @param VirtualPhpSourceFile $virtualFile the virtual file to index
      */
     public function add(VirtualPhpSourceFile $virtualFile): void
     {
@@ -51,9 +47,7 @@ final class MemberGraphSourceFileIndex
     /**
      * Returns one virtual registry file by virtual path.
      *
-     * @param string $virtualFilePath The virtual file path.
-     *
-     * @return VirtualPhpSourceFile|null
+     * @param string $virtualFilePath the virtual file path
      */
     public function virtualFile(string $virtualFilePath): ?VirtualPhpSourceFile
     {
@@ -63,9 +57,7 @@ final class MemberGraphSourceFileIndex
     /**
      * Resolves virtual registry files for graph file paths.
      *
-     * @param ImpactedFileCollection $filePaths The graph file paths to resolve.
-     *
-     * @return VirtualPhpSourceFileCollection
+     * @param ImpactedFileCollection $filePaths the graph file paths to resolve
      */
     public function virtualFilesForPaths(ImpactedFileCollection $filePaths): VirtualPhpSourceFileCollection
     {
@@ -84,8 +76,6 @@ final class MemberGraphSourceFileIndex
 
     /**
      * Returns all indexed virtual registry files.
-     *
-     * @return VirtualPhpSourceFileCollection
      */
     public function all(): VirtualPhpSourceFileCollection
     {

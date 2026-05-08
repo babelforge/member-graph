@@ -24,32 +24,29 @@ final readonly class MethodStructuredTypeIndexBuilder
     /**
      * Constructor.
      *
-     * @param ReturnPhpDocTypeExtractor $returnPhpDocTypeExtractor The return PHPDoc type extractor.
-     * @param ParamPhpDocTypeExtractor $paramPhpDocTypeExtractor The parameter PHPDoc type extractor.
-     * @param PhpDocTemplateDefinitionExtractor $phpDocTemplateDefinitionExtractor The template definition extractor.
-     * @param PhpDocInheritDocResolver $phpDocInheritDocResolver The inheritDoc resolver.
-     * @param ParentMethodNodeResolver $parentMethodNodeResolver The parent method node resolver.
+     * @param ReturnPhpDocTypeExtractor         $returnPhpDocTypeExtractor         the return PHPDoc type extractor
+     * @param ParamPhpDocTypeExtractor          $paramPhpDocTypeExtractor          the parameter PHPDoc type extractor
+     * @param PhpDocTemplateDefinitionExtractor $phpDocTemplateDefinitionExtractor the template definition extractor
+     * @param PhpDocInheritDocResolver          $phpDocInheritDocResolver          the inheritDoc resolver
+     * @param ParentMethodNodeResolver          $parentMethodNodeResolver          the parent method node resolver
      */
     public function __construct(
-        private ReturnPhpDocTypeExtractor         $returnPhpDocTypeExtractor,
-        private ParamPhpDocTypeExtractor          $paramPhpDocTypeExtractor,
+        private ReturnPhpDocTypeExtractor $returnPhpDocTypeExtractor,
+        private ParamPhpDocTypeExtractor $paramPhpDocTypeExtractor,
         private PhpDocTemplateDefinitionExtractor $phpDocTemplateDefinitionExtractor,
-        private PhpDocInheritDocResolver          $phpDocInheritDocResolver,
-        private ParentMethodNodeResolver          $parentMethodNodeResolver,
+        private PhpDocInheritDocResolver $phpDocInheritDocResolver,
+        private ParentMethodNodeResolver $parentMethodNodeResolver,
     ) {
     }
 
     /**
      * Builds structured method return and parameter type indexes.
      *
-     * @param MethodReturnTypeIndex $methodReturnTypeIndex The method return type index.
-     *
-     * @return MethodStructuredTypeBuildResult
+     * @param MethodReturnTypeIndex $methodReturnTypeIndex the method return type index
      */
     public function build(
         MethodReturnTypeIndex $methodReturnTypeIndex,
     ): MethodStructuredTypeBuildResult {
-
         $returnIndex = new MethodReturnStructuredTypeIndex();
         $paramIndex = new MethodParameterStructuredTypeIndex();
 
@@ -121,9 +118,7 @@ final readonly class MethodStructuredTypeIndexBuilder
     /**
      * Extracts the owner FQCN from one indexed method key.
      *
-     * @param string $key The indexed method key.
-     *
-     * @return string
+     * @param string $key the indexed method key
      */
     private function extractOwner(string $key): string
     {

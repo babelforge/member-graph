@@ -16,10 +16,8 @@ final readonly class MemberDependencyGraphPartialRebuildInputService
     /**
      * Prepares a partial rebuild input when the selected rebuild plan is eligible.
      *
-     * @param MemberGraphCache $cache The member graph cache.
-     * @param MemberDependencyGraphFactoryRebuildPlan $rebuildPlan The selected rebuild plan.
-     *
-     * @return MemberDependencyGraphPartialRebuildInput|null
+     * @param MemberGraphCache                        $cache       the member graph cache
+     * @param MemberDependencyGraphFactoryRebuildPlan $rebuildPlan the selected rebuild plan
      */
     public function prepare(
         MemberGraphCache $cache,

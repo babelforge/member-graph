@@ -16,11 +16,9 @@ final readonly class ConstructorArgumentParameterResolver
     /**
      * Resolves the target parameter name for one constructor argument.
      *
-     * @param Arg $arg The argument node.
-     * @param int $position The positional argument index.
-     * @param ClassMethod $constructorNode The constructor node.
-     *
-     * @return string|null
+     * @param Arg         $arg             the argument node
+     * @param int         $position        the positional argument index
+     * @param ClassMethod $constructorNode the constructor node
      */
     public function resolve(Arg $arg, int $position, ClassMethod $constructorNode): ?string
     {

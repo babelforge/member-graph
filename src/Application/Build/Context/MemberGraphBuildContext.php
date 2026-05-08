@@ -30,23 +30,23 @@ final class MemberGraphBuildContext
     /**
      * Constructor.
      *
-     * @param KnownOwnerCollection $knownOwners The known owners collection.
-     * @param ClassTemplateDefinitionIndex $classTemplateDefinitionIndex The global class template definition index.
-     * @param MethodReturnTypeIndex $methodReturnTypeIndex The global method return type index.
-     * @param MethodReturnInferredStructuredTypeIndex $methodReturnInferredStructuredTypeIndex The global method inferred structured return type index.
-     * @param MethodNodeIndex $methodNodeIndex The global method node index.
-     * @param FunctionReturnTypeIndex $functionReturnTypeIndex The global function return type index.
-     * @param FunctionParameterTypeIndex $functionParameterTypeIndex The global function parameter type index.
-     * @param FunctionReturnInferredStructuredTypeIndex $functionReturnInferredStructuredTypeIndex The global function inferred structured return type index.
-     * @param PropertyTypeIndex $propertyTypeIndex The global property type index.
-     * @param PropertyStructuredTypeIndex $propertyStructuredTypeIndex The global structured property type index.
-     * @param PolymorphicImplementationsIndex $polymorphicImplementationsIndex The global polymorphic implementations index.
-     * @param ClassConstantTypeIndex $classConstantTypeIndex The global class constant type index.
-     * @param ClassConstantValueIndex $classConstantValueIndex The global class constant value index.
-     * @param MethodReturnStructuredTypeIndex $methodReturnStructuredTypeIndex The global method structured return type index.
-     * @param MethodParameterStructuredTypeIndex $methodParameterStructuredTypeIndex The global method structured parameter type index.
-     * @param FunctionReturnStructuredTypeIndex $functionReturnStructuredTypeIndex The global function structured return type index.
-     * @param FunctionParameterStructuredTypeIndex $functionParameterStructuredTypeIndex The global function structured parameter type index.
+     * @param KnownOwnerCollection                      $knownOwners                               the known owners collection
+     * @param ClassTemplateDefinitionIndex              $classTemplateDefinitionIndex              the global class template definition index
+     * @param MethodReturnTypeIndex                     $methodReturnTypeIndex                     the global method return type index
+     * @param MethodReturnInferredStructuredTypeIndex   $methodReturnInferredStructuredTypeIndex   the global method inferred structured return type index
+     * @param MethodNodeIndex                           $methodNodeIndex                           the global method node index
+     * @param FunctionReturnTypeIndex                   $functionReturnTypeIndex                   the global function return type index
+     * @param FunctionParameterTypeIndex                $functionParameterTypeIndex                the global function parameter type index
+     * @param FunctionReturnInferredStructuredTypeIndex $functionReturnInferredStructuredTypeIndex the global function inferred structured return type index
+     * @param PropertyTypeIndex                         $propertyTypeIndex                         the global property type index
+     * @param PropertyStructuredTypeIndex               $propertyStructuredTypeIndex               the global structured property type index
+     * @param PolymorphicImplementationsIndex           $polymorphicImplementationsIndex           the global polymorphic implementations index
+     * @param ClassConstantTypeIndex                    $classConstantTypeIndex                    the global class constant type index
+     * @param ClassConstantValueIndex                   $classConstantValueIndex                   the global class constant value index
+     * @param MethodReturnStructuredTypeIndex           $methodReturnStructuredTypeIndex           the global method structured return type index
+     * @param MethodParameterStructuredTypeIndex        $methodParameterStructuredTypeIndex        the global method structured parameter type index
+     * @param FunctionReturnStructuredTypeIndex         $functionReturnStructuredTypeIndex         the global function structured return type index
+     * @param FunctionParameterStructuredTypeIndex      $functionParameterStructuredTypeIndex      the global function structured parameter type index
      */
     public function __construct(
         public KnownOwnerCollection $knownOwners = new KnownOwnerCollection(),
@@ -74,9 +74,7 @@ final class MemberGraphBuildContext
      *
      * @api
      *
-     * @param KnownOwnerCollection $knownOwners The known owners collection.
-     *
-     * @return self
+     * @param KnownOwnerCollection $knownOwners the known owners collection
      */
     public function setKnownOwners(KnownOwnerCollection $knownOwners): self
     {
@@ -90,9 +88,7 @@ final class MemberGraphBuildContext
      *
      * @api
      *
-     * @param ClassTemplateDefinitionIndex $classTemplateDefinitionIndex The global class template definition index.
-     *
-     * @return self
+     * @param ClassTemplateDefinitionIndex $classTemplateDefinitionIndex the global class template definition index
      */
     public function setClassTemplateDefinitionIndex(
         ClassTemplateDefinitionIndex $classTemplateDefinitionIndex,
@@ -107,9 +103,7 @@ final class MemberGraphBuildContext
      *
      * @api
      *
-     * @param MethodReturnTypeIndex $methodReturnTypeIndex The global method return type index.
-     *
-     * @return self
+     * @param MethodReturnTypeIndex $methodReturnTypeIndex the global method return type index
      */
     public function setMethodReturnTypeIndex(MethodReturnTypeIndex $methodReturnTypeIndex): self
     {
@@ -123,9 +117,7 @@ final class MemberGraphBuildContext
      *
      * @api
      *
-     * @param MethodReturnInferredStructuredTypeIndex $methodReturnInferredStructuredTypeIndex The global method inferred structured return type index.
-     *
-     * @return self
+     * @param MethodReturnInferredStructuredTypeIndex $methodReturnInferredStructuredTypeIndex the global method inferred structured return type index
      */
     public function setMethodReturnInferredStructuredTypeIndex(
         MethodReturnInferredStructuredTypeIndex $methodReturnInferredStructuredTypeIndex,
@@ -140,9 +132,7 @@ final class MemberGraphBuildContext
      *
      * @api
      *
-     * @param MethodNodeIndex $methodNodeIndex The global method node index.
-     *
-     * @return self
+     * @param MethodNodeIndex $methodNodeIndex the global method node index
      */
     public function setMethodNodeIndex(MethodNodeIndex $methodNodeIndex): self
     {
@@ -156,9 +146,7 @@ final class MemberGraphBuildContext
      *
      * @api
      *
-     * @param FunctionReturnTypeIndex $functionReturnTypeIndex The global function return type index.
-     *
-     * @return self
+     * @param FunctionReturnTypeIndex $functionReturnTypeIndex the global function return type index
      */
     public function setFunctionReturnTypeIndex(FunctionReturnTypeIndex $functionReturnTypeIndex): self
     {
@@ -172,9 +160,7 @@ final class MemberGraphBuildContext
      *
      * @api
      *
-     * @param FunctionParameterTypeIndex $functionParameterTypeIndex The global function parameter type index.
-     *
-     * @return self
+     * @param FunctionParameterTypeIndex $functionParameterTypeIndex the global function parameter type index
      */
     public function setFunctionParameterTypeIndex(FunctionParameterTypeIndex $functionParameterTypeIndex): self
     {
@@ -188,9 +174,7 @@ final class MemberGraphBuildContext
      *
      * @api
      *
-     * @param FunctionReturnInferredStructuredTypeIndex $functionReturnInferredStructuredTypeIndex The global function inferred structured return type index.
-     *
-     * @return self
+     * @param FunctionReturnInferredStructuredTypeIndex $functionReturnInferredStructuredTypeIndex the global function inferred structured return type index
      */
     public function setFunctionReturnInferredStructuredTypeIndex(
         FunctionReturnInferredStructuredTypeIndex $functionReturnInferredStructuredTypeIndex,
@@ -205,9 +189,7 @@ final class MemberGraphBuildContext
      *
      * @api
      *
-     * @param PropertyTypeIndex $propertyTypeIndex The global property type index.
-     *
-     * @return self
+     * @param PropertyTypeIndex $propertyTypeIndex the global property type index
      */
     public function setPropertyTypeIndex(PropertyTypeIndex $propertyTypeIndex): self
     {
@@ -221,9 +203,7 @@ final class MemberGraphBuildContext
      *
      * @api
      *
-     * @param PropertyStructuredTypeIndex $propertyStructuredTypeIndex The global structured property type index.
-     *
-     * @return self
+     * @param PropertyStructuredTypeIndex $propertyStructuredTypeIndex the global structured property type index
      */
     public function setPropertyStructuredTypeIndex(PropertyStructuredTypeIndex $propertyStructuredTypeIndex): self
     {
@@ -237,9 +217,7 @@ final class MemberGraphBuildContext
      *
      * @api
      *
-     * @param PolymorphicImplementationsIndex $polymorphicImplementationsIndex The global polymorphic implementations index.
-     *
-     * @return self
+     * @param PolymorphicImplementationsIndex $polymorphicImplementationsIndex the global polymorphic implementations index
      */
     public function setPolymorphicImplementationsIndex(
         PolymorphicImplementationsIndex $polymorphicImplementationsIndex,
@@ -254,9 +232,7 @@ final class MemberGraphBuildContext
      *
      * @api
      *
-     * @param ClassConstantTypeIndex $classConstantTypeIndex The global class constant type index.
-     *
-     * @return self
+     * @param ClassConstantTypeIndex $classConstantTypeIndex the global class constant type index
      */
     public function setClassConstantTypeIndex(ClassConstantTypeIndex $classConstantTypeIndex): self
     {
@@ -270,9 +246,7 @@ final class MemberGraphBuildContext
      *
      * @api
      *
-     * @param ClassConstantValueIndex $classConstantValueIndex The global class constant value index.
-     *
-     * @return self
+     * @param ClassConstantValueIndex $classConstantValueIndex the global class constant value index
      */
     public function setClassConstantValueIndex(ClassConstantValueIndex $classConstantValueIndex): self
     {
@@ -286,9 +260,7 @@ final class MemberGraphBuildContext
      *
      * @api
      *
-     * @param MethodReturnStructuredTypeIndex $methodReturnStructuredTypeIndex The global method structured return type index.
-     *
-     * @return self
+     * @param MethodReturnStructuredTypeIndex $methodReturnStructuredTypeIndex the global method structured return type index
      */
     public function setMethodReturnStructuredTypeIndex(
         MethodReturnStructuredTypeIndex $methodReturnStructuredTypeIndex,
@@ -303,9 +275,7 @@ final class MemberGraphBuildContext
      *
      * @api
      *
-     * @param MethodParameterStructuredTypeIndex $methodParameterStructuredTypeIndex The global method structured parameter type index.
-     *
-     * @return self
+     * @param MethodParameterStructuredTypeIndex $methodParameterStructuredTypeIndex the global method structured parameter type index
      */
     public function setMethodParameterStructuredTypeIndex(
         MethodParameterStructuredTypeIndex $methodParameterStructuredTypeIndex,
@@ -320,9 +290,7 @@ final class MemberGraphBuildContext
      *
      * @api
      *
-     * @param FunctionReturnStructuredTypeIndex $functionReturnStructuredTypeIndex The global function structured return type index.
-     *
-     * @return self
+     * @param FunctionReturnStructuredTypeIndex $functionReturnStructuredTypeIndex the global function structured return type index
      */
     public function setFunctionReturnStructuredTypeIndex(
         FunctionReturnStructuredTypeIndex $functionReturnStructuredTypeIndex,
@@ -337,9 +305,7 @@ final class MemberGraphBuildContext
      *
      * @api
      *
-     * @param FunctionParameterStructuredTypeIndex $functionParameterStructuredTypeIndex The global function structured parameter type index.
-     *
-     * @return self
+     * @param FunctionParameterStructuredTypeIndex $functionParameterStructuredTypeIndex the global function structured parameter type index
      */
     public function setFunctionParameterStructuredTypeIndex(
         FunctionParameterStructuredTypeIndex $functionParameterStructuredTypeIndex,

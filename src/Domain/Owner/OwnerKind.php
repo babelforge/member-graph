@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace PhpNoobs\MemberGraph\Domain\Owner;
 
 /**
- * Enum OwnerKind
+ * Enum OwnerKind.
  */
 enum OwnerKind
 {

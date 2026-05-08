@@ -16,13 +16,13 @@ final readonly class MemberDependencyGraphPartialRebuildLoadedInput
     /**
      * Constructor.
      *
-     * @param VirtualPhpSourceFileCollection $loadedVirtualFiles Virtual files loaded from files scheduled for rebuild.
-     * @param MemberGraphDeclarationSnapshot $loadedDeclarationSnapshot Declaration snapshots extracted from loaded virtual files.
-     * @param MemberGraphLoadedSourceMetadata $loadedSourceMetadata Source metadata extracted from loaded virtual files.
+     * @param VirtualPhpSourceFileCollection  $loadedVirtualFiles        virtual files loaded from files scheduled for rebuild
+     * @param MemberGraphDeclarationSnapshot  $loadedDeclarationSnapshot declaration snapshots extracted from loaded virtual files
+     * @param MemberGraphLoadedSourceMetadata $loadedSourceMetadata      source metadata extracted from loaded virtual files
      */
     public function __construct(
-        public VirtualPhpSourceFileCollection  $loadedVirtualFiles,
-        public MemberGraphDeclarationSnapshot  $loadedDeclarationSnapshot,
+        public VirtualPhpSourceFileCollection $loadedVirtualFiles,
+        public MemberGraphDeclarationSnapshot $loadedDeclarationSnapshot,
         public MemberGraphLoadedSourceMetadata $loadedSourceMetadata,
     ) {
     }

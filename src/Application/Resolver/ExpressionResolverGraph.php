@@ -14,8 +14,8 @@ final readonly class ExpressionResolverGraph
     /**
      * Constructor.
      *
-     * @param ExpressionTypeResolverRegistry $expressionTypeResolverRegistry The expression resolver registry.
-     * @param ClosureExpressionStructuredTypeResolver $closureExpressionStructuredTypeResolver The closure structured type resolver.
+     * @param ExpressionTypeResolverRegistry          $expressionTypeResolverRegistry          the expression resolver registry
+     * @param ClosureExpressionStructuredTypeResolver $closureExpressionStructuredTypeResolver the closure structured type resolver
      */
     public function __construct(
         public ExpressionTypeResolverRegistry $expressionTypeResolverRegistry,

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Application\Topology\Export;
 
-use InvalidArgumentException;
 use PhpNoobs\MemberGraph\Application\Topology\MemberGraphTopology;
 
 /**
@@ -17,11 +16,11 @@ final readonly class MemberGraphTopologyDotExporter implements MemberGraphTopolo
     /**
      * Constructor.
      *
-     * @param MemberGraphTopologyArrayExporter $arrayExporter The canonical array exporter.
-     * @param string $rankdir The graph direction. Supported values are TB and LR.
-     * @param string $shape The node shape. Supported values are ellipse, box, and circle.
+     * @param MemberGraphTopologyArrayExporter $arrayExporter the canonical array exporter
+     * @param string                           $rankdir       The graph direction. Supported values are TB and LR.
+     * @param string                           $shape         The node shape. Supported values are ellipse, box, and circle.
      *
-     * @throws InvalidArgumentException When the graph direction or node shape is not supported.
+     * @throws \InvalidArgumentException when the graph direction or node shape is not supported
      */
     public function __construct(
         private MemberGraphTopologyArrayExporter $arrayExporter = new MemberGraphTopologyArrayExporter(),
@@ -29,20 +28,18 @@ final readonly class MemberGraphTopologyDotExporter implements MemberGraphTopolo
         private string $shape = 'ellipse',
     ) {
         if (!in_array($this->rankdir, ['TB', 'LR'], true)) {
-            throw new InvalidArgumentException(sprintf('Unsupported DOT rankdir "%s".', $this->rankdir));
+            throw new \InvalidArgumentException(sprintf('Unsupported DOT rankdir "%s".', $this->rankdir));
         }
 
         if (!in_array($this->shape, ['ellipse', 'box', 'circle'], true)) {
-            throw new InvalidArgumentException(sprintf('Unsupported DOT node shape "%s".', $this->shape));
+            throw new \InvalidArgumentException(sprintf('Unsupported DOT node shape "%s".', $this->shape));
         }
     }
 
     /**
      * Exports the given topology to Graphviz DOT syntax.
      *
-     * @param MemberGraphTopology $topology The topology to export.
-     *
-     * @return string
+     * @param MemberGraphTopology $topology the topology to export
      */
     public function export(MemberGraphTopology $topology): string
     {
@@ -87,7 +84,7 @@ final readonly class MemberGraphTopologyDotExporter implements MemberGraphTopolo
     /**
      * Returns exported nodes from the payload.
      *
-     * @param array<string, mixed> $payload The exported array payload.
+     * @param array<string, mixed> $payload the exported array payload
      *
      * @return list<array<string, mixed>>
      */
@@ -105,7 +102,7 @@ final readonly class MemberGraphTopologyDotExporter implements MemberGraphTopolo
     /**
      * Returns exported edges from the payload.
      *
-     * @param array<string, mixed> $payload The exported array payload.
+     * @param array<string, mixed> $payload the exported array payload
      *
      * @return list<array<string, mixed>>
      */
@@ -123,7 +120,7 @@ final readonly class MemberGraphTopologyDotExporter implements MemberGraphTopolo
     /**
      * Keeps only associative array payload items.
      *
-     * @param array<mixed> $items The raw exported payload items.
+     * @param array<mixed> $items the raw exported payload items
      *
      * @return list<array<string, mixed>>
      */
@@ -155,9 +152,7 @@ final readonly class MemberGraphTopologyDotExporter implements MemberGraphTopolo
     /**
      * Builds a DOT attribute list.
      *
-     * @param array<string, string> $attributes The attributes to render.
-     *
-     * @return string
+     * @param array<string, string> $attributes the attributes to render
      */
     private function attributes(array $attributes): string
     {
@@ -177,9 +172,7 @@ final readonly class MemberGraphTopologyDotExporter implements MemberGraphTopolo
     /**
      * Builds a readable DOT node label.
      *
-     * @param array<string, mixed> $node The exported node payload.
-     *
-     * @return string
+     * @param array<string, mixed> $node the exported node payload
      */
     private function nodeLabel(array $node): string
     {
@@ -191,10 +184,10 @@ final readonly class MemberGraphTopologyDotExporter implements MemberGraphTopolo
             $type = $this->stringValue($member['type'] ?? '');
 
             if ('FUNCTION_' === $type) {
-                return $name . '()';
+                return $name.'()';
             }
 
-            return $owner . '::' . $name;
+            return $owner.'::'.$name;
         }
 
         $owner = $node['owner'] ?? null;
@@ -215,9 +208,7 @@ final readonly class MemberGraphTopologyDotExporter implements MemberGraphTopolo
     /**
      * Builds a readable DOT edge label.
      *
-     * @param array<string, mixed> $edge The exported edge payload.
-     *
-     * @return string
+     * @param array<string, mixed> $edge the exported edge payload
      */
     private function edgeLabel(array $edge): string
     {
@@ -237,7 +228,7 @@ final readonly class MemberGraphTopologyDotExporter implements MemberGraphTopolo
             $usageType = $this->stringValue($dependency['usageType'] ?? '');
 
             if ('' !== $usageType) {
-                return 'uses ' . $usageType;
+                return 'uses '.$usageType;
             }
         }
 
@@ -247,21 +238,17 @@ final readonly class MemberGraphTopologyDotExporter implements MemberGraphTopolo
     /**
      * Escapes a DOT string value.
      *
-     * @param string $value The raw value.
-     *
-     * @return string
+     * @param string $value the raw value
      */
     private function escape(string $value): string
     {
-        return addcslashes($value, "\\\"");
+        return addcslashes($value, '\\"');
     }
 
     /**
      * Converts a scalar-ish value to string.
      *
-     * @param mixed $value The value to convert.
-     *
-     * @return string
+     * @param mixed $value the value to convert
      */
     private function stringValue(mixed $value): string
     {

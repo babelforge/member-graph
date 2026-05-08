@@ -16,9 +16,9 @@ final readonly class MemberDependencyGraphPartialRebuildSourceView
     /**
      * Constructor.
      *
-     * @param MemberGraphGlobalIndexRebuildInput $globalIndexRebuildInput The reusable global-index rebuild input.
-     * @param MemberDependencyGraphPartialRebuildLoadedInput $loadedInput The source data loaded from files to rebuild.
-     * @param MemberGraphVirtualSourceMetadataCollection $allSourceMetadata The complete source metadata view.
+     * @param MemberGraphGlobalIndexRebuildInput             $globalIndexRebuildInput the reusable global-index rebuild input
+     * @param MemberDependencyGraphPartialRebuildLoadedInput $loadedInput             the source data loaded from files to rebuild
+     * @param MemberGraphVirtualSourceMetadataCollection     $allSourceMetadata       the complete source metadata view
      */
     public function __construct(
         public MemberGraphGlobalIndexRebuildInput $globalIndexRebuildInput,

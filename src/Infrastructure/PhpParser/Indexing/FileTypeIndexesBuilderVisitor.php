@@ -43,7 +43,6 @@ use PhpParser\NodeVisitorAbstract;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Parser\TokenIterator;
-use Throwable;
 
 /**
  * Builds all per-file type indexes in one AST traversal.
@@ -57,12 +56,12 @@ final class FileTypeIndexesBuilderVisitor extends NodeVisitorAbstract
     private UsesByAliasCollection $usesByAlias;
 
     /**
-     * @var string[] stack of method names.
+     * @var string[] stack of method names
      */
     private array $methodStack = [];
 
     /**
-     * @var string[] stack of function names.
+     * @var string[] stack of function names
      */
     private array $functionStack = [];
 
@@ -74,20 +73,20 @@ final class FileTypeIndexesBuilderVisitor extends NodeVisitorAbstract
     /**
      * Constructor.
      *
-     * @param ParserTypeNodeToSymbolCollectionResolver $typeResolver The parser type resolver.
-     * @param PhpDocTypeNodeResolver $phpDocTypeNodeResolver The structured PHPDoc type resolver.
-     * @param PhpDocTemplateDefinitionExtractor $phpDocTemplateDefinitionExtractor The template definition extractor.
-     * @param ReturnPhpDocTypeExtractor $returnPhpDocTypeExtractor The return PHPDoc type extractor.
-     * @param string $fullFilePath The full file path.
-     * @param string $virtualFilePath The virtual file path.
-     * @param MethodReturnTypeIndex $methodReturnTypeIndex The method return type index to fill.
-     * @param MethodParameterTypeIndex $methodParameterTypeIndex The method parameter type index to fill.
-     * @param FunctionReturnTypeIndex $functionReturnTypeIndex The function return type index to fill.
-     * @param FunctionParameterTypeIndex $functionParameterTypeIndex The function parameter type index to fill.
-     * @param PropertyTypeIndex $propertyTypeIndex The property type index to fill.
-     * @param PropertyStructuredTypeIndex $propertyStructuredTypeIndex The structured property type index to fill.
-     * @param ClassConstantTypeIndex $classConstantTypeIndex The class constant type index to fill.
-     * @param ClassConstantValueIndex $classConstantValueIndex The class constant value index to fill.
+     * @param ParserTypeNodeToSymbolCollectionResolver $typeResolver                      the parser type resolver
+     * @param PhpDocTypeNodeResolver                   $phpDocTypeNodeResolver            the structured PHPDoc type resolver
+     * @param PhpDocTemplateDefinitionExtractor        $phpDocTemplateDefinitionExtractor the template definition extractor
+     * @param ReturnPhpDocTypeExtractor                $returnPhpDocTypeExtractor         the return PHPDoc type extractor
+     * @param string                                   $fullFilePath                      the full file path
+     * @param string                                   $virtualFilePath                   the virtual file path
+     * @param MethodReturnTypeIndex                    $methodReturnTypeIndex             the method return type index to fill
+     * @param MethodParameterTypeIndex                 $methodParameterTypeIndex          the method parameter type index to fill
+     * @param FunctionReturnTypeIndex                  $functionReturnTypeIndex           the function return type index to fill
+     * @param FunctionParameterTypeIndex               $functionParameterTypeIndex        the function parameter type index to fill
+     * @param PropertyTypeIndex                        $propertyTypeIndex                 the property type index to fill
+     * @param PropertyStructuredTypeIndex              $propertyStructuredTypeIndex       the structured property type index to fill
+     * @param ClassConstantTypeIndex                   $classConstantTypeIndex            the class constant type index to fill
+     * @param ClassConstantValueIndex                  $classConstantValueIndex           the class constant value index to fill
      */
     public function __construct(
         private readonly ParserTypeNodeToSymbolCollectionResolver $typeResolver,
@@ -111,9 +110,7 @@ final class FileTypeIndexesBuilderVisitor extends NodeVisitorAbstract
     /**
      * Resets traversal state before one AST traversal.
      *
-     * @param array<int, Node> $nodes The traversed nodes.
-     *
-     * @return null
+     * @param array<int, Node> $nodes the traversed nodes
      */
     public function beforeTraverse(array $nodes): null
     {
@@ -132,9 +129,7 @@ final class FileTypeIndexesBuilderVisitor extends NodeVisitorAbstract
     /**
      * Handles node entry.
      *
-     * @param Node $node The current node.
-     *
-     * @return null
+     * @param Node $node the current node
      */
     public function enterNode(Node $node): null
     {
@@ -204,9 +199,7 @@ final class FileTypeIndexesBuilderVisitor extends NodeVisitorAbstract
     /**
      * Handles node exit.
      *
-     * @param Node $node The current node.
-     *
-     * @return null
+     * @param Node $node the current node
      */
     public function leaveNode(Node $node): null
     {
@@ -236,8 +229,6 @@ final class FileTypeIndexesBuilderVisitor extends NodeVisitorAbstract
 
     /**
      * Returns the built file indexes.
-     *
-     * @return FileTypeIndexes
      */
     public function fileTypeIndexes(): FileTypeIndexes
     {
@@ -256,9 +247,7 @@ final class FileTypeIndexesBuilderVisitor extends NodeVisitorAbstract
     /**
      * Registers one regular use statement.
      *
-     * @param Use_ $useNode The use statement.
-     *
-     * @return void
+     * @param Use_ $useNode the use statement
      */
     private function registerUseStatement(Use_ $useNode): void
     {
@@ -276,9 +265,7 @@ final class FileTypeIndexesBuilderVisitor extends NodeVisitorAbstract
     /**
      * Registers one grouped use statement.
      *
-     * @param GroupUse $groupUseNode The grouped use statement.
-     *
-     * @return void
+     * @param GroupUse $groupUseNode the grouped use statement
      */
     private function registerGroupUseStatement(GroupUse $groupUseNode): void
     {
@@ -291,16 +278,14 @@ final class FileTypeIndexesBuilderVisitor extends NodeVisitorAbstract
                 continue;
             }
 
-            $this->usesByAlias->set($alias, $prefix . '\\' . $useUse->name->toString());
+            $this->usesByAlias->set($alias, $prefix.'\\'.$useUse->name->toString());
         }
     }
 
     /**
      * Enters one class-like owner.
      *
-     * @param ClassLike $classLike The class-like node.
-     *
-     * @return void
+     * @param ClassLike $classLike the class-like node
      */
     private function enterClassLike(ClassLike $classLike): void
     {
@@ -322,9 +307,7 @@ final class FileTypeIndexesBuilderVisitor extends NodeVisitorAbstract
     /**
      * Registers one class method return type.
      *
-     * @param ClassMethod $method The class method node.
-     *
-     * @return void
+     * @param ClassMethod $method the class method node
      */
     private function registerClassMethod(ClassMethod $method): void
     {
@@ -366,9 +349,7 @@ final class FileTypeIndexesBuilderVisitor extends NodeVisitorAbstract
     /**
      * Registers one function return type.
      *
-     * @param Function_ $function The function node.
-     *
-     * @return void
+     * @param Function_ $function the function node
      */
     private function registerFunction(Function_ $function): void
     {
@@ -401,9 +382,7 @@ final class FileTypeIndexesBuilderVisitor extends NodeVisitorAbstract
     /**
      * Registers one parameter type.
      *
-     * @param Node\Param $parameter The parameter node.
-     *
-     * @return void
+     * @param Node\Param $parameter the parameter node
      */
     private function registerParameter(Node\Param $parameter): void
     {
@@ -446,9 +425,7 @@ final class FileTypeIndexesBuilderVisitor extends NodeVisitorAbstract
     /**
      * Registers native property types.
      *
-     * @param Property $property The property declaration node.
-     *
-     * @return void
+     * @param Property $property the property declaration node
      */
     private function registerProperty(Property $property): void
     {
@@ -476,9 +453,7 @@ final class FileTypeIndexesBuilderVisitor extends NodeVisitorAbstract
     /**
      * Registers structured PHPDoc property types.
      *
-     * @param Property $property The property declaration node.
-     *
-     * @return void
+     * @param Property $property the property declaration node
      */
     private function registerStructuredProperty(Property $property): void
     {
@@ -522,9 +497,7 @@ final class FileTypeIndexesBuilderVisitor extends NodeVisitorAbstract
     /**
      * Registers native types from constructor-promoted properties.
      *
-     * @param ClassMethod $method The class method node.
-     *
-     * @return void
+     * @param ClassMethod $method the class method node
      */
     private function registerPromotedProperties(ClassMethod $method): void
     {
@@ -554,9 +527,7 @@ final class FileTypeIndexesBuilderVisitor extends NodeVisitorAbstract
     /**
      * Registers structured PHPDoc types from constructor-promoted properties.
      *
-     * @param ClassMethod $method The class method node.
-     *
-     * @return void
+     * @param ClassMethod $method the class method node
      */
     private function registerStructuredPromotedProperties(ClassMethod $method): void
     {
@@ -604,7 +575,7 @@ final class FileTypeIndexesBuilderVisitor extends NodeVisitorAbstract
     /**
      * Resolves constructor PHPDoc param tags by parameter name.
      *
-     * @param PhpDocNode $phpDocNode The parsed PHPDoc node.
+     * @param PhpDocNode $phpDocNode the parsed PHPDoc node
      *
      * @return array<string, ResolvedPhpDocType>
      */
@@ -636,9 +607,7 @@ final class FileTypeIndexesBuilderVisitor extends NodeVisitorAbstract
     /**
      * Resolves one PHPDoc param tag parameter name.
      *
-     * @param ParamTagValueNode $paramTagValue The param tag value.
-     *
-     * @return string|null
+     * @param ParamTagValueNode $paramTagValue the param tag value
      */
     private function resolveParameterName(ParamTagValueNode $paramTagValue): ?string
     {
@@ -654,9 +623,7 @@ final class FileTypeIndexesBuilderVisitor extends NodeVisitorAbstract
     /**
      * Registers class constant names and scalar values.
      *
-     * @param ClassConst $classConst The class constant node.
-     *
-     * @return void
+     * @param ClassConst $classConst the class constant node
      */
     private function registerClassConstants(ClassConst $classConst): void
     {
@@ -685,9 +652,7 @@ final class FileTypeIndexesBuilderVisitor extends NodeVisitorAbstract
     /**
      * Registers one enum case as a class constant.
      *
-     * @param EnumCase $enumCase The enum case node.
-     *
-     * @return void
+     * @param EnumCase $enumCase the enum case node
      */
     private function registerEnumCase(EnumCase $enumCase): void
     {
@@ -704,10 +669,8 @@ final class FileTypeIndexesBuilderVisitor extends NodeVisitorAbstract
     /**
      * Creates a type index context.
      *
-     * @param string $owner The current owner.
-     * @param string $member The current member.
-     *
-     * @return TypeIndexContext
+     * @param string $owner  the current owner
+     * @param string $member the current member
      */
     private function createContext(string $owner, string $member = ''): TypeIndexContext
     {
@@ -722,8 +685,6 @@ final class FileTypeIndexesBuilderVisitor extends NodeVisitorAbstract
 
     /**
      * Returns the current class template definitions.
-     *
-     * @return PhpDocTemplateDefinitionCollection
      */
     private function currentClassTemplateDefinitions(): PhpDocTemplateDefinitionCollection
     {
@@ -732,8 +693,6 @@ final class FileTypeIndexesBuilderVisitor extends NodeVisitorAbstract
 
     /**
      * Returns the effective namespace for the current owner.
-     *
-     * @return string
      */
     private function currentNamespace(): string
     {
@@ -753,9 +712,7 @@ final class FileTypeIndexesBuilderVisitor extends NodeVisitorAbstract
     /**
      * Returns the fully-qualified function name.
      *
-     * @param Function_ $function The function node.
-     *
-     * @return string
+     * @param Function_ $function the function node
      */
     private function functionName(Function_ $function): string
     {
@@ -764,7 +721,7 @@ final class FileTypeIndexesBuilderVisitor extends NodeVisitorAbstract
         }
 
         if ('' !== $this->currentNamespace) {
-            return $this->currentNamespace . '\\' . $function->name->toString();
+            return $this->currentNamespace.'\\'.$function->name->toString();
         }
 
         return $function->name->toString();
@@ -773,9 +730,7 @@ final class FileTypeIndexesBuilderVisitor extends NodeVisitorAbstract
     /**
      * Resolves a supported scalar constant value.
      *
-     * @param Node $value The constant value node.
-     *
-     * @return int|string|null
+     * @param Node $value the constant value node
      */
     private function resolveScalarValue(Node $value): int|string|null
     {
@@ -793,9 +748,7 @@ final class FileTypeIndexesBuilderVisitor extends NodeVisitorAbstract
     /**
      * Parses one PHPDoc node from one doc comment.
      *
-     * @param Doc $docComment The doc comment.
-     *
-     * @return PhpDocNode|null
+     * @param Doc $docComment the doc comment
      */
     private function parsePhpDocNode(Doc $docComment): ?PhpDocNode
     {
@@ -806,7 +759,7 @@ final class FileTypeIndexesBuilderVisitor extends NodeVisitorAbstract
             );
 
             return $factory->createParser()->parse($tokens);
-        } catch (Throwable) {
+        } catch (\Throwable) {
             return null;
         }
     }

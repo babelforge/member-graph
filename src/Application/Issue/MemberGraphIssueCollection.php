@@ -4,17 +4,12 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Application\Issue;
 
-use Countable;
-use IteratorAggregate;
-use Traversable;
-
 /**
- * Class PhpDocResolutionIssueCollection
+ * Class PhpDocResolutionIssueCollection.
  *
- *
- * @implements IteratorAggregate<int, MemberGraphIssueInterface>
+ * @implements \IteratorAggregate<int, MemberGraphIssueInterface>
  */
-final class MemberGraphIssueCollection implements Countable, IteratorAggregate
+final class MemberGraphIssueCollection implements \Countable, \IteratorAggregate
 {
     /** @var MemberGraphIssueInterface[] */
     private array $items = [];
@@ -38,25 +33,16 @@ final class MemberGraphIssueCollection implements Countable, IteratorAggregate
         return $this->items;
     }
 
-    /**
-     * @return bool
-     */
     public function isEmpty(): bool
     {
         return [] === $this->items;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         yield from $this->items;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function count(): int
     {
         return count($this->items);

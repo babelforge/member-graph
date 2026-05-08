@@ -12,9 +12,7 @@ final readonly class MemberGraphCachePathNormalizer
     /**
      * Normalizes a file path for cache lookup.
      *
-     * @param string $filePath The file path to normalize.
-     *
-     * @return string
+     * @param string $filePath the file path to normalize
      */
     public function normalize(string $filePath): string
     {

@@ -4,17 +4,14 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Domain\Usage;
 
-use Countable;
-use IteratorAggregate;
 use PhpNoobs\MemberGraph\Domain\Graph\MemberId;
-use Traversable;
 
 /**
  * Stores member usages indexed by target.
  *
- * @implements IteratorAggregate<string, list<MemberUsage>>
+ * @implements \IteratorAggregate<string, list<MemberUsage>>
  */
-final class MemberUsageCollection implements Countable, IteratorAggregate
+final class MemberUsageCollection implements \Countable, \IteratorAggregate
 {
     /**
      * @var array<string, list<MemberUsage>>
@@ -34,9 +31,7 @@ final class MemberUsageCollection implements Countable, IteratorAggregate
     /**
      * Adds one member usage.
      *
-     * @param MemberUsage $usage The usage to add.
-     *
-     * @return void
+     * @param MemberUsage $usage the usage to add
      */
     public function add(MemberUsage $usage): void
     {
@@ -47,7 +42,7 @@ final class MemberUsageCollection implements Countable, IteratorAggregate
     /**
      * Returns usages indexed for one member identifier.
      *
-     * @param MemberId $id The target member identifier.
+     * @param MemberId $id the target member identifier
      *
      * @return list<MemberUsage>
      */
@@ -59,9 +54,9 @@ final class MemberUsageCollection implements Countable, IteratorAggregate
     /**
      * Returns an iterator over member usages grouped by target member hash.
      *
-     * @return Traversable<string, list<MemberUsage>>
+     * @return \Traversable<string, list<MemberUsage>>
      */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         foreach ($this->byTarget as $target => $usages) {
             yield $target => array_values($usages);
@@ -70,8 +65,6 @@ final class MemberUsageCollection implements Countable, IteratorAggregate
 
     /**
      * Counts all member usages.
-     *
-     * @return int
      */
     public function count(): int
     {

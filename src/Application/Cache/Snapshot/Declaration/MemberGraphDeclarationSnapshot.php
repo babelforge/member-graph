@@ -12,13 +12,13 @@ final readonly class MemberGraphDeclarationSnapshot
     /**
      * Constructor.
      *
-     * @param OwnerDeclarationSnapshotCollection $owners The owner declaration snapshots.
-     * @param MethodDeclarationSnapshotCollection $methods The method declaration snapshots.
-     * @param FunctionDeclarationSnapshotCollection $functions The function declaration snapshots.
-     * @param ParameterDeclarationSnapshotCollection $parameters The callable parameter declaration snapshots.
-     * @param PropertyDeclarationSnapshotCollection $properties The property declaration snapshots.
-     * @param ClassConstantDeclarationSnapshotCollection $classConstants The class constant declaration snapshots.
-     * @param TemplateDeclarationSnapshotCollection $templates The template declaration snapshots.
+     * @param OwnerDeclarationSnapshotCollection         $owners         the owner declaration snapshots
+     * @param MethodDeclarationSnapshotCollection        $methods        the method declaration snapshots
+     * @param FunctionDeclarationSnapshotCollection      $functions      the function declaration snapshots
+     * @param ParameterDeclarationSnapshotCollection     $parameters     the callable parameter declaration snapshots
+     * @param PropertyDeclarationSnapshotCollection      $properties     the property declaration snapshots
+     * @param ClassConstantDeclarationSnapshotCollection $classConstants the class constant declaration snapshots
+     * @param TemplateDeclarationSnapshotCollection      $templates      the template declaration snapshots
      */
     public function __construct(
         public OwnerDeclarationSnapshotCollection $owners = new OwnerDeclarationSnapshotCollection(),

@@ -16,12 +16,12 @@ final readonly class MemberImpact
     /**
      * Constructor.
      *
-     * @param MemberImpactTarget $target The queried impact target.
-     * @param MemberDeclarationCollection $declarations The impacted declarations.
-     * @param MemberUsageCollection $memberUsages The impacted member usages.
-     * @param ParameterUsageCollection $parameterUsages The impacted parameter usages.
-     * @param ImpactedOwnerCollection $impactedOwners The impacted owners.
-     * @param ImpactedFileCollection $impactedFiles The impacted files.
+     * @param MemberImpactTarget          $target          the queried impact target
+     * @param MemberDeclarationCollection $declarations    the impacted declarations
+     * @param MemberUsageCollection       $memberUsages    the impacted member usages
+     * @param ParameterUsageCollection    $parameterUsages the impacted parameter usages
+     * @param ImpactedOwnerCollection     $impactedOwners  the impacted owners
+     * @param ImpactedFileCollection      $impactedFiles   the impacted files
      */
     public function __construct(
         public MemberImpactTarget $target,

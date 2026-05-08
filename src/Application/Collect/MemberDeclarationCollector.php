@@ -24,8 +24,8 @@ final readonly class MemberDeclarationCollector
     /**
      * Constructor.
      *
-     * @param MemberDeclarationCollection $declarations The declarations collection.
-     * @param string $virtualFilePath The current virtual file path.
+     * @param MemberDeclarationCollection $declarations    the declarations collection
+     * @param string                      $virtualFilePath the current virtual file path
      */
     public function __construct(
         private MemberDeclarationCollection $declarations,
@@ -36,10 +36,8 @@ final readonly class MemberDeclarationCollector
     /**
      * Collects one method declaration.
      *
-     * @param ClassMethod $method The method node.
-     * @param string $owner The current class-like owner.
-     *
-     * @return void
+     * @param ClassMethod $method the method node
+     * @param string      $owner  the current class-like owner
      */
     public function collectMethod(ClassMethod $method, string $owner): void
     {
@@ -61,10 +59,8 @@ final readonly class MemberDeclarationCollector
     /**
      * Collects one function declaration.
      *
-     * @param Function_ $function The function node.
-     * @param string $functionName The fully-qualified function name.
-     *
-     * @return void
+     * @param Function_ $function     the function node
+     * @param string    $functionName the fully-qualified function name
      */
     public function collectFunction(Function_ $function, string $functionName): void
     {
@@ -82,10 +78,8 @@ final readonly class MemberDeclarationCollector
     /**
      * Collects property declarations.
      *
-     * @param Property $propertyNode The property declaration node.
-     * @param string $owner The current class-like owner.
-     *
-     * @return void
+     * @param Property $propertyNode the property declaration node
+     * @param string   $owner        the current class-like owner
      */
     public function collectProperties(Property $propertyNode, string $owner): void
     {
@@ -109,10 +103,8 @@ final readonly class MemberDeclarationCollector
     /**
      * Collects class-constant declarations.
      *
-     * @param ClassConst $classConst The class-constant declaration node.
-     * @param string $owner The current class-like owner.
-     *
-     * @return void
+     * @param ClassConst $classConst the class-constant declaration node
+     * @param string     $owner      the current class-like owner
      */
     public function collectClassConstants(ClassConst $classConst, string $owner): void
     {
@@ -136,10 +128,8 @@ final readonly class MemberDeclarationCollector
     /**
      * Collects one enum-case declaration as a class-constant declaration.
      *
-     * @param EnumCase $enumCase The enum-case node.
-     * @param string $owner The current class-like owner.
-     *
-     * @return void
+     * @param EnumCase $enumCase the enum-case node
+     * @param string   $owner    the current class-like owner
      */
     public function collectEnumCase(EnumCase $enumCase, string $owner): void
     {
@@ -161,10 +151,8 @@ final readonly class MemberDeclarationCollector
     /**
      * Collects property declarations created by constructor property promotion.
      *
-     * @param ClassMethod $method The method node.
-     * @param string $owner The current class-like owner.
-     *
-     * @return void
+     * @param ClassMethod $method the method node
+     * @param string      $owner  the current class-like owner
      */
     public function collectPromotedProperties(ClassMethod $method, string $owner): void
     {

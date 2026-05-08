@@ -14,12 +14,12 @@ final readonly class SourceNodeId
     /**
      * Constructor.
      *
-     * @param string $virtualFilePath The virtual file path containing the node.
-     * @param string $nodeType The PHPParser node class.
-     * @param int $startFilePos The start file offset.
-     * @param int $endFilePos The end file offset.
-     * @param int $startLine The start line.
-     * @param int $endLine The end line.
+     * @param string $virtualFilePath the virtual file path containing the node
+     * @param string $nodeType        the PHPParser node class
+     * @param int    $startFilePos    the start file offset
+     * @param int    $endFilePos      the end file offset
+     * @param int    $startLine       the start line
+     * @param int    $endLine         the end line
      */
     public function __construct(
         public string $virtualFilePath,
@@ -34,10 +34,8 @@ final readonly class SourceNodeId
     /**
      * Creates a source node identifier from parser attributes.
      *
-     * @param string $virtualFilePath The virtual file path containing the node.
-     * @param Node $node The source node.
-     *
-     * @return self|null
+     * @param string $virtualFilePath the virtual file path containing the node
+     * @param Node   $node            the source node
      */
     public static function fromNode(string $virtualFilePath, Node $node): ?self
     {
@@ -67,8 +65,6 @@ final readonly class SourceNodeId
 
     /**
      * Returns a stable hash for indexing and comparisons.
-     *
-     * @return string
      */
     public function hash(): string
     {
@@ -85,9 +81,7 @@ final readonly class SourceNodeId
     /**
      * Indicates whether this identifier equals another one.
      *
-     * @param self $other The identifier to compare.
-     *
-     * @return bool
+     * @param self $other the identifier to compare
      */
     public function equals(self $other): bool
     {

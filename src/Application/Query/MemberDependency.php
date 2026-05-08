@@ -15,10 +15,10 @@ final readonly class MemberDependency
     /**
      * Constructor.
      *
-     * @param MemberId $source The member where the usage appears.
-     * @param MemberId $target The targeted member.
-     * @param MemberUsageType $usageType The member usage type.
-     * @param string $file The file where the usage appears.
+     * @param MemberId        $source    the member where the usage appears
+     * @param MemberId        $target    the targeted member
+     * @param MemberUsageType $usageType the member usage type
+     * @param string          $file      the file where the usage appears
      */
     public function __construct(
         public MemberId $source,
@@ -30,8 +30,6 @@ final readonly class MemberDependency
 
     /**
      * Returns a stable dependency hash.
-     *
-     * @return string
      */
     public function hash(): string
     {

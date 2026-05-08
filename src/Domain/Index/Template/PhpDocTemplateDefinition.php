@@ -7,7 +7,7 @@ namespace PhpNoobs\MemberGraph\Domain\Index\Template;
 use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
 
 /**
- * Class PhpDocTemplateDefinition
+ * Class PhpDocTemplateDefinition.
  */
 final class PhpDocTemplateDefinition
 {

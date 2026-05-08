@@ -12,10 +12,10 @@ final readonly class MemberGraphCachePayloadMigrationResult
     /**
      * Constructor.
      *
-     * @param MemberGraphCachePayloadMigrationStatus $status The migration status.
-     * @param MemberGraphCachePayload|null $payload The migrated or unchanged payload when available.
-     * @param int $sourceSchemaVersion The original schema version.
-     * @param int $targetSchemaVersion The target schema version.
+     * @param MemberGraphCachePayloadMigrationStatus $status              the migration status
+     * @param MemberGraphCachePayload|null           $payload             the migrated or unchanged payload when available
+     * @param int                                    $sourceSchemaVersion the original schema version
+     * @param int                                    $targetSchemaVersion the target schema version
      */
     public function __construct(
         public MemberGraphCachePayloadMigrationStatus $status,
@@ -28,9 +28,7 @@ final readonly class MemberGraphCachePayloadMigrationResult
     /**
      * Creates an unchanged migration result.
      *
-     * @param MemberGraphCachePayload $payload The already compatible payload.
-     *
-     * @return self
+     * @param MemberGraphCachePayload $payload the already compatible payload
      */
     public static function unchanged(MemberGraphCachePayload $payload): self
     {
@@ -44,10 +42,8 @@ final readonly class MemberGraphCachePayloadMigrationResult
     /**
      * Creates a migrated payload result.
      *
-     * @param MemberGraphCachePayload $payload The migrated payload.
-     * @param int $sourceSchemaVersion The original schema version.
-     *
-     * @return self
+     * @param MemberGraphCachePayload $payload             the migrated payload
+     * @param int                     $sourceSchemaVersion the original schema version
      */
     public static function migrated(MemberGraphCachePayload $payload, int $sourceSchemaVersion): self
     {
@@ -61,9 +57,7 @@ final readonly class MemberGraphCachePayloadMigrationResult
     /**
      * Creates an unsupported migration result.
      *
-     * @param int $sourceSchemaVersion The original schema version.
-     *
-     * @return self
+     * @param int $sourceSchemaVersion the original schema version
      */
     public static function unsupported(int $sourceSchemaVersion): self
     {

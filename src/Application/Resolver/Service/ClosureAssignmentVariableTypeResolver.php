@@ -24,8 +24,8 @@ final readonly class ClosureAssignmentVariableTypeResolver
     /**
      * Constructor.
      *
-     * @param ClosureDocTypeResolver $closureDocTypeResolver The closure-local PHPDoc resolver.
-     * @param ArgumentStructuredTypeResolver $argumentStructuredTypeResolver The structured expression resolver.
+     * @param ClosureDocTypeResolver         $closureDocTypeResolver         the closure-local PHPDoc resolver
+     * @param ArgumentStructuredTypeResolver $argumentStructuredTypeResolver the structured expression resolver
      */
     public function __construct(
         private ClosureDocTypeResolver $closureDocTypeResolver,
@@ -36,12 +36,10 @@ final readonly class ClosureAssignmentVariableTypeResolver
     /**
      * Collects simple local variable assignments inside one node.
      *
-     * @param Node $node The node to inspect.
-     * @param array<string, VariableTypeInfo> $localVariableTypes The mutable local variable type map.
-     * @param ExpressionResolutionContext $context The current expression resolution context.
-     * @param ExpressionTypeResolverInterface $expressionTypeResolver The recursive expression resolver.
-     *
-     * @return void
+     * @param Node                            $node                   the node to inspect
+     * @param array<string, VariableTypeInfo> $localVariableTypes     the mutable local variable type map
+     * @param ExpressionResolutionContext     $context                the current expression resolution context
+     * @param ExpressionTypeResolverInterface $expressionTypeResolver the recursive expression resolver
      */
     public function collectFromNode(
         Node $node,
@@ -83,9 +81,7 @@ final readonly class ClosureAssignmentVariableTypeResolver
     /**
      * Returns whether one node is a simple `$variable = expression` statement.
      *
-     * @param Node $node The node to inspect.
-     *
-     * @return bool
+     * @param Node $node the node to inspect
      */
     private function isSimpleVariableAssignmentExpression(Node $node): bool
     {
@@ -98,12 +94,10 @@ final readonly class ClosureAssignmentVariableTypeResolver
     /**
      * Collects one assigned local variable type.
      *
-     * @param Node $node The assignment expression statement.
-     * @param array<string, VariableTypeInfo> $localVariableTypes The mutable local variable type map.
-     * @param ExpressionResolutionContext $context The current expression resolution context.
-     * @param ExpressionTypeResolverInterface $expressionTypeResolver The recursive expression resolver.
-     *
-     * @return void
+     * @param Node                            $node                   the assignment expression statement
+     * @param array<string, VariableTypeInfo> $localVariableTypes     the mutable local variable type map
+     * @param ExpressionResolutionContext     $context                the current expression resolution context
+     * @param ExpressionTypeResolverInterface $expressionTypeResolver the recursive expression resolver
      */
     private function collectAssignedVariableType(
         Node $node,

@@ -4,12 +4,6 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Application\Build\Source;
 
-use FilesystemIterator;
-use IteratorAggregate;
-use RecursiveDirectoryIterator;
-use RecursiveIteratorIterator;
-use SplFileInfo;
-
 /**
  * Scans PHP source files for member dependency graph builds.
  */
@@ -18,8 +12,8 @@ final readonly class MemberGraphPhpFileScanner
     /**
      * Scans PHP files from directories while applying directory exclusions.
      *
-     * @param list<string> $directories Base directories to scan.
-     * @param list<string> $excludedDirectories Directories to exclude.
+     * @param list<string> $directories         base directories to scan
+     * @param list<string> $excludedDirectories directories to exclude
      *
      * @return list<string>
      */
@@ -36,9 +30,9 @@ final readonly class MemberGraphPhpFileScanner
         foreach ($directories as $directory) {
             $realDirectory = realpath($directory) ?: $directory;
 
-            /** @var IteratorAggregate<SplFileInfo> $iterator */
-            $iterator = new RecursiveIteratorIterator(
-                new RecursiveDirectoryIterator($realDirectory, FilesystemIterator::SKIP_DOTS),
+            /** @var \IteratorAggregate<\SplFileInfo> $iterator */
+            $iterator = new \RecursiveIteratorIterator(
+                new \RecursiveDirectoryIterator($realDirectory, \FilesystemIterator::SKIP_DOTS),
             );
 
             foreach ($iterator as $file) {
@@ -49,7 +43,7 @@ final readonly class MemberGraphPhpFileScanner
                 $filePath = $file->getPathname();
 
                 foreach ($normalizedExcludedDirectories as $excludedDirectory) {
-                    if (str_starts_with($filePath, $excludedDirectory . DIRECTORY_SEPARATOR)) {
+                    if (str_starts_with($filePath, $excludedDirectory.DIRECTORY_SEPARATOR)) {
                         continue 2;
                     }
                 }
@@ -66,7 +60,7 @@ final readonly class MemberGraphPhpFileScanner
     /**
      * Normalizes directory paths.
      *
-     * @param list<string> $directories Directories to normalize.
+     * @param list<string> $directories directories to normalize
      *
      * @return list<string>
      */

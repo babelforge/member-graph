@@ -4,18 +4,7 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Tests\Integration\Stability;
 
-use PhpNoobs\MemberGraph\Application\Validator\PhpDoc\PhpDocResolutionIssue;
-use PhpNoobs\MemberGraph\Application\Validator\PhpDoc\PhpDocResolutionIssueType;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberOriginType;
 use PhpNoobs\MemberGraph\Domain\Graph\MemberType;
-use PhpNoobs\MemberGraph\Domain\Index\Template\PhpDocTemplateDefinitionCollection;
-use PhpNoobs\MemberGraph\Domain\Type\TypeIndexContext;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Parser\PhpDocParserFactory;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\PhpDocTagKind;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\PhpDocTypeNodeResolver;
-use PhpNoobs\MemberGraph\Infrastructure\UseStatements\UsesByAliasCollection;
-use PhpParser\Modifiers;
-use PHPStan\PhpDocParser\Parser\TokenIterator;
 
 /**
  * Covers migrated legacy member graph stability fixtures.
@@ -24,30 +13,28 @@ final class MemberGraphConstantsEnumsPropertiesTest extends AbstractMemberGraphS
 {
     /**
      * Ensures legacy fixture 33 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testClassConstFetchIsResolved(): void
     {
         $sources = [
             'TestCase33.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase33;
+                namespace TestCase33;
 
-class A
-{
-    public const FOO = 'bar';
-}
+                class A
+                {
+                    public const FOO = 'bar';
+                }
 
-class B
-{
-    public function run(): void
-    {
-        A::FOO;
-    }
-}
-PHP,
+                class B
+                {
+                    public function run(): void
+                    {
+                        A::FOO;
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -67,40 +54,36 @@ PHP,
         }
 
         $this->assertTrue($found);
-
-
     }
 
     /**
      * Ensures legacy fixture 34 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInheritedClassConstFetchIsResolved(): void
     {
         $sources = [
             'TestCase34.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase34;
+                namespace TestCase34;
 
-class A
-{
-    public const FOO = 'bar';
-}
+                class A
+                {
+                    public const FOO = 'bar';
+                }
 
-class B extends A
-{
-}
+                class B extends A
+                {
+                }
 
-class C
-{
-    public function run(): void
-    {
-        B::FOO;
-    }
-}
-PHP,
+                class C
+                {
+                    public function run(): void
+                    {
+                        B::FOO;
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -120,38 +103,34 @@ PHP,
         }
 
         $this->assertTrue($found);
-
-
     }
 
     /**
      * Ensures legacy fixture 228 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testStaticPropertyNativeTypeFeedsMethodCall(): void
     {
         $sources = [
             'TestCase228.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase228;
+                namespace TestCase228;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Registry {
-    public static Mailer $mailer;
-}
+                class Registry {
+                    public static Mailer $mailer;
+                }
 
-class TestClass {
-    public function run(): void {
-        Registry::$mailer = new Mailer();
-        Registry::$mailer->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): void {
+                        Registry::$mailer = new Mailer();
+                        Registry::$mailer->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -175,35 +154,33 @@ PHP,
 
     /**
      * Ensures legacy fixture 229 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInheritedStaticPropertyNativeTypeFeedsMethodCall(): void
     {
         $sources = [
             'TestCase229.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase229;
+                namespace TestCase229;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class ParentRegistry {
-    public static Mailer $mailer;
-}
+                class ParentRegistry {
+                    public static Mailer $mailer;
+                }
 
-class Registry extends ParentRegistry {
-}
+                class Registry extends ParentRegistry {
+                }
 
-class TestClass {
-    public function run(): void {
-        Registry::$mailer = new Mailer();
-        Registry::$mailer->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): void {
+                        Registry::$mailer = new Mailer();
+                        Registry::$mailer->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -227,30 +204,28 @@ PHP,
 
     /**
      * Ensures legacy fixture 230 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testSelfStaticPropertyNativeTypeFeedsMethodCall(): void
     {
         $sources = [
             'TestCase230.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase230;
+                namespace TestCase230;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Registry {
-    public static Mailer $mailer;
+                class Registry {
+                    public static Mailer $mailer;
 
-    public function run(): void {
-        self::$mailer = new Mailer();
-        self::$mailer->send();
-    }
-}
-PHP,
+                    public function run(): void {
+                        self::$mailer = new Mailer();
+                        self::$mailer->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -260,30 +235,28 @@ PHP,
 
     /**
      * Ensures legacy fixture 231 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testStaticStaticPropertyNativeTypeFeedsMethodCall(): void
     {
         $sources = [
             'TestCase231.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase231;
+                namespace TestCase231;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Registry {
-    public static Mailer $mailer;
+                class Registry {
+                    public static Mailer $mailer;
 
-    public function run(): void {
-        static::$mailer = new Mailer();
-        static::$mailer->send();
-    }
-}
-PHP,
+                    public function run(): void {
+                        static::$mailer = new Mailer();
+                        static::$mailer->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -293,32 +266,30 @@ PHP,
 
     /**
      * Ensures legacy fixture 232 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testParentStaticPropertyNativeTypeFeedsMethodCall(): void
     {
         $sources = [
             'TestCase232.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase232;
+                namespace TestCase232;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class ParentRegistry {
-    public static Mailer $mailer;
-}
+                class ParentRegistry {
+                    public static Mailer $mailer;
+                }
 
-class Registry extends ParentRegistry {
-    public function run(): void {
-        parent::$mailer = new Mailer();
-        parent::$mailer->send();
-    }
-}
-PHP,
+                class Registry extends ParentRegistry {
+                    public function run(): void {
+                        parent::$mailer = new Mailer();
+                        parent::$mailer->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -328,52 +299,50 @@ PHP,
 
     /**
      * Ensures legacy fixture 234 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testStaticPropertyGenericPhpDocFeedsChainedMethodCall(): void
     {
         $sources = [
             'TestCase234.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase234;
+                namespace TestCase234;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-/**
- * @template T
- */
-class Box {
-    /**
-     * @param T $value
-     */
-    public function __construct(private mixed $value) {}
+                /**
+                 * @template T
+                 */
+                class Box {
+                    /**
+                     * @param T $value
+                     */
+                    public function __construct(private mixed $value) {}
 
-    /**
-     * @return T
-     */
-    public function get(): mixed {
-        return $this->value;
-    }
-}
+                    /**
+                     * @return T
+                     */
+                    public function get(): mixed {
+                        return $this->value;
+                    }
+                }
 
-class Registry {
-    /**
-     * @var Box<Mailer>
-     */
-    public static Box $box;
-}
+                class Registry {
+                    /**
+                     * @var Box<Mailer>
+                     */
+                    public static Box $box;
+                }
 
-class TestClass {
-    public function run(): void {
-        Registry::$box = new Box(new Mailer());
-        Registry::$box->get()->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): void {
+                        Registry::$box = new Box(new Mailer());
+                        Registry::$box->get()->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -383,35 +352,33 @@ PHP,
 
     /**
      * Ensures legacy fixture 235 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testStaticPropertyUnionNativeTypeFeedsAllMethodOwners(): void
     {
         $sources = [
             'TestCase235.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase235;
+                namespace TestCase235;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Notifier {
-    public function send(): void {}
-}
+                class Notifier {
+                    public function send(): void {}
+                }
 
-class Registry {
-    public static Mailer|Notifier $service;
-}
+                class Registry {
+                    public static Mailer|Notifier $service;
+                }
 
-class TestClass {
-    public function run(): void {
-        Registry::$service->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): void {
+                        Registry::$service->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -422,32 +389,30 @@ PHP,
 
     /**
      * Ensures legacy fixture 236 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testNullableStaticPropertyFeedsNullsafeMethodCall(): void
     {
         $sources = [
             'TestCase236.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase236;
+                namespace TestCase236;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Registry {
-    public static ?Mailer $mailer = null;
-}
+                class Registry {
+                    public static ?Mailer $mailer = null;
+                }
 
-class TestClass {
-    public function run(): void {
-        Registry::$mailer = new Mailer();
-        Registry::$mailer?->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): void {
+                        Registry::$mailer = new Mailer();
+                        Registry::$mailer?->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -457,39 +422,37 @@ PHP,
 
     /**
      * Ensures legacy fixture 241 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testStaticPropertyImportedPhpDocTypeFeedsMethodCall(): void
     {
         $sources = [
             'TestCase241.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase241\Domain;
+                namespace TestCase241\Domain;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-namespace TestCase241\App;
+                namespace TestCase241\App;
 
-use TestCase241\Domain\Mailer as DomainMailer;
+                use TestCase241\Domain\Mailer as DomainMailer;
 
-class Registry {
-    /**
-     * @var DomainMailer
-     */
-    public static $mailer;
-}
+                class Registry {
+                    /**
+                     * @var DomainMailer
+                     */
+                    public static $mailer;
+                }
 
-class TestClass {
-    public function run(): void {
-        Registry::$mailer = new DomainMailer();
-        Registry::$mailer->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): void {
+                        Registry::$mailer = new DomainMailer();
+                        Registry::$mailer->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -499,25 +462,23 @@ PHP,
 
     /**
      * Ensures legacy fixture 242 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testSelfClassConstantFetchTargetsDeclaringOwner(): void
     {
         $sources = [
             'TestCase242.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase242;
+                namespace TestCase242;
 
-class Registry {
-    public const TOKEN = 'token';
+                class Registry {
+                    public const TOKEN = 'token';
 
-    public function run(): string {
-        return self::TOKEN;
-    }
-}
-PHP,
+                    public function run(): string {
+                        return self::TOKEN;
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -527,25 +488,23 @@ PHP,
 
     /**
      * Ensures legacy fixture 243 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testStaticClassConstantFetchTargetsDeclaringOwner(): void
     {
         $sources = [
             'TestCase243.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase243;
+                namespace TestCase243;
 
-class Registry {
-    public const TOKEN = 'token';
+                class Registry {
+                    public const TOKEN = 'token';
 
-    public function run(): string {
-        return static::TOKEN;
-    }
-}
-PHP,
+                    public function run(): string {
+                        return static::TOKEN;
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -555,27 +514,25 @@ PHP,
 
     /**
      * Ensures legacy fixture 244 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testParentClassConstantFetchTargetsParentOwner(): void
     {
         $sources = [
             'TestCase244.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase244;
+                namespace TestCase244;
 
-class ParentRegistry {
-    public const TOKEN = 'token';
-}
+                class ParentRegistry {
+                    public const TOKEN = 'token';
+                }
 
-class Registry extends ParentRegistry {
-    public function run(): string {
-        return parent::TOKEN;
-    }
-}
-PHP,
+                class Registry extends ParentRegistry {
+                    public function run(): string {
+                        return parent::TOKEN;
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -585,30 +542,28 @@ PHP,
 
     /**
      * Ensures legacy fixture 245 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInheritedClassConstantFetchTargetsParentOwner(): void
     {
         $sources = [
             'TestCase245.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase245;
+                namespace TestCase245;
 
-class ParentRegistry {
-    public const TOKEN = 'token';
-}
+                class ParentRegistry {
+                    public const TOKEN = 'token';
+                }
 
-class Registry extends ParentRegistry {
-}
+                class Registry extends ParentRegistry {
+                }
 
-class TestClass {
-    public function run(): string {
-        return Registry::TOKEN;
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): string {
+                        return Registry::TOKEN;
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -618,31 +573,29 @@ PHP,
 
     /**
      * Ensures legacy fixture 251 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testImportedAliasClassConstantFetchTargetsResolvedOwner(): void
     {
         $sources = [
             'TestCase251.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase251\Domain;
+                namespace TestCase251\Domain;
 
-class Registry {
-    public const TOKEN = 'token';
-}
+                class Registry {
+                    public const TOKEN = 'token';
+                }
 
-namespace TestCase251\App;
+                namespace TestCase251\App;
 
-use TestCase251\Domain\Registry as DomainRegistry;
+                use TestCase251\Domain\Registry as DomainRegistry;
 
-class TestClass {
-    public function run(): string {
-        return DomainRegistry::TOKEN;
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): string {
+                        return DomainRegistry::TOKEN;
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -652,31 +605,29 @@ PHP,
 
     /**
      * Ensures legacy fixture 252 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testOwnClassConstantOverridesParentClassConstantOwner(): void
     {
         $sources = [
             'TestCase252.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase252;
+                namespace TestCase252;
 
-class ParentRegistry {
-    public const TOKEN = 'parent';
-}
+                class ParentRegistry {
+                    public const TOKEN = 'parent';
+                }
 
-class Registry extends ParentRegistry {
-    public const TOKEN = 'child';
-}
+                class Registry extends ParentRegistry {
+                    public const TOKEN = 'child';
+                }
 
-class TestClass {
-    public function run(): string {
-        return Registry::TOKEN;
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): string {
+                        return Registry::TOKEN;
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -686,29 +637,27 @@ PHP,
 
     /**
      * Ensures legacy fixture 254 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testPromotedPropertyNativeTypeFeedsMethodCall(): void
     {
         $sources = [
             'TestCase254.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase254;
+                namespace TestCase254;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Service {
-    public function __construct(private Mailer $mailer) {}
+                class Service {
+                    public function __construct(private Mailer $mailer) {}
 
-    public function run(): void {
-        $this->mailer->send();
-    }
-}
-PHP,
+                    public function run(): void {
+                        $this->mailer->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -718,25 +667,23 @@ PHP,
 
     /**
      * Ensures legacy fixture 255 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testPromotedPropertyDeclarationIsCollected(): void
     {
         $sources = [
             'TestCase255.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase255;
+                namespace TestCase255;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Service {
-    public function __construct(private Mailer $mailer) {}
-}
-PHP,
+                class Service {
+                    public function __construct(private Mailer $mailer) {}
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -758,29 +705,27 @@ PHP,
 
     /**
      * Ensures legacy fixture 256 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testPromotedNullablePropertyFeedsNullsafeMethodCall(): void
     {
         $sources = [
             'TestCase256.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase256;
+                namespace TestCase256;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Service {
-    public function __construct(private ?Mailer $mailer) {}
+                class Service {
+                    public function __construct(private ?Mailer $mailer) {}
 
-    public function run(): void {
-        $this->mailer?->send();
-    }
-}
-PHP,
+                    public function run(): void {
+                        $this->mailer?->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -790,33 +735,31 @@ PHP,
 
     /**
      * Ensures legacy fixture 257 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testPromotedUnionPropertyFeedsAllMethodOwners(): void
     {
         $sources = [
             'TestCase257.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase257;
+                namespace TestCase257;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Notifier {
-    public function send(): void {}
-}
+                class Notifier {
+                    public function send(): void {}
+                }
 
-class Service {
-    public function __construct(private Mailer|Notifier $service) {}
+                class Service {
+                    public function __construct(private Mailer|Notifier $service) {}
 
-    public function run(): void {
-        $this->service->send();
-    }
-}
-PHP,
+                    public function run(): void {
+                        $this->service->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -827,31 +770,29 @@ PHP,
 
     /**
      * Ensures legacy fixture 258 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInheritedPromotedPropertyNativeTypeFeedsMethodCall(): void
     {
         $sources = [
             'TestCase258.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase258;
+                namespace TestCase258;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class ParentService {
-    public function __construct(protected Mailer $mailer) {}
-}
+                class ParentService {
+                    public function __construct(protected Mailer $mailer) {}
+                }
 
-class Service extends ParentService {
-    public function run(): void {
-        $this->mailer->send();
-    }
-}
-PHP,
+                class Service extends ParentService {
+                    public function run(): void {
+                        $this->mailer->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -861,49 +802,47 @@ PHP,
 
     /**
      * Ensures legacy fixture 260 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testPromotedPropertyGenericPhpDocFeedsChainedMethodCall(): void
     {
         $sources = [
             'TestCase260.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase260;
+                namespace TestCase260;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-/**
- * @template T
- */
-class Box {
-    /**
-     * @param T $value
-     */
-    public function __construct(private mixed $value) {}
+                /**
+                 * @template T
+                 */
+                class Box {
+                    /**
+                     * @param T $value
+                     */
+                    public function __construct(private mixed $value) {}
 
-    /**
-     * @return T
-     */
-    public function get(): mixed {
-        return $this->value;
-    }
-}
+                    /**
+                     * @return T
+                     */
+                    public function get(): mixed {
+                        return $this->value;
+                    }
+                }
 
-class Service {
-    /**
-     * @param Box<Mailer> $box
-     */
-    public function __construct(private Box $box) {}
+                class Service {
+                    /**
+                     * @param Box<Mailer> $box
+                     */
+                    public function __construct(private Box $box) {}
 
-    public function run(): void {
-        $this->box->get()->send();
-    }
-}
-PHP,
+                    public function run(): void {
+                        $this->box->get()->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -913,36 +852,34 @@ PHP,
 
     /**
      * Ensures legacy fixture 262 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testPromotedPropertyImportedPhpDocTypeFeedsMethodCall(): void
     {
         $sources = [
             'TestCase262.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase262\Domain;
+                namespace TestCase262\Domain;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-namespace TestCase262\App;
+                namespace TestCase262\App;
 
-use TestCase262\Domain\Mailer as DomainMailer;
+                use TestCase262\Domain\Mailer as DomainMailer;
 
-class Service {
-    /**
-     * @param DomainMailer $mailer
-     */
-    public function __construct(private $mailer) {}
+                class Service {
+                    /**
+                     * @param DomainMailer $mailer
+                     */
+                    public function __construct(private $mailer) {}
 
-    public function run(): void {
-        $this->mailer->send();
-    }
-}
-PHP,
+                    public function run(): void {
+                        $this->mailer->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -952,29 +889,27 @@ PHP,
 
     /**
      * Ensures legacy fixture 263 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testPromotedReadonlyPropertyNativeTypeFeedsMethodCall(): void
     {
         $sources = [
             'TestCase263.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase263;
+                namespace TestCase263;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Service {
-    public function __construct(private readonly Mailer $mailer) {}
+                class Service {
+                    public function __construct(private readonly Mailer $mailer) {}
 
-    public function run(): void {
-        $this->mailer->send();
-    }
-}
-PHP,
+                    public function run(): void {
+                        $this->mailer->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -984,27 +919,25 @@ PHP,
 
     /**
      * Ensures legacy fixture 264 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testEnumCaseFetchTargetsEnumOwner(): void
     {
         $sources = [
             'TestCase264.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase264;
+                namespace TestCase264;
 
-enum Status {
-    case Open;
-}
+                enum Status {
+                    case Open;
+                }
 
-class TestClass {
-    public function run(): Status {
-        return Status::Open;
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): Status {
+                        return Status::Open;
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1014,27 +947,25 @@ PHP,
 
     /**
      * Ensures legacy fixture 265 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testBackedEnumCaseFetchTargetsEnumOwner(): void
     {
         $sources = [
             'TestCase265.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase265;
+                namespace TestCase265;
 
-enum Status: string {
-    case Open = 'open';
-}
+                enum Status: string {
+                    case Open = 'open';
+                }
 
-class TestClass {
-    public function run(): Status {
-        return Status::Open;
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): Status {
+                        return Status::Open;
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1044,27 +975,25 @@ PHP,
 
     /**
      * Ensures legacy fixture 266 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testEnumCaseDeclarationIsCollected(): void
     {
         $sources = [
             'TestCase266.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase266;
+                namespace TestCase266;
 
-enum Status {
-    case Open;
-}
+                enum Status {
+                    case Open;
+                }
 
-class TestClass {
-    public function run(): Status {
-        return Status::Open;
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): Status {
+                        return Status::Open;
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1086,29 +1015,27 @@ PHP,
 
     /**
      * Ensures legacy fixture 267 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testEnumCaseMethodCallTargetsEnumMethod(): void
     {
         $sources = [
             'TestCase267.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase267;
+                namespace TestCase267;
 
-enum Status {
-    case Open;
+                enum Status {
+                    case Open;
 
-    public function notify(): void {}
-}
+                    public function notify(): void {}
+                }
 
-class TestClass {
-    public function run(): void {
-        Status::Open->notify();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): void {
+                        Status::Open->notify();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1118,33 +1045,31 @@ PHP,
 
     /**
      * Ensures legacy fixture 268 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testEnumStaticMethodReturnTypeFeedsChainedMethodCall(): void
     {
         $sources = [
             'TestCase268.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase268;
+                namespace TestCase268;
 
-enum Status {
-    case Open;
+                enum Status {
+                    case Open;
 
-    public static function make(): self {
-        return self::Open;
-    }
+                    public static function make(): self {
+                        return self::Open;
+                    }
 
-    public function notify(): void {}
-}
+                    public function notify(): void {}
+                }
 
-class TestClass {
-    public function run(): void {
-        Status::make()->notify();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): void {
+                        Status::make()->notify();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1154,31 +1079,29 @@ PHP,
 
     /**
      * Ensures legacy fixture 269 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testImportedEnumAliasCaseFetchTargetsResolvedOwner(): void
     {
         $sources = [
             'TestCase269.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase269\Domain;
+                namespace TestCase269\Domain;
 
-enum Status {
-    case Open;
-}
+                enum Status {
+                    case Open;
+                }
 
-namespace TestCase269\App;
+                namespace TestCase269\App;
 
-use TestCase269\Domain\Status as DomainStatus;
+                use TestCase269\Domain\Status as DomainStatus;
 
-class TestClass {
-    public function run(): DomainStatus {
-        return DomainStatus::Open;
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): DomainStatus {
+                        return DomainStatus::Open;
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1188,31 +1111,29 @@ PHP,
 
     /**
      * Ensures legacy fixture 273 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testSelfEnumCaseFetchTargetsDeclaringOwner(): void
     {
         $sources = [
             'TestCase273.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase273;
+                namespace TestCase273;
 
-enum Status {
-    case Open;
+                enum Status {
+                    case Open;
 
-    public function other(): self {
-        return self::Open;
-    }
-}
+                    public function other(): self {
+                        return self::Open;
+                    }
+                }
 
-class TestClass {
-    public function run(): Status {
-        return Status::Open->other();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): Status {
+                        return Status::Open->other();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);

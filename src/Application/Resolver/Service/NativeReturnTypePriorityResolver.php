@@ -18,10 +18,8 @@ final readonly class NativeReturnTypePriorityResolver
     /**
      * Returns whether the native return type should override the structured PHPDoc return type.
      *
-     * @param FunctionLikeReturnType|null $details The native return metadata.
-     * @param ResolvedPhpDocType $structuredReturnType The structured return type.
-     *
-     * @return bool
+     * @param FunctionLikeReturnType|null $details              the native return metadata
+     * @param ResolvedPhpDocType          $structuredReturnType the structured return type
      */
     public function shouldUseNativeReturnTypeForStructuredResolution(
         ?FunctionLikeReturnType $details,
@@ -74,10 +72,8 @@ final readonly class NativeReturnTypePriorityResolver
     /**
      * Returns whether non-template structured returns can be consumed directly by value extraction.
      *
-     * @param FunctionLikeReturnType|null $details The native return metadata.
-     * @param bool $isMethodLike Whether the target is method-like.
-     *
-     * @return bool
+     * @param FunctionLikeReturnType|null $details      the native return metadata
+     * @param bool                        $isMethodLike whether the target is method-like
      */
     public function shouldUseValueExtractionStrategy(
         ?FunctionLikeReturnType $details,
@@ -93,9 +89,7 @@ final readonly class NativeReturnTypePriorityResolver
     /**
      * Returns whether one structured type has no template references left.
      *
-     * @param ResolvedPhpDocType $type The type to inspect.
-     *
-     * @return bool
+     * @param ResolvedPhpDocType $type the type to inspect
      */
     private function isFullyResolved(ResolvedPhpDocType $type): bool
     {
@@ -105,9 +99,7 @@ final readonly class NativeReturnTypePriorityResolver
     /**
      * Returns whether one structured type contains any template reference recursively.
      *
-     * @param ResolvedPhpDocType $type The type to inspect.
-     *
-     * @return bool
+     * @param ResolvedPhpDocType $type the type to inspect
      */
     private function containsTemplateReference(ResolvedPhpDocType $type): bool
     {
@@ -159,9 +151,7 @@ final readonly class NativeReturnTypePriorityResolver
     /**
      * Returns whether one structured PHPDoc type carries refinements beyond plain symbols.
      *
-     * @param ResolvedPhpDocType $structuredType The structured PHPDoc type.
-     *
-     * @return bool
+     * @param ResolvedPhpDocType $structuredType the structured PHPDoc type
      */
     private function hasStructuredTypeRefinement(ResolvedPhpDocType $structuredType): bool
     {
@@ -178,14 +168,12 @@ final readonly class NativeReturnTypePriorityResolver
     /**
      * Returns whether native return metadata exists and has a native return type.
      *
-     * @param FunctionLikeReturnType|null $details The native return metadata.
-     *
-     * @return bool
+     * @param FunctionLikeReturnType|null $details the native return metadata
      */
     private function hasNativeReturnType(?FunctionLikeReturnType $details): bool
     {
         return null !== $details
             && $details->parentNode instanceof FunctionLike
-            && $details->parentNode->getReturnType() !== null;
+            && null !== $details->parentNode->getReturnType();
     }
 }

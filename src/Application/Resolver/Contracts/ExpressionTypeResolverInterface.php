@@ -20,47 +20,37 @@ interface ExpressionTypeResolverInterface
     /**
      * Resolves the best-known type for one expression.
      *
-     * @param Node $expression The expression to resolve.
-     * @param array<string, VariableTypeInfo> $variableTypes Known local variable types.
-     * @param string $currentClass The current class-like owner.
-     * @param PhpDocTemplateDefinitionCollection $templateDefinitions Known template definitions.
-     * @param UsesByAliasCollection $usesByAlias Known uses by alias.
+     * @param Node                               $expression          the expression to resolve
+     * @param array<string, VariableTypeInfo>    $variableTypes       known local variable types
+     * @param string                             $currentClass        the current class-like owner
+     * @param PhpDocTemplateDefinitionCollection $templateDefinitions known template definitions
+     * @param UsesByAliasCollection              $usesByAlias         known uses by alias
      *
-     * @return SymbolCollection Resolved FQCN or null when unknown.
+     * @return SymbolCollection resolved FQCN or null when unknown
      */
     public function resolve(
-        Node                               $expression,
-        array                              $variableTypes,
-        string                             $currentClass,
+        Node $expression,
+        array $variableTypes,
+        string $currentClass,
         PhpDocTemplateDefinitionCollection $templateDefinitions,
-        UsesByAliasCollection              $usesByAlias,
+        UsesByAliasCollection $usesByAlias,
     ): SymbolCollection;
 
     /**
      * Resolves the structured PHPDoc type of one expression when possible.
      *
-     * @param Expr $expression
      * @param array<string, VariableTypeInfo> $variableTypes
-     * @param string $currentClass
-     * @param PhpDocTemplateDefinitionCollection $templateDefinitions
-     * @param UsesByAliasCollection $usesByAlias
-     *
-     * @return ResolvedPhpDocType|null
      */
     public function resolveStructuredPhpDocType(
-        Expr                               $expression,
-        array                              $variableTypes,
-        string                             $currentClass,
+        Expr $expression,
+        array $variableTypes,
+        string $currentClass,
         PhpDocTemplateDefinitionCollection $templateDefinitions,
-        UsesByAliasCollection              $usesByAlias,
+        UsesByAliasCollection $usesByAlias,
     ): ?ResolvedPhpDocType;
 
     /**
      * Extracts flat symbols from one structured type when possible.
-     *
-     * @param ResolvedPhpDocType|null $structuredType
-     *
-     * @return SymbolCollection
      */
     public function extractStructuredSymbols(?ResolvedPhpDocType $structuredType): SymbolCollection;
 }

@@ -15,7 +15,7 @@ final readonly class ClassNameResolver
     /**
      * Constructor.
      *
-     * @param StaticOwnerResolver $staticOwnerResolver The resolver used for special class references.
+     * @param StaticOwnerResolver $staticOwnerResolver the resolver used for special class references
      */
     public function __construct(
         private StaticOwnerResolver $staticOwnerResolver,
@@ -25,11 +25,9 @@ final readonly class ClassNameResolver
     /**
      * Resolves one name node to a fully-qualified class name.
      *
-     * @param Name $name The class name node.
-     * @param string $currentClass The current class-like owner FQCN.
-     * @param UsesByAliasCollection $usesByAlias The current file imports indexed by alias.
-     *
-     * @return string
+     * @param Name                  $name         the class name node
+     * @param string                $currentClass the current class-like owner FQCN
+     * @param UsesByAliasCollection $usesByAlias  the current file imports indexed by alias
      */
     public function resolve(Name $name, string $currentClass, UsesByAliasCollection $usesByAlias): string
     {
@@ -69,13 +67,13 @@ final readonly class ClassNameResolver
                 return $fqcn;
             }
 
-            return $fqcn . '\\' . implode('\\', $remainingParts);
+            return $fqcn.'\\'.implode('\\', $remainingParts);
         }
 
         $namespace = $this->extractNamespaceFromClass($currentClass);
 
         if ('' !== $namespace) {
-            return $namespace . '\\' . $raw;
+            return $namespace.'\\'.$raw;
         }
 
         return $raw;
@@ -84,9 +82,7 @@ final readonly class ClassNameResolver
     /**
      * Extracts the namespace part from one fully-qualified class name.
      *
-     * @param string $fqcn The fully-qualified class name.
-     *
-     * @return string
+     * @param string $fqcn the fully-qualified class name
      */
     private function extractNamespaceFromClass(string $fqcn): string
     {

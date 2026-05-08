@@ -21,9 +21,7 @@ final readonly class ConstFetchExpressionResolver implements ExpressionResolverI
     /**
      * Tells whether this resolver can handle the given node.
      *
-     * @param Node $expression The expression or expression-like node to inspect.
-     *
-     * @return bool
+     * @param Node $expression the expression or expression-like node to inspect
      */
     public function supports(Node $expression): bool
     {
@@ -35,11 +33,9 @@ final readonly class ConstFetchExpressionResolver implements ExpressionResolverI
      *
      * Constant fetches are currently only meaningful for structured scalar PHPDoc resolution.
      *
-     * @param Node $expression The constant-fetch expression.
-     * @param ExpressionResolutionContext $context The current expression resolution context.
-     * @param ExpressionTypeResolverInterface $fallbackResolver The facade resolver for recursive resolution.
-     *
-     * @return SymbolCollection|null
+     * @param Node                            $expression       the constant-fetch expression
+     * @param ExpressionResolutionContext     $context          the current expression resolution context
+     * @param ExpressionTypeResolverInterface $fallbackResolver the facade resolver for recursive resolution
      */
     public function resolve(
         Node $expression,
@@ -56,11 +52,9 @@ final readonly class ConstFetchExpressionResolver implements ExpressionResolverI
     /**
      * Resolves the structured PHPDoc type produced by a constant fetch.
      *
-     * @param Expr $expression The constant-fetch expression.
-     * @param ExpressionResolutionContext $context The current expression resolution context.
-     * @param ExpressionTypeResolverInterface $fallbackResolver The facade resolver for recursive resolution.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param Expr                            $expression       the constant-fetch expression
+     * @param ExpressionResolutionContext     $context          the current expression resolution context
+     * @param ExpressionTypeResolverInterface $fallbackResolver the facade resolver for recursive resolution
      */
     public function resolveStructuredPhpDocType(
         Expr $expression,

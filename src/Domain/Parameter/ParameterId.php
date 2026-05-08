@@ -10,9 +10,9 @@ namespace PhpNoobs\MemberGraph\Domain\Parameter;
 final readonly class ParameterId
 {
     /**
-     * @param string $owner The owner FQCN. Empty string for functions.
-     * @param string $functionLikeName The method name or fully-qualified function name.
-     * @param string $parameterName The parameter name without the leading "$".
+     * @param string $owner            The owner FQCN. Empty string for functions.
+     * @param string $functionLikeName the method name or fully-qualified function name
+     * @param string $parameterName    the parameter name without the leading "$"
      */
     public function __construct(
         public string $owner,
@@ -23,8 +23,6 @@ final readonly class ParameterId
 
     /**
      * Returns a stable hash for indexing.
-     *
-     * @return string
      */
     public function hash(): string
     {

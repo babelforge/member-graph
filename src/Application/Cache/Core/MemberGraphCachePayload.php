@@ -20,12 +20,12 @@ final readonly class MemberGraphCachePayload
     /**
      * Constructor.
      *
-     * @param int $schemaVersion The cache schema version.
-     * @param array<string, MemberGraphCacheFilePayload> $filesByPath Cache file payloads indexed by physical file path.
-     * @param MemberGraphVirtualFileReferenceCollection $virtualFileReferences Cached virtual file references.
-     * @param KnownOwnerCollection|null $knownOwners Cached known owners.
-     * @param MemberGraphGlobalIndexInputSnapshot|null $globalIndexInputSnapshot Cached global-index input snapshot.
-     * @param MemberGraphDeclarationSnapshot|null $declarationSnapshot Cached declaration snapshot.
+     * @param int                                        $schemaVersion            the cache schema version
+     * @param array<string, MemberGraphCacheFilePayload> $filesByPath              cache file payloads indexed by physical file path
+     * @param MemberGraphVirtualFileReferenceCollection  $virtualFileReferences    cached virtual file references
+     * @param KnownOwnerCollection|null                  $knownOwners              cached known owners
+     * @param MemberGraphGlobalIndexInputSnapshot|null   $globalIndexInputSnapshot cached global-index input snapshot
+     * @param MemberGraphDeclarationSnapshot|null        $declarationSnapshot      cached declaration snapshot
      */
     public function __construct(
         public int $schemaVersion = self::SCHEMA_VERSION,

@@ -39,19 +39,15 @@ final class MemberDependencyGraphPartialRebuildAssemblerTest extends TestCase
 
     /**
      * Prepares an isolated filesystem workspace.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
-        $this->workspace = sys_get_temp_dir() . '/member-graph-partial-assembler-' . bin2hex(random_bytes(6));
-        mkdir($this->workspace, 0777, true);
+        $this->workspace = sys_get_temp_dir().'/member-graph-partial-assembler-'.bin2hex(random_bytes(6));
+        mkdir($this->workspace, 0o777, true);
     }
 
     /**
      * Removes the isolated filesystem workspace.
-     *
-     * @return void
      */
     protected function tearDown(): void
     {
@@ -60,38 +56,36 @@ final class MemberDependencyGraphPartialRebuildAssemblerTest extends TestCase
 
     /**
      * Ensures partial rebuild data is assembled without executing graph rebuilding.
-     *
-     * @return void
      */
     public function testItAssemblesPreparedInputForFuturePartialRebuild(): void
     {
-        $changedFilePath = $this->workspace . '/Changed.php';
-        $reusableFilePath = $this->workspace . '/Reusable.php';
+        $changedFilePath = $this->workspace.'/Changed.php';
+        $reusableFilePath = $this->workspace.'/Reusable.php';
         $filesToBuild = new MemberGraphCacheFileCollection();
         $fragmentsToReuse = new MemberGraphFragmentCollection();
         $cachedSources = new MemberGraphVirtualSourceMetadataCollection();
         $cachedDeclarationSnapshot = new MemberGraphDeclarationSnapshot();
 
         file_put_contents($changedFilePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class Changed
-{
-    public int $value;
+            final class Changed
+            {
+                public int $value;
 
-    public const VALUE = 'new';
+                public const VALUE = 'new';
 
-    public function run(int $value): ChangedResult
-    {
-    }
-}
+                public function run(int $value): ChangedResult
+                {
+                }
+            }
 
-final class ChangedResult
-{
-}
-PHP);
+            final class ChangedResult
+            {
+            }
+            PHP);
         $filesToBuild->add($changedFilePath);
         $fragmentsToReuse->add($reusableFilePath, $this->emptyGraph());
         $this->addCachedSources($cachedSources, $reusableFilePath, $changedFilePath);
@@ -124,11 +118,9 @@ PHP);
     /**
      * Adds cached source metadata.
      *
-     * @param MemberGraphVirtualSourceMetadataCollection $cachedSources The cached sources.
-     * @param string $reusableFilePath The reusable physical file path.
-     * @param string $changedFilePath The changed physical file path.
-     *
-     * @return void
+     * @param MemberGraphVirtualSourceMetadataCollection $cachedSources    the cached sources
+     * @param string                                     $reusableFilePath the reusable physical file path
+     * @param string                                     $changedFilePath  the changed physical file path
      */
     private function addCachedSources(
         MemberGraphVirtualSourceMetadataCollection $cachedSources,
@@ -137,14 +129,14 @@ PHP);
     ): void {
         $cachedSources->add(new MemberGraphVirtualSourceMetadata(
             fullFilePath: $reusableFilePath,
-            virtualFilePath: $reusableFilePath . '.virtual.0',
+            virtualFilePath: $reusableFilePath.'.virtual.0',
             namespace: 'App',
             ownerName: 'App\\Reusable',
             ownerKind: OwnerKind::CLASS_,
         ));
         $cachedSources->add(new MemberGraphVirtualSourceMetadata(
             fullFilePath: $changedFilePath,
-            virtualFilePath: $changedFilePath . '.virtual.0',
+            virtualFilePath: $changedFilePath.'.virtual.0',
             namespace: 'App',
             ownerName: 'App\\OldChanged',
             ownerKind: OwnerKind::CLASS_,
@@ -154,11 +146,9 @@ PHP);
     /**
      * Adds cached declarations.
      *
-     * @param MemberGraphDeclarationSnapshot $snapshot The cached declaration snapshot.
-     * @param string $reusableFilePath The reusable physical file path.
-     * @param string $changedFilePath The changed physical file path.
-     *
-     * @return void
+     * @param MemberGraphDeclarationSnapshot $snapshot         the cached declaration snapshot
+     * @param string                         $reusableFilePath the reusable physical file path
+     * @param string                         $changedFilePath  the changed physical file path
      */
     private function addCachedDeclarations(
         MemberGraphDeclarationSnapshot $snapshot,
@@ -175,13 +165,13 @@ PHP);
             fqcn: 'App\\Reusable',
             kind: OwnerKind::CLASS_,
             fullFilePath: $reusableFilePath,
-            virtualFilePath: $reusableFilePath . '.virtual.0',
+            virtualFilePath: $reusableFilePath.'.virtual.0',
         ));
         $snapshot->methods->add(new MethodDeclarationSnapshot(
             ownerFqcn: 'App\\Reusable',
             name: 'run',
             fullFilePath: $reusableFilePath,
-            virtualFilePath: $reusableFilePath . '.virtual.0',
+            virtualFilePath: $reusableFilePath.'.virtual.0',
             nativeReturnType: 'App\\ReusableResult',
             parameters: $parameters,
         ));
@@ -189,35 +179,33 @@ PHP);
             fqcn: 'App\\Changed',
             kind: OwnerKind::CLASS_,
             fullFilePath: $changedFilePath,
-            virtualFilePath: $changedFilePath . '.virtual.0',
+            virtualFilePath: $changedFilePath.'.virtual.0',
         ));
         $snapshot->methods->add(new MethodDeclarationSnapshot(
             ownerFqcn: 'App\\Changed',
             name: 'deleted',
             fullFilePath: $changedFilePath,
-            virtualFilePath: $changedFilePath . '.virtual.0',
+            virtualFilePath: $changedFilePath.'.virtual.0',
             nativeReturnType: 'string',
         ));
         $snapshot->properties->add(new PropertyDeclarationSnapshot(
             ownerFqcn: 'App\\Changed',
             name: 'deleted',
             fullFilePath: $changedFilePath,
-            virtualFilePath: $changedFilePath . '.virtual.0',
+            virtualFilePath: $changedFilePath.'.virtual.0',
             nativeType: 'string',
         ));
         $snapshot->classConstants->add(new ClassConstantDeclarationSnapshot(
             ownerFqcn: 'App\\Changed',
             name: 'DELETED',
             fullFilePath: $changedFilePath,
-            virtualFilePath: $changedFilePath . '.virtual.0',
+            virtualFilePath: $changedFilePath.'.virtual.0',
             scalarValue: 'old',
         ));
     }
 
     /**
      * Creates an empty member dependency graph.
-     *
-     * @return MemberDependencyGraph
      */
     private function emptyGraph(): MemberDependencyGraph
     {
@@ -235,9 +223,7 @@ PHP);
     /**
      * Removes a directory recursively.
      *
-     * @param string $directory The directory to remove.
-     *
-     * @return void
+     * @param string $directory the directory to remove
      */
     private function removeDirectory(string $directory): void
     {
@@ -256,7 +242,7 @@ PHP);
                 continue;
             }
 
-            $path = $directory . DIRECTORY_SEPARATOR . $item;
+            $path = $directory.DIRECTORY_SEPARATOR.$item;
 
             if (is_dir($path)) {
                 $this->removeDirectory($path);

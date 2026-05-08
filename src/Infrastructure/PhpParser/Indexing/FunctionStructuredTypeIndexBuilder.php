@@ -22,9 +22,9 @@ final readonly class FunctionStructuredTypeIndexBuilder
     /**
      * Constructor.
      *
-     * @param ReturnPhpDocTypeExtractor $returnPhpDocTypeExtractor The return PHPDoc type extractor.
-     * @param ParamPhpDocTypeExtractor $paramPhpDocTypeExtractor The parameter PHPDoc type extractor.
-     * @param PhpDocTemplateDefinitionExtractor $phpDocTemplateDefinitionExtractor The template definition extractor.
+     * @param ReturnPhpDocTypeExtractor         $returnPhpDocTypeExtractor         the return PHPDoc type extractor
+     * @param ParamPhpDocTypeExtractor          $paramPhpDocTypeExtractor          the parameter PHPDoc type extractor
+     * @param PhpDocTemplateDefinitionExtractor $phpDocTemplateDefinitionExtractor the template definition extractor
      */
     public function __construct(
         private ReturnPhpDocTypeExtractor $returnPhpDocTypeExtractor,
@@ -36,9 +36,7 @@ final readonly class FunctionStructuredTypeIndexBuilder
     /**
      * Builds structured function return and parameter type indexes.
      *
-     * @param FunctionReturnTypeIndex $functionReturnTypeIndex The function return type index.
-     *
-     * @return FunctionStructuredTypeBuildResult
+     * @param FunctionReturnTypeIndex $functionReturnTypeIndex the function return type index
      */
     public function build(
         FunctionReturnTypeIndex $functionReturnTypeIndex,

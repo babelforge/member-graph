@@ -24,7 +24,7 @@ final readonly class ClosureReturnTypeResolver
     /**
      * Constructor.
      *
-     * @param ArgumentStructuredTypeResolver $argumentStructuredTypeResolver The structured expression resolver.
+     * @param ArgumentStructuredTypeResolver $argumentStructuredTypeResolver the structured expression resolver
      */
     public function __construct(private ArgumentStructuredTypeResolver $argumentStructuredTypeResolver)
     {
@@ -33,12 +33,10 @@ final readonly class ClosureReturnTypeResolver
     /**
      * Resolves one arrow-function expression return type.
      *
-     * @param ArrowFunction $expression The arrow-function expression.
-     * @param array<string, VariableTypeInfo> $variableTypes The currently known local variable types.
-     * @param ExpressionResolutionContext $context The current expression resolution context.
-     * @param ExpressionTypeResolverInterface $expressionTypeResolver The recursive expression resolver.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param ArrowFunction                   $expression             the arrow-function expression
+     * @param array<string, VariableTypeInfo> $variableTypes          the currently known local variable types
+     * @param ExpressionResolutionContext     $context                the current expression resolution context
+     * @param ExpressionTypeResolverInterface $expressionTypeResolver the recursive expression resolver
      */
     public function resolveArrowFunctionReturnType(
         ArrowFunction $expression,
@@ -52,12 +50,10 @@ final readonly class ClosureReturnTypeResolver
     /**
      * Infers one closure return type from explicit return statements.
      *
-     * @param Closure $expression The closure expression.
-     * @param array<string, VariableTypeInfo> $variableTypes The currently known local variable types.
-     * @param ExpressionResolutionContext $context The current expression resolution context.
-     * @param ExpressionTypeResolverInterface $expressionTypeResolver The recursive expression resolver.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param Closure                         $expression             the closure expression
+     * @param array<string, VariableTypeInfo> $variableTypes          the currently known local variable types
+     * @param ExpressionResolutionContext     $context                the current expression resolution context
+     * @param ExpressionTypeResolverInterface $expressionTypeResolver the recursive expression resolver
      */
     public function resolveClosureInferredReturnType(
         Closure $expression,
@@ -94,13 +90,11 @@ final readonly class ClosureReturnTypeResolver
     /**
      * Collects structured return types recursively from one node.
      *
-     * @param Node $node The node to inspect.
-     * @param array<string, VariableTypeInfo> $variableTypes The currently known local variable types.
-     * @param ExpressionResolutionContext $context The current expression resolution context.
-     * @param ExpressionTypeResolverInterface $expressionTypeResolver The recursive expression resolver.
-     * @param ResolvedPhpDocTypeCollection $returnTypes The collected return types.
-     *
-     * @return void
+     * @param Node                            $node                   the node to inspect
+     * @param array<string, VariableTypeInfo> $variableTypes          the currently known local variable types
+     * @param ExpressionResolutionContext     $context                the current expression resolution context
+     * @param ExpressionTypeResolverInterface $expressionTypeResolver the recursive expression resolver
+     * @param ResolvedPhpDocTypeCollection    $returnTypes            the collected return types
      */
     private function collectStructuredReturnTypesFromNode(
         Node $node,
@@ -165,12 +159,10 @@ final readonly class ClosureReturnTypeResolver
     /**
      * Resolves one expression to a structured type using the given local variables.
      *
-     * @param Expr $expression The expression to resolve.
-     * @param array<string, VariableTypeInfo> $variableTypes The currently known local variable types.
-     * @param ExpressionResolutionContext $context The current expression resolution context.
-     * @param ExpressionTypeResolverInterface $expressionTypeResolver The recursive expression resolver.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param Expr                            $expression             the expression to resolve
+     * @param array<string, VariableTypeInfo> $variableTypes          the currently known local variable types
+     * @param ExpressionResolutionContext     $context                the current expression resolution context
+     * @param ExpressionTypeResolverInterface $expressionTypeResolver the recursive expression resolver
      */
     private function resolveExpressionType(
         Expr $expression,

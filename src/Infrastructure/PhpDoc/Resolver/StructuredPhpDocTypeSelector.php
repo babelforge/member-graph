@@ -14,10 +14,8 @@ final readonly class StructuredPhpDocTypeSelector
      *
      * The current type wins on equal richness to preserve the historical graph-builder behavior.
      *
-     * @param ResolvedPhpDocType|null $previousType The previous structured type.
-     * @param ResolvedPhpDocType|null $currentType The current structured type.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param ResolvedPhpDocType|null $previousType the previous structured type
+     * @param ResolvedPhpDocType|null $currentType  the current structured type
      */
     public function choose(
         ?ResolvedPhpDocType $previousType,
@@ -41,9 +39,7 @@ final readonly class StructuredPhpDocTypeSelector
     /**
      * Returns a heuristic richness score for one structured PHPDoc type.
      *
-     * @param ResolvedPhpDocType $type The type to score.
-     *
-     * @return int
+     * @param ResolvedPhpDocType $type the type to score
      */
     private function getRichnessScore(ResolvedPhpDocType $type): int
     {

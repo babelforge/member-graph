@@ -22,8 +22,6 @@ final class MemberGraphGlobalIndexRebuildInputMergerTest extends TestCase
 {
     /**
      * Ensures loaded sources extend the reusable source metadata view.
-     *
-     * @return void
      */
     public function testItMergesReusableAndLoadedSources(): void
     {
@@ -50,8 +48,6 @@ final class MemberGraphGlobalIndexRebuildInputMergerTest extends TestCase
 
     /**
      * Ensures loaded sources replace reusable sources with the same virtual file path.
-     *
-     * @return void
      */
     public function testItLetsLoadedSourcesReplaceReusableSourcesWithTheSameVirtualPath(): void
     {
@@ -78,8 +74,6 @@ final class MemberGraphGlobalIndexRebuildInputMergerTest extends TestCase
 
     /**
      * Ensures missing loaded metadata leaves only reusable sources in the final view.
-     *
-     * @return void
      */
     public function testItKeepsOnlyReusableSourcesWhenNoLoadedSourcesAreAvailable(): void
     {
@@ -102,8 +96,6 @@ final class MemberGraphGlobalIndexRebuildInputMergerTest extends TestCase
      * Creates source metadata collection.
      *
      * @param MemberGraphVirtualSourceMetadata ...$metadata The source metadata entries.
-     *
-     * @return MemberGraphVirtualSourceMetadataCollection
      */
     private function sources(MemberGraphVirtualSourceMetadata ...$metadata): MemberGraphVirtualSourceMetadataCollection
     {
@@ -119,9 +111,7 @@ final class MemberGraphGlobalIndexRebuildInputMergerTest extends TestCase
     /**
      * Creates a global-index rebuild input.
      *
-     * @param MemberGraphVirtualSourceMetadataCollection $reusableSources The reusable sources.
-     *
-     * @return MemberGraphGlobalIndexRebuildInput
+     * @param MemberGraphVirtualSourceMetadataCollection $reusableSources the reusable sources
      */
     private function rebuildInput(MemberGraphVirtualSourceMetadataCollection $reusableSources): MemberGraphGlobalIndexRebuildInput
     {

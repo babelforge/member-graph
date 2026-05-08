@@ -8,7 +8,7 @@ use PhpNoobs\MemberGraph\Domain\Index\Template\PhpDocTemplateDefinition;
 use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
 
 /**
- * Trait RulesTrait
+ * Trait RulesTrait.
  */
 trait RulesTrait
 {
@@ -21,9 +21,7 @@ trait RulesTrait
      * - or one usable generic argument,
      * - or one usable shape field.
      *
-     * @param ResolvedPhpDocType $type The type to inspect.
-     *
-     * @return bool
+     * @param ResolvedPhpDocType $type the type to inspect
      */
     public function isUsableType(ResolvedPhpDocType $type): bool
     {
@@ -53,9 +51,7 @@ trait RulesTrait
     /**
      * Returns whether one structured return type is usable.
      *
-     * @param ResolvedPhpDocType|null $returnType The structured return type.
-     *
-     * @return bool
+     * @param ResolvedPhpDocType|null $returnType the structured return type
      */
     public function isValidReturnTag(?ResolvedPhpDocType $returnType): bool
     {
@@ -69,9 +65,7 @@ trait RulesTrait
     /**
      * Returns whether one structured parameter type is usable.
      *
-     * @param ResolvedPhpDocType|null $parameterType The structured parameter type.
-     *
-     * @return bool
+     * @param ResolvedPhpDocType|null $parameterType the structured parameter type
      */
     public function isValidParamTag(?ResolvedPhpDocType $parameterType): bool
     {
@@ -85,9 +79,7 @@ trait RulesTrait
     /**
      * Returns whether one template definition is valid.
      *
-     * @param PhpDocTemplateDefinition $definition The template definition to inspect.
-     *
-     * @return bool
+     * @param PhpDocTemplateDefinition $definition the template definition to inspect
      */
     public function isValidTemplateDefinition(PhpDocTemplateDefinition $definition): bool
     {
@@ -97,7 +89,7 @@ trait RulesTrait
     /**
      * Collects all referenced template names from one structured type tree.
      *
-     * @param ResolvedPhpDocType $type The type to inspect.
+     * @param ResolvedPhpDocType $type the type to inspect
      *
      * @return array<int, string>
      */
@@ -132,10 +124,8 @@ trait RulesTrait
     /**
      * Returns whether all return-template references are still anchored in parameters.
      *
-     * @param ResolvedPhpDocType|null $returnType The structured return type.
-     * @param array<string, ResolvedPhpDocType> $paramsByName The structured parameter types indexed by parameter name.
-     *
-     * @return bool
+     * @param ResolvedPhpDocType|null           $returnType   the structured return type
+     * @param array<string, ResolvedPhpDocType> $paramsByName the structured parameter types indexed by parameter name
      */
     private function areReturnTemplatesAnchoredInParams(
         ?ResolvedPhpDocType $returnType,

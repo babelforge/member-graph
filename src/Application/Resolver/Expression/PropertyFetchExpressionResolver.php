@@ -26,9 +26,9 @@ final readonly class PropertyFetchExpressionResolver implements ExpressionResolv
     /**
      * Constructor.
      *
-     * @param StructuredPhpDocTypeInspector $structuredPhpDocTypeInspector The structured PHPDoc inspector.
-     * @param InstancePropertyStructuredTypeResolver $instancePropertyStructuredTypeResolver The instance property structured type resolver.
-     * @param PropertyTypeResolver $propertyTypeResolver The property type resolver.
+     * @param StructuredPhpDocTypeInspector          $structuredPhpDocTypeInspector          the structured PHPDoc inspector
+     * @param InstancePropertyStructuredTypeResolver $instancePropertyStructuredTypeResolver the instance property structured type resolver
+     * @param PropertyTypeResolver                   $propertyTypeResolver                   the property type resolver
      */
     public function __construct(
         private StructuredPhpDocTypeInspector $structuredPhpDocTypeInspector,
@@ -40,9 +40,7 @@ final readonly class PropertyFetchExpressionResolver implements ExpressionResolv
     /**
      * Tells whether this resolver can handle the given node.
      *
-     * @param Node $expression The expression or expression-like node to inspect.
-     *
-     * @return bool
+     * @param Node $expression the expression or expression-like node to inspect
      */
     public function supports(Node $expression): bool
     {
@@ -52,11 +50,9 @@ final readonly class PropertyFetchExpressionResolver implements ExpressionResolv
     /**
      * Resolves symbols produced by an instance or nullsafe property fetch.
      *
-     * @param Node $expression The property-fetch expression.
-     * @param ExpressionResolutionContext $context The current expression resolution context.
-     * @param ExpressionTypeResolverInterface $fallbackResolver The facade resolver for recursive resolution.
-     *
-     * @return SymbolCollection|null
+     * @param Node                            $expression       the property-fetch expression
+     * @param ExpressionResolutionContext     $context          the current expression resolution context
+     * @param ExpressionTypeResolverInterface $fallbackResolver the facade resolver for recursive resolution
      */
     public function resolve(
         Node $expression,
@@ -107,11 +103,9 @@ final readonly class PropertyFetchExpressionResolver implements ExpressionResolv
     /**
      * Resolves the structured PHPDoc type produced by an instance or nullsafe property fetch.
      *
-     * @param Expr $expression The property-fetch expression.
-     * @param ExpressionResolutionContext $context The current expression resolution context.
-     * @param ExpressionTypeResolverInterface $fallbackResolver The facade resolver for recursive resolution.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param Expr                            $expression       the property-fetch expression
+     * @param ExpressionResolutionContext     $context          the current expression resolution context
+     * @param ExpressionTypeResolverInterface $fallbackResolver the facade resolver for recursive resolution
      */
     public function resolveStructuredPhpDocType(
         Expr $expression,

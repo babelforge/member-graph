@@ -30,22 +30,22 @@ final readonly class MemberGraphGlobalIndexes
     /**
      * Constructor.
      *
-     * @param KnownOwnerCollection $knownOwners The known owners collection.
-     * @param MethodNodeIndex $methodNodeIndex The global method node index.
-     * @param FunctionNodeIndex $functionNodeIndex The global function node index.
-     * @param ClassLikeNodeIndex $classLikeNodeIndex The global class-like node index.
-     * @param MethodReturnTypeIndex $methodReturnTypeIndex The global method return type index.
-     * @param MethodParameterTypeIndex $methodParameterTypeIndex The global method parameter type index.
-     * @param MethodReturnInferredStructuredTypeIndex $methodReturnInferredStructuredTypeIndex The global inferred method structured return type index.
-     * @param FunctionReturnTypeIndex $functionReturnTypeIndex The global function return type index.
-     * @param FunctionParameterTypeIndex $functionParameterTypeIndex The global function parameter type index.
-     * @param FunctionReturnInferredStructuredTypeIndex $functionReturnInferredStructuredTypeIndex The global inferred function structured return type index.
-     * @param PropertyTypeIndex $propertyTypeIndex The global property type index.
-     * @param PropertyStructuredTypeIndex $propertyStructuredTypeIndex The global structured property type index.
-     * @param ClassConstantTypeIndex $classConstantTypeIndex The global class constant type index.
-     * @param ClassConstantValueIndex $classConstantValueIndex The global class constant value index.
-     * @param ClassTemplateDefinitionIndex $classTemplateDefinitionIndex The global class template definition index.
-     * @param PolymorphicImplementationsIndex $polymorphicImplementationsIndex The global polymorphic implementations index.
+     * @param KnownOwnerCollection                      $knownOwners                               the known owners collection
+     * @param MethodNodeIndex                           $methodNodeIndex                           the global method node index
+     * @param FunctionNodeIndex                         $functionNodeIndex                         the global function node index
+     * @param ClassLikeNodeIndex                        $classLikeNodeIndex                        the global class-like node index
+     * @param MethodReturnTypeIndex                     $methodReturnTypeIndex                     the global method return type index
+     * @param MethodParameterTypeIndex                  $methodParameterTypeIndex                  the global method parameter type index
+     * @param MethodReturnInferredStructuredTypeIndex   $methodReturnInferredStructuredTypeIndex   the global inferred method structured return type index
+     * @param FunctionReturnTypeIndex                   $functionReturnTypeIndex                   the global function return type index
+     * @param FunctionParameterTypeIndex                $functionParameterTypeIndex                the global function parameter type index
+     * @param FunctionReturnInferredStructuredTypeIndex $functionReturnInferredStructuredTypeIndex the global inferred function structured return type index
+     * @param PropertyTypeIndex                         $propertyTypeIndex                         the global property type index
+     * @param PropertyStructuredTypeIndex               $propertyStructuredTypeIndex               the global structured property type index
+     * @param ClassConstantTypeIndex                    $classConstantTypeIndex                    the global class constant type index
+     * @param ClassConstantValueIndex                   $classConstantValueIndex                   the global class constant value index
+     * @param ClassTemplateDefinitionIndex              $classTemplateDefinitionIndex              the global class template definition index
+     * @param PolymorphicImplementationsIndex           $polymorphicImplementationsIndex           the global polymorphic implementations index
      */
     public function __construct(
         public KnownOwnerCollection $knownOwners,
@@ -69,8 +69,6 @@ final readonly class MemberGraphGlobalIndexes
 
     /**
      * Creates the per-file member graph build context from the global indexes.
-     *
-     * @return MemberGraphBuildContext
      */
     public function toBuildContext(): MemberGraphBuildContext
     {

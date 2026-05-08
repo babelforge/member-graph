@@ -4,16 +4,12 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Application\Cache\Snapshot\Declaration;
 
-use Countable;
-use IteratorAggregate;
-use Traversable;
-
 /**
  * Stores template declaration snapshots indexed by scope and template name.
  *
- * @implements IteratorAggregate<string, TemplateDeclarationSnapshot>
+ * @implements \IteratorAggregate<string, TemplateDeclarationSnapshot>
  */
-final class TemplateDeclarationSnapshotCollection implements Countable, IteratorAggregate
+final class TemplateDeclarationSnapshotCollection implements \Countable, \IteratorAggregate
 {
     /**
      * @var array<string, TemplateDeclarationSnapshot>
@@ -23,26 +19,22 @@ final class TemplateDeclarationSnapshotCollection implements Countable, Iterator
     /**
      * Adds one template declaration snapshot.
      *
-     * @param TemplateDeclarationSnapshot $snapshot The snapshot to add.
-     *
-     * @return void
+     * @param TemplateDeclarationSnapshot $snapshot the snapshot to add
      */
     public function add(TemplateDeclarationSnapshot $snapshot): void
     {
-        $this->byKey[$snapshot->scopeId . '::' . $snapshot->name] = $snapshot;
+        $this->byKey[$snapshot->scopeId.'::'.$snapshot->name] = $snapshot;
     }
 
     /**
      * Returns one template declaration snapshot.
      *
-     * @param string $scopeId The scope identifier.
-     * @param string $name The template name.
-     *
-     * @return TemplateDeclarationSnapshot|null
+     * @param string $scopeId the scope identifier
+     * @param string $name    the template name
      */
     public function get(string $scopeId, string $name): ?TemplateDeclarationSnapshot
     {
-        return $this->byKey[$scopeId . '::' . $name] ?? null;
+        return $this->byKey[$scopeId.'::'.$name] ?? null;
     }
 
     /**
@@ -58,17 +50,15 @@ final class TemplateDeclarationSnapshotCollection implements Countable, Iterator
     /**
      * Returns an iterator over template declaration snapshots.
      *
-     * @return Traversable<string, TemplateDeclarationSnapshot>
+     * @return \Traversable<string, TemplateDeclarationSnapshot>
      */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         yield from $this->byKey;
     }
 
     /**
      * Counts template declaration snapshots.
-     *
-     * @return int
      */
     public function count(): int
     {

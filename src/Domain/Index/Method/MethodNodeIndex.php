@@ -4,16 +4,14 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Domain\Index\Method;
 
-use IteratorAggregate;
 use PhpParser\Node\Stmt\ClassMethod;
-use Traversable;
 
 /**
  * Stores class methods indexed by owner and method name.
  *
- * @implements IteratorAggregate<string, ClassMethod>
+ * @implements \IteratorAggregate<string, ClassMethod>
  */
-final class MethodNodeIndex implements IteratorAggregate
+final class MethodNodeIndex implements \IteratorAggregate
 {
     /**
      * @var array<string, ClassMethod>
@@ -23,11 +21,9 @@ final class MethodNodeIndex implements IteratorAggregate
     /**
      * Stores one method node.
      *
-     * @param string $owner The owner FQCN.
-     * @param string $methodName The method name.
-     * @param ClassMethod $methodNode The method node.
-     *
-     * @return void
+     * @param string      $owner      the owner FQCN
+     * @param string      $methodName the method name
+     * @param ClassMethod $methodNode the method node
      */
     public function set(string $owner, string $methodName, ClassMethod $methodNode): void
     {
@@ -37,10 +33,8 @@ final class MethodNodeIndex implements IteratorAggregate
     /**
      * Returns one method node.
      *
-     * @param string $owner The owner FQCN.
-     * @param string $methodName The method name.
-     *
-     * @return ClassMethod|null
+     * @param string $owner      the owner FQCN
+     * @param string $methodName the method name
      */
     public function get(string $owner, string $methodName): ?ClassMethod
     {
@@ -50,9 +44,7 @@ final class MethodNodeIndex implements IteratorAggregate
     /**
      * Merges another index into the current one.
      *
-     * @param self $other The other index.
-     *
-     * @return void
+     * @param self $other the other index
      */
     public function merge(self $other): void
     {
@@ -64,20 +56,15 @@ final class MethodNodeIndex implements IteratorAggregate
     /**
      * Returns whether one method exists.
      *
-     * @param string $owner The owner FQCN.
-     * @param string $methodName The method name.
-     *
-     * @return bool
+     * @param string $owner      the owner FQCN
+     * @param string $methodName the method name
      */
     public function has(string $owner, string $methodName): bool
     {
         return isset($this->items[$this->buildKey($owner, $methodName)]);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         yield from $this->items;
     }
@@ -95,13 +82,11 @@ final class MethodNodeIndex implements IteratorAggregate
     /**
      * Builds one internal key.
      *
-     * @param string $owner The owner FQCN.
-     * @param string $methodName The method name.
-     *
-     * @return string
+     * @param string $owner      the owner FQCN
+     * @param string $methodName the method name
      */
     private function buildKey(string $owner, string $methodName): string
     {
-        return $owner . '::' . $methodName;
+        return $owner.'::'.$methodName;
     }
 }

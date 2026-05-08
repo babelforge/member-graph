@@ -28,8 +28,6 @@ final class MemberGraphGlobalIndexRebuildInputResolverTest extends TestCase
 {
     /**
      * Ensures reusable sources exclude metadata belonging to files that must be rebuilt.
-     *
-     * @return void
      */
     public function testItExcludesSourcesForFilesToBuild(): void
     {
@@ -43,11 +41,11 @@ final class MemberGraphGlobalIndexRebuildInputResolverTest extends TestCase
 
         $sources->add(new MemberGraphVirtualSourceMetadata(
             fullFilePath: $freshFilePath,
-            virtualFilePath: $freshFilePath . '.virtual.0',
+            virtualFilePath: $freshFilePath.'.virtual.0',
         ));
         $sources->add(new MemberGraphVirtualSourceMetadata(
             fullFilePath: $changedFilePath,
-            virtualFilePath: $changedFilePath . '.virtual.0',
+            virtualFilePath: $changedFilePath.'.virtual.0',
         ));
 
         $input = new MemberGraphGlobalIndexRebuildInputResolver()->resolve(new MemberDependencyGraphPartialRebuildInput(
@@ -59,8 +57,8 @@ final class MemberGraphGlobalIndexRebuildInputResolverTest extends TestCase
         ));
 
         self::assertCount(1, $input->reusableSources);
-        self::assertNotNull($input->reusableSources->get($freshFilePath . '.virtual.0'));
-        self::assertNull($input->reusableSources->get($changedFilePath . '.virtual.0'));
+        self::assertNotNull($input->reusableSources->get($freshFilePath.'.virtual.0'));
+        self::assertNull($input->reusableSources->get($changedFilePath.'.virtual.0'));
         self::assertSame($filesToBuild, $input->filesToBuild);
         self::assertSame($fragmentsToReuse, $input->fragmentsToReuse);
         self::assertSame($knownOwners, $input->knownOwners);
@@ -69,8 +67,6 @@ final class MemberGraphGlobalIndexRebuildInputResolverTest extends TestCase
 
     /**
      * Ensures every snapshot source remains reusable when no file is scheduled for rebuild.
-     *
-     * @return void
      */
     public function testItKeepsAllSourcesWhenNoFilesAreScheduledForBuild(): void
     {
@@ -80,11 +76,11 @@ final class MemberGraphGlobalIndexRebuildInputResolverTest extends TestCase
 
         $sources->add(new MemberGraphVirtualSourceMetadata(
             fullFilePath: $firstFilePath,
-            virtualFilePath: $firstFilePath . '.virtual.0',
+            virtualFilePath: $firstFilePath.'.virtual.0',
         ));
         $sources->add(new MemberGraphVirtualSourceMetadata(
             fullFilePath: $secondFilePath,
-            virtualFilePath: $secondFilePath . '.virtual.0',
+            virtualFilePath: $secondFilePath.'.virtual.0',
         ));
 
         $input = new MemberGraphGlobalIndexRebuildInputResolver()->resolve(new MemberDependencyGraphPartialRebuildInput(
@@ -96,16 +92,14 @@ final class MemberGraphGlobalIndexRebuildInputResolverTest extends TestCase
         ));
 
         self::assertCount(2, $input->reusableSources);
-        self::assertNotNull($input->reusableSources->get($firstFilePath . '.virtual.0'));
-        self::assertNotNull($input->reusableSources->get($secondFilePath . '.virtual.0'));
+        self::assertNotNull($input->reusableSources->get($firstFilePath.'.virtual.0'));
+        self::assertNotNull($input->reusableSources->get($secondFilePath.'.virtual.0'));
     }
 
     /**
      * Creates a cache file collection.
      *
      * @param string ...$filePaths The file paths.
-     *
-     * @return MemberGraphCacheFileCollection
      */
     private function files(string ...$filePaths): MemberGraphCacheFileCollection
     {
@@ -122,8 +116,6 @@ final class MemberGraphGlobalIndexRebuildInputResolverTest extends TestCase
      * Creates a graph fragment collection.
      *
      * @param string ...$filePaths The file paths.
-     *
-     * @return MemberGraphFragmentCollection
      */
     private function fragments(string ...$filePaths): MemberGraphFragmentCollection
     {
@@ -138,8 +130,6 @@ final class MemberGraphGlobalIndexRebuildInputResolverTest extends TestCase
 
     /**
      * Creates an empty graph fragment.
-     *
-     * @return MemberDependencyGraph
      */
     private function graph(): MemberDependencyGraph
     {

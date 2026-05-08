@@ -17,10 +17,10 @@ final readonly class FunctionLikeFlatReturnResolver
     /**
      * Constructor.
      *
-     * @param MethodReturnTypeIndex $methodReturnTypeIndex The method return type index.
-     * @param FunctionReturnTypeIndex $functionReturnTypeIndex The function return type index.
-     * @param KnownOwnerCollection $knownOwners The known owner collection.
-     * @param SpecialClassReferenceNormalizer $specialClassReferenceNormalizer The special class reference normalizer.
+     * @param MethodReturnTypeIndex           $methodReturnTypeIndex           the method return type index
+     * @param FunctionReturnTypeIndex         $functionReturnTypeIndex         the function return type index
+     * @param KnownOwnerCollection            $knownOwners                     the known owner collection
+     * @param SpecialClassReferenceNormalizer $specialClassReferenceNormalizer the special class reference normalizer
      */
     public function __construct(
         private MethodReturnTypeIndex $methodReturnTypeIndex,
@@ -33,11 +33,9 @@ final readonly class FunctionLikeFlatReturnResolver
     /**
      * Resolves function-like return symbols.
      *
-     * @param string|null $owner The method owner, or null for functions.
-     * @param string $methodName The method or function name.
-     * @param bool $isMethodLike Whether the target is method-like.
-     *
-     * @return SymbolCollection
+     * @param string|null $owner        the method owner, or null for functions
+     * @param string      $methodName   the method or function name
+     * @param bool        $isMethodLike whether the target is method-like
      */
     public function resolve(?string $owner, string $methodName, bool $isMethodLike): SymbolCollection
     {
@@ -55,10 +53,8 @@ final readonly class FunctionLikeFlatReturnResolver
     /**
      * Resolves method return symbols through inheritance.
      *
-     * @param string $owner The starting owner.
-     * @param string $methodName The method name.
-     *
-     * @return SymbolCollection
+     * @param string $owner      the starting owner
+     * @param string $methodName the method name
      */
     private function resolveMethodReturnTypes(string $owner, string $methodName): SymbolCollection
     {
@@ -84,9 +80,7 @@ final readonly class FunctionLikeFlatReturnResolver
     /**
      * Resolves function return symbols.
      *
-     * @param string $functionName The fully-qualified function name.
-     *
-     * @return SymbolCollection
+     * @param string $functionName the fully-qualified function name
      */
     private function resolveFunctionReturnTypes(string $functionName): SymbolCollection
     {

@@ -6,16 +6,6 @@ namespace PhpNoobs\MemberGraph\Tests\Integration\Stability;
 
 use PhpNoobs\MemberGraph\Application\Validator\PhpDoc\PhpDocResolutionIssue;
 use PhpNoobs\MemberGraph\Application\Validator\PhpDoc\PhpDocResolutionIssueType;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberOriginType;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberType;
-use PhpNoobs\MemberGraph\Domain\Index\Template\PhpDocTemplateDefinitionCollection;
-use PhpNoobs\MemberGraph\Domain\Type\TypeIndexContext;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Parser\PhpDocParserFactory;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\PhpDocTagKind;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\PhpDocTypeNodeResolver;
-use PhpNoobs\MemberGraph\Infrastructure\UseStatements\UsesByAliasCollection;
-use PhpParser\Modifiers;
-use PHPStan\PhpDocParser\Parser\TokenIterator;
 
 /**
  * Covers migrated legacy member graph stability fixtures.
@@ -24,40 +14,38 @@ final class MemberGraphTemplateResolutionTest extends AbstractMemberGraphStabili
 {
     /**
      * Ensures legacy fixture 73 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTemplateIdentityFunctionResolvesReturnType(): void
     {
         $sources = [
             'TestCase73.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase73;
+                namespace TestCase73;
 
-/**
- * @template T
- * @param T $value
- * @return T
- */
-function identity($value) {
-    return $value;
-}
+                /**
+                 * @template T
+                 * @param T $value
+                 * @return T
+                 */
+                function identity($value) {
+                    return $value;
+                }
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class TestClass {
-    public function run(): void {
-        $mailer = new Mailer();
+                class TestClass {
+                    public function run(): void {
+                        $mailer = new Mailer();
 
-        $result = identity($mailer);
+                        $result = identity($mailer);
 
-        $result->send();
-    }
-}
-PHP,
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -80,42 +68,40 @@ PHP,
 
     /**
      * Ensures legacy fixture 74 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTemplateFunctionResolvesReturnTypeFromGenericParameter(): void
     {
         $sources = [
             'TestCase74.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase74;
+                namespace TestCase74;
 
-/**
- * @template T
- * @param array<string, T> $items
- * @return T
- */
-function firstItem(array $items) {
-    return reset($items);
-}
+                /**
+                 * @template T
+                 * @param array<string, T> $items
+                 * @return T
+                 */
+                function firstItem(array $items) {
+                    return reset($items);
+                }
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class TestClass {
-    public function run(): void {
-        /** @var array<string, Mailer> $mailers */
-        $mailers = ['main' => new Mailer()];
+                class TestClass {
+                    public function run(): void {
+                        /** @var array<string, Mailer> $mailers */
+                        $mailers = ['main' => new Mailer()];
 
-        $result = firstItem($mailers);
+                        $result = firstItem($mailers);
 
-        $result->send();
-    }
-}
+                        $result->send();
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -138,41 +124,39 @@ PHP,
 
     /**
      * Ensures legacy fixture 75 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTemplateFunctionResolvesReturnTypeFromShapeParameter(): void
     {
         $sources = [
             'TestCase75.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase75;
+                namespace TestCase75;
 
-/**
- * @template T
- * @param array{service: T} $config
- * @return T
- */
-function getService(array $config) {
-    return $config['service'];
-}
+                /**
+                 * @template T
+                 * @param array{service: T} $config
+                 * @return T
+                 */
+                function getService(array $config) {
+                    return $config['service'];
+                }
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class TestClass {
-    public function run(): void {
-        /** @var array{service: Mailer} $config */
-        $config = ['service' => new Mailer()];
+                class TestClass {
+                    public function run(): void {
+                        /** @var array{service: Mailer} $config */
+                        $config = ['service' => new Mailer()];
 
-        $result = getService($config);
+                        $result = getService($config);
 
-        $result->send();
-    }
-}
-PHP,
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -195,43 +179,41 @@ PHP,
 
     /**
      * Ensures legacy fixture 76 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTemplateMethodCallResolvesReturnType(): void
     {
         $sources = [
             'TestCase76.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase76;
+                namespace TestCase76;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Service {
-    /**
-     * @template T
-     * @param T $value
-     * @return T
-     */
-    public function identity($value) {
-        return $value;
-    }
-}
+                class Service {
+                    /**
+                     * @template T
+                     * @param T $value
+                     * @return T
+                     */
+                    public function identity($value) {
+                        return $value;
+                    }
+                }
 
-class TestClass {
-    public function run(): void {
-        $service = new Service();
+                class TestClass {
+                    public function run(): void {
+                        $service = new Service();
 
-        $result = $service->identity(new Mailer());
+                        $result = $service->identity(new Mailer());
 
-        $result->send();
-    }
-}
+                        $result->send();
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -254,46 +236,44 @@ PHP,
 
     /**
      * Ensures legacy fixture 77 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTemplateMethodCallResolvesReturnTypeFromGenericParameter(): void
     {
         $sources = [
             'TestCase77.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase77;
+                namespace TestCase77;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Service {
-    /**
-     * @template T
-     * @param array<string, T> $items
-     * @return T
-     */
-    public function firstItem(array $items) {
-        return reset($items);
-    }
-}
+                class Service {
+                    /**
+                     * @template T
+                     * @param array<string, T> $items
+                     * @return T
+                     */
+                    public function firstItem(array $items) {
+                        return reset($items);
+                    }
+                }
 
-class TestClass {
-    public function run(): void {
-        $service = new Service();
+                class TestClass {
+                    public function run(): void {
+                        $service = new Service();
 
-        /** @var array<string, Mailer> $mailers */
-        $mailers = ['main' => new Mailer()];
+                        /** @var array<string, Mailer> $mailers */
+                        $mailers = ['main' => new Mailer()];
 
-        $result = $service->firstItem($mailers);
+                        $result = $service->firstItem($mailers);
 
-        $result->send();
-    }
-}
+                        $result->send();
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -316,46 +296,44 @@ PHP,
 
     /**
      * Ensures legacy fixture 78 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTemplateMethodCallResolvesReturnTypeFromShapeParameter(): void
     {
         $sources = [
             'TestCase78.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase78;
+                namespace TestCase78;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Service {
-    /**
-     * @template T
-     * @param array{service: T} $config
-     * @return T
-     */
-    public function getService(array $config) {
-        return $config['service'];
-    }
-}
+                class Service {
+                    /**
+                     * @template T
+                     * @param array{service: T} $config
+                     * @return T
+                     */
+                    public function getService(array $config) {
+                        return $config['service'];
+                    }
+                }
 
-class TestClass {
-    public function run(): void {
-        $service = new Service();
+                class TestClass {
+                    public function run(): void {
+                        $service = new Service();
 
-        /** @var array{service: Mailer} $config */
-        $config = ['service' => new Mailer()];
+                        /** @var array{service: Mailer} $config */
+                        $config = ['service' => new Mailer()];
 
-        $result = $service->getService($config);
+                        $result = $service->getService($config);
 
-        $result->send();
-    }
-}
+                        $result->send();
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -378,41 +356,39 @@ PHP,
 
     /**
      * Ensures legacy fixture 79 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTemplateStaticCallResolvesReturnType(): void
     {
         $sources = [
             'TestCase79.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase79;
+                namespace TestCase79;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Service {
-    /**
-     * @template T
-     * @param T $value
-     * @return T
-     */
-    public static function identity($value) {
-        return $value;
-    }
-}
+                class Service {
+                    /**
+                     * @template T
+                     * @param T $value
+                     * @return T
+                     */
+                    public static function identity($value) {
+                        return $value;
+                    }
+                }
 
-class TestClass {
-    public function run(): void {
-        $result = Service::identity(new Mailer());
+                class TestClass {
+                    public function run(): void {
+                        $result = Service::identity(new Mailer());
 
-        $result->send();
-    }
-}
+                        $result->send();
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -435,44 +411,42 @@ PHP,
 
     /**
      * Ensures legacy fixture 80 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTemplateStaticCallResolvesReturnTypeFromGenericParameter(): void
     {
         $sources = [
             'TestCase80.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase80;
+                namespace TestCase80;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Service {
-    /**
-     * @template T
-     * @param array<string, T> $items
-     * @return T
-     */
-    public static function firstItem(array $items) {
-        return reset($items);
-    }
-}
+                class Service {
+                    /**
+                     * @template T
+                     * @param array<string, T> $items
+                     * @return T
+                     */
+                    public static function firstItem(array $items) {
+                        return reset($items);
+                    }
+                }
 
-class TestClass {
-    public function run(): void {
-        /** @var array<string, Mailer> $mailers */
-        $mailers = ['main' => new Mailer()];
+                class TestClass {
+                    public function run(): void {
+                        /** @var array<string, Mailer> $mailers */
+                        $mailers = ['main' => new Mailer()];
 
-        $result = Service::firstItem($mailers);
+                        $result = Service::firstItem($mailers);
 
-        $result->send();
-    }
-}
+                        $result->send();
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -495,44 +469,42 @@ PHP,
 
     /**
      * Ensures legacy fixture 81 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTemplateStaticCallResolvesReturnTypeFromShapeParameter(): void
     {
         $sources = [
             'TestCase81.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase81;
+                namespace TestCase81;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Service {
-    /**
-     * @template T
-     * @param array{service: T} $config
-     * @return T
-     */
-    public static function getService(array $config) {
-        return $config['service'];
-    }
-}
+                class Service {
+                    /**
+                     * @template T
+                     * @param array{service: T} $config
+                     * @return T
+                     */
+                    public static function getService(array $config) {
+                        return $config['service'];
+                    }
+                }
 
-class TestClass {
-    public function run(): void {
-        /** @var array{service: Mailer} $config */
-        $config = ['service' => new Mailer()];
+                class TestClass {
+                    public function run(): void {
+                        /** @var array{service: Mailer} $config */
+                        $config = ['service' => new Mailer()];
 
-        $result = Service::getService($config);
+                        $result = Service::getService($config);
 
-        $result->send();
-    }
-}
+                        $result->send();
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -555,39 +527,37 @@ PHP,
 
     /**
      * Ensures legacy fixture 82 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTemplateFunctionResolvesNullableReturnType(): void
     {
         $sources = [
             'TestCase82.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase82;
+                namespace TestCase82;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-/**
- * @template T
- * @param ?T $value
- * @return ?T
- */
-function identityOrNull($value) {
-    return $value;
-}
+                /**
+                 * @template T
+                 * @param ?T $value
+                 * @return ?T
+                 */
+                function identityOrNull($value) {
+                    return $value;
+                }
 
-class TestClass {
-    public function run(): void {
-        $result = identityOrNull(new Mailer());
+                class TestClass {
+                    public function run(): void {
+                        $result = identityOrNull(new Mailer());
 
-        $result->send();
-    }
-}
+                        $result->send();
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -610,39 +580,37 @@ PHP,
 
     /**
      * Ensures legacy fixture 83 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTemplateFunctionResolvesUnionReturnTypeWithFalse(): void
     {
         $sources = [
             'TestCase83.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase83;
+                namespace TestCase83;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-/**
- * @template T
- * @param T|false $value
- * @return T|false
- */
-function maybeIdentity($value) {
-    return $value;
-}
+                /**
+                 * @template T
+                 * @param T|false $value
+                 * @return T|false
+                 */
+                function maybeIdentity($value) {
+                    return $value;
+                }
 
-class TestClass {
-    public function run(): void {
-        $result = maybeIdentity(new Mailer());
+                class TestClass {
+                    public function run(): void {
+                        $result = maybeIdentity(new Mailer());
 
-        $result->send();
-    }
-}
+                        $result->send();
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -665,50 +633,48 @@ PHP,
 
     /**
      * Ensures legacy fixture 84 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTemplateFunctionResolvesSecondTemplateReturnType(): void
     {
         $sources = [
             'TestCase84.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase84;
+                namespace TestCase84;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Logger {
-    public function log(): void {}
-}
+                class Logger {
+                    public function log(): void {}
+                }
 
-/**
- * @template TKey
- * @template TValue
- * @param array<TKey, TValue> $items
- * @param TKey $key
- * @return TValue
- */
-function getByKey(array $items, $key) {
-    return $items[$key];
-}
+                /**
+                 * @template TKey
+                 * @template TValue
+                 * @param array<TKey, TValue> $items
+                 * @param TKey $key
+                 * @return TValue
+                 */
+                function getByKey(array $items, $key) {
+                    return $items[$key];
+                }
 
-class TestClass {
-    public function run(): void {
-        /** @var array<string, Mailer> $items */
-        $items = [
-            'main' => new Mailer(),
-        ];
+                class TestClass {
+                    public function run(): void {
+                        /** @var array<string, Mailer> $items */
+                        $items = [
+                            'main' => new Mailer(),
+                        ];
 
-        $result = getByKey($items, 'main');
+                        $result = getByKey($items, 'main');
 
-        $result->send();
-    }
-}
+                        $result->send();
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -740,43 +706,41 @@ PHP,
 
     /**
      * Ensures legacy fixture 85 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTemplateFunctionResolvesNestedGenericShapeReturnType(): void
     {
         $sources = [
             'TestCase85.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase85;
+                namespace TestCase85;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-/**
- * @template T
- * @param array<string, array{service: T}> $items
- * @return T
- */
-function firstService(array $items) {
-    return reset($items)['service'];
-}
+                /**
+                 * @template T
+                 * @param array<string, array{service: T}> $items
+                 * @return T
+                 */
+                function firstService(array $items) {
+                    return reset($items)['service'];
+                }
 
-class TestClass {
-    public function run(): void {
-        /** @var array<string, array{service: Mailer}> $items */
-        $items = [
-            'main' => ['service' => new Mailer()],
-        ];
+                class TestClass {
+                    public function run(): void {
+                        /** @var array<string, array{service: Mailer}> $items */
+                        $items = [
+                            'main' => ['service' => new Mailer()],
+                        ];
 
-        $result = firstService($items);
+                        $result = firstService($items);
 
-        $result->send();
-    }
-}
-PHP,
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -799,39 +763,37 @@ PHP,
 
     /**
      * Ensures legacy fixture 86 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTemplateFunctionResolvesReturnTypeWithNamedArgument(): void
     {
         $sources = [
             'TestCase86.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase86;
+                namespace TestCase86;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-/**
- * @template T
- * @param T $value
- * @return T
- */
-function identity($value) {
-    return $value;
-}
+                /**
+                 * @template T
+                 * @param T $value
+                 * @return T
+                 */
+                function identity($value) {
+                    return $value;
+                }
 
-class TestClass {
-    public function run(): void {
-        $result = identity(value: new Mailer());
+                class TestClass {
+                    public function run(): void {
+                        $result = identity(value: new Mailer());
 
-        $result->send();
-    }
-}
+                        $result->send();
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -854,43 +816,41 @@ PHP,
 
     /**
      * Ensures legacy fixture 87 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTemplateMethodResolvesReturnTypeWithNamedArgument(): void
     {
         $sources = [
             'TestCase87.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase87;
+                namespace TestCase87;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Service {
-    /**
-     * @template T
-     * @param T $value
-     * @return T
-     */
-    public function identity($value) {
-        return $value;
-    }
-}
+                class Service {
+                    /**
+                     * @template T
+                     * @param T $value
+                     * @return T
+                     */
+                    public function identity($value) {
+                        return $value;
+                    }
+                }
 
-class TestClass {
-    public function run(): void {
-        $service = new Service();
+                class TestClass {
+                    public function run(): void {
+                        $service = new Service();
 
-        $result = $service->identity(value: new Mailer());
+                        $result = $service->identity(value: new Mailer());
 
-        $result->send();
-    }
-}
+                        $result->send();
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -913,41 +873,39 @@ PHP,
 
     /**
      * Ensures legacy fixture 88 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTemplateStaticMethodResolvesReturnTypeWithNamedArgument(): void
     {
         $sources = [
             'TestCase88.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase88;
+                namespace TestCase88;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Service {
-    /**
-     * @template T
-     * @param T $value
-     * @return T
-     */
-    public static function identity($value) {
-        return $value;
-    }
-}
+                class Service {
+                    /**
+                     * @template T
+                     * @param T $value
+                     * @return T
+                     */
+                    public static function identity($value) {
+                        return $value;
+                    }
+                }
 
-class TestClass {
-    public function run(): void {
-        $result = Service::identity(value: new Mailer());
+                class TestClass {
+                    public function run(): void {
+                        $result = Service::identity(value: new Mailer());
 
-        $result->send();
-    }
-}
+                        $result->send();
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -970,39 +928,37 @@ PHP,
 
     /**
      * Ensures legacy fixture 100 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testUnresolvedTemplateReferenceRaisesIssue(): void
     {
         $sources = [
             'TestCase100.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase100;
+                namespace TestCase100;
 
-class ParentService
-{
-    /**
-     * @return T
-     */
-    public function make()
-    {
-        return getService();
-    }
-}
+                class ParentService
+                {
+                    /**
+                     * @return T
+                     */
+                    public function make()
+                    {
+                        return getService();
+                    }
+                }
 
-class ChildService extends ParentService
-{
-    /**
-     * @inheritDoc
-     */
-    public function make()
-    {
-        return parent::make();
-    }
-}
-PHP,
+                class ChildService extends ParentService
+                {
+                    /**
+                     * @inheritDoc
+                     */
+                    public function make()
+                    {
+                        return parent::make();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1010,8 +966,8 @@ PHP,
 
         /** @var PhpDocResolutionIssue $issue */
         foreach ($memberDependencyGraph->dependencyGraphIssues ?? [] as $issue) {
-            $foundIssue = $foundIssue ||
-                ((PhpDocResolutionIssueType::RETURN_TAG_NOT_USABLE === $issue->type)
+            $foundIssue = $foundIssue
+                || ((PhpDocResolutionIssueType::RETURN_TAG_NOT_USABLE === $issue->type)
                     && ('TestCase100\\ChildService' === $issue->owner)
                     && ('make' === $issue->member));
         }
@@ -1021,45 +977,43 @@ PHP,
 
     /**
      * Ensures legacy fixture 103 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTemplateFunctionResolvesSecondTemplateReturnTypeTwo(): void
     {
         $sources = [
             'TestCase103.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase103;
+                namespace TestCase103;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-/**
- * @template TKey
- * @template TValue
- * @param array<TKey, TValue> $items
- * @param TKey $key
- * @return TValue
- */
-function getByKey(array $items, $key) {
-    return $items[$key];
-}
+                /**
+                 * @template TKey
+                 * @template TValue
+                 * @param array<TKey, TValue> $items
+                 * @param TKey $key
+                 * @return TValue
+                 */
+                function getByKey(array $items, $key) {
+                    return $items[$key];
+                }
 
-class TestClass {
-    public function run(): void {
-        /** @var array<string, Mailer> $items */
-        $items = [
-            'main' => new Mailer(),
-        ];
+                class TestClass {
+                    public function run(): void {
+                        /** @var array<string, Mailer> $items */
+                        $items = [
+                            'main' => new Mailer(),
+                        ];
 
-        $result = getByKey($items, 'main');
+                        $result = getByKey($items, 'main');
 
-        $result->send();
-    }
-}
-PHP,
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1082,50 +1036,48 @@ PHP,
 
     /**
      * Ensures legacy fixture 104 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTemplateMethodResolvesSecondTemplateReturnType(): void
     {
         $sources = [
             'TestCase104.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase104;
+                namespace TestCase104;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Service {
-    /**
-     * @template TKey
-     * @template TValue
-     * @param array<TKey, TValue> $items
-     * @param TKey $key
-     * @return TValue
-     */
-    public function getByKey(array $items, $key) {
-        return $items[$key];
-    }
-}
+                class Service {
+                    /**
+                     * @template TKey
+                     * @template TValue
+                     * @param array<TKey, TValue> $items
+                     * @param TKey $key
+                     * @return TValue
+                     */
+                    public function getByKey(array $items, $key) {
+                        return $items[$key];
+                    }
+                }
 
-class TestClass {
-    public function run(): void {
-        $service = new Service();
+                class TestClass {
+                    public function run(): void {
+                        $service = new Service();
 
-        /** @var array<string, Mailer> $items */
-        $items = [
-            'main' => new Mailer(),
-        ];
+                        /** @var array<string, Mailer> $items */
+                        $items = [
+                            'main' => new Mailer(),
+                        ];
 
-        $result = $service->getByKey($items, 'main');
+                        $result = $service->getByKey($items, 'main');
 
-        $result->send();
-    }
-}
+                        $result->send();
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1148,47 +1100,45 @@ PHP,
 
     /**
      * Ensures legacy fixture 105 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTemplateStaticMethodResolvesSecondTemplateReturnType(): void
     {
         $sources = [
             'TestCase105.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase105;
+                namespace TestCase105;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Service {
-    /**
-     * @template TKey
-     * @template TValue
-     * @param array<TKey, TValue> $items
-     * @param TKey $key
-     * @return TValue
-     */
-    public static function getByKey(array $items, $key) {
-        return $items[$key];
-    }
-}
+                class Service {
+                    /**
+                     * @template TKey
+                     * @template TValue
+                     * @param array<TKey, TValue> $items
+                     * @param TKey $key
+                     * @return TValue
+                     */
+                    public static function getByKey(array $items, $key) {
+                        return $items[$key];
+                    }
+                }
 
-class TestClass {
-    public function run(): void {
-        /** @var array<string, Mailer> $items */
-        $items = [
-            'main' => new Mailer(),
-        ];
+                class TestClass {
+                    public function run(): void {
+                        /** @var array<string, Mailer> $items */
+                        $items = [
+                            'main' => new Mailer(),
+                        ];
 
-        $result = Service::getByKey($items, 'main');
+                        $result = Service::getByKey($items, 'main');
 
-        $result->send();
-    }
-}
-PHP,
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1211,44 +1161,42 @@ PHP,
 
     /**
      * Ensures legacy fixture 106 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTemplateNestedShapeResolvesReturnType(): void
     {
         $sources = [
             'TestCase106.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase106;
+                namespace TestCase106;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-/**
- * @template T
- * @param array<string, array{service: T}> $items
- * @return T
- */
-function extract(array $items) {
-    return $items['main']['service'];
-}
+                /**
+                 * @template T
+                 * @param array<string, array{service: T}> $items
+                 * @return T
+                 */
+                function extract(array $items) {
+                    return $items['main']['service'];
+                }
 
-class TestClass {
-    public function run(): void {
-        /** @var array<string, array{service: Mailer}> $items */
-        $items = [
-            'main' => ['service' => new Mailer()],
-        ];
+                class TestClass {
+                    public function run(): void {
+                        /** @var array<string, array{service: Mailer}> $items */
+                        $items = [
+                            'main' => ['service' => new Mailer()],
+                        ];
 
-        $result = extract($items);
+                        $result = extract($items);
 
-        $result->send();
-    }
-}
+                        $result->send();
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1271,43 +1219,41 @@ PHP,
 
     /**
      * Ensures legacy fixture 107 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTemplateUnionReturnResolvesConcreteType(): void
     {
         $sources = [
             'TestCase107.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase107;
+                namespace TestCase107;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-/**
- * @template T
- * @param T $value
- * @return T|false
- */
-function maybe($value) {
-    return $value;
-}
+                /**
+                 * @template T
+                 * @param T $value
+                 * @return T|false
+                 */
+                function maybe($value) {
+                    return $value;
+                }
 
-class TestClass {
-    public function run(): void {
-        $mailer = new Mailer();
+                class TestClass {
+                    public function run(): void {
+                        $mailer = new Mailer();
 
-        $result = maybe($mailer);
+                        $result = maybe($mailer);
 
-        if ($result !== false) {
-            $result->send();
-        }
-    }
-}
+                        if ($result !== false) {
+                            $result->send();
+                        }
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1330,46 +1276,44 @@ PHP,
 
     /**
      * Ensures legacy fixture 108 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTemplateReturnResolvesUnionArgumentTypes(): void
     {
         $sources = [
             'TestCase108.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase108;
+                namespace TestCase108;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Logger {
-    public function send(): void {}
-}
+                class Logger {
+                    public function send(): void {}
+                }
 
-/**
- * @template T
- * @param T $value
- * @return T
- */
-function identity($value) {
-    return $value;
-}
+                /**
+                 * @template T
+                 * @param T $value
+                 * @return T
+                 */
+                function identity($value) {
+                    return $value;
+                }
 
-class TestClass {
-    public function run(bool $flag): void {
-        /** @var Mailer|Logger $service */
-        $service = $flag ? new Mailer() : new Logger();
+                class TestClass {
+                    public function run(bool $flag): void {
+                        /** @var Mailer|Logger $service */
+                        $service = $flag ? new Mailer() : new Logger();
 
-        $result = identity($service);
+                        $result = identity($service);
 
-        $result->send();
-    }
-}
+                        $result->send();
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1401,44 +1345,42 @@ PHP,
 
     /**
      * Ensures legacy fixture 109 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTemplateUnionSignatureResolvesKnownPart(): void
     {
         $sources = [
             'TestCase109.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase109;
+                namespace TestCase109;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Unknown {
-}
+                class Unknown {
+                }
 
-/**
- * @template T
- * @template U
- * @param T $value
- * @return T|U
- */
-function maybe($value) {
-    return $value;
-}
+                /**
+                 * @template T
+                 * @template U
+                 * @param T $value
+                 * @return T|U
+                 */
+                function maybe($value) {
+                    return $value;
+                }
 
-class TestClass {
-    public function run(): void {
-        $mailer = new Mailer();
+                class TestClass {
+                    public function run(): void {
+                        $mailer = new Mailer();
 
-        $result = maybe($mailer);
+                        $result = maybe($mailer);
 
-        $result->send();
-    }
-}
-PHP,
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1461,60 +1403,58 @@ PHP,
 
     /**
      * Ensures legacy fixture 115 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testGenericClassInstantiationInfersMultipleTemplateArguments(): void
     {
         $sources = [
             'TestCase115.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase115;
+                namespace TestCase115;
 
-class Mailer
-{
-    public function send(): void
-    {
-    }
-}
+                class Mailer
+                {
+                    public function send(): void
+                    {
+                    }
+                }
 
-/**
- * @template TKey
- * @template TValue
- */
-class PairBox
-{
-    /**
-     * @param TKey $key
-     * @param TValue $value
-     */
-    public function __construct(
-        private mixed $key,
-        private mixed $value,
-    ) {
-    }
+                /**
+                 * @template TKey
+                 * @template TValue
+                 */
+                class PairBox
+                {
+                    /**
+                     * @param TKey $key
+                     * @param TValue $value
+                     */
+                    public function __construct(
+                        private mixed $key,
+                        private mixed $value,
+                    ) {
+                    }
 
-    /**
-     * @return TValue
-     */
-    public function getValue()
-    {
-        return $this->value;
-    }
-}
+                    /**
+                     * @return TValue
+                     */
+                    public function getValue()
+                    {
+                        return $this->value;
+                    }
+                }
 
-class TestClass
-{
-    public function run(): void
-    {
-        $box = new PairBox('main', new Mailer());
-        $result = $box->getValue();
-        $result->send();
-    }
-}
+                class TestClass
+                {
+                    public function run(): void
+                    {
+                        $box = new PairBox('main', new Mailer());
+                        $result = $box->getValue();
+                        $result->send();
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1537,55 +1477,53 @@ PHP,
 
     /**
      * Ensures legacy fixture 116 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testGenericClassInstantiationInfersTemplateFromArrayShapeConstructorArgument(): void
     {
         $sources = [
             'TestCase116.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase116;
+                namespace TestCase116;
 
-class Mailer
-{
-    public function send(): void
-    {
-    }
-}
+                class Mailer
+                {
+                    public function send(): void
+                    {
+                    }
+                }
 
-/**
- * @template T
- */
-class ServiceBox
-{
-    /**
-     * @param array{service: T} $config
-     */
-    public function __construct(private array $config)
-    {
-    }
+                /**
+                 * @template T
+                 */
+                class ServiceBox
+                {
+                    /**
+                     * @param array{service: T} $config
+                     */
+                    public function __construct(private array $config)
+                    {
+                    }
 
-    /**
-     * @return T
-     */
-    public function get()
-    {
-        return $this->config['service'];
-    }
-}
+                    /**
+                     * @return T
+                     */
+                    public function get()
+                    {
+                        return $this->config['service'];
+                    }
+                }
 
-class TestClass
-{
-    public function run(): void
-    {
-        $box = new ServiceBox(['service' => new Mailer()]);
-        $result = $box->get();
-        $result->send();
-    }
-}
-PHP,
+                class TestClass
+                {
+                    public function run(): void
+                    {
+                        $box = new ServiceBox(['service' => new Mailer()]);
+                        $result = $box->get();
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1608,60 +1546,58 @@ PHP,
 
     /**
      * Ensures legacy fixture 117 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testGenericClassInstantiationInfersTemplateFromNestedArrayShapeConstructorArgument(): void
     {
         $sources = [
             'TestCase117.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase117;
+                namespace TestCase117;
 
-class Mailer
-{
-    public function send(): void
-    {
-    }
-}
+                class Mailer
+                {
+                    public function send(): void
+                    {
+                    }
+                }
 
-/**
- * @template T
- */
-class ServiceBox
-{
-    /**
-     * @param array{service: array{inner: T}} $config
-     */
-    public function __construct(private array $config)
-    {
-    }
+                /**
+                 * @template T
+                 */
+                class ServiceBox
+                {
+                    /**
+                     * @param array{service: array{inner: T}} $config
+                     */
+                    public function __construct(private array $config)
+                    {
+                    }
 
-    /**
-     * @return T
-     */
-    public function get()
-    {
-        return $this->config['service']['inner'];
-    }
-}
+                    /**
+                     * @return T
+                     */
+                    public function get()
+                    {
+                        return $this->config['service']['inner'];
+                    }
+                }
 
-class TestClass
-{
-    public function run(): void
-    {
-        $box = new ServiceBox([
-            'service' => [
-                'inner' => new Mailer(),
-            ],
-        ]);
+                class TestClass
+                {
+                    public function run(): void
+                    {
+                        $box = new ServiceBox([
+                            'service' => [
+                                'inner' => new Mailer(),
+                            ],
+                        ]);
 
-        $result = $box->get();
-        $result->send();
-    }
-}
-PHP,
+                        $result = $box->get();
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1684,58 +1620,56 @@ PHP,
 
     /**
      * Ensures legacy fixture 118 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testGenericClassInstantiationInfersTemplateFromVariableArgument(): void
     {
         $sources = [
             'TestCase118.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase118;
+                namespace TestCase118;
 
-class Mailer
-{
-    public function send(): void
-    {
-    }
-}
+                class Mailer
+                {
+                    public function send(): void
+                    {
+                    }
+                }
 
-/**
- * @template T
- */
-class Box
-{
-    /**
-     * @param T $value
-     */
-    public function __construct(private mixed $value)
-    {
-    }
+                /**
+                 * @template T
+                 */
+                class Box
+                {
+                    /**
+                     * @param T $value
+                     */
+                    public function __construct(private mixed $value)
+                    {
+                    }
 
-    /**
-     * @return T
-     */
-    public function get()
-    {
-        return $this->value;
-    }
-}
+                    /**
+                     * @return T
+                     */
+                    public function get()
+                    {
+                        return $this->value;
+                    }
+                }
 
-class TestClass
-{
-    public function run(): void
-    {
-        $mailer = new Mailer();
+                class TestClass
+                {
+                    public function run(): void
+                    {
+                        $mailer = new Mailer();
 
-        $box = new Box($mailer);
+                        $box = new Box($mailer);
 
-        $result = $box->get();
-        $result->send();
-    }
-}
-PHP,
+                        $result = $box->get();
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1758,66 +1692,64 @@ PHP,
 
     /**
      * Ensures legacy fixture 119 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testGenericClassInstantiationInfersTemplateFromUnionVariableArgument(): void
     {
         $sources = [
             'TestCase119.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase119;
+                namespace TestCase119;
 
-class Mailer
-{
-    public function send(): void
-    {
-    }
-}
+                class Mailer
+                {
+                    public function send(): void
+                    {
+                    }
+                }
 
-class Logger
-{
-    public function send(): void
-    {
-    }
-}
+                class Logger
+                {
+                    public function send(): void
+                    {
+                    }
+                }
 
-/**
- * @template T
- */
-class Box
-{
-    /**
-     * @param T $value
-     */
-    public function __construct(private mixed $value)
-    {
-    }
+                /**
+                 * @template T
+                 */
+                class Box
+                {
+                    /**
+                     * @param T $value
+                     */
+                    public function __construct(private mixed $value)
+                    {
+                    }
 
-    /**
-     * @return T
-     */
-    public function get()
-    {
-        return $this->value;
-    }
-}
+                    /**
+                     * @return T
+                     */
+                    public function get()
+                    {
+                        return $this->value;
+                    }
+                }
 
-class TestClass
-{
-    public function run(bool $flag): void
-    {
-        /** @var Mailer|Logger $value */
-        $value = $flag ? new Mailer() : new Logger();
+                class TestClass
+                {
+                    public function run(bool $flag): void
+                    {
+                        /** @var Mailer|Logger $value */
+                        $value = $flag ? new Mailer() : new Logger();
 
-        $box = new Box($value);
+                        $box = new Box($value);
 
-        $result = $box->get();
-        $result->send();
-    }
-}
-PHP,
+                        $result = $box->get();
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1849,63 +1781,61 @@ PHP,
 
     /**
      * Ensures legacy fixture 120 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testGenericClassInstantiationInfersMultipleTemplatesFromVariableArguments(): void
     {
         $sources = [
             'TestCase120.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase120;
+                namespace TestCase120;
 
-class Mailer
-{
-    public function send(): void
-    {
-    }
-}
+                class Mailer
+                {
+                    public function send(): void
+                    {
+                    }
+                }
 
-/**
- * @template TKey
- * @template TValue
- */
-class PairBox
-{
-    /**
-     * @param TKey $key
-     * @param TValue $value
-     */
-    public function __construct(
-        private mixed $key,
-        private mixed $value,
-    ) {
-    }
+                /**
+                 * @template TKey
+                 * @template TValue
+                 */
+                class PairBox
+                {
+                    /**
+                     * @param TKey $key
+                     * @param TValue $value
+                     */
+                    public function __construct(
+                        private mixed $key,
+                        private mixed $value,
+                    ) {
+                    }
 
-    /**
-     * @return TValue
-     */
-    public function getValue()
-    {
-        return $this->value;
-    }
-}
+                    /**
+                     * @return TValue
+                     */
+                    public function getValue()
+                    {
+                        return $this->value;
+                    }
+                }
 
-class TestClass
-{
-    public function run(): void
-    {
-        $key = 'main';
-        $value = new Mailer();
+                class TestClass
+                {
+                    public function run(): void
+                    {
+                        $key = 'main';
+                        $value = new Mailer();
 
-        $box = new PairBox($key, $value);
+                        $box = new PairBox($key, $value);
 
-        $result = $box->getValue();
-        $result->send();
-    }
-}
-PHP,
+                        $result = $box->getValue();
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1928,70 +1858,68 @@ PHP,
 
     /**
      * Ensures legacy fixture 129 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testNestedGenericReturnSubstitutesInnerTemplateType(): void
     {
         $sources = [
             'TestCase129.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase129;
+                namespace TestCase129;
 
-class Mailer
-{
-    public function send(): void
-    {
-    }
-}
+                class Mailer
+                {
+                    public function send(): void
+                    {
+                    }
+                }
 
-/**
- * @template T
- */
-class Box
-{
-    /**
-     * @param T $value
-     */
-    public function __construct(private mixed $value)
-    {
-    }
+                /**
+                 * @template T
+                 */
+                class Box
+                {
+                    /**
+                     * @param T $value
+                     */
+                    public function __construct(private mixed $value)
+                    {
+                    }
 
-    /**
-     * @return T
-     */
-    public function get()
-    {
-        return $this->value;
-    }
-}
+                    /**
+                     * @return T
+                     */
+                    public function get()
+                    {
+                        return $this->value;
+                    }
+                }
 
-class Factory
-{
-    /**
-     * @template U
-     * @param U $value
-     * @return Box<Box<U>>
-     */
-    public function make($value): Box
-    {
-        return new Box(new Box($value));
-    }
-}
+                class Factory
+                {
+                    /**
+                     * @template U
+                     * @param U $value
+                     * @return Box<Box<U>>
+                     */
+                    public function make($value): Box
+                    {
+                        return new Box(new Box($value));
+                    }
+                }
 
-class TestClass
-{
-    public function run(): void
-    {
-        $factory = new Factory();
-        $box = $factory->make(new Mailer());
-        $result = $box->get()->get();
+                class TestClass
+                {
+                    public function run(): void
+                    {
+                        $factory = new Factory();
+                        $box = $factory->make(new Mailer());
+                        $result = $box->get()->get();
 
-        $result->send();
-    }
-}
-PHP,
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -2014,60 +1942,58 @@ PHP,
 
     /**
      * Ensures legacy fixture 130 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testArrayShapeReturnSubstitutesTemplateFieldType(): void
     {
         $sources = [
             'TestCase130.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase130;
+                namespace TestCase130;
 
-class Mailer
-{
-    public function send(): void
-    {
-    }
-}
+                class Mailer
+                {
+                    public function send(): void
+                    {
+                    }
+                }
 
-class ServiceHolder
-{
-    public function __construct(private mixed $service)
-    {
-    }
+                class ServiceHolder
+                {
+                    public function __construct(private mixed $service)
+                    {
+                    }
 
-    public function getService(): mixed
-    {
-        return $this->service;
-    }
-}
+                    public function getService(): mixed
+                    {
+                        return $this->service;
+                    }
+                }
 
-class Factory
-{
-    /**
-     * @template T
-     * @param T $value
-     * @return array{service: T}
-     */
-    public function make($value): array
-    {
-        return ['service' => $value];
-    }
-}
+                class Factory
+                {
+                    /**
+                     * @template T
+                     * @param T $value
+                     * @return array{service: T}
+                     */
+                    public function make($value): array
+                    {
+                        return ['service' => $value];
+                    }
+                }
 
-class TestClass
-{
-    public function run(): void
-    {
-        $factory = new Factory();
-        $result = $factory->make(new Mailer());
+                class TestClass
+                {
+                    public function run(): void
+                    {
+                        $factory = new Factory();
+                        $result = $factory->make(new Mailer());
 
-        $result['service']->send();
-    }
-}
-PHP,
+                        $result['service']->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -2090,69 +2016,67 @@ PHP,
 
     /**
      * Ensures legacy fixture 131 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testNestedArrayShapeReturnSubstitutesTemplateInsideGenericField(): void
     {
         $sources = [
             'TestCase131.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase131;
+                namespace TestCase131;
 
-class Mailer
-{
-    public function send(): void
-    {
-    }
-}
+                class Mailer
+                {
+                    public function send(): void
+                    {
+                    }
+                }
 
-/**
- * @template T
- */
-class Box
-{
-    /**
-     * @param T $value
-     */
-    public function __construct(private mixed $value)
-    {
-    }
+                /**
+                 * @template T
+                 */
+                class Box
+                {
+                    /**
+                     * @param T $value
+                     */
+                    public function __construct(private mixed $value)
+                    {
+                    }
 
-    /**
-     * @return T
-     */
-    public function get()
-    {
-        return $this->value;
-    }
-}
+                    /**
+                     * @return T
+                     */
+                    public function get()
+                    {
+                        return $this->value;
+                    }
+                }
 
-class Factory
-{
-    /**
-     * @template U
-     * @param U $value
-     * @return array{box: Box<U>}
-     */
-    public function make($value): array
-    {
-        return ['box' => new Box($value)];
-    }
-}
+                class Factory
+                {
+                    /**
+                     * @template U
+                     * @param U $value
+                     * @return array{box: Box<U>}
+                     */
+                    public function make($value): array
+                    {
+                        return ['box' => new Box($value)];
+                    }
+                }
 
-class TestClass
-{
-    public function run(): void
-    {
-        $factory = new Factory();
-        $result = $factory->make(new Mailer());
+                class TestClass
+                {
+                    public function run(): void
+                    {
+                        $factory = new Factory();
+                        $result = $factory->make(new Mailer());
 
-        $result['box']->get()->send();
-    }
-}
-PHP,
+                        $result['box']->get()->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -2175,70 +2099,68 @@ PHP,
 
     /**
      * Ensures legacy fixture 132 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testGenericReturnSubstitutesTemplateInsideUnionArgument(): void
     {
         $sources = [
             'TestCase132.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase132;
+                namespace TestCase132;
 
-class Mailer
-{
-    public function send(): void
-    {
-    }
-}
+                class Mailer
+                {
+                    public function send(): void
+                    {
+                    }
+                }
 
-/**
- * @template T
- */
-class Box
-{
-    /**
-     * @param T $value
-     */
-    public function __construct(private mixed $value)
-    {
-    }
+                /**
+                 * @template T
+                 */
+                class Box
+                {
+                    /**
+                     * @param T $value
+                     */
+                    public function __construct(private mixed $value)
+                    {
+                    }
 
-    /**
-     * @return T
-     */
-    public function get()
-    {
-        return $this->value;
-    }
-}
+                    /**
+                     * @return T
+                     */
+                    public function get()
+                    {
+                        return $this->value;
+                    }
+                }
 
-class Factory
-{
-    /**
-     * @template U
-     * @param U $value
-     * @return Box<U|false>
-     */
-    public function make($value): Box
-    {
-        return new Box($value);
-    }
-}
+                class Factory
+                {
+                    /**
+                     * @template U
+                     * @param U $value
+                     * @return Box<U|false>
+                     */
+                    public function make($value): Box
+                    {
+                        return new Box($value);
+                    }
+                }
 
-class TestClass
-{
-    public function run(): void
-    {
-        $factory = new Factory();
-        $box = $factory->make(new Mailer());
-        $result = $box->get();
+                class TestClass
+                {
+                    public function run(): void
+                    {
+                        $factory = new Factory();
+                        $box = $factory->make(new Mailer());
+                        $result = $box->get();
 
-        $result->send();
-    }
-}
-PHP,
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -2261,69 +2183,67 @@ PHP,
 
     /**
      * Ensures legacy fixture 133 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testRootUnionReturnSubstitutesTemplatesAcrossUnionBranches(): void
     {
         $sources = [
             'TestCase133.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase133;
+                namespace TestCase133;
 
-class Mailer
-{
-    public function send(): void
-    {
-    }
-}
+                class Mailer
+                {
+                    public function send(): void
+                    {
+                    }
+                }
 
-/**
- * @template T
- */
-class Box
-{
-    /**
-     * @param T $value
-     */
-    public function __construct(private mixed $value)
-    {
-    }
+                /**
+                 * @template T
+                 */
+                class Box
+                {
+                    /**
+                     * @param T $value
+                     */
+                    public function __construct(private mixed $value)
+                    {
+                    }
 
-    /**
-     * @return T
-     */
-    public function get()
-    {
-        return $this->value;
-    }
-}
+                    /**
+                     * @return T
+                     */
+                    public function get()
+                    {
+                        return $this->value;
+                    }
+                }
 
-class Factory
-{
-    /**
-     * @template U
-     * @param U $value
-     * @return U|Box<U>
-     */
-    public function make($value)
-    {
-        return new Box($value);
-    }
-}
+                class Factory
+                {
+                    /**
+                     * @template U
+                     * @param U $value
+                     * @return U|Box<U>
+                     */
+                    public function make($value)
+                    {
+                        return new Box($value);
+                    }
+                }
 
-class TestClass
-{
-    public function run(): void
-    {
-        $factory = new Factory();
-        $result = $factory->make(new Mailer());
+                class TestClass
+                {
+                    public function run(): void
+                    {
+                        $factory = new Factory();
+                        $result = $factory->make(new Mailer());
 
-        $result->get()->send();
-    }
-}
-PHP,
+                        $result->get()->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -2346,53 +2266,51 @@ PHP,
 
     /**
      * Ensures legacy fixture 134 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testIntersectionReturnSubstitutesTemplateType(): void
     {
         $sources = [
             'TestCase134.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase134;
+                namespace TestCase134;
 
-interface HasSend
-{
-    public function send(): void;
-}
+                interface HasSend
+                {
+                    public function send(): void;
+                }
 
-class Mailer implements HasSend
-{
-    public function send(): void
-    {
-    }
-}
+                class Mailer implements HasSend
+                {
+                    public function send(): void
+                    {
+                    }
+                }
 
-class Factory
-{
-    /**
-     * @template T of HasSend
-     * @param T $value
-     * @return T&HasSend
-     */
-    public function make($value)
-    {
-        return $value;
-    }
-}
+                class Factory
+                {
+                    /**
+                     * @template T of HasSend
+                     * @param T $value
+                     * @return T&HasSend
+                     */
+                    public function make($value)
+                    {
+                        return $value;
+                    }
+                }
 
-class TestClass
-{
-    public function run(): void
-    {
-        $factory = new Factory();
-        $result = $factory->make(new Mailer());
+                class TestClass
+                {
+                    public function run(): void
+                    {
+                        $factory = new Factory();
+                        $result = $factory->make(new Mailer());
 
-        $result->send();
-    }
-}
-PHP,
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -2415,49 +2333,47 @@ PHP,
 
     /**
      * Ensures legacy fixture 135 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testCallableReturnTypeSubstitutesTemplateReturn(): void
     {
         $sources = [
             'TestCase135.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase135;
+                namespace TestCase135;
 
-class Mailer
-{
-    public function send(): void
-    {
-    }
-}
+                class Mailer
+                {
+                    public function send(): void
+                    {
+                    }
+                }
 
-class Factory
-{
-    /**
-     * @template T
-     * @param T $value
-     * @return callable(): T
-     */
-    public function make($value): callable
-    {
-        return fn () => $value;
-    }
-}
+                class Factory
+                {
+                    /**
+                     * @template T
+                     * @param T $value
+                     * @return callable(): T
+                     */
+                    public function make($value): callable
+                    {
+                        return fn () => $value;
+                    }
+                }
 
-class TestClass
-{
-    public function run(): void
-    {
-        $factory = new Factory();
-        $callable = $factory->make(new Mailer());
-        $result = $callable();
+                class TestClass
+                {
+                    public function run(): void
+                    {
+                        $factory = new Factory();
+                        $callable = $factory->make(new Mailer());
+                        $result = $callable();
 
-        $result->send();
-    }
-}
-PHP,
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -2480,44 +2396,42 @@ PHP,
 
     /**
      * Ensures legacy fixture 138 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testFunctionReturningTemplateCallableSubstitutesInvocationReturnType(): void
     {
         $sources = [
             'TestCase138.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase138;
+                namespace TestCase138;
 
-class Mailer
-{
-    public function send(): void
-    {
-    }
-}
+                class Mailer
+                {
+                    public function send(): void
+                    {
+                    }
+                }
 
-/**
- * @template T
- * @param T $value
- * @return callable(): T
- */
-function makeCallable($value): callable
-{
-    return static fn () => $value;
-}
+                /**
+                 * @template T
+                 * @param T $value
+                 * @return callable(): T
+                 */
+                function makeCallable($value): callable
+                {
+                    return static fn () => $value;
+                }
 
-class TestClass
-{
-    public function run(): void
-    {
-        $callable = makeCallable(new Mailer());
-        $result = $callable();
-        $result->send();
-    }
-}
-PHP,
+                class TestClass
+                {
+                    public function run(): void
+                    {
+                        $callable = makeCallable(new Mailer());
+                        $result = $callable();
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -2540,48 +2454,46 @@ PHP,
 
     /**
      * Ensures legacy fixture 139 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testMethodReturningTemplateCallableSubstitutesInvocationReturnType(): void
     {
         $sources = [
             'TestCase139.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase139;
+                namespace TestCase139;
 
-class Mailer
-{
-    public function send(): void
-    {
-    }
-}
+                class Mailer
+                {
+                    public function send(): void
+                    {
+                    }
+                }
 
-class Factory
-{
-    /**
-     * @template T
-     * @param T $value
-     * @return callable(): T
-     */
-    public function makeCallable($value): callable
-    {
-        return static fn () => $value;
-    }
-}
+                class Factory
+                {
+                    /**
+                     * @template T
+                     * @param T $value
+                     * @return callable(): T
+                     */
+                    public function makeCallable($value): callable
+                    {
+                        return static fn () => $value;
+                    }
+                }
 
-class TestClass
-{
-    public function run(): void
-    {
-        $factory = new Factory();
-        $callable = $factory->makeCallable(new Mailer());
-        $result = $callable();
-        $result->send();
-    }
-}
-PHP,
+                class TestClass
+                {
+                    public function run(): void
+                    {
+                        $factory = new Factory();
+                        $callable = $factory->makeCallable(new Mailer());
+                        $result = $callable();
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -2604,40 +2516,38 @@ PHP,
 
     /**
      * Ensures legacy fixture 152 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTemplateFunctionResolvesNestedListGenericReturnType(): void
     {
         $sources = [
             'TestCase152.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase152;
+                namespace TestCase152;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-/**
- * @template T
- * @param list<array{service: T}> $items
- * @return T
- */
-function firstService(array $items) {
-    return $items[0]['service'];
-}
+                /**
+                 * @template T
+                 * @param list<array{service: T}> $items
+                 * @return T
+                 */
+                function firstService(array $items) {
+                    return $items[0]['service'];
+                }
 
-class TestClass {
-    public function run(): void {
-        /** @var list<array{service: Mailer}> $items */
-        $items = [['service' => new Mailer()]];
+                class TestClass {
+                    public function run(): void {
+                        /** @var list<array{service: Mailer}> $items */
+                        $items = [['service' => new Mailer()]];
 
-        $result = firstService($items);
-        $result->send();
-    }
-}
-PHP,
+                        $result = firstService($items);
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -2647,37 +2557,35 @@ PHP,
 
     /**
      * Ensures legacy fixture 153 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTemplateFunctionResolvesShapeUnionWithFalseReturnType(): void
     {
         $sources = [
             'TestCase153.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase153;
+                namespace TestCase153;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-/**
- * @template T
- * @param array{service: T}|false $item
- * @return T|false
- */
-function maybeService($item) {
-    return $item === false ? false : $item['service'];
-}
+                /**
+                 * @template T
+                 * @param array{service: T}|false $item
+                 * @return T|false
+                 */
+                function maybeService($item) {
+                    return $item === false ? false : $item['service'];
+                }
 
-class TestClass {
-    public function run(): void {
-        $result = maybeService(['service' => new Mailer()]);
-        $result->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): void {
+                        $result = maybeService(['service' => new Mailer()]);
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -2687,37 +2595,35 @@ PHP,
 
     /**
      * Ensures legacy fixture 155 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testGenericCallableReturnTypeFromTemplateParameter(): void
     {
         $sources = [
             'TestCase155.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase155;
+                namespace TestCase155;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-/**
- * @template T
- * @param callable(): T $factory
- * @return T
- */
-function consumeFactory(callable $factory) {
-    return $factory();
-}
+                /**
+                 * @template T
+                 * @param callable(): T $factory
+                 * @return T
+                 */
+                function consumeFactory(callable $factory) {
+                    return $factory();
+                }
 
-class TestClass {
-    public function run(): void {
-        $result = consumeFactory(static fn (): Mailer => new Mailer());
-        $result->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): void {
+                        $result = consumeFactory(static fn (): Mailer => new Mailer());
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -2727,40 +2633,38 @@ PHP,
 
     /**
      * Ensures legacy fixture 156 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testMethodGenericCallableReturnTypeFromTemplateParameter(): void
     {
         $sources = [
             'TestCase156.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase156;
+                namespace TestCase156;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Consumer {
-    /**
-     * @template T
-     * @param callable(): T $factory
-     * @return T
-     */
-    public function consumeFactory(callable $factory) {
-        return $factory();
-    }
-}
+                class Consumer {
+                    /**
+                     * @template T
+                     * @param callable(): T $factory
+                     * @return T
+                     */
+                    public function consumeFactory(callable $factory) {
+                        return $factory();
+                    }
+                }
 
-class TestClass {
-    public function run(): void {
-        $consumer = new Consumer();
-        $result = $consumer->consumeFactory(static fn (): Mailer => new Mailer());
-        $result->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): void {
+                        $consumer = new Consumer();
+                        $result = $consumer->consumeFactory(static fn (): Mailer => new Mailer());
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -2770,37 +2674,35 @@ PHP,
 
     /**
      * Ensures legacy fixture 157 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testUntypedArrowFunctionCallableArgumentInfersTemplateReturnType(): void
     {
         $sources = [
             'TestCase157.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase157;
+                namespace TestCase157;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-/**
- * @template T
- * @param callable(): T $factory
- * @return T
- */
-function consumeFactory(callable $factory) {
-    return $factory();
-}
+                /**
+                 * @template T
+                 * @param callable(): T $factory
+                 * @return T
+                 */
+                function consumeFactory(callable $factory) {
+                    return $factory();
+                }
 
-class TestClass {
-    public function run(): void {
-        $result = consumeFactory(static fn () => new Mailer());
-        $result->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): void {
+                        $result = consumeFactory(static fn () => new Mailer());
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -2810,39 +2712,37 @@ PHP,
 
     /**
      * Ensures legacy fixture 158 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTypedClosureCallableArgumentInfersTemplateReturnType(): void
     {
         $sources = [
             'TestCase158.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase158;
+                namespace TestCase158;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-/**
- * @template T
- * @param callable(): T $factory
- * @return T
- */
-function consumeFactory(callable $factory) {
-    return $factory();
-}
+                /**
+                 * @template T
+                 * @param callable(): T $factory
+                 * @return T
+                 */
+                function consumeFactory(callable $factory) {
+                    return $factory();
+                }
 
-class TestClass {
-    public function run(): void {
-        $result = consumeFactory(static function (): Mailer {
-            return new Mailer();
-        });
-        $result->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): void {
+                        $result = consumeFactory(static function (): Mailer {
+                            return new Mailer();
+                        });
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -2852,39 +2752,37 @@ PHP,
 
     /**
      * Ensures legacy fixture 159 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testUntypedClosureCallableArgumentInfersTemplateReturnType(): void
     {
         $sources = [
             'TestCase159.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase159;
+                namespace TestCase159;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-/**
- * @template T
- * @param callable(): T $factory
- * @return T
- */
-function consumeFactory(callable $factory) {
-    return $factory();
-}
+                /**
+                 * @template T
+                 * @param callable(): T $factory
+                 * @return T
+                 */
+                function consumeFactory(callable $factory) {
+                    return $factory();
+                }
 
-class TestClass {
-    public function run(): void {
-        $result = consumeFactory(static function () {
-            return new Mailer();
-        });
-        $result->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): void {
+                        $result = consumeFactory(static function () {
+                            return new Mailer();
+                        });
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -2894,37 +2792,35 @@ PHP,
 
     /**
      * Ensures legacy fixture 160 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testCallableUnionReturnTypeSubstitutesTemplateBranch(): void
     {
         $sources = [
             'TestCase160.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase160;
+                namespace TestCase160;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-/**
- * @template T
- * @param callable(): T|false $factory
- * @return T|false
- */
-function consumeMaybeFactory(callable $factory) {
-    return $factory();
-}
+                /**
+                 * @template T
+                 * @param callable(): T|false $factory
+                 * @return T|false
+                 */
+                function consumeMaybeFactory(callable $factory) {
+                    return $factory();
+                }
 
-class TestClass {
-    public function run(): void {
-        $result = consumeMaybeFactory(static fn (): Mailer => new Mailer());
-        $result->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): void {
+                        $result = consumeMaybeFactory(static fn (): Mailer => new Mailer());
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -2934,37 +2830,35 @@ PHP,
 
     /**
      * Ensures legacy fixture 161 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testCallableShapeReturnTypeSubstitutesTemplateField(): void
     {
         $sources = [
             'TestCase161.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase161;
+                namespace TestCase161;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-/**
- * @template T
- * @param callable(): array{service: T} $factory
- * @return array{service: T}
- */
-function consumeShapeFactory(callable $factory) {
-    return $factory();
-}
+                /**
+                 * @template T
+                 * @param callable(): array{service: T} $factory
+                 * @return array{service: T}
+                 */
+                function consumeShapeFactory(callable $factory) {
+                    return $factory();
+                }
 
-class TestClass {
-    public function run(): void {
-        $result = consumeShapeFactory(static fn () => ['service' => new Mailer()]);
-        $result['service']->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): void {
+                        $result = consumeShapeFactory(static fn () => ['service' => new Mailer()]);
+                        $result['service']->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -2974,37 +2868,35 @@ PHP,
 
     /**
      * Ensures legacy fixture 162 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testCallableNestedListShapeReturnTypeSubstitutesTemplateField(): void
     {
         $sources = [
             'TestCase162.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase162;
+                namespace TestCase162;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-/**
- * @template T
- * @param callable(): list<array{service: T}> $factory
- * @return list<array{service: T}>
- */
-function consumeNestedShapeFactory(callable $factory) {
-    return $factory();
-}
+                /**
+                 * @template T
+                 * @param callable(): list<array{service: T}> $factory
+                 * @return list<array{service: T}>
+                 */
+                function consumeNestedShapeFactory(callable $factory) {
+                    return $factory();
+                }
 
-class TestClass {
-    public function run(): void {
-        $result = consumeNestedShapeFactory(static fn () => [['service' => new Mailer()]]);
-        $result[0]['service']->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): void {
+                        $result = consumeNestedShapeFactory(static fn () => [['service' => new Mailer()]]);
+                        $result[0]['service']->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -3014,43 +2906,41 @@ PHP,
 
     /**
      * Ensures legacy fixture 164 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testUntypedClosureShapeUnionReturnSubstitutesTemplateField(): void
     {
         $sources = [
             'TestCase164.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase164;
+                namespace TestCase164;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-/**
- * @template T
- * @param callable(): array{service: T}|false $factory
- * @return array{service: T}|false
- */
-function consumeMaybeShapeFactory(callable $factory) {
-    return $factory();
-}
+                /**
+                 * @template T
+                 * @param callable(): array{service: T}|false $factory
+                 * @return array{service: T}|false
+                 */
+                function consumeMaybeShapeFactory(callable $factory) {
+                    return $factory();
+                }
 
-class TestClass {
-    public function run(bool $flag): void {
-        $result = consumeMaybeShapeFactory(static function () use ($flag) {
-            if ($flag) {
-                return ['service' => new Mailer()];
-            }
+                class TestClass {
+                    public function run(bool $flag): void {
+                        $result = consumeMaybeShapeFactory(static function () use ($flag) {
+                            if ($flag) {
+                                return ['service' => new Mailer()];
+                            }
 
-            return false;
-        });
-        $result['service']->send();
-    }
-}
-PHP,
+                            return false;
+                        });
+                        $result['service']->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -3060,54 +2950,52 @@ PHP,
 
     /**
      * Ensures legacy fixture 165 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testCallableGenericObjectReturnSubstitutesTemplateArgument(): void
     {
         $sources = [
             'TestCase165.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase165;
+                namespace TestCase165;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-/**
- * @template T
- */
-class Box {
-    /**
-     * @param T $value
-     */
-    public function __construct(private mixed $value) {}
+                /**
+                 * @template T
+                 */
+                class Box {
+                    /**
+                     * @param T $value
+                     */
+                    public function __construct(private mixed $value) {}
 
-    /**
-     * @return T
-     */
-    public function get() {
-        return $this->value;
-    }
-}
+                    /**
+                     * @return T
+                     */
+                    public function get() {
+                        return $this->value;
+                    }
+                }
 
-/**
- * @template T
- * @param callable(): Box<T> $factory
- * @return Box<T>
- */
-function consumeBoxFactory(callable $factory) {
-    return $factory();
-}
+                /**
+                 * @template T
+                 * @param callable(): Box<T> $factory
+                 * @return Box<T>
+                 */
+                function consumeBoxFactory(callable $factory) {
+                    return $factory();
+                }
 
-class TestClass {
-    public function run(): void {
-        $box = consumeBoxFactory(static fn () => new Box(new Mailer()));
-        $box->get()->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): void {
+                        $box = consumeBoxFactory(static fn () => new Box(new Mailer()));
+                        $box->get()->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -3117,39 +3005,37 @@ PHP,
 
     /**
      * Ensures legacy fixture 170 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testCallableTypedParameterSubstitutesReturnTemplate(): void
     {
         $sources = [
             'TestCase170.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase170;
+                namespace TestCase170;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-/**
- * @template T
- * @param callable(T): T $factory
- * @return T
- */
-function consumeTypedFactory(callable $factory) {
-    return $factory(new Mailer());
-}
+                /**
+                 * @template T
+                 * @param callable(T): T $factory
+                 * @return T
+                 */
+                function consumeTypedFactory(callable $factory) {
+                    return $factory(new Mailer());
+                }
 
-class TestClass {
-    public function run(): void {
-        $result = consumeTypedFactory(static function (Mailer $service) {
-            return $service;
-        });
-        $result->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): void {
+                        $result = consumeTypedFactory(static function (Mailer $service) {
+                            return $service;
+                        });
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -3159,42 +3045,40 @@ PHP,
 
     /**
      * Ensures legacy fixture 175 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testCallableShapeParameterSubstitutesReturnTemplate(): void
     {
         $sources = [
             'TestCase175.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase175;
+                namespace TestCase175;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-/**
- * @template T
- * @param callable(array{service: T}): T $factory
- * @return T
- */
-function consumeShapeHandler(callable $factory) {
-    return $factory(['service' => new Mailer()]);
-}
+                /**
+                 * @template T
+                 * @param callable(array{service: T}): T $factory
+                 * @return T
+                 */
+                function consumeShapeHandler(callable $factory) {
+                    return $factory(['service' => new Mailer()]);
+                }
 
-class TestClass {
-    public function run(): void {
-        /** @var callable(array{service: Mailer}): Mailer $handler */
-        $handler = static function (array $payload) {
-            return $payload['service'];
-        };
+                class TestClass {
+                    public function run(): void {
+                        /** @var callable(array{service: Mailer}): Mailer $handler */
+                        $handler = static function (array $payload) {
+                            return $payload['service'];
+                        };
 
-        $result = consumeShapeHandler($handler);
-        $result->send();
-    }
-}
-PHP,
+                        $result = consumeShapeHandler($handler);
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -3204,42 +3088,40 @@ PHP,
 
     /**
      * Ensures legacy fixture 179 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testCallableShapeParameterFromLocalVariableSubstitutesReturnTemplate(): void
     {
         $sources = [
             'TestCase179.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase179;
+                namespace TestCase179;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-/**
- * @template T
- * @param callable(array{service: T}): T $handler
- * @return T
- */
-function consumeShapeHandler(callable $handler) {
-    return $handler(['service' => new Mailer()]);
-}
+                /**
+                 * @template T
+                 * @param callable(array{service: T}): T $handler
+                 * @return T
+                 */
+                function consumeShapeHandler(callable $handler) {
+                    return $handler(['service' => new Mailer()]);
+                }
 
-class TestClass {
-    public function run(): void {
-        /** @var callable(array{service: Mailer}): Mailer $handler */
-        $handler = static function (array $payload) {
-            return $payload['service'];
-        };
+                class TestClass {
+                    public function run(): void {
+                        /** @var callable(array{service: Mailer}): Mailer $handler */
+                        $handler = static function (array $payload) {
+                            return $payload['service'];
+                        };
 
-        $result = consumeShapeHandler($handler);
-        $result->send();
-    }
-}
-PHP,
+                        $result = consumeShapeHandler($handler);
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -3249,54 +3131,52 @@ PHP,
 
     /**
      * Ensures legacy fixture 184 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testCallableReturningGenericShapeKeepsNestedTemplate(): void
     {
         $sources = [
             'TestCase184.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase184;
+                namespace TestCase184;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-/**
- * @template T
- */
-class Box {
-    /**
-     * @param T $value
-     */
-    public function __construct(private mixed $value) {}
+                /**
+                 * @template T
+                 */
+                class Box {
+                    /**
+                     * @param T $value
+                     */
+                    public function __construct(private mixed $value) {}
 
-    /**
-     * @return T
-     */
-    public function get() {
-        return $this->value;
-    }
-}
+                    /**
+                     * @return T
+                     */
+                    public function get() {
+                        return $this->value;
+                    }
+                }
 
-/**
- * @template T
- * @param callable(): array{box: Box<T>} $factory
- * @return array{box: Box<T>}
- */
-function consumeBoxShapeFactory(callable $factory): array {
-    return $factory();
-}
+                /**
+                 * @template T
+                 * @param callable(): array{box: Box<T>} $factory
+                 * @return array{box: Box<T>}
+                 */
+                function consumeBoxShapeFactory(callable $factory): array {
+                    return $factory();
+                }
 
-class TestClass {
-    public function run(): void {
-        $result = consumeBoxShapeFactory(static fn () => ['box' => new Box(new Mailer())]);
-        $result['box']->get()->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): void {
+                        $result = consumeBoxShapeFactory(static fn () => ['box' => new Box(new Mailer())]);
+                        $result['box']->get()->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -3306,34 +3186,32 @@ PHP,
 
     /**
      * Ensures legacy fixture 204 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTemplateClassBoundResolvesConcreteSubclass(): void
     {
         $sources = [
             'TestCase204.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase204;
+                namespace TestCase204;
 
-class BaseMailer { public function send(): void {} }
-class Mailer extends BaseMailer {}
+                class BaseMailer { public function send(): void {} }
+                class Mailer extends BaseMailer {}
 
-/**
- * @template T of BaseMailer
- * @param T $service
- * @return T
- */
-function identity($service) { return $service; }
+                /**
+                 * @template T of BaseMailer
+                 * @param T $service
+                 * @return T
+                 */
+                function identity($service) { return $service; }
 
-class TestClass {
-    public function run(): void {
-        $result = identity(new Mailer());
-        $result->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): void {
+                        $result = identity(new Mailer());
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -3343,44 +3221,42 @@ PHP,
 
     /**
      * Ensures legacy fixture 324 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTemplateUnionReturnPreservesBothConcreteTypes(): void
     {
         $sources = [
             'TestCase324.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase324;
+                namespace TestCase324;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Notifier {
-    public function send(): void {}
-}
+                class Notifier {
+                    public function send(): void {}
+                }
 
-/**
- * @template T
- * @template U
- * @param T $left
- * @param U $right
- * @return T|U
- */
-function pick($left, $right) {
-    return $left;
-}
+                /**
+                 * @template T
+                 * @template U
+                 * @param T $left
+                 * @param U $right
+                 * @return T|U
+                 */
+                function pick($left, $right) {
+                    return $left;
+                }
 
-class TestClass {
-    public function run(): void {
-        $result = pick(new Mailer(), new Notifier());
+                class TestClass {
+                    public function run(): void {
+                        $result = pick(new Mailer(), new Notifier());
 
-        $result->send();
-    }
-}
-PHP,
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -3391,44 +3267,42 @@ PHP,
 
     /**
      * Ensures legacy fixture 325 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTemplateUnionShapeFieldPreservesBothConcreteTypes(): void
     {
         $sources = [
             'TestCase325.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase325;
+                namespace TestCase325;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Notifier {
-    public function send(): void {}
-}
+                class Notifier {
+                    public function send(): void {}
+                }
 
-/**
- * @template T
- * @template U
- * @param T $left
- * @param U $right
- * @return array{service: T|U}
- */
-function shape($left, $right): array {
-    return ['service' => $left];
-}
+                /**
+                 * @template T
+                 * @template U
+                 * @param T $left
+                 * @param U $right
+                 * @return array{service: T|U}
+                 */
+                function shape($left, $right): array {
+                    return ['service' => $left];
+                }
 
-class TestClass {
-    public function run(): void {
-        $result = shape(new Mailer(), new Notifier());
+                class TestClass {
+                    public function run(): void {
+                        $result = shape(new Mailer(), new Notifier());
 
-        $result['service']->send();
-    }
-}
-PHP,
+                        $result['service']->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -3439,58 +3313,56 @@ PHP,
 
     /**
      * Ensures legacy fixture 326 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTemplateUnionGenericArgumentPreservesBothConcreteTypes(): void
     {
         $sources = [
             'TestCase326.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase326;
+                namespace TestCase326;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Notifier {
-    public function send(): void {}
-}
+                class Notifier {
+                    public function send(): void {}
+                }
 
-/**
- * @template T
- */
-class Box {
-    public function __construct(private mixed $value) {}
+                /**
+                 * @template T
+                 */
+                class Box {
+                    public function __construct(private mixed $value) {}
 
-    /**
-     * @return T
-     */
-    public function get() {
-        return $this->value;
-    }
-}
+                    /**
+                     * @return T
+                     */
+                    public function get() {
+                        return $this->value;
+                    }
+                }
 
-/**
- * @template T
- * @template U
- * @param T $left
- * @param U $right
- * @return Box<T|U>
- */
-function boxed($left, $right): Box {
-    return new Box($left);
-}
+                /**
+                 * @template T
+                 * @template U
+                 * @param T $left
+                 * @param U $right
+                 * @return Box<T|U>
+                 */
+                function boxed($left, $right): Box {
+                    return new Box($left);
+                }
 
-class TestClass {
-    public function run(): void {
-        $box = boxed(new Mailer(), new Notifier());
+                class TestClass {
+                    public function run(): void {
+                        $box = boxed(new Mailer(), new Notifier());
 
-        $box->get()->send();
-    }
-}
-PHP,
+                        $box->get()->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -3501,45 +3373,43 @@ PHP,
 
     /**
      * Ensures legacy fixture 327 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTemplateUnionCallableReturnPreservesBothConcreteTypes(): void
     {
         $sources = [
             'TestCase327.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase327;
+                namespace TestCase327;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Notifier {
-    public function send(): void {}
-}
+                class Notifier {
+                    public function send(): void {}
+                }
 
-/**
- * @template T
- * @template U
- * @param callable(): (T|U) $factory
- * @return T|U
- */
-function apply(callable $factory) {
-    return $factory();
-}
+                /**
+                 * @template T
+                 * @template U
+                 * @param callable(): (T|U) $factory
+                 * @return T|U
+                 */
+                function apply(callable $factory) {
+                    return $factory();
+                }
 
-class TestClass {
-    public function run(): void {
-        /** @var callable(): (Mailer|Notifier) $factory */
-        $factory = static fn() => new Mailer();
+                class TestClass {
+                    public function run(): void {
+                        /** @var callable(): (Mailer|Notifier) $factory */
+                        $factory = static fn() => new Mailer();
 
-        $result = apply($factory);
-        $result->send();
-    }
-}
-PHP,
+                        $result = apply($factory);
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -3550,44 +3420,42 @@ PHP,
 
     /**
      * Ensures legacy fixture 328 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testParenthesizedTemplateUnionReturnPreservesBothConcreteTypes(): void
     {
         $sources = [
             'TestCase328.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase328;
+                namespace TestCase328;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Notifier {
-    public function send(): void {}
-}
+                class Notifier {
+                    public function send(): void {}
+                }
 
-/**
- * @template T
- * @template U
- * @param T $left
- * @param U $right
- * @return (T|U)
- */
-function pick($left, $right) {
-    return $left;
-}
+                /**
+                 * @template T
+                 * @template U
+                 * @param T $left
+                 * @param U $right
+                 * @return (T|U)
+                 */
+                function pick($left, $right) {
+                    return $left;
+                }
 
-class TestClass {
-    public function run(): void {
-        $result = pick(new Mailer(), new Notifier());
+                class TestClass {
+                    public function run(): void {
+                        $result = pick(new Mailer(), new Notifier());
 
-        $result->send();
-    }
-}
-PHP,
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -3598,44 +3466,42 @@ PHP,
 
     /**
      * Ensures legacy fixture 329 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testNullableTemplateUnionReturnPreservesBothConcreteTypes(): void
     {
         $sources = [
             'TestCase329.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase329;
+                namespace TestCase329;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Notifier {
-    public function send(): void {}
-}
+                class Notifier {
+                    public function send(): void {}
+                }
 
-/**
- * @template T
- * @template U
- * @param T $left
- * @param U $right
- * @return T|U|null
- */
-function maybe($left, $right) {
-    return $left;
-}
+                /**
+                 * @template T
+                 * @template U
+                 * @param T $left
+                 * @param U $right
+                 * @return T|U|null
+                 */
+                function maybe($left, $right) {
+                    return $left;
+                }
 
-class TestClass {
-    public function run(): void {
-        $result = maybe(new Mailer(), new Notifier());
+                class TestClass {
+                    public function run(): void {
+                        $result = maybe(new Mailer(), new Notifier());
 
-        $result->send();
-    }
-}
-PHP,
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -3646,59 +3512,57 @@ PHP,
 
     /**
      * Ensures legacy fixture 330 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTemplateUnionInsideShapeInsideGenericPreservesConcreteTypes(): void
     {
         $sources = [
             'TestCase330.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase330;
+                namespace TestCase330;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Notifier {
-    public function send(): void {}
-}
+                class Notifier {
+                    public function send(): void {}
+                }
 
-/**
- * @template T
- */
-class Box {
-    public function __construct(private mixed $value) {}
+                /**
+                 * @template T
+                 */
+                class Box {
+                    public function __construct(private mixed $value) {}
 
-    /**
-     * @return T
-     */
-    public function get() {
-        return $this->value;
-    }
-}
+                    /**
+                     * @return T
+                     */
+                    public function get() {
+                        return $this->value;
+                    }
+                }
 
-/**
- * @template T
- * @template U
- * @param T $left
- * @param U $right
- * @return Box<array{service: T|U}>
- */
-function boxedShape($left, $right): Box {
-    return new Box(['service' => $left]);
-}
+                /**
+                 * @template T
+                 * @template U
+                 * @param T $left
+                 * @param U $right
+                 * @return Box<array{service: T|U}>
+                 */
+                function boxedShape($left, $right): Box {
+                    return new Box(['service' => $left]);
+                }
 
-class TestClass {
-    public function run(): void {
-        $box = boxedShape(new Mailer(), new Notifier());
-        $shape = $box->get();
+                class TestClass {
+                    public function run(): void {
+                        $box = boxedShape(new Mailer(), new Notifier());
+                        $shape = $box->get();
 
-        $shape['service']->send();
-    }
-}
-PHP,
+                        $shape['service']->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -3709,44 +3573,42 @@ PHP,
 
     /**
      * Ensures legacy fixture 331 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTemplateUnionInsideListShapePreservesConcreteTypes(): void
     {
         $sources = [
             'TestCase331.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase331;
+                namespace TestCase331;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Notifier {
-    public function send(): void {}
-}
+                class Notifier {
+                    public function send(): void {}
+                }
 
-/**
- * @template T
- * @template U
- * @param T $left
- * @param U $right
- * @return array{items: list<T|U>}
- */
-function configuredList($left, $right): array {
-    return ['items' => [$left, $right]];
-}
+                /**
+                 * @template T
+                 * @template U
+                 * @param T $left
+                 * @param U $right
+                 * @return array{items: list<T|U>}
+                 */
+                function configuredList($left, $right): array {
+                    return ['items' => [$left, $right]];
+                }
 
-class TestClass {
-    public function run(): void {
-        $config = configuredList(new Mailer(), new Notifier());
+                class TestClass {
+                    public function run(): void {
+                        $config = configuredList(new Mailer(), new Notifier());
 
-        $config['items'][0]->send();
-    }
-}
-PHP,
+                        $config['items'][0]->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -3757,58 +3619,56 @@ PHP,
 
     /**
      * Ensures legacy fixture 332 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTemplateUnionInsideNestedGenericPreservesConcreteTypes(): void
     {
         $sources = [
             'TestCase332.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase332;
+                namespace TestCase332;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Notifier {
-    public function send(): void {}
-}
+                class Notifier {
+                    public function send(): void {}
+                }
 
-/**
- * @template T
- */
-class Box {
-    public function __construct(private mixed $value) {}
+                /**
+                 * @template T
+                 */
+                class Box {
+                    public function __construct(private mixed $value) {}
 
-    /**
-     * @return T
-     */
-    public function get() {
-        return $this->value;
-    }
-}
+                    /**
+                     * @return T
+                     */
+                    public function get() {
+                        return $this->value;
+                    }
+                }
 
-/**
- * @template T
- * @template U
- * @param T $left
- * @param U $right
- * @return Box<Box<T|U>>
- */
-function nestedBox($left, $right): Box {
-    return new Box(new Box($left));
-}
+                /**
+                 * @template T
+                 * @template U
+                 * @param T $left
+                 * @param U $right
+                 * @return Box<Box<T|U>>
+                 */
+                function nestedBox($left, $right): Box {
+                    return new Box(new Box($left));
+                }
 
-class TestClass {
-    public function run(): void {
-        $box = nestedBox(new Mailer(), new Notifier());
+                class TestClass {
+                    public function run(): void {
+                        $box = nestedBox(new Mailer(), new Notifier());
 
-        $box->get()->get()->send();
-    }
-}
-PHP,
+                        $box->get()->get()->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -3819,59 +3679,57 @@ PHP,
 
     /**
      * Ensures legacy fixture 333 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTemplateUnionInsideCallableGenericReturnPreservesConcreteTypes(): void
     {
         $sources = [
             'TestCase333.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase333;
+                namespace TestCase333;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Notifier {
-    public function send(): void {}
-}
+                class Notifier {
+                    public function send(): void {}
+                }
 
-/**
- * @template T
- */
-class Box {
-    public function __construct(private mixed $value) {}
+                /**
+                 * @template T
+                 */
+                class Box {
+                    public function __construct(private mixed $value) {}
 
-    /**
-     * @return T
-     */
-    public function get() {
-        return $this->value;
-    }
-}
+                    /**
+                     * @return T
+                     */
+                    public function get() {
+                        return $this->value;
+                    }
+                }
 
-/**
- * @template T
- * @template U
- * @param callable(): Box<T|U> $factory
- * @return Box<T|U>
- */
-function apply(callable $factory): Box {
-    return $factory();
-}
+                /**
+                 * @template T
+                 * @template U
+                 * @param callable(): Box<T|U> $factory
+                 * @return Box<T|U>
+                 */
+                function apply(callable $factory): Box {
+                    return $factory();
+                }
 
-class TestClass {
-    public function run(): void {
-        /** @var callable(): Box<Mailer|Notifier> $factory */
-        $factory = static fn() => new Box(new Mailer());
+                class TestClass {
+                    public function run(): void {
+                        /** @var callable(): Box<Mailer|Notifier> $factory */
+                        $factory = static fn() => new Box(new Mailer());
 
-        $box = apply($factory);
-        $box->get()->send();
-    }
-}
-PHP,
+                        $box = apply($factory);
+                        $box->get()->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -3882,58 +3740,56 @@ PHP,
 
     /**
      * Ensures legacy fixture 334 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTemplateUnionInsideNullableGenericReturnPreservesConcreteTypes(): void
     {
         $sources = [
             'TestCase334.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase334;
+                namespace TestCase334;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Notifier {
-    public function send(): void {}
-}
+                class Notifier {
+                    public function send(): void {}
+                }
 
-/**
- * @template T
- */
-class Box {
-    public function __construct(private mixed $value) {}
+                /**
+                 * @template T
+                 */
+                class Box {
+                    public function __construct(private mixed $value) {}
 
-    /**
-     * @return T
-     */
-    public function get() {
-        return $this->value;
-    }
-}
+                    /**
+                     * @return T
+                     */
+                    public function get() {
+                        return $this->value;
+                    }
+                }
 
-/**
- * @template T
- * @template U
- * @param T $left
- * @param U $right
- * @return Box<T|U>|null
- */
-function maybeBox($left, $right): ?Box {
-    return new Box($left);
-}
+                /**
+                 * @template T
+                 * @template U
+                 * @param T $left
+                 * @param U $right
+                 * @return Box<T|U>|null
+                 */
+                function maybeBox($left, $right): ?Box {
+                    return new Box($left);
+                }
 
-class TestClass {
-    public function run(): void {
-        $box = maybeBox(new Mailer(), new Notifier());
+                class TestClass {
+                    public function run(): void {
+                        $box = maybeBox(new Mailer(), new Notifier());
 
-        $box->get()->send();
-    }
-}
-PHP,
+                        $box->get()->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -3944,58 +3800,56 @@ PHP,
 
     /**
      * Ensures legacy fixture 345 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testParenthesizedTemplateUnionInsideGenericPreservesConcreteTypes(): void
     {
         $sources = [
             'TestCase345.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase345;
+                namespace TestCase345;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Notifier {
-    public function send(): void {}
-}
+                class Notifier {
+                    public function send(): void {}
+                }
 
-/**
- * @template T
- */
-class Box {
-    public function __construct(private mixed $value) {}
+                /**
+                 * @template T
+                 */
+                class Box {
+                    public function __construct(private mixed $value) {}
 
-    /**
-     * @return T
-     */
-    public function get() {
-        return $this->value;
-    }
-}
+                    /**
+                     * @return T
+                     */
+                    public function get() {
+                        return $this->value;
+                    }
+                }
 
-/**
- * @template T
- * @template U
- * @param T $left
- * @param U $right
- * @return Box<(T|U)>
- */
-function boxed($left, $right): Box {
-    return new Box($left);
-}
+                /**
+                 * @template T
+                 * @template U
+                 * @param T $left
+                 * @param U $right
+                 * @return Box<(T|U)>
+                 */
+                function boxed($left, $right): Box {
+                    return new Box($left);
+                }
 
-class TestClass {
-    public function run(): void {
-        $box = boxed(new Mailer(), new Notifier());
+                class TestClass {
+                    public function run(): void {
+                        $box = boxed(new Mailer(), new Notifier());
 
-        $box->get()->send();
-    }
-}
-PHP,
+                        $box->get()->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -4006,44 +3860,42 @@ PHP,
 
     /**
      * Ensures legacy fixture 346 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testParenthesizedTemplateUnionInsideShapePreservesConcreteTypes(): void
     {
         $sources = [
             'TestCase346.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase346;
+                namespace TestCase346;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Notifier {
-    public function send(): void {}
-}
+                class Notifier {
+                    public function send(): void {}
+                }
 
-/**
- * @template T
- * @template U
- * @param T $left
- * @param U $right
- * @return array{service: (T|U)}
- */
-function shape($left, $right): array {
-    return ['service' => $left];
-}
+                /**
+                 * @template T
+                 * @template U
+                 * @param T $left
+                 * @param U $right
+                 * @return array{service: (T|U)}
+                 */
+                function shape($left, $right): array {
+                    return ['service' => $left];
+                }
 
-class TestClass {
-    public function run(): void {
-        $shape = shape(new Mailer(), new Notifier());
+                class TestClass {
+                    public function run(): void {
+                        $shape = shape(new Mailer(), new Notifier());
 
-        $shape['service']->send();
-    }
-}
-PHP,
+                        $shape['service']->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -4054,48 +3906,46 @@ PHP,
 
     /**
      * Ensures legacy fixture 347 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTemplateIntersectionUnionPreservesConcreteTypes(): void
     {
         $sources = [
             'TestCase347.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase347;
+                namespace TestCase347;
 
-interface HasSend {
-    public function send(): void;
-}
+                interface HasSend {
+                    public function send(): void;
+                }
 
-class Mailer implements HasSend {
-    public function send(): void {}
-}
+                class Mailer implements HasSend {
+                    public function send(): void {}
+                }
 
-class Notifier implements HasSend {
-    public function send(): void {}
-}
+                class Notifier implements HasSend {
+                    public function send(): void {}
+                }
 
-/**
- * @template T of HasSend
- * @template U of HasSend
- * @param T $left
- * @param U $right
- * @return (T&HasSend)|U
- */
-function pick($left, $right) {
-    return $left;
-}
+                /**
+                 * @template T of HasSend
+                 * @template U of HasSend
+                 * @param T $left
+                 * @param U $right
+                 * @return (T&HasSend)|U
+                 */
+                function pick($left, $right) {
+                    return $left;
+                }
 
-class TestClass {
-    public function run(): void {
-        $result = pick(new Mailer(), new Notifier());
+                class TestClass {
+                    public function run(): void {
+                        $result = pick(new Mailer(), new Notifier());
 
-        $result->send();
-    }
-}
-PHP,
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -4106,58 +3956,56 @@ PHP,
 
     /**
      * Ensures legacy fixture 348 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testNullableParenthesizedTemplateGenericPreservesConcreteTypes(): void
     {
         $sources = [
             'TestCase348.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase348;
+                namespace TestCase348;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Notifier {
-    public function send(): void {}
-}
+                class Notifier {
+                    public function send(): void {}
+                }
 
-/**
- * @template T
- */
-class Box {
-    public function __construct(private mixed $value) {}
+                /**
+                 * @template T
+                 */
+                class Box {
+                    public function __construct(private mixed $value) {}
 
-    /**
-     * @return T
-     */
-    public function get() {
-        return $this->value;
-    }
-}
+                    /**
+                     * @return T
+                     */
+                    public function get() {
+                        return $this->value;
+                    }
+                }
 
-/**
- * @template T
- * @template U
- * @param T $left
- * @param U $right
- * @return (Box<T|U>)|null
- */
-function maybeBox($left, $right): ?Box {
-    return new Box($left);
-}
+                /**
+                 * @template T
+                 * @template U
+                 * @param T $left
+                 * @param U $right
+                 * @return (Box<T|U>)|null
+                 */
+                function maybeBox($left, $right): ?Box {
+                    return new Box($left);
+                }
 
-class TestClass {
-    public function run(): void {
-        $box = maybeBox(new Mailer(), new Notifier());
+                class TestClass {
+                    public function run(): void {
+                        $box = maybeBox(new Mailer(), new Notifier());
 
-        $box->get()->send();
-    }
-}
-PHP,
+                        $box->get()->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -4168,43 +4016,41 @@ PHP,
 
     /**
      * Ensures legacy fixture 349 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testParenthesizedTemplateIntersectionInsideCallablePreservesConcreteType(): void
     {
         $sources = [
             'TestCase349.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase349;
+                namespace TestCase349;
 
-interface HasSend {
-    public function send(): void;
-}
+                interface HasSend {
+                    public function send(): void;
+                }
 
-class Mailer implements HasSend {
-    public function send(): void {}
-}
+                class Mailer implements HasSend {
+                    public function send(): void {}
+                }
 
-/**
- * @template T of HasSend
- * @param callable(): (T&HasSend) $factory
- * @return T&HasSend
- */
-function apply(callable $factory) {
-    return $factory();
-}
+                /**
+                 * @template T of HasSend
+                 * @param callable(): (T&HasSend) $factory
+                 * @return T&HasSend
+                 */
+                function apply(callable $factory) {
+                    return $factory();
+                }
 
-class TestClass {
-    public function run(): void {
-        /** @var callable(): (Mailer&HasSend) $factory */
-        $factory = static fn() => new Mailer();
+                class TestClass {
+                    public function run(): void {
+                        /** @var callable(): (Mailer&HasSend) $factory */
+                        $factory = static fn() => new Mailer();
 
-        apply($factory)->send();
-    }
-}
-PHP,
+                        apply($factory)->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -4214,61 +4060,59 @@ PHP,
 
     /**
      * Ensures legacy fixture 350 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testMethodTemplateUnionGenericReturnPreservesConcreteTypes(): void
     {
         $sources = [
             'TestCase350.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase350;
+                namespace TestCase350;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Notifier {
-    public function send(): void {}
-}
+                class Notifier {
+                    public function send(): void {}
+                }
 
-/**
- * @template T
- */
-class Box {
-    public function __construct(private mixed $value) {}
+                /**
+                 * @template T
+                 */
+                class Box {
+                    public function __construct(private mixed $value) {}
 
-    /**
-     * @return T
-     */
-    public function get() {
-        return $this->value;
-    }
-}
+                    /**
+                     * @return T
+                     */
+                    public function get() {
+                        return $this->value;
+                    }
+                }
 
-class Factory {
-    /**
-     * @template T
-     * @template U
-     * @param T $left
-     * @param U $right
-     * @return Box<T|U>
-     */
-    public function boxed($left, $right): Box {
-        return new Box($left);
-    }
-}
+                class Factory {
+                    /**
+                     * @template T
+                     * @template U
+                     * @param T $left
+                     * @param U $right
+                     * @return Box<T|U>
+                     */
+                    public function boxed($left, $right): Box {
+                        return new Box($left);
+                    }
+                }
 
-class TestClass {
-    public function run(): void {
-        $factory = new Factory();
-        $box = $factory->boxed(new Mailer(), new Notifier());
+                class TestClass {
+                    public function run(): void {
+                        $factory = new Factory();
+                        $box = $factory->boxed(new Mailer(), new Notifier());
 
-        $box->get()->send();
-    }
-}
-PHP,
+                        $box->get()->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -4279,46 +4123,44 @@ PHP,
 
     /**
      * Ensures legacy fixture 351 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testStaticMethodTemplateUnionShapeReturnPreservesConcreteTypes(): void
     {
         $sources = [
             'TestCase351.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase351;
+                namespace TestCase351;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Notifier {
-    public function send(): void {}
-}
+                class Notifier {
+                    public function send(): void {}
+                }
 
-class Factory {
-    /**
-     * @template T
-     * @template U
-     * @param T $left
-     * @param U $right
-     * @return array{service: T|U}
-     */
-    public static function shape($left, $right): array {
-        return ['service' => $left];
-    }
-}
+                class Factory {
+                    /**
+                     * @template T
+                     * @template U
+                     * @param T $left
+                     * @param U $right
+                     * @return array{service: T|U}
+                     */
+                    public static function shape($left, $right): array {
+                        return ['service' => $left];
+                    }
+                }
 
-class TestClass {
-    public function run(): void {
-        $shape = Factory::shape(new Mailer(), new Notifier());
+                class TestClass {
+                    public function run(): void {
+                        $shape = Factory::shape(new Mailer(), new Notifier());
 
-        $shape['service']->send();
-    }
-}
-PHP,
+                        $shape['service']->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -4329,64 +4171,62 @@ PHP,
 
     /**
      * Ensures legacy fixture 352 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInheritedMethodTemplateUnionGenericReturnPreservesConcreteTypes(): void
     {
         $sources = [
             'TestCase352.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase352;
+                namespace TestCase352;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Notifier {
-    public function send(): void {}
-}
+                class Notifier {
+                    public function send(): void {}
+                }
 
-/**
- * @template T
- */
-class Box {
-    public function __construct(private mixed $value) {}
+                /**
+                 * @template T
+                 */
+                class Box {
+                    public function __construct(private mixed $value) {}
 
-    /**
-     * @return T
-     */
-    public function get() {
-        return $this->value;
-    }
-}
+                    /**
+                     * @return T
+                     */
+                    public function get() {
+                        return $this->value;
+                    }
+                }
 
-class ParentFactory {
-    /**
-     * @template T
-     * @template U
-     * @param T $left
-     * @param U $right
-     * @return Box<T|U>
-     */
-    public function boxed($left, $right): Box {
-        return new Box($left);
-    }
-}
+                class ParentFactory {
+                    /**
+                     * @template T
+                     * @template U
+                     * @param T $left
+                     * @param U $right
+                     * @return Box<T|U>
+                     */
+                    public function boxed($left, $right): Box {
+                        return new Box($left);
+                    }
+                }
 
-class Factory extends ParentFactory {
-}
+                class Factory extends ParentFactory {
+                }
 
-class TestClass {
-    public function run(): void {
-        $factory = new Factory();
-        $box = $factory->boxed(new Mailer(), new Notifier());
+                class TestClass {
+                    public function run(): void {
+                        $factory = new Factory();
+                        $box = $factory->boxed(new Mailer(), new Notifier());
 
-        $box->get()->send();
-    }
-}
-PHP,
+                        $box->get()->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -4397,46 +4237,44 @@ PHP,
 
     /**
      * Ensures legacy fixture 354 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testMethodTemplateIntersectionCallableReturnPreservesConcreteType(): void
     {
         $sources = [
             'TestCase354.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase354;
+                namespace TestCase354;
 
-interface HasSend {
-    public function send(): void;
-}
+                interface HasSend {
+                    public function send(): void;
+                }
 
-class Mailer implements HasSend {
-    public function send(): void {}
-}
+                class Mailer implements HasSend {
+                    public function send(): void {}
+                }
 
-class Factory {
-    /**
-     * @template T of HasSend
-     * @param callable(): (T&HasSend) $factory
-     * @return T&HasSend
-     */
-    public function apply(callable $factory) {
-        return $factory();
-    }
-}
+                class Factory {
+                    /**
+                     * @template T of HasSend
+                     * @param callable(): (T&HasSend) $factory
+                     * @return T&HasSend
+                     */
+                    public function apply(callable $factory) {
+                        return $factory();
+                    }
+                }
 
-class TestClass {
-    public function run(): void {
-        /** @var callable(): (Mailer&HasSend) $callable */
-        $callable = static fn() => new Mailer();
+                class TestClass {
+                    public function run(): void {
+                        /** @var callable(): (Mailer&HasSend) $callable */
+                        $callable = static fn() => new Mailer();
 
-        $factory = new Factory();
-        $factory->apply($callable)->send();
-    }
-}
-PHP,
+                        $factory = new Factory();
+                        $factory->apply($callable)->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -4446,63 +4284,61 @@ PHP,
 
     /**
      * Ensures legacy fixture 355 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInheritedStaticMethodTemplateUnionGenericReturnPreservesConcreteTypes(): void
     {
         $sources = [
             'TestCase355.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase355;
+                namespace TestCase355;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Notifier {
-    public function send(): void {}
-}
+                class Notifier {
+                    public function send(): void {}
+                }
 
-/**
- * @template T
- */
-class Box {
-    public function __construct(private mixed $value) {}
+                /**
+                 * @template T
+                 */
+                class Box {
+                    public function __construct(private mixed $value) {}
 
-    /**
-     * @return T
-     */
-    public function get() {
-        return $this->value;
-    }
-}
+                    /**
+                     * @return T
+                     */
+                    public function get() {
+                        return $this->value;
+                    }
+                }
 
-class ParentFactory {
-    /**
-     * @template T
-     * @template U
-     * @param T $left
-     * @param U $right
-     * @return Box<T|U>
-     */
-    public static function boxed($left, $right): Box {
-        return new Box($left);
-    }
-}
+                class ParentFactory {
+                    /**
+                     * @template T
+                     * @template U
+                     * @param T $left
+                     * @param U $right
+                     * @return Box<T|U>
+                     */
+                    public static function boxed($left, $right): Box {
+                        return new Box($left);
+                    }
+                }
 
-class Factory extends ParentFactory {
-}
+                class Factory extends ParentFactory {
+                }
 
-class TestClass {
-    public function run(): void {
-        $box = Factory::boxed(new Mailer(), new Notifier());
+                class TestClass {
+                    public function run(): void {
+                        $box = Factory::boxed(new Mailer(), new Notifier());
 
-        $box->get()->send();
-    }
-}
-PHP,
+                        $box->get()->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -4513,60 +4349,58 @@ PHP,
 
     /**
      * Ensures legacy fixture 356 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testSelfStaticInheritedMethodTemplateUnionGenericReturnPreservesConcreteTypes(): void
     {
         $sources = [
             'TestCase356.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase356;
+                namespace TestCase356;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Notifier {
-    public function send(): void {}
-}
+                class Notifier {
+                    public function send(): void {}
+                }
 
-/**
- * @template T
- */
-class Box {
-    public function __construct(private mixed $value) {}
+                /**
+                 * @template T
+                 */
+                class Box {
+                    public function __construct(private mixed $value) {}
 
-    /**
-     * @return T
-     */
-    public function get() {
-        return $this->value;
-    }
-}
+                    /**
+                     * @return T
+                     */
+                    public function get() {
+                        return $this->value;
+                    }
+                }
 
-class ParentFactory {
-    /**
-     * @template T
-     * @template U
-     * @param T $left
-     * @param U $right
-     * @return Box<T|U>
-     */
-    public static function boxed($left, $right): Box {
-        return new Box($left);
-    }
-}
+                class ParentFactory {
+                    /**
+                     * @template T
+                     * @template U
+                     * @param T $left
+                     * @param U $right
+                     * @return Box<T|U>
+                     */
+                    public static function boxed($left, $right): Box {
+                        return new Box($left);
+                    }
+                }
 
-class Factory extends ParentFactory {
-    public function run(): void {
-        $box = self::boxed(new Mailer(), new Notifier());
+                class Factory extends ParentFactory {
+                    public function run(): void {
+                        $box = self::boxed(new Mailer(), new Notifier());
 
-        $box->get()->send();
-    }
-}
-PHP,
+                        $box->get()->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -4577,60 +4411,58 @@ PHP,
 
     /**
      * Ensures legacy fixture 357 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testStaticStaticInheritedMethodTemplateUnionGenericReturnPreservesConcreteTypes(): void
     {
         $sources = [
             'TestCase357.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase357;
+                namespace TestCase357;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Notifier {
-    public function send(): void {}
-}
+                class Notifier {
+                    public function send(): void {}
+                }
 
-/**
- * @template T
- */
-class Box {
-    public function __construct(private mixed $value) {}
+                /**
+                 * @template T
+                 */
+                class Box {
+                    public function __construct(private mixed $value) {}
 
-    /**
-     * @return T
-     */
-    public function get() {
-        return $this->value;
-    }
-}
+                    /**
+                     * @return T
+                     */
+                    public function get() {
+                        return $this->value;
+                    }
+                }
 
-class ParentFactory {
-    /**
-     * @template T
-     * @template U
-     * @param T $left
-     * @param U $right
-     * @return Box<T|U>
-     */
-    public static function boxed($left, $right): Box {
-        return new Box($left);
-    }
-}
+                class ParentFactory {
+                    /**
+                     * @template T
+                     * @template U
+                     * @param T $left
+                     * @param U $right
+                     * @return Box<T|U>
+                     */
+                    public static function boxed($left, $right): Box {
+                        return new Box($left);
+                    }
+                }
 
-class Factory extends ParentFactory {
-    public function run(): void {
-        $box = static::boxed(new Mailer(), new Notifier());
+                class Factory extends ParentFactory {
+                    public function run(): void {
+                        $box = static::boxed(new Mailer(), new Notifier());
 
-        $box->get()->send();
-    }
-}
-PHP,
+                        $box->get()->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -4641,60 +4473,58 @@ PHP,
 
     /**
      * Ensures legacy fixture 358 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testParentStaticMethodTemplateUnionGenericReturnPreservesConcreteTypes(): void
     {
         $sources = [
             'TestCase358.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase358;
+                namespace TestCase358;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Notifier {
-    public function send(): void {}
-}
+                class Notifier {
+                    public function send(): void {}
+                }
 
-/**
- * @template T
- */
-class Box {
-    public function __construct(private mixed $value) {}
+                /**
+                 * @template T
+                 */
+                class Box {
+                    public function __construct(private mixed $value) {}
 
-    /**
-     * @return T
-     */
-    public function get() {
-        return $this->value;
-    }
-}
+                    /**
+                     * @return T
+                     */
+                    public function get() {
+                        return $this->value;
+                    }
+                }
 
-class ParentFactory {
-    /**
-     * @template T
-     * @template U
-     * @param T $left
-     * @param U $right
-     * @return Box<T|U>
-     */
-    public static function boxed($left, $right): Box {
-        return new Box($left);
-    }
-}
+                class ParentFactory {
+                    /**
+                     * @template T
+                     * @template U
+                     * @param T $left
+                     * @param U $right
+                     * @return Box<T|U>
+                     */
+                    public static function boxed($left, $right): Box {
+                        return new Box($left);
+                    }
+                }
 
-class Factory extends ParentFactory {
-    public function run(): void {
-        $box = parent::boxed(new Mailer(), new Notifier());
+                class Factory extends ParentFactory {
+                    public function run(): void {
+                        $box = parent::boxed(new Mailer(), new Notifier());
 
-        $box->get()->send();
-    }
-}
-PHP,
+                        $box->get()->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -4705,50 +4535,48 @@ PHP,
 
     /**
      * Ensures legacy fixture 360 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInheritedStaticMethodTemplateUnionShapeReturnPreservesConcreteTypes(): void
     {
         $sources = [
             'TestCase360.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase360;
+                namespace TestCase360;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Notifier {
-    public function send(): void {}
-}
+                class Notifier {
+                    public function send(): void {}
+                }
 
-class ParentFactory {
-    /**
-     * @template T
-     * @template U
-     * @param T $left
-     * @param U $right
-     * @return array{primary: T, secondary: U}
-     */
-    public static function pair($left, $right): array {
-        return ['primary' => $left, 'secondary' => $right];
-    }
-}
+                class ParentFactory {
+                    /**
+                     * @template T
+                     * @template U
+                     * @param T $left
+                     * @param U $right
+                     * @return array{primary: T, secondary: U}
+                     */
+                    public static function pair($left, $right): array {
+                        return ['primary' => $left, 'secondary' => $right];
+                    }
+                }
 
-class Factory extends ParentFactory {
-}
+                class Factory extends ParentFactory {
+                }
 
-class TestClass {
-    public function run(): void {
-        $pair = Factory::pair(new Mailer(), new Notifier());
+                class TestClass {
+                    public function run(): void {
+                        $pair = Factory::pair(new Mailer(), new Notifier());
 
-        $pair['primary']->send();
-        $pair['secondary']->send();
-    }
-}
-PHP,
+                        $pair['primary']->send();
+                        $pair['secondary']->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -4759,47 +4587,45 @@ PHP,
 
     /**
      * Ensures legacy fixture 361 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testSelfStaticInheritedMethodTemplateUnionShapeReturnPreservesConcreteTypes(): void
     {
         $sources = [
             'TestCase361.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase361;
+                namespace TestCase361;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Notifier {
-    public function send(): void {}
-}
+                class Notifier {
+                    public function send(): void {}
+                }
 
-class ParentFactory {
-    /**
-     * @template T
-     * @template U
-     * @param T $left
-     * @param U $right
-     * @return array{primary: T, secondary: U}
-     */
-    public static function pair($left, $right): array {
-        return ['primary' => $left, 'secondary' => $right];
-    }
-}
+                class ParentFactory {
+                    /**
+                     * @template T
+                     * @template U
+                     * @param T $left
+                     * @param U $right
+                     * @return array{primary: T, secondary: U}
+                     */
+                    public static function pair($left, $right): array {
+                        return ['primary' => $left, 'secondary' => $right];
+                    }
+                }
 
-class Factory extends ParentFactory {
-    public function run(): void {
-        $pair = self::pair(new Mailer(), new Notifier());
+                class Factory extends ParentFactory {
+                    public function run(): void {
+                        $pair = self::pair(new Mailer(), new Notifier());
 
-        $pair['primary']->send();
-        $pair['secondary']->send();
-    }
-}
-PHP,
+                        $pair['primary']->send();
+                        $pair['secondary']->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -4810,47 +4636,45 @@ PHP,
 
     /**
      * Ensures legacy fixture 362 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testStaticStaticInheritedMethodTemplateUnionShapeReturnPreservesConcreteTypes(): void
     {
         $sources = [
             'TestCase362.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase362;
+                namespace TestCase362;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Notifier {
-    public function send(): void {}
-}
+                class Notifier {
+                    public function send(): void {}
+                }
 
-class ParentFactory {
-    /**
-     * @template T
-     * @template U
-     * @param T $left
-     * @param U $right
-     * @return array{primary: T, secondary: U}
-     */
-    public static function pair($left, $right): array {
-        return ['primary' => $left, 'secondary' => $right];
-    }
-}
+                class ParentFactory {
+                    /**
+                     * @template T
+                     * @template U
+                     * @param T $left
+                     * @param U $right
+                     * @return array{primary: T, secondary: U}
+                     */
+                    public static function pair($left, $right): array {
+                        return ['primary' => $left, 'secondary' => $right];
+                    }
+                }
 
-class Factory extends ParentFactory {
-    public function run(): void {
-        $pair = static::pair(new Mailer(), new Notifier());
+                class Factory extends ParentFactory {
+                    public function run(): void {
+                        $pair = static::pair(new Mailer(), new Notifier());
 
-        $pair['primary']->send();
-        $pair['secondary']->send();
-    }
-}
-PHP,
+                        $pair['primary']->send();
+                        $pair['secondary']->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -4861,47 +4685,45 @@ PHP,
 
     /**
      * Ensures legacy fixture 363 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testParentStaticMethodTemplateUnionShapeReturnPreservesConcreteTypes(): void
     {
         $sources = [
             'TestCase363.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase363;
+                namespace TestCase363;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Notifier {
-    public function send(): void {}
-}
+                class Notifier {
+                    public function send(): void {}
+                }
 
-class ParentFactory {
-    /**
-     * @template T
-     * @template U
-     * @param T $left
-     * @param U $right
-     * @return array{primary: T, secondary: U}
-     */
-    public static function pair($left, $right): array {
-        return ['primary' => $left, 'secondary' => $right];
-    }
-}
+                class ParentFactory {
+                    /**
+                     * @template T
+                     * @template U
+                     * @param T $left
+                     * @param U $right
+                     * @return array{primary: T, secondary: U}
+                     */
+                    public static function pair($left, $right): array {
+                        return ['primary' => $left, 'secondary' => $right];
+                    }
+                }
 
-class Factory extends ParentFactory {
-    public function run(): void {
-        $pair = parent::pair(new Mailer(), new Notifier());
+                class Factory extends ParentFactory {
+                    public function run(): void {
+                        $pair = parent::pair(new Mailer(), new Notifier());
 
-        $pair['primary']->send();
-        $pair['secondary']->send();
-    }
-}
-PHP,
+                        $pair['primary']->send();
+                        $pair['secondary']->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);

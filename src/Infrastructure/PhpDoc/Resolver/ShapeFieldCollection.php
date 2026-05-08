@@ -4,16 +4,12 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver;
 
-use Countable;
-use IteratorAggregate;
-use Traversable;
-
 /**
- * Class ShapeFieldCollection
+ * Class ShapeFieldCollection.
  *
- * @implements IteratorAggregate<string|int, ResolvedPhpDocType>
+ * @implements \IteratorAggregate<string|int, ResolvedPhpDocType>
  */
-final class ShapeFieldCollection implements Countable, IteratorAggregate
+final class ShapeFieldCollection implements \Countable, \IteratorAggregate
 {
     /**
      * @var array<string|int, ResolvedPhpDocType>
@@ -47,17 +43,11 @@ final class ShapeFieldCollection implements Countable, IteratorAggregate
         return isset($this->items[$key]);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         yield from $this->items;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function count(): int
     {
         return count($this->items);

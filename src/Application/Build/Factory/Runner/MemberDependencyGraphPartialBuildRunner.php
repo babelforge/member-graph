@@ -27,15 +27,15 @@ final readonly class MemberDependencyGraphPartialBuildRunner
     /**
      * Constructor.
      *
-     * @param MemberGraphPhpSourceRegistryInstance $fileRegistry The file registry.
-     * @param MemberDependencyGraphFactoryBuildReportFactory $buildReportFactory The build report factory.
-     * @param MemberGraphCacheRefreshService $cacheRefreshService The cache refresh service.
-     * @param MemberDependencyGraphPartialRebuildSourceMetadataMerger $sourceMetadataMerger The source metadata merger.
+     * @param MemberGraphPhpSourceRegistryInstance                    $fileRegistry         the file registry
+     * @param MemberDependencyGraphFactoryBuildReportFactory          $buildReportFactory   the build report factory
+     * @param MemberGraphCacheRefreshService                          $cacheRefreshService  the cache refresh service
+     * @param MemberDependencyGraphPartialRebuildSourceMetadataMerger $sourceMetadataMerger the source metadata merger
      */
     public function __construct(
-        private MemberGraphPhpSourceRegistryInstance                    $fileRegistry,
-        private MemberDependencyGraphFactoryBuildReportFactory          $buildReportFactory = new MemberDependencyGraphFactoryBuildReportFactory(),
-        private MemberGraphCacheRefreshService                          $cacheRefreshService = new MemberGraphCacheRefreshService(),
+        private MemberGraphPhpSourceRegistryInstance $fileRegistry,
+        private MemberDependencyGraphFactoryBuildReportFactory $buildReportFactory = new MemberDependencyGraphFactoryBuildReportFactory(),
+        private MemberGraphCacheRefreshService $cacheRefreshService = new MemberGraphCacheRefreshService(),
         private MemberDependencyGraphPartialRebuildSourceMetadataMerger $sourceMetadataMerger = new MemberDependencyGraphPartialRebuildSourceMetadataMerger(),
     ) {
     }
@@ -43,26 +43,24 @@ final readonly class MemberDependencyGraphPartialBuildRunner
     /**
      * Rebuilds the closed working set and persists updated cache metadata.
      *
-     * @param list<string> $files The scanned physical files.
-     * @param MemberGraphCache $cache The member graph cache.
-     * @param MemberGraphCachePlan $cachePlan The selected cache plan.
-     * @param MemberDependencyGraphFactoryRebuildPlan $rebuildPlan The selected rebuild plan.
-     * @param MemberGraphIssueCollection $dependencyGraphIssues The dependency graph issues.
-     * @param MemberDependencyGraphPartialRebuildInput $partialRebuildInput The partial rebuild input.
-     * @param MemberDependencyGraphPartialRebuildPreparedInput $preparedInput The prepared partial rebuild input.
-     * @param MemberDependencyGraphPartialRebuildWorkingSet $workingSet The closed partial rebuild working set.
-     *
-     * @return MemberDependencyGraphBuild
+     * @param list<string>                                     $files                 the scanned physical files
+     * @param MemberGraphCache                                 $cache                 the member graph cache
+     * @param MemberGraphCachePlan                             $cachePlan             the selected cache plan
+     * @param MemberDependencyGraphFactoryRebuildPlan          $rebuildPlan           the selected rebuild plan
+     * @param MemberGraphIssueCollection                       $dependencyGraphIssues the dependency graph issues
+     * @param MemberDependencyGraphPartialRebuildInput         $partialRebuildInput   the partial rebuild input
+     * @param MemberDependencyGraphPartialRebuildPreparedInput $preparedInput         the prepared partial rebuild input
+     * @param MemberDependencyGraphPartialRebuildWorkingSet    $workingSet            the closed partial rebuild working set
      */
     public function run(
-        array                                            $files,
-        MemberGraphCache                                 $cache,
-        MemberGraphCachePlan                             $cachePlan,
-        MemberDependencyGraphFactoryRebuildPlan          $rebuildPlan,
-        MemberGraphIssueCollection                       $dependencyGraphIssues,
-        MemberDependencyGraphPartialRebuildInput         $partialRebuildInput,
+        array $files,
+        MemberGraphCache $cache,
+        MemberGraphCachePlan $cachePlan,
+        MemberDependencyGraphFactoryRebuildPlan $rebuildPlan,
+        MemberGraphIssueCollection $dependencyGraphIssues,
+        MemberDependencyGraphPartialRebuildInput $partialRebuildInput,
         MemberDependencyGraphPartialRebuildPreparedInput $preparedInput,
-        MemberDependencyGraphPartialRebuildWorkingSet    $workingSet,
+        MemberDependencyGraphPartialRebuildWorkingSet $workingSet,
     ): MemberDependencyGraphBuild {
         $executionResult = new MemberDependencyGraphPartialRebuildExecutor(
             fileRegistry: $this->fileRegistry,

@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Domain\Index\Method;
 
-use IteratorAggregate;
 use PhpNoobs\MemberGraph\Domain\Symbol\SymbolCollection;
 use PhpNoobs\MemberGraph\Domain\Type\FunctionLikeReturnType;
-use Traversable;
 
 /**
  * Stores simple method return types.
  *
- * @implements IteratorAggregate<string, FunctionLikeReturnType>
+ * @implements \IteratorAggregate<string, FunctionLikeReturnType>
  */
-final class MethodReturnTypeIndex implements IteratorAggregate
+final class MethodReturnTypeIndex implements \IteratorAggregate
 {
     /**
      * @var array<string, FunctionLikeReturnType>
@@ -24,11 +22,9 @@ final class MethodReturnTypeIndex implements IteratorAggregate
     /**
      * Stores one method return type.
      *
-     * @param string $owner The owner FQCN.
-     * @param string $methodName The method name.
-     * @param FunctionLikeReturnType $details The resolved return type FQCN.
-     *
-     * @return self
+     * @param string                 $owner      the owner FQCN
+     * @param string                 $methodName the method name
+     * @param FunctionLikeReturnType $details    the resolved return type FQCN
      */
     public function set(string $owner, string $methodName, FunctionLikeReturnType $details): self
     {
@@ -45,10 +41,8 @@ final class MethodReturnTypeIndex implements IteratorAggregate
     /**
      * Returns one method return type.
      *
-     * @param string $owner The owner FQCN.
-     * @param string $methodName The method name.
-     *
-     * @return FunctionLikeReturnType|null
+     * @param string $owner      the owner FQCN
+     * @param string $methodName the method name
      */
     public function get(string $owner, string $methodName): ?FunctionLikeReturnType
     {
@@ -58,10 +52,8 @@ final class MethodReturnTypeIndex implements IteratorAggregate
     /**
      * Returns one method return type.
      *
-     * @param string $owner The owner FQCN.
-     * @param string $methodName The method name.
-     *
-     * @return SymbolCollection
+     * @param string $owner      the owner FQCN
+     * @param string $methodName the method name
      */
     public function getReturnType(string $owner, string $methodName): SymbolCollection
     {
@@ -85,20 +77,15 @@ final class MethodReturnTypeIndex implements IteratorAggregate
     /**
      * Builds the internal key.
      *
-     * @param string $owner The owner FQCN.
-     * @param string $methodName The method name.
-     *
-     * @return string
+     * @param string $owner      the owner FQCN
+     * @param string $methodName the method name
      */
     private function buildKey(string $owner, string $methodName): string
     {
-        return $owner . '::' . $methodName;
+        return $owner.'::'.$methodName;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         yield from $this->items;
     }

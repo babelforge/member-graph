@@ -22,9 +22,7 @@ final readonly class VariableExpressionResolver implements ExpressionResolverInt
     /**
      * Tells whether this resolver can handle the given node.
      *
-     * @param Node $expression The expression or expression-like node to inspect.
-     *
-     * @return bool
+     * @param Node $expression the expression or expression-like node to inspect
      */
     public function supports(Node $expression): bool
     {
@@ -34,11 +32,9 @@ final readonly class VariableExpressionResolver implements ExpressionResolverInt
     /**
      * Resolves symbols carried by a local variable.
      *
-     * @param Node $expression The variable expression to resolve.
-     * @param ExpressionResolutionContext $context The current expression resolution context.
-     * @param ExpressionTypeResolverInterface $fallbackResolver The facade resolver for recursive resolution.
-     *
-     * @return SymbolCollection
+     * @param Node                            $expression       the variable expression to resolve
+     * @param ExpressionResolutionContext     $context          the current expression resolution context
+     * @param ExpressionTypeResolverInterface $fallbackResolver the facade resolver for recursive resolution
      */
     public function resolve(
         Node $expression,
@@ -73,11 +69,9 @@ final readonly class VariableExpressionResolver implements ExpressionResolverInt
     /**
      * Resolves the structured PHPDoc type attached to one local variable.
      *
-     * @param Expr $expression The variable expression to resolve.
-     * @param ExpressionResolutionContext $context The current expression resolution context.
-     * @param ExpressionTypeResolverInterface $fallbackResolver The facade resolver for recursive resolution.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param Expr                            $expression       the variable expression to resolve
+     * @param ExpressionResolutionContext     $context          the current expression resolution context
+     * @param ExpressionTypeResolverInterface $fallbackResolver the facade resolver for recursive resolution
      */
     public function resolveStructuredPhpDocType(
         Expr $expression,

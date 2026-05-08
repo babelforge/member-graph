@@ -26,18 +26,16 @@ final class MemberDependencyGraphFactoryCacheTest extends MemberDependencyGraphF
 {
     /**
      * Ensures cache plans classify fresh, stale, and missing files.
-     *
-     * @return void
      */
     public function testCachePlanClassifiesFreshStaleAndMissingFiles(): void
     {
-        $srcDirectory = $this->workspace . '/src';
-        $freshFilePath = $srcDirectory . '/Fresh.php';
-        $staleFilePath = $srcDirectory . '/Stale.php';
-        $missingFilePath = $srcDirectory . '/Missing.php';
-        $cacheFilePath = $this->workspace . '/member-graph.cache';
+        $srcDirectory = $this->workspace.'/src';
+        $freshFilePath = $srcDirectory.'/Fresh.php';
+        $staleFilePath = $srcDirectory.'/Stale.php';
+        $missingFilePath = $srcDirectory.'/Missing.php';
+        $cacheFilePath = $this->workspace.'/member-graph.cache';
 
-        mkdir($srcDirectory, 0777, true);
+        mkdir($srcDirectory, 0o777, true);
         file_put_contents($freshFilePath, '<?php class Fresh {}');
         file_put_contents($staleFilePath, '<?php class Stale {}');
         file_put_contents($missingFilePath, '<?php class Missing {}');
@@ -73,16 +71,14 @@ final class MemberDependencyGraphFactoryCacheTest extends MemberDependencyGraphF
 
     /**
      * Ensures clear cache plans treat scanned files as missing.
-     *
-     * @return void
      */
     public function testClearCachePlanTreatsFilesAsMissing(): void
     {
-        $srcDirectory = $this->workspace . '/src';
-        $filePath = $srcDirectory . '/Fresh.php';
-        $cacheFilePath = $this->workspace . '/member-graph.cache';
+        $srcDirectory = $this->workspace.'/src';
+        $filePath = $srcDirectory.'/Fresh.php';
+        $cacheFilePath = $this->workspace.'/member-graph.cache';
 
-        mkdir($srcDirectory, 0777, true);
+        mkdir($srcDirectory, 0o777, true);
         file_put_contents($filePath, '<?php class Fresh {}');
 
         $cache = new MemberGraphCache($cacheFilePath, [$srcDirectory]);
@@ -105,16 +101,14 @@ final class MemberDependencyGraphFactoryCacheTest extends MemberDependencyGraphF
 
     /**
      * Ensures cache instances expose the payload load status used to initialize their state.
-     *
-     * @return void
      */
     public function testItExposesCacheLoadResult(): void
     {
-        $srcDirectory = $this->workspace . '/src-load-result';
-        $filePath = $srcDirectory . '/Fresh.php';
-        $cacheFilePath = $this->workspace . '/load-result.cache';
+        $srcDirectory = $this->workspace.'/src-load-result';
+        $filePath = $srcDirectory.'/Fresh.php';
+        $cacheFilePath = $this->workspace.'/load-result.cache';
 
-        mkdir($srcDirectory, 0777, true);
+        mkdir($srcDirectory, 0o777, true);
         file_put_contents($filePath, '<?php class Fresh {}');
 
         $missingCache = new MemberGraphCache($cacheFilePath, [$srcDirectory]);
@@ -136,44 +130,42 @@ final class MemberDependencyGraphFactoryCacheTest extends MemberDependencyGraphF
 
     /**
      * Ensures directory builds store graph fragments per physical file.
-     *
-     * @return void
      */
     public function testItStoresGraphFragmentsPerPhysicalFile(): void
     {
-        $srcDirectory = $this->workspace . '/src';
-        $aFilePath = $srcDirectory . '/A.php';
-        $bFilePath = $srcDirectory . '/B.php';
+        $srcDirectory = $this->workspace.'/src';
+        $aFilePath = $srcDirectory.'/A.php';
+        $bFilePath = $srcDirectory.'/B.php';
         $aRun = new MemberId('App\\A', 'run', MemberType::METHOD);
         $bSend = new MemberId('App\\B', 'send', MemberType::METHOD);
-        $cacheFilePath = $this->workspace . '/member-graph.cache';
+        $cacheFilePath = $this->workspace.'/member-graph.cache';
 
-        mkdir($srcDirectory, 0777, true);
+        mkdir($srcDirectory, 0o777, true);
         file_put_contents($aFilePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class A
-{
-    public function run(): void
-    {
-        B::send();
-    }
-}
-PHP);
+            final class A
+            {
+                public function run(): void
+                {
+                    B::send();
+                }
+            }
+            PHP);
         file_put_contents($bFilePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class B
-{
-    public static function send(): void
-    {
-    }
-}
-PHP);
+            final class B
+            {
+                public static function send(): void
+                {
+                }
+            }
+            PHP);
 
         MemberDependencyGraphFactory::fromDirectory(
             directories: [$srcDirectory],
@@ -183,7 +175,7 @@ PHP);
         $cache = new MemberGraphCache($cacheFilePath, [$srcDirectory]);
         $aFragment = $cache->graphFragment($aFilePath);
         $bFragment = $cache->graphFragment($bFilePath);
-        $aVirtualFilePath = (realpath($aFilePath) ?: $aFilePath) . '.virtual.0';
+        $aVirtualFilePath = (realpath($aFilePath) ?: $aFilePath).'.virtual.0';
 
         self::assertNotNull($aFragment);
         self::assertNotNull($bFragment);
@@ -199,47 +191,45 @@ PHP);
 
     /**
      * Ensures graph fragments can be merged back into equivalent graph facts.
-     *
-     * @return void
      */
     public function testItMergesGraphFragments(): void
     {
-        $srcDirectory = $this->workspace . '/src';
-        $aFilePath = $srcDirectory . '/A.php';
-        $bFilePath = $srcDirectory . '/B.php';
+        $srcDirectory = $this->workspace.'/src';
+        $aFilePath = $srcDirectory.'/A.php';
+        $bFilePath = $srcDirectory.'/B.php';
         $aRun = new MemberId('App\\A', 'run', MemberType::METHOD);
         $bSend = new MemberId('App\\B', 'send', MemberType::METHOD);
 
-        mkdir($srcDirectory, 0777, true);
+        mkdir($srcDirectory, 0o777, true);
         file_put_contents($aFilePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class A
-{
-    public function run(): void
-    {
-        B::send();
-    }
-}
-PHP);
+            final class A
+            {
+                public function run(): void
+                {
+                    B::send();
+                }
+            }
+            PHP);
         file_put_contents($bFilePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class B
-{
-    public static function send(): void
-    {
-    }
-}
-PHP);
+            final class B
+            {
+                public static function send(): void
+                {
+                }
+            }
+            PHP);
 
         $factory = MemberDependencyGraphFactory::fromDirectory(
             directories: [$srcDirectory],
-            cacheFilePath: $this->workspace . '/member-graph.cache',
+            cacheFilePath: $this->workspace.'/member-graph.cache',
         );
         $fragments = new MemberGraphFragmenter()->fragment(
             graph: $factory->memberDependencyGraph,
@@ -265,25 +255,23 @@ PHP);
 
     /**
      * Ensures cache metadata exposes its configuration and detects file freshness.
-     *
-     * @return void
      */
     public function testCacheExposesConfigurationAndDetectsFreshFiles(): void
     {
         $issues = new MemberGraphIssueCollection();
-        $filePath = $this->workspace . '/src/Included.php';
+        $filePath = $this->workspace.'/src/Included.php';
 
-        mkdir(dirname($filePath), 0777, true);
+        mkdir(dirname($filePath), 0o777, true);
         file_put_contents($filePath, '<?php class Included {}');
 
         $cache = new MemberGraphCache(
-            cacheFilePath: $this->workspace . '/member-graph.cache',
+            cacheFilePath: $this->workspace.'/member-graph.cache',
             directories: [$this->workspace],
             clearCache: true,
             dependencyGraphIssues: $issues,
         );
 
-        self::assertSame($this->workspace . '/member-graph.cache', $cache->cacheFilePath);
+        self::assertSame($this->workspace.'/member-graph.cache', $cache->cacheFilePath);
         self::assertSame([$this->workspace], $cache->directories);
         self::assertTrue($cache->clearCache);
         self::assertSame($issues, $cache->dependencyGraphIssues);
@@ -293,7 +281,7 @@ PHP);
         $cache->save();
 
         $reloadedCache = new MemberGraphCache(
-            cacheFilePath: $this->workspace . '/member-graph.cache',
+            cacheFilePath: $this->workspace.'/member-graph.cache',
             directories: [$this->workspace],
             dependencyGraphIssues: $issues,
         );
@@ -307,15 +295,13 @@ PHP);
 
     /**
      * Ensures a changed fingerprint strategy invalidates existing cache entries.
-     *
-     * @return void
      */
     public function testCacheTreatsDifferentFingerprintStrategyVersionAsStale(): void
     {
-        $filePath = $this->workspace . '/src/Included.php';
-        $cacheFilePath = $this->workspace . '/member-graph.cache';
+        $filePath = $this->workspace.'/src/Included.php';
+        $cacheFilePath = $this->workspace.'/member-graph.cache';
 
-        mkdir(dirname($filePath), 0777, true);
+        mkdir(dirname($filePath), 0o777, true);
         file_put_contents($filePath, '<?php class Included {}');
 
         $cache = new MemberGraphCache($cacheFilePath, [$this->workspace]);
@@ -333,25 +319,23 @@ PHP);
 
     /**
      * Ensures compatible global-index input snapshots are exposed after cache reload.
-     *
-     * @return void
      */
     public function testCachePersistsCompatibleGlobalIndexInputSnapshot(): void
     {
-        $srcDirectory = $this->workspace . '/src';
-        $filePath = $srcDirectory . '/Included.php';
-        $cacheFilePath = $this->workspace . '/member-graph.cache';
+        $srcDirectory = $this->workspace.'/src';
+        $filePath = $srcDirectory.'/Included.php';
+        $cacheFilePath = $this->workspace.'/member-graph.cache';
 
-        mkdir($srcDirectory, 0777, true);
+        mkdir($srcDirectory, 0o777, true);
         file_put_contents($filePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class Included
-{
-}
-PHP);
+            final class Included
+            {
+            }
+            PHP);
 
         MemberDependencyGraphFactory::fromDirectory(
             directories: [$srcDirectory],
@@ -364,33 +348,31 @@ PHP);
         self::assertTrue($cache->hasCompatibleGlobalIndexInputSnapshot());
         self::assertNotNull($snapshot);
         self::assertTrue($snapshot->isCompatible());
-        self::assertNotNull($snapshot->sources->get((realpath($filePath) ?: $filePath) . '.virtual.0'));
+        self::assertNotNull($snapshot->sources->get((realpath($filePath) ?: $filePath).'.virtual.0'));
     }
 
     /**
      * Ensures full builds persist declaration snapshots without making the fast path depend on them.
-     *
-     * @return void
      */
     public function testCachePersistsDeclarationSnapshot(): void
     {
-        $srcDirectory = $this->workspace . '/src';
-        $filePath = $srcDirectory . '/Included.php';
-        $cacheFilePath = $this->workspace . '/member-graph.cache';
+        $srcDirectory = $this->workspace.'/src';
+        $filePath = $srcDirectory.'/Included.php';
+        $cacheFilePath = $this->workspace.'/member-graph.cache';
 
-        mkdir($srcDirectory, 0777, true);
+        mkdir($srcDirectory, 0o777, true);
         file_put_contents($filePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class Included
-{
-    public function run(int $id): void
-    {
-    }
-}
-PHP);
+            final class Included
+            {
+                public function run(int $id): void
+                {
+                }
+            }
+            PHP);
 
         MemberDependencyGraphFactory::fromDirectory(
             directories: [$srcDirectory],
@@ -418,15 +400,13 @@ PHP);
 
     /**
      * Ensures clear cache ignores existing cache metadata.
-     *
-     * @return void
      */
     public function testClearCacheIgnoresExistingMetadata(): void
     {
-        $filePath = $this->workspace . '/src/Included.php';
-        $cacheFilePath = $this->workspace . '/member-graph.cache';
+        $filePath = $this->workspace.'/src/Included.php';
+        $cacheFilePath = $this->workspace.'/member-graph.cache';
 
-        mkdir(dirname($filePath), 0777, true);
+        mkdir(dirname($filePath), 0o777, true);
         file_put_contents($filePath, '<?php class Included {}');
 
         $cache = new MemberGraphCache($cacheFilePath, [$this->workspace]);
@@ -440,28 +420,26 @@ PHP);
 
     /**
      * Ensures factory build reports expose cache payload load status.
-     *
-     * @return void
      */
     public function testFactoryBuildReportExposesCacheLoadResult(): void
     {
-        $srcDirectory = $this->workspace . '/src-build-report-load-result';
-        $filePath = $srcDirectory . '/Included.php';
-        $cacheFilePath = $this->workspace . '/build-report-load-result.cache';
+        $srcDirectory = $this->workspace.'/src-build-report-load-result';
+        $filePath = $srcDirectory.'/Included.php';
+        $cacheFilePath = $this->workspace.'/build-report-load-result.cache';
 
-        mkdir($srcDirectory, 0777, true);
+        mkdir($srcDirectory, 0o777, true);
         file_put_contents($filePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class Included
-{
-    public function run(): void
-    {
-    }
-}
-PHP);
+            final class Included
+            {
+                public function run(): void
+                {
+                }
+            }
+            PHP);
 
         $firstBuild = MemberDependencyGraphFactory::fromDirectory(
             directories: [$srcDirectory],
@@ -505,30 +483,28 @@ PHP);
 
     /**
      * Ensures factory build reports expose non-blocking cache write warnings.
-     *
-     * @return void
      */
     public function testFactoryBuildReportExposesCacheWriteWarnings(): void
     {
-        $srcDirectory = $this->workspace . '/src-build-report-write-warning';
-        $filePath = $srcDirectory . '/Included.php';
-        $blockingPath = $this->workspace . '/blocked-cache-path';
-        $cacheFilePath = $blockingPath . '/member-graph.cache';
+        $srcDirectory = $this->workspace.'/src-build-report-write-warning';
+        $filePath = $srcDirectory.'/Included.php';
+        $blockingPath = $this->workspace.'/blocked-cache-path';
+        $cacheFilePath = $blockingPath.'/member-graph.cache';
 
-        mkdir($srcDirectory, 0777, true);
+        mkdir($srcDirectory, 0o777, true);
         file_put_contents($blockingPath, 'not a directory');
         file_put_contents($filePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class Included
-{
-    public function run(): void
-    {
-    }
-}
-PHP);
+            final class Included
+            {
+                public function run(): void
+                {
+                }
+            }
+            PHP);
 
         $build = MemberDependencyGraphFactory::fromDirectory(
             directories: [$srcDirectory],
@@ -546,27 +522,24 @@ PHP);
 
     /**
      * Ensures cache payloads can persist and reload graph fragments.
-     *
-     * @return void
      */
     public function testCachePersistsGraphFragments(): void
     {
-        $filePath = $this->workspace . '/src/Included.php';
+        $filePath = $this->workspace.'/src/Included.php';
         $member = new MemberId('App\\Included', 'run', MemberType::METHOD);
 
-        mkdir(dirname($filePath), 0777, true);
+        mkdir(dirname($filePath), 0o777, true);
         file_put_contents($filePath, '<?php class Included { public function run(): void {} }');
 
-        $cache = new MemberGraphCache($this->workspace . '/member-graph.cache', [$this->workspace]);
+        $cache = new MemberGraphCache($this->workspace.'/member-graph.cache', [$this->workspace]);
         $cache->markBuilt($filePath, $this->createGraphFragment($member, $filePath));
         $cache->save();
 
-        $reloadedCache = new MemberGraphCache($this->workspace . '/member-graph.cache', [$this->workspace]);
+        $reloadedCache = new MemberGraphCache($this->workspace.'/member-graph.cache', [$this->workspace]);
         $graphFragment = $reloadedCache->graphFragment($filePath);
 
         self::assertNotNull($graphFragment);
         self::assertTrue($reloadedCache->isFresh($filePath));
         self::assertNotNull($graphFragment->declarations->get($member));
     }
-
 }

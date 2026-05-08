@@ -33,11 +33,11 @@
         "friendsofphp/php-cs-fixer": "^3.95"
     },
     "scripts": {
-        "cs": "php-cs-fixer fix",
+        "cs": "php-cs-fixer fix -vvv",
         "test": "phpunit",
         "analyse": "phpstan analyse",
         "qa": [
-            "cs",
+            "@cs",
             "@analyse",
             "@test"
         ]

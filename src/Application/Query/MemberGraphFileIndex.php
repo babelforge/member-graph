@@ -41,10 +41,8 @@ final class MemberGraphFileIndex
     /**
      * Adds a relationship between one owner and one file.
      *
-     * @param string $owner The owner FQCN.
-     * @param string $file The file path.
-     *
-     * @return void
+     * @param string $owner the owner FQCN
+     * @param string $file  the file path
      */
     public function addOwnerFile(string $owner, string $file): void
     {
@@ -65,10 +63,8 @@ final class MemberGraphFileIndex
     /**
      * Adds a relationship between one member and one file.
      *
-     * @param MemberId $memberId The member identifier.
-     * @param string $file The file path.
-     *
-     * @return void
+     * @param MemberId $memberId the member identifier
+     * @param string   $file     the file path
      */
     public function addMemberFile(MemberId $memberId, string $file): void
     {
@@ -88,9 +84,7 @@ final class MemberGraphFileIndex
     /**
      * Returns files related to one owner.
      *
-     * @param string $owner The owner FQCN.
-     *
-     * @return ImpactedFileCollection
+     * @param string $owner the owner FQCN
      */
     public function filesForOwner(string $owner): ImpactedFileCollection
     {
@@ -106,9 +100,7 @@ final class MemberGraphFileIndex
     /**
      * Returns files related to one member.
      *
-     * @param MemberId $memberId The member identifier.
-     *
-     * @return ImpactedFileCollection
+     * @param MemberId $memberId the member identifier
      */
     public function filesForMember(MemberId $memberId): ImpactedFileCollection
     {
@@ -124,9 +116,7 @@ final class MemberGraphFileIndex
     /**
      * Returns owners related to one file.
      *
-     * @param string $file The file path.
-     *
-     * @return ImpactedOwnerCollection
+     * @param string $file the file path
      */
     public function ownersInFile(string $file): ImpactedOwnerCollection
     {
@@ -142,9 +132,7 @@ final class MemberGraphFileIndex
     /**
      * Returns members related to one file.
      *
-     * @param string $file The file path.
-     *
-     * @return MemberIdCollection
+     * @param string $file the file path
      */
     public function membersInFile(string $file): MemberIdCollection
     {
@@ -159,8 +147,6 @@ final class MemberGraphFileIndex
 
     /**
      * Returns all files known by this index.
-     *
-     * @return ImpactedFileCollection
      */
     public function sourceFiles(): ImpactedFileCollection
     {

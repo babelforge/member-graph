@@ -10,8 +10,8 @@ namespace PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver;
 final readonly class ResolvedPhpDocCallableSignature
 {
     /**
-     * @param ResolvedPhpDocCallableParameterCollection $parameters Callable parameters.
-     * @param ResolvedPhpDocNode|null $returnType Callable return type.
+     * @param ResolvedPhpDocCallableParameterCollection $parameters callable parameters
+     * @param ResolvedPhpDocNode|null                   $returnType callable return type
      */
     public function __construct(
         public ResolvedPhpDocCallableParameterCollection $parameters,

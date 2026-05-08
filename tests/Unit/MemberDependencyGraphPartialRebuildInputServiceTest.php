@@ -37,19 +37,15 @@ final class MemberDependencyGraphPartialRebuildInputServiceTest extends TestCase
 
     /**
      * Prepares an isolated filesystem workspace.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
-        $this->workspace = sys_get_temp_dir() . '/member-graph-partial-input-' . bin2hex(random_bytes(6));
-        mkdir($this->workspace, 0777, true);
+        $this->workspace = sys_get_temp_dir().'/member-graph-partial-input-'.bin2hex(random_bytes(6));
+        mkdir($this->workspace, 0o777, true);
     }
 
     /**
      * Removes the isolated filesystem workspace.
-     *
-     * @return void
      */
     protected function tearDown(): void
     {
@@ -58,14 +54,12 @@ final class MemberDependencyGraphPartialRebuildInputServiceTest extends TestCase
 
     /**
      * Ensures partial rebuild inputs are prepared from cache-backed data.
-     *
-     * @return void
      */
     public function testItPreparesPartialRebuildInputForPartialCandidates(): void
     {
-        $sourceDirectory = $this->workspace . '/src';
-        $freshFilePath = $sourceDirectory . '/Fresh.php';
-        $staleFilePath = $sourceDirectory . '/Stale.php';
+        $sourceDirectory = $this->workspace.'/src';
+        $freshFilePath = $sourceDirectory.'/Fresh.php';
+        $staleFilePath = $sourceDirectory.'/Stale.php';
         $cache = $this->createCacheWithRequiredPartialInputs($freshFilePath);
         $rebuildPlan = MemberDependencyGraphFactoryRebuildPlan::fromCachePlan(new MemberGraphCachePlan(
             freshFiles: $this->files($freshFilePath),
@@ -88,19 +82,17 @@ final class MemberDependencyGraphPartialRebuildInputServiceTest extends TestCase
         self::assertNotNull($input->fragmentsToReuse->get(realpath($freshFilePath) ?: $freshFilePath));
         self::assertTrue($input->globalIndexInputSnapshot->isCompatible());
         self::assertCount(1, $input->virtualFileReferences);
-        /** @phpstan-ignore-next-line The assertion documents the prepared input contract. */
+        /* @phpstan-ignore-next-line The assertion documents the prepared input contract. */
         self::assertNotNull($input->knownOwners);
     }
 
     /**
      * Ensures non-partial rebuild plans do not produce partial rebuild inputs.
-     *
-     * @return void
      */
     public function testItReturnsNullForNonPartialCandidatePlans(): void
     {
-        $sourceDirectory = $this->workspace . '/src';
-        $freshFilePath = $sourceDirectory . '/Fresh.php';
+        $sourceDirectory = $this->workspace.'/src';
+        $freshFilePath = $sourceDirectory.'/Fresh.php';
         $cache = $this->createCacheWithRequiredPartialInputs($freshFilePath);
         $rebuildPlan = MemberDependencyGraphFactoryRebuildPlan::fromCachePlan(new MemberGraphCachePlan(
             freshFiles: $this->files($freshFilePath),
@@ -118,20 +110,18 @@ final class MemberDependencyGraphPartialRebuildInputServiceTest extends TestCase
 
     /**
      * Ensures missing cache payloads prevent partial rebuild input preparation.
-     *
-     * @return void
      */
     public function testItReturnsNullWhenCandidateCacheInputsAreMissing(): void
     {
-        $sourceDirectory = $this->workspace . '/src';
-        $freshFilePath = $sourceDirectory . '/Fresh.php';
-        $staleFilePath = $sourceDirectory . '/Stale.php';
+        $sourceDirectory = $this->workspace.'/src';
+        $freshFilePath = $sourceDirectory.'/Fresh.php';
+        $staleFilePath = $sourceDirectory.'/Stale.php';
 
-        mkdir($sourceDirectory, 0777, true);
+        mkdir($sourceDirectory, 0o777, true);
         file_put_contents($freshFilePath, '<?php class Fresh {}');
         file_put_contents($staleFilePath, '<?php class Stale {}');
 
-        $cache = new MemberGraphCache($this->workspace . '/member-graph.cache', [$sourceDirectory], clearCache: true);
+        $cache = new MemberGraphCache($this->workspace.'/member-graph.cache', [$sourceDirectory], clearCache: true);
         $rebuildPlan = MemberDependencyGraphFactoryRebuildPlan::fromCachePlan(new MemberGraphCachePlan(
             freshFiles: $this->files($freshFilePath),
             staleFiles: $this->files($staleFilePath),
@@ -149,18 +139,16 @@ final class MemberDependencyGraphPartialRebuildInputServiceTest extends TestCase
     /**
      * Creates a cache containing the inputs required by partial rebuild candidates.
      *
-     * @param string $freshFilePath The reusable fresh file path.
-     *
-     * @return MemberGraphCache
+     * @param string $freshFilePath the reusable fresh file path
      */
     private function createCacheWithRequiredPartialInputs(string $freshFilePath): MemberGraphCache
     {
         $sourceDirectory = dirname($freshFilePath);
-        $virtualFilePath = (realpath($freshFilePath) ?: $freshFilePath) . '.virtual.0';
+        $virtualFilePath = (realpath($freshFilePath) ?: $freshFilePath).'.virtual.0';
         $references = new MemberGraphVirtualFileReferenceCollection();
         $sources = new MemberGraphVirtualSourceMetadataCollection();
 
-        mkdir($sourceDirectory, 0777, true);
+        mkdir($sourceDirectory, 0o777, true);
         file_put_contents($freshFilePath, '<?php class Fresh {}');
         $references->add(new MemberGraphVirtualFileReference(new MemberGraphVirtualFileMetadata(
             fullFilePath: realpath($freshFilePath) ?: $freshFilePath,
@@ -171,7 +159,7 @@ final class MemberDependencyGraphPartialRebuildInputServiceTest extends TestCase
             virtualFilePath: $virtualFilePath,
         ));
 
-        $cache = new MemberGraphCache($this->workspace . '/member-graph.cache', [$sourceDirectory], clearCache: true);
+        $cache = new MemberGraphCache($this->workspace.'/member-graph.cache', [$sourceDirectory], clearCache: true);
         $cache->markBuilt($freshFilePath, $this->createGraphFragment($freshFilePath));
         $cache->setKnownOwners(new KnownOwnerCollection());
         $cache->setVirtualFileReferences($references);
@@ -184,9 +172,7 @@ final class MemberDependencyGraphPartialRebuildInputServiceTest extends TestCase
     /**
      * Creates a graph fragment.
      *
-     * @param string $filePath The file path.
-     *
-     * @return MemberDependencyGraph
+     * @param string $filePath the file path
      */
     private function createGraphFragment(string $filePath): MemberDependencyGraph
     {
@@ -211,8 +197,6 @@ final class MemberDependencyGraphPartialRebuildInputServiceTest extends TestCase
      * Creates a cache file collection.
      *
      * @param string ...$filePaths The file paths.
-     *
-     * @return MemberGraphCacheFileCollection
      */
     private function files(string ...$filePaths): MemberGraphCacheFileCollection
     {
@@ -228,9 +212,7 @@ final class MemberDependencyGraphPartialRebuildInputServiceTest extends TestCase
     /**
      * Removes a directory recursively.
      *
-     * @param string $directory The directory to remove.
-     *
-     * @return void
+     * @param string $directory the directory to remove
      */
     private function removeDirectory(string $directory): void
     {
@@ -249,7 +231,7 @@ final class MemberDependencyGraphPartialRebuildInputServiceTest extends TestCase
                 continue;
             }
 
-            $path = $directory . DIRECTORY_SEPARATOR . $item;
+            $path = $directory.DIRECTORY_SEPARATOR.$item;
 
             if (is_dir($path)) {
                 $this->removeDirectory($path);

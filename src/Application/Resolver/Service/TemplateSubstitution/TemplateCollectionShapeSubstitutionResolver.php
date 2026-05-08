@@ -15,12 +15,10 @@ final readonly class TemplateCollectionShapeSubstitutionResolver
     /**
      * Collects substitutions from collection-like declared parameters and concrete shapes.
      *
-     * @param ResolvedPhpDocType $parameterType The declared collection-like type.
-     * @param ResolvedPhpDocType $argumentType The concrete shape type.
-     * @param PhpDocTemplateSubstitutionContext $context The mutable substitution context.
-     * @param TemplateArgumentSubstitutionResolver $argumentSubstitutionResolver The recursive argument substitution resolver.
-     *
-     * @return bool
+     * @param ResolvedPhpDocType                   $parameterType                the declared collection-like type
+     * @param ResolvedPhpDocType                   $argumentType                 the concrete shape type
+     * @param PhpDocTemplateSubstitutionContext    $context                      the mutable substitution context
+     * @param TemplateArgumentSubstitutionResolver $argumentSubstitutionResolver the recursive argument substitution resolver
      */
     public function collect(
         ResolvedPhpDocType $parameterType,

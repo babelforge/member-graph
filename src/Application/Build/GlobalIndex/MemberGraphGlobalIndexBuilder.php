@@ -41,12 +41,12 @@ final readonly class MemberGraphGlobalIndexBuilder
     /**
      * Constructor.
      *
-     * @param MemberGraphPhpSourceRegistryInstance $fileRegistry The member graph file registry.
-     * @param MemberGraphIssueCollection|null $dependencyGraphIssues The optional dependency-graph issue collection.
+     * @param MemberGraphPhpSourceRegistryInstance $fileRegistry          the member graph file registry
+     * @param MemberGraphIssueCollection|null      $dependencyGraphIssues the optional dependency-graph issue collection
      */
     public function __construct(
         private MemberGraphPhpSourceRegistryInstance $fileRegistry,
-        private ?MemberGraphIssueCollection          $dependencyGraphIssues = null,
+        private ?MemberGraphIssueCollection $dependencyGraphIssues = null,
     ) {
         $this->polymorphicImplementationsIndexBuilder = new PolymorphicImplementationsIndexBuilder();
         $this->structuralNodeIndexBuilder = new StructuralNodeIndexBuilder();
@@ -55,9 +55,7 @@ final readonly class MemberGraphGlobalIndexBuilder
     /**
      * Builds the global indexes from the member graph build input.
      *
-     * @param MemberGraphBuildInput $input The member graph build input.
-     *
-     * @return MemberGraphGlobalIndexes
+     * @param MemberGraphBuildInput $input the member graph build input
      */
     public function build(MemberGraphBuildInput $input): MemberGraphGlobalIndexes
     {

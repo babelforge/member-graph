@@ -13,14 +13,12 @@ final readonly class MemberGraphSourceLoader
 {
     public function __construct(private MemberGraphPhpSourceRegistryInstance $fileRegistry)
     {
-
     }
+
     /**
      * Loads source files and returns the resulting virtual files and known owners.
      *
-     * @param list<string> $files The scanned physical files.
-     *
-     * @return MemberGraphSourceLoadResult
+     * @param list<string> $files the scanned physical files
      */
     public function load(array $files): MemberGraphSourceLoadResult
     {

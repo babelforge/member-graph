@@ -38,9 +38,9 @@ final class StructuralNodeIndexBuilderVisitor extends NodeVisitorAbstract
     private array $classLikeStack = [];
 
     /**
-     * @param MethodNodeIndex $methodNodeIndex The method node index.
-     * @param FunctionNodeIndex $functionNodeIndex The function node index.
-     * @param ClassLikeNodeIndex $classLikeNodeIndex The class-like node index.
+     * @param MethodNodeIndex    $methodNodeIndex    the method node index
+     * @param FunctionNodeIndex  $functionNodeIndex  the function node index
+     * @param ClassLikeNodeIndex $classLikeNodeIndex the class-like node index
      */
     public function __construct(
         private readonly MethodNodeIndex $methodNodeIndex,
@@ -49,9 +49,6 @@ final class StructuralNodeIndexBuilderVisitor extends NodeVisitorAbstract
     ) {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function beforeTraverse(array $nodes): ?array
     {
         $this->currentNamespace = '';
@@ -61,10 +58,7 @@ final class StructuralNodeIndexBuilderVisitor extends NodeVisitorAbstract
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function enterNode(Node $node): null|int|Node|array
+    public function enterNode(Node $node): int|Node|array|null
     {
         if ($node instanceof Namespace_) {
             $this->currentNamespace = $node->name instanceof Name
@@ -95,10 +89,7 @@ final class StructuralNodeIndexBuilderVisitor extends NodeVisitorAbstract
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function leaveNode(Node $node): null|int|Node|array
+    public function leaveNode(Node $node): int|Node|array|null
     {
         if ($node instanceof ClassLike) {
             array_pop($this->classLikeStack);
@@ -124,9 +115,7 @@ final class StructuralNodeIndexBuilderVisitor extends NodeVisitorAbstract
     /**
      * Registers one class-like node.
      *
-     * @param ClassLike $classLike The class-like node.
-     *
-     * @return void
+     * @param ClassLike $classLike the class-like node
      */
     private function registerClassLike(ClassLike $classLike): void
     {
@@ -145,9 +134,7 @@ final class StructuralNodeIndexBuilderVisitor extends NodeVisitorAbstract
     /**
      * Registers one method node.
      *
-     * @param ClassMethod $method The method node.
-     *
-     * @return void
+     * @param ClassMethod $method the method node
      */
     private function registerMethod(ClassMethod $method): void
     {
@@ -165,15 +152,13 @@ final class StructuralNodeIndexBuilderVisitor extends NodeVisitorAbstract
     /**
      * Registers one function node.
      *
-     * @param Function_ $function The function node.
-     *
-     * @return void
+     * @param Function_ $function the function node
      */
     private function registerFunction(Function_ $function): void
     {
         $functionName = $function->name->toString();
         $functionFqcn = '' !== $this->currentNamespace
-            ? $this->currentNamespace . '\\' . $functionName
+            ? $this->currentNamespace.'\\'.$functionName
             : $functionName;
 
         $this->functionNodeIndex->set($functionFqcn, $function);
@@ -182,9 +167,7 @@ final class StructuralNodeIndexBuilderVisitor extends NodeVisitorAbstract
     /**
      * Resolves the FQCN of one class-like node.
      *
-     * @param ClassLike $classLike The class-like node.
-     *
-     * @return string
+     * @param ClassLike $classLike the class-like node
      */
     private function resolveClassLikeFqcn(ClassLike $classLike): string
     {
@@ -201,7 +184,7 @@ final class StructuralNodeIndexBuilderVisitor extends NodeVisitorAbstract
         }
 
         return '' !== $this->currentNamespace
-            ? $this->currentNamespace . '\\' . $name
+            ? $this->currentNamespace.'\\'.$name
             : $name;
     }
 }

@@ -4,18 +4,8 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Tests\Integration\Stability;
 
-use PhpNoobs\MemberGraph\Application\Validator\PhpDoc\PhpDocResolutionIssue;
-use PhpNoobs\MemberGraph\Application\Validator\PhpDoc\PhpDocResolutionIssueType;
 use PhpNoobs\MemberGraph\Domain\Graph\MemberOriginType;
 use PhpNoobs\MemberGraph\Domain\Graph\MemberType;
-use PhpNoobs\MemberGraph\Domain\Index\Template\PhpDocTemplateDefinitionCollection;
-use PhpNoobs\MemberGraph\Domain\Type\TypeIndexContext;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Parser\PhpDocParserFactory;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\PhpDocTagKind;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\PhpDocTypeNodeResolver;
-use PhpNoobs\MemberGraph\Infrastructure\UseStatements\UsesByAliasCollection;
-use PhpParser\Modifiers;
-use PHPStan\PhpDocParser\Parser\TokenIterator;
 
 /**
  * Covers migrated legacy member graph stability fixtures.
@@ -24,29 +14,27 @@ final class MemberGraphInterfacePolymorphismTest extends AbstractMemberGraphStab
 {
     /**
      * Ensures legacy fixture 21 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInterfaceMethodIsProjectedToImplementingClass(): void
     {
         $sources = [
             'TestCase21.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase21;
+                namespace TestCase21;
 
-interface A
-{
-    public function foo(): void;
-}
+                interface A
+                {
+                    public function foo(): void;
+                }
 
-class C implements A
-{
-    public function foo(): void
-    {
-    }
-}
-PHP,
+                class C implements A
+                {
+                    public function foo(): void
+                    {
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -65,39 +53,36 @@ PHP,
         }
 
         $this->assertTrue($found);
-
     }
 
     /**
      * Ensures legacy fixture 22 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInterfaceDeclaredInsAreMergedOnImplementingClass(): void
     {
         $sources = [
             'TestCase22.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase22;
+                namespace TestCase22;
 
-interface A
-{
-    public function foo(): void;
-}
+                interface A
+                {
+                    public function foo(): void;
+                }
 
-interface B
-{
-    public function foo(): void;
-}
+                interface B
+                {
+                    public function foo(): void;
+                }
 
-class C implements A, B
-{
-    public function foo(): void
-    {
-    }
-}
-PHP,
+                class C implements A, B
+                {
+                    public function foo(): void
+                    {
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -125,34 +110,31 @@ PHP,
             ['TestCase22\A', 'TestCase22\B', 'TestCase22\C'],
             $declaredIns,
         );
-
     }
 
     /**
      * Ensures legacy fixture 23 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInterfaceProjectionDoesNotOverrideDeclaredMethodOrigin(): void
     {
         $sources = [
             'TestCase23.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase23;
+                namespace TestCase23;
 
-interface A
-{
-    public function foo(): void;
-}
+                interface A
+                {
+                    public function foo(): void;
+                }
 
-class C implements A
-{
-    public function foo(): void
-    {
-    }
-}
-PHP,
+                class C implements A
+                {
+                    public function foo(): void
+                    {
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -173,38 +155,35 @@ PHP,
 
         $this->assertNotNull($found);
         $this->assertSame(MemberOriginType::DECLARED, $found->origin);
-
     }
 
     /**
      * Ensures legacy fixture 24 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInterfaceMethodIsAvailableThroughInheritance(): void
     {
         $sources = [
             'TestCase24.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase24;
+                namespace TestCase24;
 
-interface A
-{
-    public function foo(): void;
-}
+                interface A
+                {
+                    public function foo(): void;
+                }
 
-class B implements A
-{
-    public function foo(): void
-    {
-    }
-}
+                class B implements A
+                {
+                    public function foo(): void
+                    {
+                    }
+                }
 
-class C extends B
-{
-}
-PHP,
+                class C extends B
+                {
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -223,31 +202,28 @@ PHP,
         }
 
         $this->assertTrue($found);
-
     }
 
     /**
      * Ensures legacy fixture 25 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInterfaceMethodIsProjectedEvenWithoutLocalDeclaration(): void
     {
         $sources = [
             'TestCase25.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase25;
+                namespace TestCase25;
 
-interface A
-{
-    public function foo(): void;
-}
+                interface A
+                {
+                    public function foo(): void;
+                }
 
-abstract class C implements A
-{
-}
-PHP,
+                abstract class C implements A
+                {
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -269,34 +245,31 @@ PHP,
         $this->assertNotNull($found);
         $this->assertSame(MemberOriginType::INTERFACE, $found->origin);
         $this->assertSame(['TestCase25\A'], array_keys($found->declaredIns));
-
     }
 
     /**
      * Ensures legacy fixture 26 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInterfaceProjectionDoesNotDuplicateMethod(): void
     {
         $sources = [
             'TestCase26.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase26;
+                namespace TestCase26;
 
-interface A
-{
-    public function foo(): void;
-}
+                interface A
+                {
+                    public function foo(): void;
+                }
 
-class C implements A
-{
-    public function foo(): void
-    {
-    }
-}
-PHP,
+                class C implements A
+                {
+                    public function foo(): void
+                    {
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -310,38 +283,35 @@ PHP,
                 MemberType::METHOD === $member->member->type
                 && 'foo' === $member->member->name
             ) {
-                $count++;
+                ++$count;
             }
         }
 
         $this->assertSame(1, $count);
-
     }
 
     /**
      * Ensures legacy fixture 27 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInterfaceInheritanceIsProjected(): void
     {
         $sources = [
             'TestCase27.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase27;
+                namespace TestCase27;
 
-interface A {
-    public function foo(): void;
-}
+                interface A {
+                    public function foo(): void;
+                }
 
-interface B extends A {
-}
+                interface B extends A {
+                }
 
-class C implements B {
-}
+                class C implements B {
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -352,50 +322,47 @@ PHP,
 
         foreach ($available as $member) {
             if (
-                MemberType::METHOD === $member->member->type &&
-                'foo' === $member->member->name
+                MemberType::METHOD === $member->member->type
+                && 'foo' === $member->member->name
             ) {
                 $found = true;
             }
         }
 
         $this->assertTrue($found);
-
     }
 
     /**
      * Ensures legacy fixture 28 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInterfacePolymorphismResolvesAllImplementations(): void
     {
         $sources = [
             'TestCase28.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase28;
+                namespace TestCase28;
 
-interface A {
-    public function foo(): void;
-}
+                interface A {
+                    public function foo(): void;
+                }
 
-class B implements A {
-    public function foo(): void {}
-}
+                class B implements A {
+                    public function foo(): void {}
+                }
 
-class C implements A {
-    public function foo(): void {}
-}
+                class C implements A {
+                    public function foo(): void {}
+                }
 
-class D {
-    public function test(A $a): void {
-        $a->foo();
-    }
-}
+                class D {
+                    public function test(A $a): void {
+                        $a->foo();
+                    }
+                }
 
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -417,49 +384,46 @@ PHP,
 
         $this->assertTrue($foundB);
         $this->assertTrue($foundC);
-
     }
 
     /**
      * Ensures legacy fixture 29 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testAbstractClassPolymorphismResolvesAllConcreteImplementations(): void
     {
         $sources = [
             'TestCase29.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase29;
+                namespace TestCase29;
 
-abstract class A
-{
-    abstract public function foo(): void;
-}
+                abstract class A
+                {
+                    abstract public function foo(): void;
+                }
 
-class B extends A
-{
-    public function foo(): void
-    {
-    }
-}
+                class B extends A
+                {
+                    public function foo(): void
+                    {
+                    }
+                }
 
-class C extends A
-{
-    public function foo(): void
-    {
-    }
-}
+                class C extends A
+                {
+                    public function foo(): void
+                    {
+                    }
+                }
 
-class D
-{
-    public function test(A $a): void
-    {
-        $a->foo();
-    }
-}
-PHP,
+                class D
+                {
+                    public function test(A $a): void
+                    {
+                        $a->foo();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -487,47 +451,43 @@ PHP,
         $this->assertTrue($foundA);
         $this->assertTrue($foundB);
         $this->assertTrue($foundC);
-
-
     }
 
     /**
      * Ensures legacy fixture 30 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testAbstractClassPolymorphismResolvesConcreteLeafThroughMultipleLevels(): void
     {
         $sources = [
             'TestCase30.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase30;
+                namespace TestCase30;
 
-abstract class A
-{
-    abstract public function foo(): void;
-}
+                abstract class A
+                {
+                    abstract public function foo(): void;
+                }
 
-abstract class B extends A
-{
-}
+                abstract class B extends A
+                {
+                }
 
-class C extends B
-{
-    public function foo(): void
-    {
-    }
-}
+                class C extends B
+                {
+                    public function foo(): void
+                    {
+                    }
+                }
 
-class D
-{
-    public function test(A $a): void
-    {
-        $a->foo();
-    }
-}
-PHP,
+                class D
+                {
+                    public function test(A $a): void
+                    {
+                        $a->foo();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -549,39 +509,35 @@ PHP,
 
         $this->assertTrue($foundA);
         $this->assertTrue($foundC);
-
-
     }
 
     /**
      * Ensures legacy fixture 32 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInterfaceAndAbstractPolymorphismAreCombined(): void
     {
         $sources = [
             'TestCase32.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase32;
+                namespace TestCase32;
 
-interface A {
-    public function foo(): void;
-}
+                interface A {
+                    public function foo(): void;
+                }
 
-abstract class B implements A {}
+                abstract class B implements A {}
 
-class C extends B {
-    public function foo(): void {}
-}
+                class C extends B {
+                    public function foo(): void {}
+                }
 
-class D {
-    public function test(A $a): void {
-        $a->foo();
-    }
-}
-PHP,
+                class D {
+                    public function test(A $a): void {
+                        $a->foo();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -602,33 +558,29 @@ PHP,
 
         $this->assertTrue($foundA);
         $this->assertTrue($foundC);
-
-
     }
 
     /**
      * Ensures legacy fixture 246 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInterfaceClassConstantFetchTargetsInterfaceOwner(): void
     {
         $sources = [
             'TestCase246.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase246;
+                namespace TestCase246;
 
-interface RegistryContract {
-    public const TOKEN = 'token';
-}
+                interface RegistryContract {
+                    public const TOKEN = 'token';
+                }
 
-class TestClass {
-    public function run(): string {
-        return RegistryContract::TOKEN;
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): string {
+                        return RegistryContract::TOKEN;
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -638,30 +590,28 @@ PHP,
 
     /**
      * Ensures legacy fixture 247 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testExtendedInterfaceClassConstantFetchTargetsParentInterfaceOwner(): void
     {
         $sources = [
             'TestCase247.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase247;
+                namespace TestCase247;
 
-interface ParentRegistryContract {
-    public const TOKEN = 'token';
-}
+                interface ParentRegistryContract {
+                    public const TOKEN = 'token';
+                }
 
-interface RegistryContract extends ParentRegistryContract {
-}
+                interface RegistryContract extends ParentRegistryContract {
+                }
 
-class TestClass {
-    public function run(): string {
-        return RegistryContract::TOKEN;
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): string {
+                        return RegistryContract::TOKEN;
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -671,30 +621,28 @@ PHP,
 
     /**
      * Ensures legacy fixture 248 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testImplementingClassConstantFetchTargetsInterfaceOwner(): void
     {
         $sources = [
             'TestCase248.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase248;
+                namespace TestCase248;
 
-interface RegistryContract {
-    public const TOKEN = 'token';
-}
+                interface RegistryContract {
+                    public const TOKEN = 'token';
+                }
 
-class Registry implements RegistryContract {
-}
+                class Registry implements RegistryContract {
+                }
 
-class TestClass {
-    public function run(): string {
-        return Registry::TOKEN;
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): string {
+                        return Registry::TOKEN;
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -704,31 +652,29 @@ PHP,
 
     /**
      * Ensures legacy fixture 270 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testEnumImplementedInterfaceConstantFetchTargetsInterfaceOwner(): void
     {
         $sources = [
             'TestCase270.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase270;
+                namespace TestCase270;
 
-interface HasToken {
-    public const TOKEN = 'token';
-}
+                interface HasToken {
+                    public const TOKEN = 'token';
+                }
 
-enum Status implements HasToken {
-    case Open;
-}
+                enum Status implements HasToken {
+                    case Open;
+                }
 
-class TestClass {
-    public function run(): string {
-        return Status::TOKEN;
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): string {
+                        return Status::TOKEN;
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -738,33 +684,31 @@ PHP,
 
     /**
      * Ensures legacy fixture 272 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testEnumOwnClassConstantOverridesInterfaceConstantOwner(): void
     {
         $sources = [
             'TestCase272.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase272;
+                namespace TestCase272;
 
-interface HasToken {
-    public const TOKEN = 'token';
-}
+                interface HasToken {
+                    public const TOKEN = 'token';
+                }
 
-enum Status implements HasToken {
-    public const TOKEN = 'own';
+                enum Status implements HasToken {
+                    public const TOKEN = 'own';
 
-    case Open;
-}
+                    case Open;
+                }
 
-class TestClass {
-    public function run(): string {
-        return Status::TOKEN;
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): string {
+                        return Status::TOKEN;
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -774,34 +718,32 @@ PHP,
 
     /**
      * Ensures legacy fixture 279 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testExtendedInterfacePolymorphismTargetsConcreteClass(): void
     {
         $sources = [
             'TestCase279.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase279;
+                namespace TestCase279;
 
-interface BaseContract {
-    public function send(): void;
-}
+                interface BaseContract {
+                    public function send(): void;
+                }
 
-interface ChildContract extends BaseContract {
-}
+                interface ChildContract extends BaseContract {
+                }
 
-class Service implements ChildContract {
-    public function send(): void {}
-}
+                class Service implements ChildContract {
+                    public function send(): void {}
+                }
 
-class TestClass {
-    public function run(BaseContract $service): void {
-        $service->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(BaseContract $service): void {
+                        $service->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -811,36 +753,34 @@ PHP,
 
     /**
      * Ensures legacy fixture 280 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testExtendedInterfacePolymorphismTargetsEnumImplementation(): void
     {
         $sources = [
             'TestCase280.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase280;
+                namespace TestCase280;
 
-interface BaseContract {
-    public function send(): void;
-}
+                interface BaseContract {
+                    public function send(): void;
+                }
 
-interface ChildContract extends BaseContract {
-}
+                interface ChildContract extends BaseContract {
+                }
 
-enum Status implements ChildContract {
-    case Open;
+                enum Status implements ChildContract {
+                    case Open;
 
-    public function send(): void {}
-}
+                    public function send(): void {}
+                }
 
-class TestClass {
-    public function run(BaseContract $status): void {
-        $status->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(BaseContract $status): void {
+                        $status->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -850,37 +790,35 @@ PHP,
 
     /**
      * Ensures legacy fixture 281 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInheritedExtendedInterfacePolymorphismTargetsChildClass(): void
     {
         $sources = [
             'TestCase281.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase281;
+                namespace TestCase281;
 
-interface BaseContract {
-    public function send(): void;
-}
+                interface BaseContract {
+                    public function send(): void;
+                }
 
-interface ChildContract extends BaseContract {
-}
+                interface ChildContract extends BaseContract {
+                }
 
-class ParentService implements ChildContract {
-    public function send(): void {}
-}
+                class ParentService implements ChildContract {
+                    public function send(): void {}
+                }
 
-class Service extends ParentService {
-}
+                class Service extends ParentService {
+                }
 
-class TestClass {
-    public function run(BaseContract $service): void {
-        $service->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(BaseContract $service): void {
+                        $service->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -890,34 +828,32 @@ PHP,
 
     /**
      * Ensures legacy fixture 282 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testExtendedInterfaceNamedArgumentUsageTargetsConcreteClass(): void
     {
         $sources = [
             'TestCase282.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase282;
+                namespace TestCase282;
 
-interface BaseContract {
-    public function send(string $message): void;
-}
+                interface BaseContract {
+                    public function send(string $message): void;
+                }
 
-interface ChildContract extends BaseContract {
-}
+                interface ChildContract extends BaseContract {
+                }
 
-class Service implements ChildContract {
-    public function send(string $message): void {}
-}
+                class Service implements ChildContract {
+                    public function send(string $message): void {}
+                }
 
-class TestClass {
-    public function run(BaseContract $service): void {
-        $service->send(message: 'hello');
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(BaseContract $service): void {
+                        $service->send(message: 'hello');
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -941,28 +877,26 @@ PHP,
 
     /**
      * Ensures legacy fixture 283 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testExtendedInterfaceAvailableMemberIsProjectedOnChildInterface(): void
     {
         $sources = [
             'TestCase283.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase283;
+                namespace TestCase283;
 
-interface BaseContract {
-    public function send(): void;
-}
+                interface BaseContract {
+                    public function send(): void;
+                }
 
-interface ChildContract extends BaseContract {
-}
+                interface ChildContract extends BaseContract {
+                }
 
-class Service implements ChildContract {
-    public function send(): void {}
-}
-PHP,
+                class Service implements ChildContract {
+                    public function send(): void {}
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -984,37 +918,35 @@ PHP,
 
     /**
      * Ensures legacy fixture 284 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testDeepExtendedInterfacePolymorphismTargetsConcreteClass(): void
     {
         $sources = [
             'TestCase284.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase284;
+                namespace TestCase284;
 
-interface RootContract {
-    public function send(): void;
-}
+                interface RootContract {
+                    public function send(): void;
+                }
 
-interface MiddleContract extends RootContract {
-}
+                interface MiddleContract extends RootContract {
+                }
 
-interface LeafContract extends MiddleContract {
-}
+                interface LeafContract extends MiddleContract {
+                }
 
-class Service implements LeafContract {
-    public function send(): void {}
-}
+                class Service implements LeafContract {
+                    public function send(): void {}
+                }
 
-class TestClass {
-    public function run(RootContract $service): void {
-        $service->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(RootContract $service): void {
+                        $service->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1024,40 +956,38 @@ PHP,
 
     /**
      * Ensures legacy fixture 285 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testDeepExtendedInterfacePolymorphismTargetsAbstractParentImplementation(): void
     {
         $sources = [
             'TestCase285.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase285;
+                namespace TestCase285;
 
-interface RootContract {
-    public function send(): void;
-}
+                interface RootContract {
+                    public function send(): void;
+                }
 
-interface MiddleContract extends RootContract {
-}
+                interface MiddleContract extends RootContract {
+                }
 
-interface LeafContract extends MiddleContract {
-}
+                interface LeafContract extends MiddleContract {
+                }
 
-abstract class AbstractService implements LeafContract {
-}
+                abstract class AbstractService implements LeafContract {
+                }
 
-class Service extends AbstractService {
-    public function send(): void {}
-}
+                class Service extends AbstractService {
+                    public function send(): void {}
+                }
 
-class TestClass {
-    public function run(RootContract $service): void {
-        $service->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(RootContract $service): void {
+                        $service->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1067,39 +997,37 @@ PHP,
 
     /**
      * Ensures legacy fixture 286 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testDeepExtendedInterfacePolymorphismTargetsEnumImplementation(): void
     {
         $sources = [
             'TestCase286.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase286;
+                namespace TestCase286;
 
-interface RootContract {
-    public function send(): void;
-}
+                interface RootContract {
+                    public function send(): void;
+                }
 
-interface MiddleContract extends RootContract {
-}
+                interface MiddleContract extends RootContract {
+                }
 
-interface LeafContract extends MiddleContract {
-}
+                interface LeafContract extends MiddleContract {
+                }
 
-enum Status implements LeafContract {
-    case Open;
+                enum Status implements LeafContract {
+                    case Open;
 
-    public function send(): void {}
-}
+                    public function send(): void {}
+                }
 
-class TestClass {
-    public function run(RootContract $status): void {
-        $status->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(RootContract $status): void {
+                        $status->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1109,37 +1037,35 @@ PHP,
 
     /**
      * Ensures legacy fixture 287 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testDeepExtendedInterfaceNamedArgumentUsageTargetsConcreteClass(): void
     {
         $sources = [
             'TestCase287.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase287;
+                namespace TestCase287;
 
-interface RootContract {
-    public function send(string $message): void;
-}
+                interface RootContract {
+                    public function send(string $message): void;
+                }
 
-interface MiddleContract extends RootContract {
-}
+                interface MiddleContract extends RootContract {
+                }
 
-interface LeafContract extends MiddleContract {
-}
+                interface LeafContract extends MiddleContract {
+                }
 
-class Service implements LeafContract {
-    public function send(string $message): void {}
-}
+                class Service implements LeafContract {
+                    public function send(string $message): void {}
+                }
 
-class TestClass {
-    public function run(RootContract $service): void {
-        $service->send(message: 'hello');
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(RootContract $service): void {
+                        $service->send(message: 'hello');
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1163,31 +1089,29 @@ PHP,
 
     /**
      * Ensures legacy fixture 288 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testDeepExtendedInterfaceAvailableMemberIsProjectedOnLeafInterface(): void
     {
         $sources = [
             'TestCase288.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase288;
+                namespace TestCase288;
 
-interface RootContract {
-    public function send(): void;
-}
+                interface RootContract {
+                    public function send(): void;
+                }
 
-interface MiddleContract extends RootContract {
-}
+                interface MiddleContract extends RootContract {
+                }
 
-interface LeafContract extends MiddleContract {
-}
+                interface LeafContract extends MiddleContract {
+                }
 
-class Service implements LeafContract {
-    public function send(): void {}
-}
-PHP,
+                class Service implements LeafContract {
+                    public function send(): void {}
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1209,34 +1133,32 @@ PHP,
 
     /**
      * Ensures legacy fixture 289 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testExtendedInterfacePolymorphismDoesNotDuplicateConcreteClassTarget(): void
     {
         $sources = [
             'TestCase289.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase289;
+                namespace TestCase289;
 
-interface RootContract {
-    public function send(): void;
-}
+                interface RootContract {
+                    public function send(): void;
+                }
 
-interface LeafContract extends RootContract {
-}
+                interface LeafContract extends RootContract {
+                }
 
-class Service implements RootContract, LeafContract {
-    public function send(): void {}
-}
+                class Service implements RootContract, LeafContract {
+                    public function send(): void {}
+                }
 
-class TestClass {
-    public function run(RootContract $service): void {
-        $service->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(RootContract $service): void {
+                        $service->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1248,7 +1170,7 @@ PHP,
                     'TestCase289\\Service' === $usage->target->owner
                     && 'send' === $usage->target->name
                 ) {
-                    $count++;
+                    ++$count;
                 }
             }
         }
@@ -1258,36 +1180,34 @@ PHP,
 
     /**
      * Ensures legacy fixture 290 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testExtendedInterfacePolymorphismDoesNotDuplicateEnumTarget(): void
     {
         $sources = [
             'TestCase290.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase290;
+                namespace TestCase290;
 
-interface RootContract {
-    public function send(): void;
-}
+                interface RootContract {
+                    public function send(): void;
+                }
 
-interface LeafContract extends RootContract {
-}
+                interface LeafContract extends RootContract {
+                }
 
-enum Status implements RootContract, LeafContract {
-    case Open;
+                enum Status implements RootContract, LeafContract {
+                    case Open;
 
-    public function send(): void {}
-}
+                    public function send(): void {}
+                }
 
-class TestClass {
-    public function run(RootContract $status): void {
-        $status->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(RootContract $status): void {
+                        $status->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1299,7 +1219,7 @@ PHP,
                     'TestCase290\\Status' === $usage->target->owner
                     && 'send' === $usage->target->name
                 ) {
-                    $count++;
+                    ++$count;
                 }
             }
         }
@@ -1309,37 +1229,35 @@ PHP,
 
     /**
      * Ensures legacy fixture 291 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInheritedExtendedInterfacePolymorphismDoesNotDuplicateChildTarget(): void
     {
         $sources = [
             'TestCase291.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase291;
+                namespace TestCase291;
 
-interface RootContract {
-    public function send(): void;
-}
+                interface RootContract {
+                    public function send(): void;
+                }
 
-interface LeafContract extends RootContract {
-}
+                interface LeafContract extends RootContract {
+                }
 
-class ParentService implements RootContract {
-    public function send(): void {}
-}
+                class ParentService implements RootContract {
+                    public function send(): void {}
+                }
 
-class Service extends ParentService implements LeafContract {
-}
+                class Service extends ParentService implements LeafContract {
+                }
 
-class TestClass {
-    public function run(RootContract $service): void {
-        $service->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(RootContract $service): void {
+                        $service->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1351,7 +1269,7 @@ PHP,
                     'TestCase291\\Service' === $usage->target->owner
                     && 'send' === $usage->target->name
                 ) {
-                    $count++;
+                    ++$count;
                 }
             }
         }
@@ -1361,34 +1279,32 @@ PHP,
 
     /**
      * Ensures legacy fixture 292 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testExtendedInterfaceNamedArgumentUsageDoesNotDuplicateConcreteClassTarget(): void
     {
         $sources = [
             'TestCase292.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase292;
+                namespace TestCase292;
 
-interface RootContract {
-    public function send(string $message): void;
-}
+                interface RootContract {
+                    public function send(string $message): void;
+                }
 
-interface LeafContract extends RootContract {
-}
+                interface LeafContract extends RootContract {
+                }
 
-class Service implements RootContract, LeafContract {
-    public function send(string $message): void {}
-}
+                class Service implements RootContract, LeafContract {
+                    public function send(string $message): void {}
+                }
 
-class TestClass {
-    public function run(RootContract $service): void {
-        $service->send(message: 'hello');
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(RootContract $service): void {
+                        $service->send(message: 'hello');
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1401,7 +1317,7 @@ PHP,
                     && 'send' === $usage->target->functionLikeName
                     && 'message' === $usage->target->parameterName
                 ) {
-                    $count++;
+                    ++$count;
                 }
             }
         }
@@ -1411,37 +1327,35 @@ PHP,
 
     /**
      * Ensures legacy fixture 293 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testDeepExtendedInterfacePolymorphismDoesNotDuplicateConcreteClassTarget(): void
     {
         $sources = [
             'TestCase293.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase293;
+                namespace TestCase293;
 
-interface RootContract {
-    public function send(): void;
-}
+                interface RootContract {
+                    public function send(): void;
+                }
 
-interface MiddleContract extends RootContract {
-}
+                interface MiddleContract extends RootContract {
+                }
 
-interface LeafContract extends MiddleContract {
-}
+                interface LeafContract extends MiddleContract {
+                }
 
-class Service implements RootContract, MiddleContract, LeafContract {
-    public function send(): void {}
-}
+                class Service implements RootContract, MiddleContract, LeafContract {
+                    public function send(): void {}
+                }
 
-class TestClass {
-    public function run(RootContract $service): void {
-        $service->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(RootContract $service): void {
+                        $service->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1453,7 +1367,7 @@ PHP,
                     'TestCase293\\Service' === $usage->target->owner
                     && 'send' === $usage->target->name
                 ) {
-                    $count++;
+                    ++$count;
                 }
             }
         }

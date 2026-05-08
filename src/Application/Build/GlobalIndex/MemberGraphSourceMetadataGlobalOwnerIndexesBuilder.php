@@ -15,8 +15,8 @@ final readonly class MemberGraphSourceMetadataGlobalOwnerIndexesBuilder
     /**
      * Constructor.
      *
-     * @param MemberGraphKnownOwnersFromSourceMetadataBuilder $knownOwnersBuilder The known owners builder.
-     * @param PolymorphicImplementationsIndexBuilder $polymorphicImplementationsIndexBuilder The polymorphic index builder.
+     * @param MemberGraphKnownOwnersFromSourceMetadataBuilder $knownOwnersBuilder                     the known owners builder
+     * @param PolymorphicImplementationsIndexBuilder          $polymorphicImplementationsIndexBuilder the polymorphic index builder
      */
     public function __construct(
         private MemberGraphKnownOwnersFromSourceMetadataBuilder $knownOwnersBuilder = new MemberGraphKnownOwnersFromSourceMetadataBuilder(),
@@ -27,9 +27,7 @@ final readonly class MemberGraphSourceMetadataGlobalOwnerIndexesBuilder
     /**
      * Builds global owner indexes.
      *
-     * @param MemberGraphVirtualSourceMetadataCollection $sourceMetadata The complete source metadata view.
-     *
-     * @return MemberGraphSourceMetadataGlobalOwnerIndexes
+     * @param MemberGraphVirtualSourceMetadataCollection $sourceMetadata the complete source metadata view
      */
     public function build(
         MemberGraphVirtualSourceMetadataCollection $sourceMetadata,

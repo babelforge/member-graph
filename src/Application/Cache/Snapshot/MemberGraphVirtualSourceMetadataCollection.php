@@ -4,16 +4,12 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Application\Cache\Snapshot;
 
-use Countable;
-use IteratorAggregate;
-use Traversable;
-
 /**
  * Stores virtual source metadata indexed by virtual file path.
  *
- * @implements IteratorAggregate<string, MemberGraphVirtualSourceMetadata>
+ * @implements \IteratorAggregate<string, MemberGraphVirtualSourceMetadata>
  */
-final class MemberGraphVirtualSourceMetadataCollection implements Countable, IteratorAggregate
+final class MemberGraphVirtualSourceMetadataCollection implements \Countable, \IteratorAggregate
 {
     /**
      * @var array<string, MemberGraphVirtualSourceMetadata>
@@ -23,9 +19,7 @@ final class MemberGraphVirtualSourceMetadataCollection implements Countable, Ite
     /**
      * Adds one virtual source metadata entry.
      *
-     * @param MemberGraphVirtualSourceMetadata $metadata The metadata to add.
-     *
-     * @return void
+     * @param MemberGraphVirtualSourceMetadata $metadata the metadata to add
      */
     public function add(MemberGraphVirtualSourceMetadata $metadata): void
     {
@@ -35,9 +29,7 @@ final class MemberGraphVirtualSourceMetadataCollection implements Countable, Ite
     /**
      * Returns one metadata entry by virtual file path.
      *
-     * @param string $virtualFilePath The virtual file path.
-     *
-     * @return MemberGraphVirtualSourceMetadata|null
+     * @param string $virtualFilePath the virtual file path
      */
     public function get(string $virtualFilePath): ?MemberGraphVirtualSourceMetadata
     {
@@ -57,17 +49,15 @@ final class MemberGraphVirtualSourceMetadataCollection implements Countable, Ite
     /**
      * Returns an iterator over metadata entries indexed by virtual file path.
      *
-     * @return Traversable<string, MemberGraphVirtualSourceMetadata>
+     * @return \Traversable<string, MemberGraphVirtualSourceMetadata>
      */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         yield from $this->byVirtualFilePath;
     }
 
     /**
      * Counts metadata entries.
-     *
-     * @return int
      */
     public function count(): int
     {

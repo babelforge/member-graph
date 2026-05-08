@@ -14,10 +14,8 @@ interface LiteralArrayKeyResolverInterface
     /**
      * Resolves one literal array key.
      *
-     * @param Expr|null $dimension The array dimension expression.
-     * @param string $currentClass The current class-like owner.
-     *
-     * @return int|string|null
+     * @param Expr|null $dimension    the array dimension expression
+     * @param string    $currentClass the current class-like owner
      */
     public function resolveLiteralArrayKeyForArrayShapeAccess(?Expr $dimension, string $currentClass): int|string|null;
 }

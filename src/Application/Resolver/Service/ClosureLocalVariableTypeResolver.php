@@ -18,8 +18,8 @@ final readonly class ClosureLocalVariableTypeResolver
     /**
      * Constructor.
      *
-     * @param ClosureParameterVariableTypeResolver $closureParameterVariableTypeResolver The closure parameter variable type resolver.
-     * @param ClosureAssignmentVariableTypeResolver $closureAssignmentVariableTypeResolver The closure assignment variable type resolver.
+     * @param ClosureParameterVariableTypeResolver  $closureParameterVariableTypeResolver  the closure parameter variable type resolver
+     * @param ClosureAssignmentVariableTypeResolver $closureAssignmentVariableTypeResolver the closure assignment variable type resolver
      */
     public function __construct(
         private ClosureParameterVariableTypeResolver $closureParameterVariableTypeResolver,
@@ -30,9 +30,9 @@ final readonly class ClosureLocalVariableTypeResolver
     /**
      * Builds local variable types available inside one closure-like expression.
      *
-     * @param Closure|ArrowFunction $expression The closure-like expression.
-     * @param ExpressionResolutionContext $context The current expression resolution context.
-     * @param ExpressionTypeResolverInterface $expressionTypeResolver The recursive expression resolver.
+     * @param Closure|ArrowFunction           $expression             the closure-like expression
+     * @param ExpressionResolutionContext     $context                the current expression resolution context
+     * @param ExpressionTypeResolverInterface $expressionTypeResolver the recursive expression resolver
      *
      * @return array<string, VariableTypeInfo>
      */

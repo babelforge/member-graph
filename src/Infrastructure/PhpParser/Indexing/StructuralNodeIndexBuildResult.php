@@ -14,9 +14,9 @@ use PhpNoobs\MemberGraph\Domain\Index\Method\MethodNodeIndex;
 final readonly class StructuralNodeIndexBuildResult
 {
     /**
-     * @param MethodNodeIndex $methodNodeIndex The method node index.
-     * @param FunctionNodeIndex $functionNodeIndex The function node index.
-     * @param ClassLikeNodeIndex $classLikeNodeIndex The class-like node index.
+     * @param MethodNodeIndex    $methodNodeIndex    the method node index
+     * @param FunctionNodeIndex  $functionNodeIndex  the function node index
+     * @param ClassLikeNodeIndex $classLikeNodeIndex the class-like node index
      */
     public function __construct(
         public MethodNodeIndex $methodNodeIndex,

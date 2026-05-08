@@ -24,7 +24,7 @@ use PhpParser\Node\Stmt\Use_;
 final readonly class ClassTemplateDefinitionIndexBuilder
 {
     /**
-     * @param PhpDocTemplateDefinitionExtractor $phpDocTemplateDefinitionExtractor The template definition extractor.
+     * @param PhpDocTemplateDefinitionExtractor $phpDocTemplateDefinitionExtractor the template definition extractor
      */
     public function __construct(
         private PhpDocTemplateDefinitionExtractor $phpDocTemplateDefinitionExtractor,
@@ -34,11 +34,9 @@ final readonly class ClassTemplateDefinitionIndexBuilder
     /**
      * Builds the class template definition index.
      *
-     * @param ClassLikeNodeIndex $classLikeNodeIndex The class-like node index.
-     * @param string $fullFilePath The current original file path.
-     * @param string $virtualFilePath The current virtual file path.
-     *
-     * @return ClassTemplateDefinitionIndex
+     * @param ClassLikeNodeIndex $classLikeNodeIndex the class-like node index
+     * @param string             $fullFilePath       the current original file path
+     * @param string             $virtualFilePath    the current virtual file path
      */
     public function build(
         ClassLikeNodeIndex $classLikeNodeIndex,
@@ -73,12 +71,10 @@ final readonly class ClassTemplateDefinitionIndexBuilder
     /**
      * Builds one type index context for one class-like node.
      *
-     * @param string $owner The owner FQCN.
-     * @param ClassLike $classLikeNode The class-like node.
-     * @param string $fullFilePath The original file path.
-     * @param string $virtualFilePath The virtual file path.
-     *
-     * @return TypeIndexContext
+     * @param string    $owner           the owner FQCN
+     * @param ClassLike $classLikeNode   the class-like node
+     * @param string    $fullFilePath    the original file path
+     * @param string    $virtualFilePath the virtual file path
      */
     private function buildContext(
         string $owner,
@@ -100,9 +96,7 @@ final readonly class ClassTemplateDefinitionIndexBuilder
     /**
      * Resolves the namespace for one class-like node.
      *
-     * @param ClassLike $classLikeNode The class-like node.
-     *
-     * @return string
+     * @param ClassLike $classLikeNode the class-like node
      */
     private function resolveNamespace(ClassLike $classLikeNode): string
     {
@@ -121,9 +115,7 @@ final readonly class ClassTemplateDefinitionIndexBuilder
     /**
      * Resolves use imports visible from one class-like node.
      *
-     * @param ClassLike $classLikeNode The class-like node.
-     *
-     * @return UsesByAliasCollection
+     * @param ClassLike $classLikeNode the class-like node
      */
     private function resolveUsesByAlias(ClassLike $classLikeNode): UsesByAliasCollection
     {
@@ -153,7 +145,7 @@ final readonly class ClassTemplateDefinitionIndexBuilder
                 $prefix = $stmt->prefix->toString();
 
                 foreach ($stmt->uses as $useUse) {
-                    $fqcn = $prefix . '\\' . $useUse->name->toString();
+                    $fqcn = $prefix.'\\'.$useUse->name->toString();
                     $alias = null !== $useUse->alias
                         ? $useUse->alias->toString()
                         : $useUse->name->getLast();
@@ -169,9 +161,7 @@ final readonly class ClassTemplateDefinitionIndexBuilder
     /**
      * Finds the surrounding namespace node of one class-like node.
      *
-     * @param ClassLike $classLikeNode The class-like node.
-     *
-     * @return Namespace_|null
+     * @param ClassLike $classLikeNode the class-like node
      */
     private function findNamespaceNode(ClassLike $classLikeNode): ?Namespace_
     {

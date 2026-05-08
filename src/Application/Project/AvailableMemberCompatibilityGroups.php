@@ -4,19 +4,16 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Application\Project;
 
-use Countable;
-use IteratorAggregate;
 use PhpNoobs\MemberGraph\Application\Validator\CompatibilityValidatorInterface;
 use PhpNoobs\MemberGraph\Domain\Availability\AvailableMember;
 use PhpNoobs\MemberGraph\Domain\Graph\MemberType;
-use Traversable;
 
 /**
  * Groups available members that must be checked for compatibility.
  *
- * @implements IteratorAggregate<string, list<AvailableMember>>
+ * @implements \IteratorAggregate<string, list<AvailableMember>>
  */
-final class AvailableMemberCompatibilityGroups implements Countable, IteratorAggregate
+final class AvailableMemberCompatibilityGroups implements \Countable, \IteratorAggregate
 {
     /**
      * Available properties indexed by member name.
@@ -35,9 +32,7 @@ final class AvailableMemberCompatibilityGroups implements Countable, IteratorAgg
     /**
      * Adds one available member to the relevant compatibility group.
      *
-     * @param AvailableMember $member The member to group.
-     *
-     * @return void
+     * @param AvailableMember $member the member to group
      */
     public function add(AvailableMember $member): void
     {
@@ -53,9 +48,7 @@ final class AvailableMemberCompatibilityGroups implements Countable, IteratorAgg
     /**
      * Asserts compatibility for all collected property and constant groups.
      *
-     * @param CompatibilityValidatorInterface $compatibilityValidator The compatibility validator.
-     *
-     * @return void
+     * @param CompatibilityValidatorInterface $compatibilityValidator the compatibility validator
      */
     public function assertCompatible(CompatibilityValidatorInterface $compatibilityValidator): void
     {
@@ -79,9 +72,9 @@ final class AvailableMemberCompatibilityGroups implements Countable, IteratorAgg
     /**
      * Returns an iterator over all compatibility groups.
      *
-     * @return Traversable<string, list<AvailableMember>>
+     * @return \Traversable<string, list<AvailableMember>>
      */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         foreach ($this->propertiesByName as $memberName => $group) {
             yield $memberName => array_values($group);
@@ -94,8 +87,6 @@ final class AvailableMemberCompatibilityGroups implements Countable, IteratorAgg
 
     /**
      * Counts all compatibility groups.
-     *
-     * @return int
      */
     public function count(): int
     {

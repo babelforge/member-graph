@@ -4,16 +4,12 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Domain\Owner;
 
-use Countable;
-use IteratorAggregate;
-use Traversable;
-
 /**
  * Stores known owners indexed by FQCN.
  *
- * @implements IteratorAggregate<string, KnownOwner>
+ * @implements \IteratorAggregate<string, KnownOwner>
  */
-final class KnownOwnerCollection implements Countable, IteratorAggregate
+final class KnownOwnerCollection implements \Countable, \IteratorAggregate
 {
     /**
      * @var array<string, KnownOwner>
@@ -23,9 +19,7 @@ final class KnownOwnerCollection implements Countable, IteratorAggregate
     /**
      * Adds one known owner.
      *
-     * @param KnownOwner $owner The owner to add.
-     *
-     * @return void
+     * @param KnownOwner $owner the owner to add
      */
     public function add(KnownOwner $owner): void
     {
@@ -35,9 +29,7 @@ final class KnownOwnerCollection implements Countable, IteratorAggregate
     /**
      * Returns one known owner by FQCN.
      *
-     * @param string $fqcn The owner FQCN.
-     *
-     * @return KnownOwner|null
+     * @param string $fqcn the owner FQCN
      */
     public function get(string $fqcn): ?KnownOwner
     {
@@ -57,17 +49,15 @@ final class KnownOwnerCollection implements Countable, IteratorAggregate
     /**
      * Returns an iterator over known owners indexed by FQCN.
      *
-     * @return Traversable<string, KnownOwner>
+     * @return \Traversable<string, KnownOwner>
      */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         yield from $this->items;
     }
 
     /**
      * Counts known owners.
-     *
-     * @return int
      */
     public function count(): int
     {

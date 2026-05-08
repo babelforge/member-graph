@@ -4,17 +4,14 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Template;
 
-use Countable;
-use IteratorAggregate;
 use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
-use Traversable;
 
 /**
- * Class PhpDocTemplateSubstitutionContext
+ * Class PhpDocTemplateSubstitutionContext.
  *
- * @implements IteratorAggregate<string, ResolvedPhpDocType>
+ * @implements \IteratorAggregate<string, ResolvedPhpDocType>
  */
-final class PhpDocTemplateSubstitutionContext implements IteratorAggregate, Countable
+final class PhpDocTemplateSubstitutionContext implements \IteratorAggregate, \Countable
 {
     /** @var array<string, ResolvedPhpDocType> */
     private array $resolvedByTemplateName = [];
@@ -44,17 +41,11 @@ final class PhpDocTemplateSubstitutionContext implements IteratorAggregate, Coun
         return $this->resolvedByTemplateName;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         yield from $this->resolvedByTemplateName;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function count(): int
     {
         return count($this->resolvedByTemplateName);

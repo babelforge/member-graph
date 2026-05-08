@@ -17,11 +17,11 @@ final class MemberDependencyGraphPartialRebuildWorkingSet
     /**
      * Constructor.
      *
-     * @param MemberGraphCacheFileCollection $filesToParseForContext Files loaded to provide analysis context.
-     * @param MemberGraphCacheFileCollection $filesToRebuildGraph Files whose graph fragments must be rebuilt.
-     * @param MemberGraphFragmentCollection $fragmentsToReuse Cached fragments that remain reusable.
-     * @param MemberDependencyGraphPartialRebuildClosureDiagnosticCollection $diagnostics Closure diagnostics.
-     * @param int $iterations Closure iteration count.
+     * @param MemberGraphCacheFileCollection                                 $filesToParseForContext files loaded to provide analysis context
+     * @param MemberGraphCacheFileCollection                                 $filesToRebuildGraph    files whose graph fragments must be rebuilt
+     * @param MemberGraphFragmentCollection                                  $fragmentsToReuse       cached fragments that remain reusable
+     * @param MemberDependencyGraphPartialRebuildClosureDiagnosticCollection $diagnostics            closure diagnostics
+     * @param int                                                            $iterations             closure iteration count
      */
     public function __construct(
         public MemberGraphCacheFileCollection $filesToParseForContext = new MemberGraphCacheFileCollection(),
@@ -35,9 +35,7 @@ final class MemberDependencyGraphPartialRebuildWorkingSet
     /**
      * Adds one context file.
      *
-     * @param string $filePath The physical file path.
-     *
-     * @return self
+     * @param string $filePath the physical file path
      */
     public function addFileToParseForContext(string $filePath): self
     {
@@ -49,9 +47,7 @@ final class MemberDependencyGraphPartialRebuildWorkingSet
     /**
      * Adds one graph rebuild file.
      *
-     * @param string $filePath The physical file path.
-     *
-     * @return self
+     * @param string $filePath the physical file path
      */
     public function addFileToRebuildGraph(string $filePath): self
     {
@@ -63,9 +59,7 @@ final class MemberDependencyGraphPartialRebuildWorkingSet
     /**
      * Replaces reusable fragments.
      *
-     * @param MemberGraphFragmentCollection $fragmentsToReuse Cached fragments that remain reusable.
-     *
-     * @return self
+     * @param MemberGraphFragmentCollection $fragmentsToReuse cached fragments that remain reusable
      */
     public function setFragmentsToReuse(MemberGraphFragmentCollection $fragmentsToReuse): self
     {
@@ -77,9 +71,7 @@ final class MemberDependencyGraphPartialRebuildWorkingSet
     /**
      * Adds one closure diagnostic.
      *
-     * @param MemberDependencyGraphPartialRebuildClosureDiagnostic $diagnostic The diagnostic to add.
-     *
-     * @return self
+     * @param MemberDependencyGraphPartialRebuildClosureDiagnostic $diagnostic the diagnostic to add
      */
     public function addDiagnostic(MemberDependencyGraphPartialRebuildClosureDiagnostic $diagnostic): self
     {
@@ -91,9 +83,7 @@ final class MemberDependencyGraphPartialRebuildWorkingSet
     /**
      * Sets the closure iteration count.
      *
-     * @param int $iterations The closure iteration count.
-     *
-     * @return self
+     * @param int $iterations the closure iteration count
      */
     public function setIterations(int $iterations): self
     {
@@ -104,8 +94,6 @@ final class MemberDependencyGraphPartialRebuildWorkingSet
 
     /**
      * Indicates whether closure diagnostics are present.
-     *
-     * @return bool
      */
     public function hasDiagnostics(): bool
     {
@@ -115,9 +103,7 @@ final class MemberDependencyGraphPartialRebuildWorkingSet
     /**
      * Indicates whether a file is loaded as analysis context.
      *
-     * @param string $filePath The physical file path.
-     *
-     * @return bool
+     * @param string $filePath the physical file path
      */
     public function hasFileToParseForContext(string $filePath): bool
     {
@@ -127,9 +113,7 @@ final class MemberDependencyGraphPartialRebuildWorkingSet
     /**
      * Indicates whether a file graph must be rebuilt.
      *
-     * @param string $filePath The physical file path.
-     *
-     * @return bool
+     * @param string $filePath the physical file path
      */
     public function hasFileToRebuildGraph(string $filePath): bool
     {

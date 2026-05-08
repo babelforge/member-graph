@@ -9,12 +9,12 @@ use PhpNoobs\MemberGraph\Domain\Index\Method\MethodReturnStructuredTypeIndex;
 use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
 
 /**
- * Class MethodStructuredTypeBuildResult
+ * Class MethodStructuredTypeBuildResult.
  */
 final readonly class MethodStructuredTypeBuildResult
 {
     public function __construct(
-        public MethodReturnStructuredTypeIndex    $returnTypeIndex,
+        public MethodReturnStructuredTypeIndex $returnTypeIndex,
         public MethodParameterStructuredTypeIndex $parameterTypeIndex,
     ) {
     }

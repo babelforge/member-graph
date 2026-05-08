@@ -4,16 +4,12 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Domain\Index\Template;
 
-use Countable;
-use IteratorAggregate;
-use Traversable;
-
 /**
  * Stores class template definitions indexed by owner FQCN.
  *
- * @implements IteratorAggregate<string, PhpDocTemplateDefinitionCollection>
+ * @implements \IteratorAggregate<string, PhpDocTemplateDefinitionCollection>
  */
-final class ClassTemplateDefinitionIndex implements Countable, IteratorAggregate
+final class ClassTemplateDefinitionIndex implements \Countable, \IteratorAggregate
 {
     /** @var array<string, PhpDocTemplateDefinitionCollection> */
     private array $items = [];
@@ -48,17 +44,11 @@ final class ClassTemplateDefinitionIndex implements Countable, IteratorAggregate
         return $this->items;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         yield from $this->items;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function count(): int
     {
         return count($this->items);

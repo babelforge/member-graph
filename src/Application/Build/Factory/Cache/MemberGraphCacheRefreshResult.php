@@ -15,8 +15,8 @@ final readonly class MemberGraphCacheRefreshResult
     /**
      * Constructor.
      *
-     * @param MemberGraphVirtualFileReferenceCollection $virtualFileReferences The refreshed virtual file references.
-     * @param MemberGraphCacheWriteResult $cacheWriteResult The cache write result.
+     * @param MemberGraphVirtualFileReferenceCollection $virtualFileReferences the refreshed virtual file references
+     * @param MemberGraphCacheWriteResult               $cacheWriteResult      the cache write result
      */
     public function __construct(
         public MemberGraphVirtualFileReferenceCollection $virtualFileReferences,

@@ -24,9 +24,7 @@ final readonly class PolymorphicImplementationsIndexBuilder
     /**
      * Builds the reverse index from the given known owners collection.
      *
-     * @param KnownOwnerCollection $knownOwners The known owners collection.
-     *
-     * @return PolymorphicImplementationsIndex
+     * @param KnownOwnerCollection $knownOwners the known owners collection
      */
     public function build(KnownOwnerCollection $knownOwners): PolymorphicImplementationsIndex
     {
@@ -60,8 +58,8 @@ final readonly class PolymorphicImplementationsIndexBuilder
     /**
      * Collects all abstract ancestors for one concrete class.
      *
-     * @param KnownOwnerCollection $knownOwners The known owners collection.
-     * @param KnownOwner $knownOwner The owner to inspect.
+     * @param KnownOwnerCollection $knownOwners the known owners collection
+     * @param KnownOwner           $knownOwner  the owner to inspect
      *
      * @return list<string>
      */
@@ -131,9 +129,9 @@ final readonly class PolymorphicImplementationsIndexBuilder
     /**
      * Collects all interfaces extended by one interface.
      *
-     * @param KnownOwnerCollection $knownOwners The known owners collection.
-     * @param string $interfaceFqcn The interface FQCN.
-     * @param array<string, true> $visited The already visited interfaces.
+     * @param KnownOwnerCollection $knownOwners   the known owners collection
+     * @param string               $interfaceFqcn the interface FQCN
+     * @param array<string, true>  $visited       the already visited interfaces
      *
      * @return list<string>
      */
@@ -169,9 +167,7 @@ final readonly class PolymorphicImplementationsIndexBuilder
     /**
      * Indicates whether the given owner represents an interface.
      *
-     * @param KnownOwner $knownOwner The owner to inspect.
-     *
-     * @return bool
+     * @param KnownOwner $knownOwner the owner to inspect
      */
     private function isInterface(KnownOwner $knownOwner): bool
     {
@@ -181,9 +177,7 @@ final readonly class PolymorphicImplementationsIndexBuilder
     /**
      * Indicates whether the given owner represents an abstract class.
      *
-     * @param KnownOwner $knownOwner The owner to inspect.
-     *
-     * @return bool
+     * @param KnownOwner $knownOwner the owner to inspect
      */
     private function isAbstract(KnownOwner $knownOwner): bool
     {

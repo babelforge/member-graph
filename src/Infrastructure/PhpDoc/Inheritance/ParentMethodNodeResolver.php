@@ -14,8 +14,8 @@ use PhpParser\Node\Stmt\ClassMethod;
 final readonly class ParentMethodNodeResolver
 {
     /**
-     * @param KnownOwnerCollection $knownOwners The known owners collection.
-     * @param MethodNodeIndex $methodNodeIndex The method node index.
+     * @param KnownOwnerCollection $knownOwners     the known owners collection
+     * @param MethodNodeIndex      $methodNodeIndex the method node index
      */
     public function __construct(
         private KnownOwnerCollection $knownOwners,
@@ -28,10 +28,8 @@ final readonly class ParentMethodNodeResolver
      *
      * Candidate owners are ordered from nearest parent to farthest parent.
      *
-     * @param string $owner The current owner FQCN.
-     * @param string $methodName The current method name.
-     *
-     * @return ClassMethod|null
+     * @param string $owner      the current owner FQCN
+     * @param string $methodName the current method name
      */
     public function resolveFirstParent(string $owner, string $methodName): ?ClassMethod
     {
@@ -43,8 +41,8 @@ final readonly class ParentMethodNodeResolver
     /**
      * Resolves all inherited parent method nodes, if any.
      *
-     * @param string $owner The current owner FQCN.
-     * @param string $methodName The current method name.
+     * @param string $owner      the current owner FQCN
+     * @param string $methodName the current method name
      *
      * @return array<int, ClassMethod>
      */
@@ -58,8 +56,8 @@ final readonly class ParentMethodNodeResolver
      *
      * The returned array is ordered from nearest parent to farthest parent.
      *
-     * @param string $owner The current owner FQCN.
-     * @param string $methodName The method name.
+     * @param string $owner      the current owner FQCN
+     * @param string $methodName the method name
      *
      * @return array<int, ClassMethod>
      */
@@ -86,8 +84,8 @@ final readonly class ParentMethodNodeResolver
      * trait methods. This preserves parent-class priority while allowing
      * interface and trait docs to fill gaps.
      *
-     * @param string $owner The current owner FQCN.
-     * @param array<string, true> $visitedOwners The owners already visited.
+     * @param string              $owner         the current owner FQCN
+     * @param array<string, true> $visitedOwners the owners already visited
      *
      * @return list<string>
      */
@@ -137,8 +135,8 @@ final readonly class ParentMethodNodeResolver
     /**
      * Resolves candidate owners from one interface and its extended interfaces.
      *
-     * @param string $interfaceOwner The interface FQCN.
-     * @param array<string, true> $visitedOwners The owners already visited.
+     * @param string              $interfaceOwner the interface FQCN
+     * @param array<string, true> $visitedOwners  the owners already visited
      *
      * @return list<string>
      */
@@ -171,8 +169,8 @@ final readonly class ParentMethodNodeResolver
     /**
      * Resolves candidate owners from one trait and its used traits.
      *
-     * @param string $traitOwner The trait FQCN.
-     * @param array<string, true> $visitedOwners The owners already visited.
+     * @param string              $traitOwner    the trait FQCN
+     * @param array<string, true> $visitedOwners the owners already visited
      *
      * @return list<string>
      */
@@ -209,8 +207,8 @@ final readonly class ParentMethodNodeResolver
      * callers may use `extendsInterfaces`. Supporting both keeps this resolver
      * compatible with the current graph data.
      *
-     * @param list<string> $interfaces The interface owners.
-     * @param list<string> $extendsInterfaces The extended interface owners.
+     * @param list<string> $interfaces        the interface owners
+     * @param list<string> $extendsInterfaces the extended interface owners
      *
      * @return list<string>
      */
@@ -222,7 +220,7 @@ final readonly class ParentMethodNodeResolver
     /**
      * Returns owners without duplicates while preserving their original order.
      *
-     * @param list<string> $owners The owners to filter.
+     * @param list<string> $owners the owners to filter
      *
      * @return list<string>
      */
@@ -246,9 +244,7 @@ final readonly class ParentMethodNodeResolver
     /**
      * Resolves the direct parent owner for one owner.
      *
-     * @param string $owner The current owner FQCN.
-     *
-     * @return string|null
+     * @param string $owner the current owner FQCN
      */
     private function resolveParentOwner(string $owner): ?string
     {

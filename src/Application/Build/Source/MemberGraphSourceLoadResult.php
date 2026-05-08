@@ -15,12 +15,12 @@ final readonly class MemberGraphSourceLoadResult
     /**
      * Constructor.
      *
-     * @param VirtualPhpSourceFileCollection $virtualFiles The loaded virtual files.
-     * @param KnownOwnerCollection $knownOwners The known owners discovered while loading sources.
+     * @param VirtualPhpSourceFileCollection $virtualFiles the loaded virtual files
+     * @param KnownOwnerCollection           $knownOwners  the known owners discovered while loading sources
      */
     public function __construct(
         public VirtualPhpSourceFileCollection $virtualFiles,
-        public KnownOwnerCollection           $knownOwners,
+        public KnownOwnerCollection $knownOwners,
     ) {
     }
 }

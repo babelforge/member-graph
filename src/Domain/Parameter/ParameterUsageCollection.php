@@ -4,16 +4,12 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Domain\Parameter;
 
-use Countable;
-use IteratorAggregate;
-use Traversable;
-
 /**
  * Stores parameter usages indexed by parameter target.
  *
- * @implements IteratorAggregate<string, list<ParameterUsage>>
+ * @implements \IteratorAggregate<string, list<ParameterUsage>>
  */
-final class ParameterUsageCollection implements Countable, IteratorAggregate
+final class ParameterUsageCollection implements \Countable, \IteratorAggregate
 {
     /**
      * @var array<string, list<ParameterUsage>>
@@ -22,10 +18,6 @@ final class ParameterUsageCollection implements Countable, IteratorAggregate
 
     /**
      * Adds one usage to the collection.
-     *
-     * @param ParameterUsage $usage
-     *
-     * @return void
      */
     public function add(ParameterUsage $usage): void
     {
@@ -45,8 +37,6 @@ final class ParameterUsageCollection implements Countable, IteratorAggregate
     /**
      * Returns usages indexed for one parameter identifier.
      *
-     * @param ParameterId $parameterId
-     *
      * @return list<ParameterUsage>
      */
     public function getByTarget(ParameterId $parameterId): array
@@ -57,9 +47,9 @@ final class ParameterUsageCollection implements Countable, IteratorAggregate
     /**
      * Returns an iterator over parameter usages grouped by target parameter hash.
      *
-     * @return Traversable<string, list<ParameterUsage>>
+     * @return \Traversable<string, list<ParameterUsage>>
      */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         foreach ($this->byTarget as $target => $usages) {
             yield $target => array_values($usages);
@@ -68,8 +58,6 @@ final class ParameterUsageCollection implements Countable, IteratorAggregate
 
     /**
      * Counts all parameter usages.
-     *
-     * @return int
      */
     public function count(): int
     {

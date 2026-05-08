@@ -28,21 +28,19 @@ final readonly class MemberDependencyGraphFactory
     /**
      * Builds a member dependency graph from directories.
      *
-     * @param list<string> $directories Base directories to scan.
-     * @param string $cacheFilePath Cache file path.
-     * @param list<string> $excludedDirectories Directories to exclude.
-     * @param bool $clearCache Whether the cache must be cleared first.
-     * @param MemberGraphIssueCollection|null $dependencyGraphIssues The optional dependency graph issue collection.
-     * @param MemberDependencyGraphFactoryOptions|null $options The optional factory behavior flags.
-     *
-     * @return MemberDependencyGraphBuild
+     * @param list<string>                             $directories           base directories to scan
+     * @param string                                   $cacheFilePath         cache file path
+     * @param list<string>                             $excludedDirectories   directories to exclude
+     * @param bool                                     $clearCache            whether the cache must be cleared first
+     * @param MemberGraphIssueCollection|null          $dependencyGraphIssues the optional dependency graph issue collection
+     * @param MemberDependencyGraphFactoryOptions|null $options               the optional factory behavior flags
      */
     public static function fromDirectory(
-        array                                $directories,
-        string                               $cacheFilePath,
-        array                                $excludedDirectories = [],
-        bool                                 $clearCache = false,
-        ?MemberGraphIssueCollection          $dependencyGraphIssues = null,
+        array $directories,
+        string $cacheFilePath,
+        array $excludedDirectories = [],
+        bool $clearCache = false,
+        ?MemberGraphIssueCollection $dependencyGraphIssues = null,
         ?MemberDependencyGraphFactoryOptions $options = null,
     ): MemberDependencyGraphBuild {
         $fileRegistry = new MemberGraphPhpSourceRegistryInstance();
@@ -66,17 +64,15 @@ final readonly class MemberDependencyGraphFactory
     /**
      * Builds a member dependency graph from files and a cache instance.
      *
-     * @param list<string> $files Files to parse.
-     * @param MemberGraphCache $cache Cache instance.
-     * @param MemberDependencyGraphFactoryOptions $options The factory behavior flags.
-     *
-     * @return MemberDependencyGraphBuild
+     * @param list<string>                        $files   files to parse
+     * @param MemberGraphCache                    $cache   cache instance
+     * @param MemberDependencyGraphFactoryOptions $options the factory behavior flags
      */
     private static function fromFiles(
         MemberGraphPhpSourceRegistryInstance $fileRegistry,
-        array                                $files,
-        MemberGraphCache                     $cache,
-        MemberDependencyGraphFactoryOptions  $options,
+        array $files,
+        MemberGraphCache $cache,
+        MemberDependencyGraphFactoryOptions $options,
     ): MemberDependencyGraphBuild {
         $dependencyGraphIssues = $cache->dependencyGraphIssues ?? new MemberGraphIssueCollection();
         $cachePlan = $cache->planForFiles($files);
@@ -129,16 +125,14 @@ final readonly class MemberDependencyGraphFactory
     /**
      * Prepares partial rebuild input when cached declaration data is available.
      *
-     * @param MemberGraphPhpSourceRegistryInstance $fileRegistry The file registry.
-     * @param MemberDependencyGraphPartialRebuildInput|null $partialRebuildInput The prepared partial rebuild input.
-     * @param MemberGraphCache $cache The member graph cache.
-     *
-     * @return MemberDependencyGraphPartialRebuildPreparedInput|null
+     * @param MemberGraphPhpSourceRegistryInstance          $fileRegistry        the file registry
+     * @param MemberDependencyGraphPartialRebuildInput|null $partialRebuildInput the prepared partial rebuild input
+     * @param MemberGraphCache                              $cache               the member graph cache
      */
     private static function preparePartialRebuildInput(
-        MemberGraphPhpSourceRegistryInstance      $fileRegistry,
+        MemberGraphPhpSourceRegistryInstance $fileRegistry,
         ?MemberDependencyGraphPartialRebuildInput $partialRebuildInput,
-        MemberGraphCache                          $cache,
+        MemberGraphCache $cache,
     ): ?MemberDependencyGraphPartialRebuildPreparedInput {
         $cachedDeclarationSnapshot = $cache->declarationSnapshot();
 
@@ -157,9 +151,7 @@ final readonly class MemberDependencyGraphFactory
     /**
      * Resolves the dry-run partial rebuild working set when partial rebuild inputs are available.
      *
-     * @param MemberDependencyGraphPartialRebuildPreparedInput|null $preparedInput The prepared partial rebuild input.
-     *
-     * @return MemberDependencyGraphPartialRebuildWorkingSet|null
+     * @param MemberDependencyGraphPartialRebuildPreparedInput|null $preparedInput the prepared partial rebuild input
      */
     private static function resolvePartialRebuildWorkingSet(
         ?MemberDependencyGraphPartialRebuildPreparedInput $preparedInput,

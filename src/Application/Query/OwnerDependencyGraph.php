@@ -32,9 +32,7 @@ final class OwnerDependencyGraph
     /**
      * Creates an owner dependency graph from an owner dependency collection.
      *
-     * @param OwnerDependencyCollection $dependencies The dependencies to index.
-     *
-     * @return self
+     * @param OwnerDependencyCollection $dependencies the dependencies to index
      */
     public static function fromDependencies(OwnerDependencyCollection $dependencies): self
     {
@@ -50,9 +48,7 @@ final class OwnerDependencyGraph
     /**
      * Adds one dependency to the graph.
      *
-     * @param OwnerDependency $dependency The dependency to add.
-     *
-     * @return void
+     * @param OwnerDependency $dependency the dependency to add
      */
     public function add(OwnerDependency $dependency): void
     {
@@ -71,8 +67,6 @@ final class OwnerDependencyGraph
 
     /**
      * Returns all owner nodes found in the graph.
-     *
-     * @return OwnerDependencyNodeCollection
      */
     public function nodes(): OwnerDependencyNodeCollection
     {
@@ -88,9 +82,7 @@ final class OwnerDependencyGraph
     /**
      * Returns direct outgoing dependencies for one owner.
      *
-     * @param string $owner The source owner FQCN.
-     *
-     * @return OwnerDependencyCollection
+     * @param string $owner the source owner FQCN
      */
     public function outgoing(string $owner): OwnerDependencyCollection
     {
@@ -100,9 +92,7 @@ final class OwnerDependencyGraph
     /**
      * Returns direct incoming dependencies for one owner.
      *
-     * @param string $owner The target owner FQCN.
-     *
-     * @return OwnerDependencyCollection
+     * @param string $owner the target owner FQCN
      */
     public function incoming(string $owner): OwnerDependencyCollection
     {
@@ -112,9 +102,7 @@ final class OwnerDependencyGraph
     /**
      * Returns transitive outgoing dependencies reachable from one owner.
      *
-     * @param string $owner The source owner FQCN.
-     *
-     * @return OwnerDependencyCollection
+     * @param string $owner the source owner FQCN
      */
     public function transitiveOutgoing(string $owner): OwnerDependencyCollection
     {
@@ -129,9 +117,7 @@ final class OwnerDependencyGraph
     /**
      * Returns transitive incoming dependencies reaching one owner.
      *
-     * @param string $owner The target owner FQCN.
-     *
-     * @return OwnerDependencyCollection
+     * @param string $owner the target owner FQCN
      */
     public function transitiveIncoming(string $owner): OwnerDependencyCollection
     {
@@ -146,11 +132,9 @@ final class OwnerDependencyGraph
     /**
      * Recursively collects outgoing dependencies while preventing owner cycles.
      *
-     * @param string $owner The owner currently being explored.
-     * @param array<string, true> $visitedOwners The already visited owners.
-     * @param OwnerDependencyCollection $dependencies The dependency accumulator.
-     *
-     * @return void
+     * @param string                    $owner         the owner currently being explored
+     * @param array<string, true>       $visitedOwners the already visited owners
+     * @param OwnerDependencyCollection $dependencies  the dependency accumulator
      */
     private function collectTransitiveOutgoing(
         string $owner,
@@ -172,11 +156,9 @@ final class OwnerDependencyGraph
     /**
      * Recursively collects incoming dependencies while preventing owner cycles.
      *
-     * @param string $owner The owner currently being explored.
-     * @param array<string, true> $visitedOwners The already visited owners.
-     * @param OwnerDependencyCollection $dependencies The dependency accumulator.
-     *
-     * @return void
+     * @param string                    $owner         the owner currently being explored
+     * @param array<string, true>       $visitedOwners the already visited owners
+     * @param OwnerDependencyCollection $dependencies  the dependency accumulator
      */
     private function collectTransitiveIncoming(
         string $owner,
@@ -198,9 +180,7 @@ final class OwnerDependencyGraph
     /**
      * Returns the outgoing collection for one owner, creating it when needed.
      *
-     * @param string $owner The owner FQCN.
-     *
-     * @return OwnerDependencyCollection
+     * @param string $owner the owner FQCN
      */
     private function outgoingCollectionFor(string $owner): OwnerDependencyCollection
     {
@@ -210,9 +190,7 @@ final class OwnerDependencyGraph
     /**
      * Returns the incoming collection for one owner, creating it when needed.
      *
-     * @param string $owner The owner FQCN.
-     *
-     * @return OwnerDependencyCollection
+     * @param string $owner the owner FQCN
      */
     private function incomingCollectionFor(string $owner): OwnerDependencyCollection
     {
@@ -222,9 +200,7 @@ final class OwnerDependencyGraph
     /**
      * Copies dependencies into a detached collection.
      *
-     * @param OwnerDependencyCollection $dependencies The dependencies to copy.
-     *
-     * @return OwnerDependencyCollection
+     * @param OwnerDependencyCollection $dependencies the dependencies to copy
      */
     private function copyDependencies(OwnerDependencyCollection $dependencies): OwnerDependencyCollection
     {

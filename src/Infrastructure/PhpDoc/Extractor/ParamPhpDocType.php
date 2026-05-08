@@ -15,8 +15,8 @@ final readonly class ParamPhpDocType
     /**
      * Constructor.
      *
-     * @param SymbolCollection $types The resolved value-usage symbols.
-     * @param ResolvedPhpDocType $structuredType The resolved structured PHPDoc type.
+     * @param SymbolCollection   $types          the resolved value-usage symbols
+     * @param ResolvedPhpDocType $structuredType the resolved structured PHPDoc type
      */
     public function __construct(
         public SymbolCollection $types,

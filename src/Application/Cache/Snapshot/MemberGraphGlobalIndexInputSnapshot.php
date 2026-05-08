@@ -15,9 +15,9 @@ final readonly class MemberGraphGlobalIndexInputSnapshot
     /**
      * Constructor.
      *
-     * @param MemberGraphVirtualSourceMetadataCollection $sources The virtual source metadata entries.
-     * @param int $schemaVersion The snapshot schema version.
-     * @param string $builderVersion The snapshot builder version.
+     * @param MemberGraphVirtualSourceMetadataCollection $sources        the virtual source metadata entries
+     * @param int                                        $schemaVersion  the snapshot schema version
+     * @param string                                     $builderVersion the snapshot builder version
      */
     public function __construct(
         public MemberGraphVirtualSourceMetadataCollection $sources = new MemberGraphVirtualSourceMetadataCollection(),
@@ -28,8 +28,6 @@ final readonly class MemberGraphGlobalIndexInputSnapshot
 
     /**
      * Indicates whether this snapshot matches the current snapshot format and builder algorithm.
-     *
-     * @return bool
      */
     public function isCompatible(): bool
     {

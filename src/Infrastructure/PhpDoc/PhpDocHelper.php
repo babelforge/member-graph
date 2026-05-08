@@ -8,13 +8,13 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 
 /**
- * Class PhpDocHelper
+ * Class PhpDocHelper.
  */
 final class PhpDocHelper
 {
     public static function hasTag(PhpDocNode $docNode, string $tag): bool
     {
-        return $docNode->getTagsByName($tag) !== [];
+        return [] !== $docNode->getTagsByName($tag);
     }
 
     public static function hasValidReturn(PhpDocNode $docNode): bool
@@ -28,7 +28,6 @@ final class PhpDocHelper
     }
 
     /**
-     * @param PhpDocNode $docNode
      * @return PhpDocTagNode[]
      */
     public static function getReturnTag(PhpDocNode $docNode): array
@@ -37,7 +36,6 @@ final class PhpDocHelper
     }
 
     /**
-     * @param PhpDocNode $docNode
      * @return PhpDocTagNode[]
      */
     public static function getParamTags(PhpDocNode $docNode): array

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Tests\Integration;
 
-use JsonException;
 use PhpNoobs\MemberGraph\Application\Build\Factory\MemberDependencyGraphFactory;
 use PhpNoobs\MemberGraph\Application\Topology\Api\MemberGraphTopologyApi;
 use PhpNoobs\MemberGraph\Application\Topology\Export\MemberGraphTopologyArrayExporter;
@@ -23,19 +22,15 @@ final class MemberGraphTopologyIntegrationTest extends TestCase
 
     /**
      * Creates a temporary integration workspace.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
-        $this->workspace = sys_get_temp_dir() . '/member-graph-topology-integration-' . bin2hex(random_bytes(6));
-        mkdir($this->workspace, 0777, true);
+        $this->workspace = sys_get_temp_dir().'/member-graph-topology-integration-'.bin2hex(random_bytes(6));
+        mkdir($this->workspace, 0o777, true);
     }
 
     /**
      * Removes the temporary integration workspace.
-     *
-     * @return void
      */
     protected function tearDown(): void
     {
@@ -45,18 +40,16 @@ final class MemberGraphTopologyIntegrationTest extends TestCase
     /**
      * Ensures topology can be built, filtered, and exported from a factory result.
      *
-     * @return void
-     *
-     * @throws JsonException
+     * @throws \JsonException
      */
     public function testFactoryResultCanBeProjectedToFilteredTopologyExports(): void
     {
-        $srcDirectory = $this->workspace . '/src';
-        $cacheFilePath = $this->workspace . '/member-graph.cache';
-        $aFilePath = $srcDirectory . '/A.php';
-        $bFilePath = $srcDirectory . '/B.php';
+        $srcDirectory = $this->workspace.'/src';
+        $cacheFilePath = $this->workspace.'/member-graph.cache';
+        $aFilePath = $srcDirectory.'/A.php';
+        $bFilePath = $srcDirectory.'/B.php';
 
-        mkdir($srcDirectory, 0777, true);
+        mkdir($srcDirectory, 0o777, true);
         $this->writeAFile($aFilePath);
         $this->writeBFile($bFilePath);
 
@@ -92,58 +85,52 @@ final class MemberGraphTopologyIntegrationTest extends TestCase
     /**
      * Writes class A with a static call to class B.
      *
-     * @param string $filePath The file path.
-     *
-     * @return void
+     * @param string $filePath the file path
      */
     private function writeAFile(string $filePath): void
     {
         file_put_contents($filePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class A
-{
-    public function run(): void
-    {
-        B::send();
-    }
-}
-PHP);
+            final class A
+            {
+                public function run(): void
+                {
+                    B::send();
+                }
+            }
+            PHP);
     }
 
     /**
      * Writes class B with a static method.
      *
-     * @param string $filePath The file path.
-     *
-     * @return void
+     * @param string $filePath the file path
      */
     private function writeBFile(string $filePath): void
     {
         file_put_contents($filePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class B
-{
-    public static function send(): void
-    {
-    }
-}
-PHP);
+            final class B
+            {
+                public static function send(): void
+                {
+                }
+            }
+            PHP);
     }
 
     /**
      * Indicates whether exported nodes contain the expected node.
      *
-     * @param mixed $nodes The exported nodes.
-     * @param string $id The expected node id.
-     * @param string $kind The expected node kind.
-     *
-     * @return bool
+     * @param mixed  $nodes the exported nodes
+     * @param string $id    the expected node id
+     * @param string $kind  the expected node kind
      */
     private function hasNode(mixed $nodes, string $id, string $kind): bool
     {
@@ -163,10 +150,8 @@ PHP);
     /**
      * Indicates whether exported edges contain the expected member dependency usage type.
      *
-     * @param mixed $edges The exported edges.
-     * @param string $usageType The expected usage type.
-     *
-     * @return bool
+     * @param mixed  $edges     the exported edges
+     * @param string $usageType the expected usage type
      */
     private function hasDependencyEdge(mixed $edges, string $usageType): bool
     {
@@ -190,9 +175,7 @@ PHP);
     /**
      * Removes a directory recursively.
      *
-     * @param string $directory The directory to remove.
-     *
-     * @return void
+     * @param string $directory the directory to remove
      */
     private function removeDirectory(string $directory): void
     {
@@ -211,7 +194,7 @@ PHP);
                 continue;
             }
 
-            $path = $directory . DIRECTORY_SEPARATOR . $item;
+            $path = $directory.DIRECTORY_SEPARATOR.$item;
 
             if (is_dir($path)) {
                 $this->removeDirectory($path);

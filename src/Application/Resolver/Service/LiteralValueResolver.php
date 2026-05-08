@@ -21,9 +21,9 @@ final readonly class LiteralValueResolver implements LiteralArrayKeyResolverInte
     /**
      * Constructor.
      *
-     * @param StaticOwnerResolver $staticOwnerResolver The static owner resolver.
-     * @param ClassConstantOwnerResolver $classConstantOwnerResolver The class constant owner resolver.
-     * @param ClassConstantValueIndex $classConstantValueIndex The scalar class constant value index.
+     * @param StaticOwnerResolver        $staticOwnerResolver        the static owner resolver
+     * @param ClassConstantOwnerResolver $classConstantOwnerResolver the class constant owner resolver
+     * @param ClassConstantValueIndex    $classConstantValueIndex    the scalar class constant value index
      */
     public function __construct(
         private StaticOwnerResolver $staticOwnerResolver,
@@ -35,10 +35,8 @@ final readonly class LiteralValueResolver implements LiteralArrayKeyResolverInte
     /**
      * Resolves one literal array key for structured array-shape access.
      *
-     * @param Expr|null $dimension The dimension expression.
-     * @param string $currentClass The current class-like owner.
-     *
-     * @return int|string|null
+     * @param Expr|null $dimension    the dimension expression
+     * @param string    $currentClass the current class-like owner
      */
     public function resolveLiteralArrayKeyForArrayShapeAccess(?Expr $dimension, string $currentClass): int|string|null
     {
@@ -68,11 +66,9 @@ final readonly class LiteralValueResolver implements LiteralArrayKeyResolverInte
     /**
      * Resolves a simple scalar class constant value.
      *
-     * @param Name $class The class name node.
-     * @param string $constantName The class constant name.
-     * @param string $currentClass The current class-like owner.
-     *
-     * @return int|string|null
+     * @param Name   $class        the class name node
+     * @param string $constantName the class constant name
+     * @param string $currentClass the current class-like owner
      */
     private function resolveClassConstantScalarValue(Name $class, string $constantName, string $currentClass): int|string|null
     {

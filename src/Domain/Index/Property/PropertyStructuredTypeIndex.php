@@ -7,7 +7,7 @@ namespace PhpNoobs\MemberGraph\Domain\Index\Property;
 use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
 
 /**
- * Class PropertyStructuredReturnTypeIndex
+ * Class PropertyStructuredReturnTypeIndex.
  */
 final class PropertyStructuredTypeIndex
 {
@@ -31,9 +31,7 @@ final class PropertyStructuredTypeIndex
     /**
      * Merges another structured property type index into this index.
      *
-     * @param self $other The other index to merge.
-     *
-     * @return self
+     * @param self $other the other index to merge
      */
     public function merge(self $other): self
     {
@@ -46,6 +44,6 @@ final class PropertyStructuredTypeIndex
 
     private function key(string $owner, string $propertyName): string
     {
-        return $owner . '::$' . $propertyName;
+        return $owner.'::$'.$propertyName;
     }
 }

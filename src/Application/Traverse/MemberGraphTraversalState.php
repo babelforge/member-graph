@@ -46,8 +46,8 @@ final class MemberGraphTraversalState
     /**
      * Constructor.
      *
-     * @param string $fullFilePath The full file path.
-     * @param string $virtualFilePath The virtual file path.
+     * @param string $fullFilePath    the full file path
+     * @param string $virtualFilePath the virtual file path
      */
     public function __construct(string $fullFilePath, string $virtualFilePath)
     {
@@ -58,8 +58,6 @@ final class MemberGraphTraversalState
 
     /**
      * Returns the type index context synchronized with the traversal state.
-     *
-     * @return TypeIndexContext
      */
     public function context(): TypeIndexContext
     {
@@ -69,9 +67,7 @@ final class MemberGraphTraversalState
     /**
      * Enters one namespace.
      *
-     * @param string $namespace The namespace name.
-     *
-     * @return void
+     * @param string $namespace the namespace name
      */
     public function enterNamespace(string $namespace): void
     {
@@ -81,9 +77,7 @@ final class MemberGraphTraversalState
     /**
      * Enters one class-like owner.
      *
-     * @param string $owner The current owner FQCN.
-     *
-     * @return void
+     * @param string $owner the current owner FQCN
      */
     public function enterClassLike(string $owner): void
     {
@@ -96,8 +90,6 @@ final class MemberGraphTraversalState
 
     /**
      * Leaves the current class-like owner.
-     *
-     * @return void
      */
     public function leaveClassLike(): void
     {
@@ -108,9 +100,7 @@ final class MemberGraphTraversalState
     /**
      * Enters one class method.
      *
-     * @param ClassMethod $method The class method node.
-     *
-     * @return void
+     * @param ClassMethod $method the class method node
      */
     public function enterMethod(ClassMethod $method): void
     {
@@ -122,8 +112,6 @@ final class MemberGraphTraversalState
 
     /**
      * Leaves the current class method.
-     *
-     * @return void
      */
     public function leaveMethod(): void
     {
@@ -135,10 +123,8 @@ final class MemberGraphTraversalState
     /**
      * Enters one function.
      *
-     * @param Function_ $function The function node.
-     * @param string $functionName The resolved function name.
-     *
-     * @return void
+     * @param Function_ $function     the function node
+     * @param string    $functionName the resolved function name
      */
     public function enterFunction(Function_ $function, string $functionName): void
     {
@@ -150,8 +136,6 @@ final class MemberGraphTraversalState
 
     /**
      * Leaves the current function.
-     *
-     * @return void
      */
     public function leaveFunction(): void
     {
@@ -162,8 +146,6 @@ final class MemberGraphTraversalState
 
     /**
      * Pushes the current local variable scope before entering a closure-like node.
-     *
-     * @return void
      */
     public function pushClosureVariableScope(): void
     {
@@ -172,8 +154,6 @@ final class MemberGraphTraversalState
 
     /**
      * Restores the previous local variable scope after leaving a closure-like node.
-     *
-     * @return void
      */
     public function popClosureVariableScope(): void
     {
@@ -183,9 +163,7 @@ final class MemberGraphTraversalState
     /**
      * Pushes the current template definitions.
      *
-     * @param PhpDocTemplateDefinitionCollection $definitions The template definitions.
-     *
-     * @return void
+     * @param PhpDocTemplateDefinitionCollection $definitions the template definitions
      */
     public function pushTemplateDefinitions(PhpDocTemplateDefinitionCollection $definitions): void
     {
@@ -194,8 +172,6 @@ final class MemberGraphTraversalState
 
     /**
      * Pops the current template definitions.
-     *
-     * @return void
      */
     public function popTemplateDefinitions(): void
     {
@@ -204,8 +180,6 @@ final class MemberGraphTraversalState
 
     /**
      * Returns the current template definitions.
-     *
-     * @return PhpDocTemplateDefinitionCollection
      */
     public function currentTemplateDefinitions(): PhpDocTemplateDefinitionCollection
     {
@@ -229,9 +203,7 @@ final class MemberGraphTraversalState
     /**
      * Returns the type information for one local variable.
      *
-     * @param string $variableName The variable name without "$".
-     *
-     * @return VariableTypeInfo|null
+     * @param string $variableName the variable name without "$"
      */
     public function variableType(string $variableName): ?VariableTypeInfo
     {
@@ -241,10 +213,8 @@ final class MemberGraphTraversalState
     /**
      * Stores the type information for one local variable.
      *
-     * @param string $variableName The variable name without "$".
-     * @param VariableTypeInfo $typeInfo The variable type information.
-     *
-     * @return void
+     * @param string           $variableName the variable name without "$"
+     * @param VariableTypeInfo $typeInfo     the variable type information
      */
     public function setVariableType(string $variableName, VariableTypeInfo $typeInfo): void
     {
@@ -254,9 +224,7 @@ final class MemberGraphTraversalState
     /**
      * Returns whether one variable already has non-empty type information.
      *
-     * @param string $variableName The variable name without "$".
-     *
-     * @return bool
+     * @param string $variableName the variable name without "$"
      */
     public function hasNonEmptyVariableTypes(string $variableName): bool
     {
@@ -266,9 +234,7 @@ final class MemberGraphTraversalState
     /**
      * Removes one assignment-based variable type when it can safely be forgotten.
      *
-     * @param string $variableName The variable name without "$".
-     *
-     * @return void
+     * @param string $variableName the variable name without "$"
      */
     public function forgetAssignmentVariableType(string $variableName): void
     {
@@ -285,8 +251,6 @@ final class MemberGraphTraversalState
 
     /**
      * Returns the current class-like owner.
-     *
-     * @return string
      */
     public function currentClass(): string
     {
@@ -295,8 +259,6 @@ final class MemberGraphTraversalState
 
     /**
      * Returns the current method name.
-     *
-     * @return string
      */
     public function currentMethod(): string
     {
@@ -305,8 +267,6 @@ final class MemberGraphTraversalState
 
     /**
      * Returns the current function name.
-     *
-     * @return string
      */
     public function currentFunction(): string
     {
@@ -315,8 +275,6 @@ final class MemberGraphTraversalState
 
     /**
      * Returns the current virtual file path.
-     *
-     * @return string
      */
     public function virtualFilePath(): string
     {
@@ -325,8 +283,6 @@ final class MemberGraphTraversalState
 
     /**
      * Returns the current method node.
-     *
-     * @return ClassMethod|null
      */
     public function currentMethodNode(): ?ClassMethod
     {
@@ -335,8 +291,6 @@ final class MemberGraphTraversalState
 
     /**
      * Returns the current function node.
-     *
-     * @return Function_|null
      */
     public function currentFunctionNode(): ?Function_
     {
@@ -345,18 +299,14 @@ final class MemberGraphTraversalState
 
     /**
      * Builds the current source symbol.
-     *
-     * @return string
      */
     public function sourceSymbol(): string
     {
-        return $this->currentClass . '::' . $this->currentMethod;
+        return $this->currentClass.'::'.$this->currentMethod;
     }
 
     /**
      * Returns the namespace inferred from the current class-like owner.
-     *
-     * @return string
      */
     public function currentNamespace(): string
     {

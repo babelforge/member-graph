@@ -4,19 +4,6 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Tests\Integration\Stability;
 
-use PhpNoobs\MemberGraph\Application\Validator\PhpDoc\PhpDocResolutionIssue;
-use PhpNoobs\MemberGraph\Application\Validator\PhpDoc\PhpDocResolutionIssueType;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberOriginType;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberType;
-use PhpNoobs\MemberGraph\Domain\Index\Template\PhpDocTemplateDefinitionCollection;
-use PhpNoobs\MemberGraph\Domain\Type\TypeIndexContext;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Parser\PhpDocParserFactory;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\PhpDocTagKind;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\PhpDocTypeNodeResolver;
-use PhpNoobs\MemberGraph\Infrastructure\UseStatements\UsesByAliasCollection;
-use PhpParser\Modifiers;
-use PHPStan\PhpDocParser\Parser\TokenIterator;
-
 /**
  * Covers migrated legacy member graph stability fixtures.
  */
@@ -24,31 +11,29 @@ final class MemberGraphArrayShapeAccessTest extends AbstractMemberGraphStability
 {
     /**
      * Ensures legacy fixture 65 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testArrayShapeKeyAccessResolvesCorrectOwner(): void
     {
         $sources = [
             'TestCase65.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase65;
+                namespace TestCase65;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class TestClass {
-    public function run(): void {
-        /** @var array{foo: Mailer} $x */
-        $x = [];
+                class TestClass {
+                    public function run(): void {
+                        /** @var array{foo: Mailer} $x */
+                        $x = [];
 
-        $x['foo']->send();
-    }
-}
+                        $x['foo']->send();
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -71,30 +56,28 @@ PHP,
 
     /**
      * Ensures legacy fixture 66 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testArrayShapeUnknownKeyDoesNotResolveAnyType(): void
     {
         $sources = [
             'TestCase66.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase66;
+                namespace TestCase66;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class TestClass {
-    public function run(): void {
-        /** @var array{foo: Mailer} $x */
-        $x = [];
+                class TestClass {
+                    public function run(): void {
+                        /** @var array{foo: Mailer} $x */
+                        $x = [];
 
-        $x['bar']->send();
-    }
-}
-PHP,
+                        $x['bar']->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -117,35 +100,33 @@ PHP,
 
     /**
      * Ensures legacy fixture 67 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testArrayShapeDynamicKeyResolvesAllPossibleValueTypes(): void
     {
         $sources = [
             'TestCase67.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase67;
+                namespace TestCase67;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Logger {
-    public function send(): void {}
-}
+                class Logger {
+                    public function send(): void {}
+                }
 
-class TestClass {
-    public function run(string $key): void {
-        /** @var array{foo: Mailer, bar: Logger} $x */
-        $x = [];
+                class TestClass {
+                    public function run(string $key): void {
+                        /** @var array{foo: Mailer, bar: Logger} $x */
+                        $x = [];
 
-        $x[$key]->send();
-    }
-}
+                        $x[$key]->send();
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -171,31 +152,29 @@ PHP,
 
     /**
      * Ensures legacy fixture 68 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testNestedArrayShapeKeyAccessResolvesCorrectOwner(): void
     {
         $sources = [
             'TestCase68.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase68;
+                namespace TestCase68;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class TestClass {
-    public function run(): void {
-        /** @var array{config: array{mailer: Mailer}} $x */
-        $x = [];
+                class TestClass {
+                    public function run(): void {
+                        /** @var array{config: array{mailer: Mailer}} $x */
+                        $x = [];
 
-        $x['config']['mailer']->send();
-    }
-}
+                        $x['config']['mailer']->send();
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -218,31 +197,29 @@ PHP,
 
     /**
      * Ensures legacy fixture 69 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testArrayShapeNullableFieldResolvesUnderlyingType(): void
     {
         $sources = [
             'TestCase69.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase69;
+                namespace TestCase69;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class TestClass {
-    public function run(): void {
-        /** @var array{foo: ?Mailer} $x */
-        $x = [];
+                class TestClass {
+                    public function run(): void {
+                        /** @var array{foo: ?Mailer} $x */
+                        $x = [];
 
-        $x['foo']->send();
-    }
-}
+                        $x['foo']->send();
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -265,35 +242,33 @@ PHP,
 
     /**
      * Ensures legacy fixture 70 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testArrayShapeUnionFieldResolvesAllPossibleOwners(): void
     {
         $sources = [
             'TestCase70.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase70;
+                namespace TestCase70;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Logger {
-    public function send(): void {}
-}
+                class Logger {
+                    public function send(): void {}
+                }
 
-class TestClass {
-    public function run(): void {
-        /** @var array{service: Mailer|Logger} $x */
-        $x = [];
+                class TestClass {
+                    public function run(): void {
+                        /** @var array{service: Mailer|Logger} $x */
+                        $x = [];
 
-        $x['service']->send();
-    }
-}
+                        $x['service']->send();
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -319,31 +294,29 @@ PHP,
 
     /**
      * Ensures legacy fixture 71 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testArrayShapeNumericKeyAccessResolvesCorrectOwner(): void
     {
         $sources = [
             'TestCase71.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase71;
+                namespace TestCase71;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class TestClass {
-    public function run(): void {
-        /** @var array{0: Mailer} $x */
-        $x = [];
+                class TestClass {
+                    public function run(): void {
+                        /** @var array{0: Mailer} $x */
+                        $x = [];
 
-        $x[0]->send();
-    }
-}
+                        $x[0]->send();
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -366,31 +339,29 @@ PHP,
 
     /**
      * Ensures legacy fixture 72 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testEmptyArrayShapeAccessDoesNotResolveAnyType(): void
     {
         $sources = [
             'TestCase72.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase72;
+                namespace TestCase72;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class TestClass {
-    public function run(): void {
-        /** @var array{} $x */
-        $x = [];
+                class TestClass {
+                    public function run(): void {
+                        /** @var array{} $x */
+                        $x = [];
 
-        $x['foo']->send();
-    }
-}
+                        $x['foo']->send();
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -413,38 +384,36 @@ PHP,
 
     /**
      * Ensures legacy fixture 148 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testShapePhpDocRefinesNativeArrayOnChainedMethodCall(): void
     {
         $sources = [
             'TestCase148.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase148;
+                namespace TestCase148;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Factory {
-    /**
-     * @return array{a: Mailer}
-     */
-    public function make(): array {
-        return ['a' => new Mailer()];
-    }
-}
+                class Factory {
+                    /**
+                     * @return array{a: Mailer}
+                     */
+                    public function make(): array {
+                        return ['a' => new Mailer()];
+                    }
+                }
 
-class TestClass {
-    public function run(): void {
-        $factory = new Factory();
-        $items = $factory->make();
-        $items['a']->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): void {
+                        $factory = new Factory();
+                        $items = $factory->make();
+                        $items['a']->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -454,36 +423,34 @@ PHP,
 
     /**
      * Ensures legacy fixture 149 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testShapePhpDocRefinesNativeArrayOnDirectChainedCall(): void
     {
         $sources = [
             'TestCase149.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase149;
+                namespace TestCase149;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Factory {
-    /**
-     * @return array{a: Mailer}
-     */
-    public function make(): array {
-        return ['a' => new Mailer()];
-    }
-}
+                class Factory {
+                    /**
+                     * @return array{a: Mailer}
+                     */
+                    public function make(): array {
+                        return ['a' => new Mailer()];
+                    }
+                }
 
-class TestClass {
-    public function run(): void {
-        (new Factory())->make()['a']->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): void {
+                        (new Factory())->make()['a']->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -493,42 +460,40 @@ PHP,
 
     /**
      * Ensures legacy fixture 224 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testNullsafeShapeReturnTypeFeedsArrayDimMethodCall(): void
     {
         $sources = [
             'TestCase224.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase224;
+                namespace TestCase224;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Factory {
-    /**
-     * @return array{mailer: Mailer}
-     */
-    public function makePayload(): array {
-        return ['mailer' => new Mailer()];
-    }
-}
+                class Factory {
+                    /**
+                     * @return array{mailer: Mailer}
+                     */
+                    public function makePayload(): array {
+                        return ['mailer' => new Mailer()];
+                    }
+                }
 
-class TestClass {
-    public function run(?Factory $factory): void {
-        $payload = $factory?->makePayload();
+                class TestClass {
+                    public function run(?Factory $factory): void {
+                        $payload = $factory?->makePayload();
 
-        if (null === $payload) {
-            return;
-        }
+                        if (null === $payload) {
+                            return;
+                        }
 
-        $payload['mailer']->send();
-    }
-}
-PHP,
+                        $payload['mailer']->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -538,35 +503,33 @@ PHP,
 
     /**
      * Ensures legacy fixture 233 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testStaticPropertyShapePhpDocFeedsArrayDimMethodCall(): void
     {
         $sources = [
             'TestCase233.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase233;
+                namespace TestCase233;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Registry {
-    /**
-     * @var array{mailer: Mailer}
-     */
-    public static array $payload = [];
-}
+                class Registry {
+                    /**
+                     * @var array{mailer: Mailer}
+                     */
+                    public static array $payload = [];
+                }
 
-class TestClass {
-    public function run(): void {
-        Registry::$payload = ['mailer' => new Mailer()];
-        Registry::$payload['mailer']->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): void {
+                        Registry::$payload = ['mailer' => new Mailer()];
+                        Registry::$payload['mailer']->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -576,32 +539,30 @@ PHP,
 
     /**
      * Ensures legacy fixture 259 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testPromotedPropertyShapePhpDocFeedsArrayDimMethodCall(): void
     {
         $sources = [
             'TestCase259.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase259;
+                namespace TestCase259;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Service {
-    /**
-     * @param array{mailer: Mailer} $payload
-     */
-    public function __construct(private array $payload) {}
+                class Service {
+                    /**
+                     * @param array{mailer: Mailer} $payload
+                     */
+                    public function __construct(private array $payload) {}
 
-    public function run(): void {
-        $this->payload['mailer']->send();
-    }
-}
-PHP,
+                    public function run(): void {
+                        $this->payload['mailer']->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -611,34 +572,32 @@ PHP,
 
     /**
      * Ensures legacy fixture 304 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testArrayShapeClassConstantStringKeyAccessResolvesCorrectOwner(): void
     {
         $sources = [
             'TestCase304.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase304;
+                namespace TestCase304;
 
-class Keys {
-    public const MAILER = 'mailer';
-}
+                class Keys {
+                    public const MAILER = 'mailer';
+                }
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class TestClass {
-    /**
-     * @param array{mailer: Mailer} $services
-     */
-    public function run(array $services): void {
-        $services[Keys::MAILER]->send();
-    }
-}
-PHP,
+                class TestClass {
+                    /**
+                     * @param array{mailer: Mailer} $services
+                     */
+                    public function run(array $services): void {
+                        $services[Keys::MAILER]->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -648,32 +607,30 @@ PHP,
 
     /**
      * Ensures legacy fixture 305 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testArrayShapeSelfClassConstantStringKeyAccessResolvesCorrectOwner(): void
     {
         $sources = [
             'TestCase305.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase305;
+                namespace TestCase305;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class TestClass {
-    public const MAILER = 'mailer';
+                class TestClass {
+                    public const MAILER = 'mailer';
 
-    /**
-     * @param array{mailer: Mailer} $services
-     */
-    public function run(array $services): void {
-        $services[self::MAILER]->send();
-    }
-}
-PHP,
+                    /**
+                     * @param array{mailer: Mailer} $services
+                     */
+                    public function run(array $services): void {
+                        $services[self::MAILER]->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -683,37 +640,35 @@ PHP,
 
     /**
      * Ensures legacy fixture 306 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testArrayShapeInheritedClassConstantStringKeyAccessResolvesCorrectOwner(): void
     {
         $sources = [
             'TestCase306.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase306;
+                namespace TestCase306;
 
-class BaseKeys {
-    public const MAILER = 'mailer';
-}
+                class BaseKeys {
+                    public const MAILER = 'mailer';
+                }
 
-class Keys extends BaseKeys {
-}
+                class Keys extends BaseKeys {
+                }
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class TestClass {
-    /**
-     * @param array{mailer: Mailer} $services
-     */
-    public function run(array $services): void {
-        $services[Keys::MAILER]->send();
-    }
-}
-PHP,
+                class TestClass {
+                    /**
+                     * @param array{mailer: Mailer} $services
+                     */
+                    public function run(array $services): void {
+                        $services[Keys::MAILER]->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -723,34 +678,32 @@ PHP,
 
     /**
      * Ensures legacy fixture 307 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testArrayShapeClassConstantIntegerKeyAccessResolvesCorrectOwner(): void
     {
         $sources = [
             'TestCase307.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase307;
+                namespace TestCase307;
 
-class Keys {
-    public const MAILER = 0;
-}
+                class Keys {
+                    public const MAILER = 0;
+                }
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class TestClass {
-    /**
-     * @param array{0: Mailer} $services
-     */
-    public function run(array $services): void {
-        $services[Keys::MAILER]->send();
-    }
-}
-PHP,
+                class TestClass {
+                    /**
+                     * @param array{0: Mailer} $services
+                     */
+                    public function run(array $services): void {
+                        $services[Keys::MAILER]->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -760,38 +713,36 @@ PHP,
 
     /**
      * Ensures legacy fixture 308 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testArrayShapeUnionClassConstantStringKeyAccessResolvesAllOwners(): void
     {
         $sources = [
             'TestCase308.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase308;
+                namespace TestCase308;
 
-class Keys {
-    public const SERVICE = 'service';
-}
+                class Keys {
+                    public const SERVICE = 'service';
+                }
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Logger {
-    public function send(): void {}
-}
+                class Logger {
+                    public function send(): void {}
+                }
 
-class TestClass {
-    /**
-     * @param array{service: Mailer}|array{service: Logger} $services
-     */
-    public function run(array $services): void {
-        $services[Keys::SERVICE]->send();
-    }
-}
-PHP,
+                class TestClass {
+                    /**
+                     * @param array{service: Mailer}|array{service: Logger} $services
+                     */
+                    public function run(array $services): void {
+                        $services[Keys::SERVICE]->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -802,34 +753,32 @@ PHP,
 
     /**
      * Ensures legacy fixture 340 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testArrayShapeVariableKeyDoesNotInventFieldOwnerUsage(): void
     {
         $sources = [
             'TestCase340.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase340;
+                namespace TestCase340;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Logger {
-    public function send(): void {}
-}
+                class Logger {
+                    public function send(): void {}
+                }
 
-class TestClass {
-    /**
-     * @param array{mailer: Mailer, logger: Logger} $services
-     */
-    public function run(array $services, string $key): void {
-        $services[$key]->send();
-    }
-}
-PHP,
+                class TestClass {
+                    /**
+                     * @param array{mailer: Mailer, logger: Logger} $services
+                     */
+                    public function run(array $services, string $key): void {
+                        $services[$key]->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -840,34 +789,32 @@ PHP,
 
     /**
      * Ensures legacy fixture 341 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testNestedArrayShapeVariableKeyDoesNotInventFieldOwnerUsage(): void
     {
         $sources = [
             'TestCase341.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase341;
+                namespace TestCase341;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Logger {
-    public function send(): void {}
-}
+                class Logger {
+                    public function send(): void {}
+                }
 
-class TestClass {
-    /**
-     * @param array{services: array{mailer: Mailer, logger: Logger}} $config
-     */
-    public function run(array $config, string $key): void {
-        $config['services'][$key]->send();
-    }
-}
-PHP,
+                class TestClass {
+                    /**
+                     * @param array{services: array{mailer: Mailer, logger: Logger}} $config
+                     */
+                    public function run(array $config, string $key): void {
+                        $config['services'][$key]->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -878,34 +825,32 @@ PHP,
 
     /**
      * Ensures legacy fixture 342 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testArrayShapeVariableIntegerKeyDoesNotInventFieldOwnerUsage(): void
     {
         $sources = [
             'TestCase342.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase342;
+                namespace TestCase342;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Logger {
-    public function send(): void {}
-}
+                class Logger {
+                    public function send(): void {}
+                }
 
-class TestClass {
-    /**
-     * @param array{0: Mailer, 1: Logger} $services
-     */
-    public function run(array $services, int $key): void {
-        $services[$key]->send();
-    }
-}
-PHP,
+                class TestClass {
+                    /**
+                     * @param array{0: Mailer, 1: Logger} $services
+                     */
+                    public function run(array $services, int $key): void {
+                        $services[$key]->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -916,36 +861,34 @@ PHP,
 
     /**
      * Ensures legacy fixture 343 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testArrayShapePropertyKeyDoesNotInventFieldOwnerUsage(): void
     {
         $sources = [
             'TestCase343.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase343;
+                namespace TestCase343;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Logger {
-    public function send(): void {}
-}
+                class Logger {
+                    public function send(): void {}
+                }
 
-class TestClass {
-    public string $key = 'mailer';
+                class TestClass {
+                    public string $key = 'mailer';
 
-    /**
-     * @param array{mailer: Mailer, logger: Logger} $services
-     */
-    public function run(array $services): void {
-        $services[$this->key]->send();
-    }
-}
-PHP,
+                    /**
+                     * @param array{mailer: Mailer, logger: Logger} $services
+                     */
+                    public function run(array $services): void {
+                        $services[$this->key]->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -956,34 +899,32 @@ PHP,
 
     /**
      * Ensures legacy fixture 344 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testArrayShapeUnionVariableKeyDoesNotInventFieldOwnerUsage(): void
     {
         $sources = [
             'TestCase344.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase344;
+                namespace TestCase344;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Logger {
-    public function send(): void {}
-}
+                class Logger {
+                    public function send(): void {}
+                }
 
-class TestClass {
-    /**
-     * @param array{service: Mailer}|array{service: Logger} $services
-     */
-    public function run(array $services, string $key): void {
-        $services[$key]->send();
-    }
-}
-PHP,
+                class TestClass {
+                    /**
+                     * @param array{service: Mailer}|array{service: Logger} $services
+                     */
+                    public function run(array $services, string $key): void {
+                        $services[$key]->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);

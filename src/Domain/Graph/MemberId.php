@@ -10,14 +10,14 @@ namespace PhpNoobs\MemberGraph\Domain\Graph;
 final readonly class MemberId
 {
     public function __construct(
-        public string     $owner,
-        public string     $name,
+        public string $owner,
+        public string $name,
         public MemberType $type,
     ) {
     }
 
     public function hash(): string
     {
-        return $this->type->name . ':' . $this->owner . '::' . $this->name;
+        return $this->type->name.':'.$this->owner.'::'.$this->name;
     }
 }

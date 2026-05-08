@@ -4,16 +4,12 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Application\Impact;
 
-use Countable;
-use IteratorAggregate;
-use Traversable;
-
 /**
  * Stores impacted file paths without duplicates.
  *
- * @implements IteratorAggregate<int, string>
+ * @implements \IteratorAggregate<int, string>
  */
-final class ImpactedFileCollection implements Countable, IteratorAggregate
+final class ImpactedFileCollection implements \Countable, \IteratorAggregate
 {
     /**
      * @var array<string, true>
@@ -23,9 +19,7 @@ final class ImpactedFileCollection implements Countable, IteratorAggregate
     /**
      * Adds one impacted file path.
      *
-     * @param string $file The impacted file path.
-     *
-     * @return void
+     * @param string $file the impacted file path
      */
     public function add(string $file): void
     {
@@ -49,9 +43,7 @@ final class ImpactedFileCollection implements Countable, IteratorAggregate
     /**
      * Indicates whether the collection contains the given file path.
      *
-     * @param string $file The file path to test.
-     *
-     * @return bool
+     * @param string $file the file path to test
      */
     public function contains(string $file): bool
     {
@@ -61,17 +53,15 @@ final class ImpactedFileCollection implements Countable, IteratorAggregate
     /**
      * Returns an iterator over impacted file paths.
      *
-     * @return Traversable<int, string>
+     * @return \Traversable<int, string>
      */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         yield from $this->all();
     }
 
     /**
      * Counts impacted file paths.
-     *
-     * @return int
      */
     public function count(): int
     {

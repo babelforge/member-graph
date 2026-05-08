@@ -21,11 +21,11 @@ final readonly class MemberDependencyGraphPartialRebuildAssembler
     /**
      * Constructor.
      *
-     * @param MemberGraphPhpSourceRegistryInstance $fileRegistry The member graph file registry.
-     * @param MemberGraphPartialGlobalIndexesBuilder $partialGlobalIndexesBuilder The partial global indexes builder.
+     * @param MemberGraphPhpSourceRegistryInstance   $fileRegistry                the member graph file registry
+     * @param MemberGraphPartialGlobalIndexesBuilder $partialGlobalIndexesBuilder the partial global indexes builder
      */
     public function __construct(
-        MemberGraphPhpSourceRegistryInstance           $fileRegistry,
+        MemberGraphPhpSourceRegistryInstance $fileRegistry,
         private MemberGraphPartialGlobalIndexesBuilder $partialGlobalIndexesBuilder = new MemberGraphPartialGlobalIndexesBuilder(),
     ) {
         $this->sourceViewBuilder = new MemberDependencyGraphPartialRebuildSourceViewBuilder($fileRegistry);
@@ -34,10 +34,8 @@ final readonly class MemberDependencyGraphPartialRebuildAssembler
     /**
      * Prepares the partial rebuild input without executing graph rebuilding.
      *
-     * @param MemberDependencyGraphPartialRebuildInput $partialRebuildInput The partial rebuild input.
-     * @param MemberGraphDeclarationSnapshot $cachedDeclarationSnapshot The cached declaration snapshot.
-     *
-     * @return MemberDependencyGraphPartialRebuildPreparedInput
+     * @param MemberDependencyGraphPartialRebuildInput $partialRebuildInput       the partial rebuild input
+     * @param MemberGraphDeclarationSnapshot           $cachedDeclarationSnapshot the cached declaration snapshot
      */
     public function assemble(
         MemberDependencyGraphPartialRebuildInput $partialRebuildInput,

@@ -20,11 +20,9 @@ final readonly class CallableInvocationStructuredTypeResolver
     /**
      * Resolves the structured PHPDoc type of one callable-expression invocation.
      *
-     * @param FuncCall $expression The function-call expression.
-     * @param ExpressionResolutionContext $context The current expression resolution context.
-     * @param ExpressionTypeResolverInterface $expressionTypeResolver The recursive expression resolver.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param FuncCall                        $expression             the function-call expression
+     * @param ExpressionResolutionContext     $context                the current expression resolution context
+     * @param ExpressionTypeResolverInterface $expressionTypeResolver the recursive expression resolver
      */
     public function resolve(
         FuncCall $expression,
@@ -53,9 +51,7 @@ final readonly class CallableInvocationStructuredTypeResolver
     /**
      * Extracts the callable return type from one structured PHPDoc type.
      *
-     * @param ResolvedPhpDocType $type The structured type to inspect.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param ResolvedPhpDocType $type the structured type to inspect
      */
     private function extractCallableReturnType(ResolvedPhpDocType $type): ?ResolvedPhpDocType
     {
@@ -94,9 +90,7 @@ final readonly class CallableInvocationStructuredTypeResolver
     /**
      * Extracts callable return types from union branches.
      *
-     * @param ResolvedPhpDocType $type The union-like type.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param ResolvedPhpDocType $type the union-like type
      */
     private function extractUnionCallableReturnType(ResolvedPhpDocType $type): ?ResolvedPhpDocType
     {

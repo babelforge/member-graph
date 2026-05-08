@@ -22,7 +22,6 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Lexer\Lexer;
 use PHPStan\PhpDocParser\Parser\PhpDocParser;
 use PHPStan\PhpDocParser\Parser\TokenIterator;
-use Throwable;
 
 /**
  * Extracts @'return PHPDoc types from functions and methods.
@@ -30,36 +29,34 @@ use Throwable;
 final readonly class ReturnPhpDocTypeExtractor
 {
     /**
-     * @param Lexer $lexer The PHPDoc lexer.
-     * @param PhpDocParser $phpDocParser The PHPDoc parser.
-     * @param PhpDocTypeNodeResolverInterface $phpDocTypeNodeResolver The PHPDoc type resolver.
+     * @param Lexer                           $lexer                  the PHPDoc lexer
+     * @param PhpDocParser                    $phpDocParser           the PHPDoc parser
+     * @param PhpDocTypeNodeResolverInterface $phpDocTypeNodeResolver the PHPDoc type resolver
      */
     public function __construct(
-        private Lexer                             $lexer,
-        private PhpDocParser                      $phpDocParser,
-        private PhpDocTypeNodeResolverInterface   $phpDocTypeNodeResolver,
+        private Lexer $lexer,
+        private PhpDocParser $phpDocParser,
+        private PhpDocTypeNodeResolverInterface $phpDocTypeNodeResolver,
         private PhpDocTemplateDefinitionExtractor $phpDocTemplateDefinitionExtractor,
-        private ?MemberGraphIssueCollection       $issues = null,
+        private ?MemberGraphIssueCollection $issues = null,
     ) {
     }
 
     /**
      * Extracts return types from one function-like docblock.
      *
-     * @param Node $node The function-like node carrying the docblock.
-     * @param string $currentNamespace The current namespace.
-     * @param UsesByAliasCollection $usesByAlias The use imports indexed by alias.
-     * @param TypeIndexContext $context The type index context.
-     * @param PhpDocTemplateDefinitionCollection $upperTemplateDefinitions The upper template definitions.
-     *
-     * @return SymbolCollection
+     * @param Node                               $node                     the function-like node carrying the docblock
+     * @param string                             $currentNamespace         the current namespace
+     * @param UsesByAliasCollection              $usesByAlias              the use imports indexed by alias
+     * @param TypeIndexContext                   $context                  the type index context
+     * @param PhpDocTemplateDefinitionCollection $upperTemplateDefinitions the upper template definitions
      */
     public function extract(
         Node $node,
         string $currentNamespace,
         UsesByAliasCollection $usesByAlias,
         TypeIndexContext $context,
-        PhpDocTemplateDefinitionCollection $upperTemplateDefinitions = new PhpDocTemplateDefinitionCollection()
+        PhpDocTemplateDefinitionCollection $upperTemplateDefinitions = new PhpDocTemplateDefinitionCollection(),
     ): SymbolCollection {
         $docComment = PhpDocInheritDocResolver::getEffectiveDocComment($node);
 
@@ -74,7 +71,6 @@ final readonly class ReturnPhpDocTypeExtractor
         }
 
         $resolved = new SymbolCollection();
-
 
         $templateDefinitions = $this->phpDocTemplateDefinitionExtractor->extract(
             $node,
@@ -92,7 +88,7 @@ final readonly class ReturnPhpDocTypeExtractor
                     $currentNamespace,
                     $usesByAlias,
                     $templateDefinitions,
-                    //new PhpDocTemplateDefinitionCollection(),
+                    // new PhpDocTemplateDefinitionCollection(),
                     $context,
                     PhpDocTagKind::RETURN
                 ),
@@ -108,19 +104,17 @@ final readonly class ReturnPhpDocTypeExtractor
      * Native return types remain outside the scope of this extractor.
      * This method only reads the PHPDoc `@return` tag.
      *
-     * @param Node $node The function-like node carrying the docblock.
-     * @param string $currentNamespace The current namespace.
-     * @param UsesByAliasCollection $usesByAlias The use imports indexed by alias.
-     * @param PhpDocTemplateDefinitionCollection $templateDefinitions The visible template definitions.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param Node                               $node                the function-like node carrying the docblock
+     * @param string                             $currentNamespace    the current namespace
+     * @param UsesByAliasCollection              $usesByAlias         the use imports indexed by alias
+     * @param PhpDocTemplateDefinitionCollection $templateDefinitions the visible template definitions
      */
     public function extractStructured(
         Node $node,
         string $currentNamespace,
         UsesByAliasCollection $usesByAlias,
         PhpDocTemplateDefinitionCollection $templateDefinitions,
-        TypeIndexContext $context
+        TypeIndexContext $context,
     ): ?ResolvedPhpDocType {
         $docComment = PhpDocInheritDocResolver::getEffectiveDocComment($node);
 
@@ -146,6 +140,7 @@ final readonly class ReturnPhpDocTypeExtractor
                     $context->member
                 );
             }
+
             return null;
         }
 
@@ -166,9 +161,7 @@ final readonly class ReturnPhpDocTypeExtractor
     /**
      * Parses one doc comment into a PhpDocNode.
      *
-     * @param Doc $docComment The doc comment to parse.
-     *
-     * @return PhpDocNode|null
+     * @param Doc $docComment the doc comment to parse
      */
     private function parsePhpDocNode(Doc $docComment): ?PhpDocNode
     {
@@ -176,7 +169,7 @@ final readonly class ReturnPhpDocTypeExtractor
             $tokens = new TokenIterator($this->lexer->tokenize($docComment->getText()));
 
             return $this->phpDocParser->parse($tokens);
-        } catch (Throwable) {
+        } catch (\Throwable) {
             return null;
         }
     }

@@ -22,8 +22,8 @@ final readonly class MemberGraphTopologyApi
     /**
      * Constructor.
      *
-     * @param MemberGraphTopologyService $topologyService The topology service.
-     * @param MemberGraphTopologyFilterService $filterService The filter service.
+     * @param MemberGraphTopologyService       $topologyService the topology service
+     * @param MemberGraphTopologyFilterService $filterService   the filter service
      */
     public function __construct(
         private MemberGraphTopologyService $topologyService,
@@ -34,9 +34,7 @@ final readonly class MemberGraphTopologyApi
     /**
      * Creates a topology API from a member dependency graph.
      *
-     * @param MemberDependencyGraph $graph The member dependency graph.
-     *
-     * @return self
+     * @param MemberDependencyGraph $graph the member dependency graph
      */
     public static function fromGraph(MemberDependencyGraph $graph): self
     {
@@ -46,9 +44,7 @@ final readonly class MemberGraphTopologyApi
     /**
      * Creates a topology API from an existing graph query service.
      *
-     * @param MemberGraphQueryService $query The graph query service.
-     *
-     * @return self
+     * @param MemberGraphQueryService $query the graph query service
      */
     public static function fromQuery(MemberGraphQueryService $query): self
     {
@@ -58,12 +54,10 @@ final readonly class MemberGraphTopologyApi
     /**
      * Builds an optionally filtered member topology.
      *
-     * @param MemberId $memberId The root member.
-     * @param MemberGraphTopologyDirection $direction The traversal direction.
-     * @param int $maxDepth The maximum traversal depth.
-     * @param MemberGraphTopologyFilter|null $filter The optional filter.
-     *
-     * @return MemberGraphTopology
+     * @param MemberId                       $memberId  the root member
+     * @param MemberGraphTopologyDirection   $direction the traversal direction
+     * @param int                            $maxDepth  the maximum traversal depth
+     * @param MemberGraphTopologyFilter|null $filter    the optional filter
      */
     public function member(
         MemberId $memberId,
@@ -80,12 +74,10 @@ final readonly class MemberGraphTopologyApi
     /**
      * Builds an optionally filtered owner topology.
      *
-     * @param string $owner The owner FQCN.
-     * @param MemberGraphTopologyDirection $direction The traversal direction.
-     * @param int $maxDepth The maximum traversal depth.
-     * @param MemberGraphTopologyFilter|null $filter The optional filter.
-     *
-     * @return MemberGraphTopology
+     * @param string                         $owner     the owner FQCN
+     * @param MemberGraphTopologyDirection   $direction the traversal direction
+     * @param int                            $maxDepth  the maximum traversal depth
+     * @param MemberGraphTopologyFilter|null $filter    the optional filter
      */
     public function owner(
         string $owner,
@@ -102,10 +94,8 @@ final readonly class MemberGraphTopologyApi
     /**
      * Builds an optionally filtered codebase topology.
      *
-     * @param MemberGraphTopologyDirection $direction The dependency direction to include.
-     * @param MemberGraphTopologyFilter|null $filter The optional filter.
-     *
-     * @return MemberGraphTopology
+     * @param MemberGraphTopologyDirection   $direction the dependency direction to include
+     * @param MemberGraphTopologyFilter|null $filter    the optional filter
      */
     public function codebase(
         MemberGraphTopologyDirection $direction = MemberGraphTopologyDirection::BOTH,
@@ -122,8 +112,8 @@ final readonly class MemberGraphTopologyApi
      *
      * @template TExport
      *
-     * @param MemberGraphTopology $topology The topology to export.
-     * @param MemberGraphTopologyExporterInterface<TExport> $exporter The exporter to use.
+     * @param MemberGraphTopology                           $topology the topology to export
+     * @param MemberGraphTopologyExporterInterface<TExport> $exporter the exporter to use
      *
      * @return TExport
      */
@@ -139,11 +129,11 @@ final readonly class MemberGraphTopologyApi
      *
      * @template TExport
      *
-     * @param MemberId $memberId The root member.
-     * @param MemberGraphTopologyExporterInterface<TExport> $exporter The exporter to use.
-     * @param MemberGraphTopologyDirection $direction The traversal direction.
-     * @param int $maxDepth The maximum traversal depth.
-     * @param MemberGraphTopologyFilter|null $filter The optional filter.
+     * @param MemberId                                      $memberId  the root member
+     * @param MemberGraphTopologyExporterInterface<TExport> $exporter  the exporter to use
+     * @param MemberGraphTopologyDirection                  $direction the traversal direction
+     * @param int                                           $maxDepth  the maximum traversal depth
+     * @param MemberGraphTopologyFilter|null                $filter    the optional filter
      *
      * @return TExport
      */
@@ -165,11 +155,11 @@ final readonly class MemberGraphTopologyApi
      *
      * @template TExport
      *
-     * @param string $owner The owner FQCN.
-     * @param MemberGraphTopologyExporterInterface<TExport> $exporter The exporter to use.
-     * @param MemberGraphTopologyDirection $direction The traversal direction.
-     * @param int $maxDepth The maximum traversal depth.
-     * @param MemberGraphTopologyFilter|null $filter The optional filter.
+     * @param string                                        $owner     the owner FQCN
+     * @param MemberGraphTopologyExporterInterface<TExport> $exporter  the exporter to use
+     * @param MemberGraphTopologyDirection                  $direction the traversal direction
+     * @param int                                           $maxDepth  the maximum traversal depth
+     * @param MemberGraphTopologyFilter|null                $filter    the optional filter
      *
      * @return TExport
      */
@@ -191,9 +181,9 @@ final readonly class MemberGraphTopologyApi
      *
      * @template TExport
      *
-     * @param MemberGraphTopologyExporterInterface<TExport> $exporter The exporter to use.
-     * @param MemberGraphTopologyDirection $direction The dependency direction to include.
-     * @param MemberGraphTopologyFilter|null $filter The optional filter.
+     * @param MemberGraphTopologyExporterInterface<TExport> $exporter  the exporter to use
+     * @param MemberGraphTopologyDirection                  $direction the dependency direction to include
+     * @param MemberGraphTopologyFilter|null                $filter    the optional filter
      *
      * @return TExport
      */
@@ -211,10 +201,8 @@ final readonly class MemberGraphTopologyApi
     /**
      * Applies an optional topology filter.
      *
-     * @param MemberGraphTopology $topology The topology to filter.
-     * @param MemberGraphTopologyFilter|null $filter The optional filter.
-     *
-     * @return MemberGraphTopology
+     * @param MemberGraphTopology            $topology the topology to filter
+     * @param MemberGraphTopologyFilter|null $filter   the optional filter
      */
     private function applyFilter(
         MemberGraphTopology $topology,

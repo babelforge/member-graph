@@ -19,30 +19,30 @@ final readonly class MemberGraphImpact
     /**
      * Constructor.
      *
-     * @param MemberImpactTarget $target The queried impact target.
-     * @param MemberImpact $memberImpact The low-level member impact.
-     * @param ImpactedFileCollection $graphFiles The graph file paths referenced by impacted facts.
-     * @param ImpactedFileCollection $physicalFiles The physical file paths backing impacted virtual files.
-     * @param VirtualPhpSourceFileCollection $virtualFiles The impacted virtual registry files.
-     * @param ImpactedOwnerCollection $impactedOwners The impacted owner symbols.
-     * @param KnownOwnerCollection $owners The impacted known owners.
-     * @param MemberDeclarationCollection $declarations The member declarations in impacted graph files.
-     * @param MemberUsageCollection $usages The member usages in impacted graph files.
-     * @param ParameterUsageCollection $parameterUsages The parameter usages in impacted graph files.
-     * @param AvailableMemberCollection $availableMembers The available members exposed by impacted owners.
+     * @param MemberImpactTarget             $target           the queried impact target
+     * @param MemberImpact                   $memberImpact     the low-level member impact
+     * @param ImpactedFileCollection         $graphFiles       the graph file paths referenced by impacted facts
+     * @param ImpactedFileCollection         $physicalFiles    the physical file paths backing impacted virtual files
+     * @param VirtualPhpSourceFileCollection $virtualFiles     the impacted virtual registry files
+     * @param ImpactedOwnerCollection        $impactedOwners   the impacted owner symbols
+     * @param KnownOwnerCollection           $owners           the impacted known owners
+     * @param MemberDeclarationCollection    $declarations     the member declarations in impacted graph files
+     * @param MemberUsageCollection          $usages           the member usages in impacted graph files
+     * @param ParameterUsageCollection       $parameterUsages  the parameter usages in impacted graph files
+     * @param AvailableMemberCollection      $availableMembers the available members exposed by impacted owners
      */
     public function __construct(
-        public MemberImpactTarget             $target,
-        public MemberImpact                   $memberImpact,
-        public ImpactedFileCollection         $graphFiles,
-        public ImpactedFileCollection         $physicalFiles,
+        public MemberImpactTarget $target,
+        public MemberImpact $memberImpact,
+        public ImpactedFileCollection $graphFiles,
+        public ImpactedFileCollection $physicalFiles,
         public VirtualPhpSourceFileCollection $virtualFiles,
-        public ImpactedOwnerCollection        $impactedOwners,
-        public KnownOwnerCollection           $owners,
-        public MemberDeclarationCollection    $declarations,
-        public MemberUsageCollection          $usages,
-        public ParameterUsageCollection       $parameterUsages,
-        public AvailableMemberCollection      $availableMembers,
+        public ImpactedOwnerCollection $impactedOwners,
+        public KnownOwnerCollection $owners,
+        public MemberDeclarationCollection $declarations,
+        public MemberUsageCollection $usages,
+        public ParameterUsageCollection $parameterUsages,
+        public AvailableMemberCollection $availableMembers,
     ) {
     }
 }

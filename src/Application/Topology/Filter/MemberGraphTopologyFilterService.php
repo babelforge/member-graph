@@ -23,10 +23,8 @@ final readonly class MemberGraphTopologyFilterService
      *
      * The root node is preserved when it exists, even if it does not match all filters.
      *
-     * @param MemberGraphTopology $topology The topology to filter.
-     * @param MemberGraphTopologyFilter $filter The filter criteria.
-     *
-     * @return MemberGraphTopology
+     * @param MemberGraphTopology       $topology the topology to filter
+     * @param MemberGraphTopologyFilter $filter   the filter criteria
      */
     public function filter(MemberGraphTopology $topology, MemberGraphTopologyFilter $filter): MemberGraphTopology
     {
@@ -45,10 +43,8 @@ final readonly class MemberGraphTopologyFilterService
     /**
      * Filters topology nodes.
      *
-     * @param MemberGraphTopology $topology The topology to filter.
-     * @param MemberGraphTopologyFilter $filter The filter criteria.
-     *
-     * @return MemberGraphTopologyNodeCollection
+     * @param MemberGraphTopology       $topology the topology to filter
+     * @param MemberGraphTopologyFilter $filter   the filter criteria
      */
     private function filterNodes(
         MemberGraphTopology $topology,
@@ -68,11 +64,9 @@ final readonly class MemberGraphTopologyFilterService
     /**
      * Indicates whether one topology node matches the filter.
      *
-     * @param MemberGraphTopology $topology The topology being filtered.
-     * @param MemberGraphTopologyNode $node The node to test.
-     * @param MemberGraphTopologyFilter $filter The filter criteria.
-     *
-     * @return bool
+     * @param MemberGraphTopology       $topology the topology being filtered
+     * @param MemberGraphTopologyNode   $node     the node to test
+     * @param MemberGraphTopologyFilter $filter   the filter criteria
      */
     private function nodeMatches(
         MemberGraphTopology $topology,
@@ -103,11 +97,9 @@ final readonly class MemberGraphTopologyFilterService
     /**
      * Filters topology edges and removes orphan edges.
      *
-     * @param MemberGraphTopology $topology The topology to filter.
-     * @param MemberGraphTopologyFilter $filter The filter criteria.
-     * @param MemberGraphTopologyNodeCollection $nodes The already filtered nodes.
-     *
-     * @return MemberGraphTopologyEdgeCollection
+     * @param MemberGraphTopology               $topology the topology to filter
+     * @param MemberGraphTopologyFilter         $filter   the filter criteria
+     * @param MemberGraphTopologyNodeCollection $nodes    the already filtered nodes
      */
     private function filterEdges(
         MemberGraphTopology $topology,
@@ -134,10 +126,8 @@ final readonly class MemberGraphTopologyFilterService
     /**
      * Indicates whether one topology edge matches the filter.
      *
-     * @param MemberGraphTopologyEdge $edge The edge to test.
-     * @param MemberGraphTopologyFilter $filter The filter criteria.
-     *
-     * @return bool
+     * @param MemberGraphTopologyEdge   $edge   the edge to test
+     * @param MemberGraphTopologyFilter $filter the filter criteria
      */
     private function edgeMatches(MemberGraphTopologyEdge $edge, MemberGraphTopologyFilter $filter): bool
     {
@@ -151,10 +141,8 @@ final readonly class MemberGraphTopologyFilterService
     /**
      * Indicates whether one node kind is allowed.
      *
-     * @param MemberGraphTopologyNodeKind $nodeKind The node kind to test.
-     * @param list<MemberGraphTopologyNodeKind>|null $allowedNodeKinds The allowed node kinds.
-     *
-     * @return bool
+     * @param MemberGraphTopologyNodeKind            $nodeKind         the node kind to test
+     * @param list<MemberGraphTopologyNodeKind>|null $allowedNodeKinds the allowed node kinds
      */
     private function nodeKindMatches(
         MemberGraphTopologyNodeKind $nodeKind,
@@ -176,10 +164,8 @@ final readonly class MemberGraphTopologyFilterService
     /**
      * Indicates whether one edge kind is allowed.
      *
-     * @param MemberGraphTopologyEdgeKind $edgeKind The edge kind to test.
-     * @param list<MemberGraphTopologyEdgeKind>|null $allowedEdgeKinds The allowed edge kinds.
-     *
-     * @return bool
+     * @param MemberGraphTopologyEdgeKind            $edgeKind         the edge kind to test
+     * @param list<MemberGraphTopologyEdgeKind>|null $allowedEdgeKinds the allowed edge kinds
      */
     private function edgeKindMatches(
         MemberGraphTopologyEdgeKind $edgeKind,
@@ -201,9 +187,7 @@ final readonly class MemberGraphTopologyFilterService
     /**
      * Returns the owner symbol carried by a node.
      *
-     * @param MemberGraphTopologyNode $node The node to inspect.
-     *
-     * @return string|null
+     * @param MemberGraphTopologyNode $node the node to inspect
      */
     private function ownerOfNode(MemberGraphTopologyNode $node): ?string
     {
@@ -217,10 +201,8 @@ final readonly class MemberGraphTopologyFilterService
     /**
      * Indicates whether one owner matches include and exclude filters.
      *
-     * @param string|null $owner The owner symbol to test.
-     * @param MemberGraphTopologyFilter $filter The filter criteria.
-     *
-     * @return bool
+     * @param string|null               $owner  the owner symbol to test
+     * @param MemberGraphTopologyFilter $filter the filter criteria
      */
     private function ownerMatches(?string $owner, MemberGraphTopologyFilter $filter): bool
     {
@@ -250,10 +232,8 @@ final readonly class MemberGraphTopologyFilterService
     /**
      * Indicates whether the member type carried by one node is allowed.
      *
-     * @param MemberGraphTopologyNode $node The node to test.
-     * @param list<MemberType>|null $allowedMemberTypes The allowed member types.
-     *
-     * @return bool
+     * @param MemberGraphTopologyNode $node               the node to test
+     * @param list<MemberType>|null   $allowedMemberTypes the allowed member types
      */
     private function memberTypeMatches(
         MemberGraphTopologyNode $node,
@@ -275,11 +255,9 @@ final readonly class MemberGraphTopologyFilterService
     /**
      * Indicates whether one topology node matches file filters.
      *
-     * @param MemberGraphTopology $topology The topology being filtered.
-     * @param MemberGraphTopologyNode $node The node to test.
-     * @param MemberGraphTopologyFilter $filter The filter criteria.
-     *
-     * @return bool
+     * @param MemberGraphTopology       $topology the topology being filtered
+     * @param MemberGraphTopologyNode   $node     the node to test
+     * @param MemberGraphTopologyFilter $filter   the filter criteria
      */
     private function nodeFileMatches(
         MemberGraphTopology $topology,
@@ -318,10 +296,8 @@ final readonly class MemberGraphTopologyFilterService
     /**
      * Indicates whether one file path matches include and exclude filters.
      *
-     * @param string|null $file The file path to test.
-     * @param MemberGraphTopologyFilter $filter The filter criteria.
-     *
-     * @return bool
+     * @param string|null               $file   the file path to test
+     * @param MemberGraphTopologyFilter $filter the filter criteria
      */
     private function fileMatches(?string $file, MemberGraphTopologyFilter $filter): bool
     {
@@ -351,13 +327,11 @@ final readonly class MemberGraphTopologyFilterService
     /**
      * Indicates whether a file path matches one exact path or prefix.
      *
-     * @param string $file The file path to test.
-     * @param string $expectedPath The expected exact path or prefix.
-     *
-     * @return bool
+     * @param string $file         the file path to test
+     * @param string $expectedPath the expected exact path or prefix
      */
     private function pathMatches(string $file, string $expectedPath): bool
     {
-        return $file === $expectedPath || str_starts_with($file, rtrim($expectedPath, '/') . '/');
+        return $file === $expectedPath || str_starts_with($file, rtrim($expectedPath, '/').'/');
     }
 }

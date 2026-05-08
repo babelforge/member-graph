@@ -37,9 +37,7 @@ final readonly class MemberGraphDeclarationSnapshotBuilder
     /**
      * Builds declaration snapshots from loaded virtual files.
      *
-     * @param VirtualPhpSourceFileCollection $virtualFiles The loaded virtual files.
-     *
-     * @return MemberGraphDeclarationSnapshot
+     * @param VirtualPhpSourceFileCollection $virtualFiles the loaded virtual files
      */
     public function build(VirtualPhpSourceFileCollection $virtualFiles): MemberGraphDeclarationSnapshot
     {
@@ -55,17 +53,15 @@ final readonly class MemberGraphDeclarationSnapshotBuilder
     /**
      * Builds declaration snapshots from AST nodes.
      *
-     * @param list<Node> $nodes The AST nodes.
-     * @param VirtualPhpSourceFile $virtualFile The current virtual file.
-     * @param string $namespace The current namespace.
-     * @param MemberGraphDeclarationSnapshot $snapshot The snapshot being populated.
-     *
-     * @return void
+     * @param list<Node>                     $nodes       the AST nodes
+     * @param VirtualPhpSourceFile           $virtualFile the current virtual file
+     * @param string                         $namespace   the current namespace
+     * @param MemberGraphDeclarationSnapshot $snapshot    the snapshot being populated
      */
     private function buildFromNodes(
-        array                          $nodes,
-        VirtualPhpSourceFile           $virtualFile,
-        string                         $namespace,
+        array $nodes,
+        VirtualPhpSourceFile $virtualFile,
+        string $namespace,
         MemberGraphDeclarationSnapshot $snapshot,
     ): void {
         foreach ($nodes as $node) {
@@ -93,17 +89,15 @@ final readonly class MemberGraphDeclarationSnapshotBuilder
     /**
      * Registers one class-like owner and its direct members.
      *
-     * @param ClassLike $node The class-like node.
-     * @param VirtualPhpSourceFile $virtualFile The current virtual file.
-     * @param string $namespace The current namespace.
-     * @param MemberGraphDeclarationSnapshot $snapshot The snapshot being populated.
-     *
-     * @return void
+     * @param ClassLike                      $node        the class-like node
+     * @param VirtualPhpSourceFile           $virtualFile the current virtual file
+     * @param string                         $namespace   the current namespace
+     * @param MemberGraphDeclarationSnapshot $snapshot    the snapshot being populated
      */
     private function registerOwner(
-        ClassLike                      $node,
-        VirtualPhpSourceFile           $virtualFile,
-        string                         $namespace,
+        ClassLike $node,
+        VirtualPhpSourceFile $virtualFile,
+        string $namespace,
         MemberGraphDeclarationSnapshot $snapshot,
     ): void {
         if (null === $node->name) {
@@ -154,21 +148,19 @@ final readonly class MemberGraphDeclarationSnapshotBuilder
     /**
      * Registers one method declaration.
      *
-     * @param ClassMethod $node The method node.
-     * @param string $ownerFqcn The declaring owner FQCN.
-     * @param VirtualPhpSourceFile $virtualFile The current virtual file.
-     * @param MemberGraphDeclarationSnapshot $snapshot The snapshot being populated.
-     *
-     * @return void
+     * @param ClassMethod                    $node        the method node
+     * @param string                         $ownerFqcn   the declaring owner FQCN
+     * @param VirtualPhpSourceFile           $virtualFile the current virtual file
+     * @param MemberGraphDeclarationSnapshot $snapshot    the snapshot being populated
      */
     private function registerMethod(
-        ClassMethod                    $node,
-        string                         $ownerFqcn,
-        VirtualPhpSourceFile           $virtualFile,
+        ClassMethod $node,
+        string $ownerFqcn,
+        VirtualPhpSourceFile $virtualFile,
         MemberGraphDeclarationSnapshot $snapshot,
     ): void {
         $methodName = $node->name->toString();
-        $callableId = $ownerFqcn . '::' . $methodName;
+        $callableId = $ownerFqcn.'::'.$methodName;
         $docText = $this->docText($node);
         $parameters = $this->parameterSnapshots($callableId, array_values($node->params), $this->phpDocParameterTypes($docText));
         $templates = $this->templateSnapshots($callableId, $docText);
@@ -199,17 +191,15 @@ final readonly class MemberGraphDeclarationSnapshotBuilder
     /**
      * Registers one function declaration.
      *
-     * @param Function_ $node The function node.
-     * @param VirtualPhpSourceFile $virtualFile The current virtual file.
-     * @param string $namespace The current namespace.
-     * @param MemberGraphDeclarationSnapshot $snapshot The snapshot being populated.
-     *
-     * @return void
+     * @param Function_                      $node        the function node
+     * @param VirtualPhpSourceFile           $virtualFile the current virtual file
+     * @param string                         $namespace   the current namespace
+     * @param MemberGraphDeclarationSnapshot $snapshot    the snapshot being populated
      */
     private function registerFunction(
-        Function_                      $node,
-        VirtualPhpSourceFile           $virtualFile,
-        string                         $namespace,
+        Function_ $node,
+        VirtualPhpSourceFile $virtualFile,
+        string $namespace,
         MemberGraphDeclarationSnapshot $snapshot,
     ): void {
         $functionName = $this->qualifiedName($node->name->toString(), $namespace);
@@ -234,17 +224,15 @@ final readonly class MemberGraphDeclarationSnapshotBuilder
     /**
      * Registers one property declaration.
      *
-     * @param Property $node The property node.
-     * @param string $ownerFqcn The declaring owner FQCN.
-     * @param VirtualPhpSourceFile $virtualFile The current virtual file.
-     * @param MemberGraphDeclarationSnapshot $snapshot The snapshot being populated.
-     *
-     * @return void
+     * @param Property                       $node        the property node
+     * @param string                         $ownerFqcn   the declaring owner FQCN
+     * @param VirtualPhpSourceFile           $virtualFile the current virtual file
+     * @param MemberGraphDeclarationSnapshot $snapshot    the snapshot being populated
      */
     private function registerProperty(
-        Property                       $node,
-        string                         $ownerFqcn,
-        VirtualPhpSourceFile           $virtualFile,
+        Property $node,
+        string $ownerFqcn,
+        VirtualPhpSourceFile $virtualFile,
         MemberGraphDeclarationSnapshot $snapshot,
     ): void {
         foreach ($node->props as $property) {
@@ -264,17 +252,15 @@ final readonly class MemberGraphDeclarationSnapshotBuilder
     /**
      * Registers one class constant declaration.
      *
-     * @param ClassConst $node The class constant node.
-     * @param string $ownerFqcn The declaring owner FQCN.
-     * @param VirtualPhpSourceFile $virtualFile The current virtual file.
-     * @param MemberGraphDeclarationSnapshot $snapshot The snapshot being populated.
-     *
-     * @return void
+     * @param ClassConst                     $node        the class constant node
+     * @param string                         $ownerFqcn   the declaring owner FQCN
+     * @param VirtualPhpSourceFile           $virtualFile the current virtual file
+     * @param MemberGraphDeclarationSnapshot $snapshot    the snapshot being populated
      */
     private function registerClassConstant(
-        ClassConst                     $node,
-        string                         $ownerFqcn,
-        VirtualPhpSourceFile           $virtualFile,
+        ClassConst $node,
+        string $ownerFqcn,
+        VirtualPhpSourceFile $virtualFile,
         MemberGraphDeclarationSnapshot $snapshot,
     ): void {
         foreach ($node->consts as $constant) {
@@ -293,17 +279,15 @@ final readonly class MemberGraphDeclarationSnapshotBuilder
     /**
      * Registers one enum case declaration.
      *
-     * @param EnumCase $node The enum case node.
-     * @param string $ownerFqcn The declaring owner FQCN.
-     * @param VirtualPhpSourceFile $virtualFile The current virtual file.
-     * @param MemberGraphDeclarationSnapshot $snapshot The snapshot being populated.
-     *
-     * @return void
+     * @param EnumCase                       $node        the enum case node
+     * @param string                         $ownerFqcn   the declaring owner FQCN
+     * @param VirtualPhpSourceFile           $virtualFile the current virtual file
+     * @param MemberGraphDeclarationSnapshot $snapshot    the snapshot being populated
      */
     private function registerEnumCase(
-        EnumCase                       $node,
-        string                         $ownerFqcn,
-        VirtualPhpSourceFile           $virtualFile,
+        EnumCase $node,
+        string $ownerFqcn,
+        VirtualPhpSourceFile $virtualFile,
         MemberGraphDeclarationSnapshot $snapshot,
     ): void {
         $snapshot->classConstants->add(new ClassConstantDeclarationSnapshot(
@@ -318,17 +302,15 @@ final readonly class MemberGraphDeclarationSnapshotBuilder
     /**
      * Registers constructor-promoted properties.
      *
-     * @param ClassMethod $node The constructor node.
-     * @param string $ownerFqcn The declaring owner FQCN.
-     * @param VirtualPhpSourceFile $virtualFile The current virtual file.
-     * @param MemberGraphDeclarationSnapshot $snapshot The snapshot being populated.
-     *
-     * @return void
+     * @param ClassMethod                    $node        the constructor node
+     * @param string                         $ownerFqcn   the declaring owner FQCN
+     * @param VirtualPhpSourceFile           $virtualFile the current virtual file
+     * @param MemberGraphDeclarationSnapshot $snapshot    the snapshot being populated
      */
     private function registerPromotedProperties(
-        ClassMethod                    $node,
-        string                         $ownerFqcn,
-        VirtualPhpSourceFile           $virtualFile,
+        ClassMethod $node,
+        string $ownerFqcn,
+        VirtualPhpSourceFile $virtualFile,
         MemberGraphDeclarationSnapshot $snapshot,
     ): void {
         foreach ($node->params as $parameter) {
@@ -351,11 +333,9 @@ final readonly class MemberGraphDeclarationSnapshotBuilder
     /**
      * Builds parameter declaration snapshots.
      *
-     * @param string $callableId The callable identifier.
-     * @param list<Node\Param> $parameters The parameter nodes.
-     * @param array<string, string> $phpDocParameterTypes The PHPDoc parameter types indexed by parameter name.
-     *
-     * @return ParameterDeclarationSnapshotCollection
+     * @param string                $callableId           the callable identifier
+     * @param list<Node\Param>      $parameters           the parameter nodes
+     * @param array<string, string> $phpDocParameterTypes the PHPDoc parameter types indexed by parameter name
      */
     private function parameterSnapshots(
         string $callableId,
@@ -388,10 +368,8 @@ final readonly class MemberGraphDeclarationSnapshotBuilder
     /**
      * Builds template declaration snapshots from PHPDoc.
      *
-     * @param string $scopeId The template scope identifier.
-     * @param string|null $docText The PHPDoc text.
-     *
-     * @return TemplateDeclarationSnapshotCollection
+     * @param string      $scopeId the template scope identifier
+     * @param string|null $docText the PHPDoc text
      */
     private function templateSnapshots(string $scopeId, ?string $docText): TemplateDeclarationSnapshotCollection
     {
@@ -420,7 +398,7 @@ final readonly class MemberGraphDeclarationSnapshotBuilder
     /**
      * Extracts template tag payloads from PHPDoc.
      *
-     * @param string|null $docText The PHPDoc text.
+     * @param string|null $docText the PHPDoc text
      *
      * @return list<string>
      */
@@ -438,10 +416,8 @@ final readonly class MemberGraphDeclarationSnapshotBuilder
     /**
      * Extracts a PHPDoc tag type.
      *
-     * @param string|null $docText The PHPDoc text.
-     * @param string $tagName The tag name without the leading at sign.
-     *
-     * @return string|null
+     * @param string|null $docText the PHPDoc text
+     * @param string      $tagName the tag name without the leading at sign
      */
     private function phpDocTagType(?string $docText, string $tagName): ?string
     {
@@ -449,7 +425,7 @@ final readonly class MemberGraphDeclarationSnapshotBuilder
             return null;
         }
 
-        preg_match('/@' . preg_quote($tagName, '/') . '\s+([^\s*]+)/', $docText, $matches);
+        preg_match('/@'.preg_quote($tagName, '/').'\s+([^\s*]+)/', $docText, $matches);
 
         return $matches[1] ?? null;
     }
@@ -457,7 +433,7 @@ final readonly class MemberGraphDeclarationSnapshotBuilder
     /**
      * Extracts PHPDoc parameter types.
      *
-     * @param string|null $docText The PHPDoc text.
+     * @param string|null $docText the PHPDoc text
      *
      * @return array<string, string>
      */
@@ -481,9 +457,7 @@ final readonly class MemberGraphDeclarationSnapshotBuilder
     /**
      * Extracts a template bound type from tag parts.
      *
-     * @param list<string> $parts The template tag parts.
-     *
-     * @return string|null
+     * @param list<string> $parts the template tag parts
      */
     private function templateBoundType(array $parts): ?string
     {
@@ -499,10 +473,8 @@ final readonly class MemberGraphDeclarationSnapshotBuilder
     /**
      * Merges parameter snapshots.
      *
-     * @param ParameterDeclarationSnapshotCollection $target The target collection.
-     * @param ParameterDeclarationSnapshotCollection $source The source collection.
-     *
-     * @return void
+     * @param ParameterDeclarationSnapshotCollection $target the target collection
+     * @param ParameterDeclarationSnapshotCollection $source the source collection
      */
     private function mergeParameters(
         ParameterDeclarationSnapshotCollection $target,
@@ -516,10 +488,8 @@ final readonly class MemberGraphDeclarationSnapshotBuilder
     /**
      * Merges template snapshots.
      *
-     * @param TemplateDeclarationSnapshotCollection $target The target collection.
-     * @param TemplateDeclarationSnapshotCollection $source The source collection.
-     *
-     * @return void
+     * @param TemplateDeclarationSnapshotCollection $target the target collection
+     * @param TemplateDeclarationSnapshotCollection $source the source collection
      */
     private function mergeTemplates(
         TemplateDeclarationSnapshotCollection $target,
@@ -533,9 +503,7 @@ final readonly class MemberGraphDeclarationSnapshotBuilder
     /**
      * Returns PHPDoc text for one node.
      *
-     * @param Node $node The node.
-     *
-     * @return string|null
+     * @param Node $node the node
      */
     private function docText(Node $node): ?string
     {
@@ -545,9 +513,7 @@ final readonly class MemberGraphDeclarationSnapshotBuilder
     /**
      * Resolves an owner kind.
      *
-     * @param ClassLike $node The class-like node.
-     *
-     * @return OwnerKind
+     * @param ClassLike $node the class-like node
      */
     private function ownerKind(ClassLike $node): OwnerKind
     {
@@ -569,9 +535,7 @@ final readonly class MemberGraphDeclarationSnapshotBuilder
     /**
      * Resolves a class parent FQCN.
      *
-     * @param ClassLike $node The class-like node.
-     *
-     * @return string|null
+     * @param ClassLike $node the class-like node
      */
     private function parentFqcn(ClassLike $node): ?string
     {
@@ -585,7 +549,7 @@ final readonly class MemberGraphDeclarationSnapshotBuilder
     /**
      * Resolves directly implemented interfaces.
      *
-     * @param ClassLike $node The class-like node.
+     * @param ClassLike $node the class-like node
      *
      * @return list<string>
      */
@@ -601,7 +565,7 @@ final readonly class MemberGraphDeclarationSnapshotBuilder
     /**
      * Resolves directly extended interfaces.
      *
-     * @param ClassLike $node The class-like node.
+     * @param ClassLike $node the class-like node
      *
      * @return list<string>
      */
@@ -617,7 +581,7 @@ final readonly class MemberGraphDeclarationSnapshotBuilder
     /**
      * Resolves directly used traits.
      *
-     * @param ClassLike $node The class-like node.
+     * @param ClassLike $node the class-like node
      *
      * @return list<string>
      */
@@ -641,9 +605,7 @@ final readonly class MemberGraphDeclarationSnapshotBuilder
     /**
      * Resolves node visibility.
      *
-     * @param ClassMethod|Property $node The method or property node.
-     *
-     * @return string
+     * @param ClassMethod|Property $node the method or property node
      */
     private function visibility(ClassMethod|Property $node): string
     {
@@ -661,9 +623,7 @@ final readonly class MemberGraphDeclarationSnapshotBuilder
     /**
      * Resolves promoted property visibility.
      *
-     * @param Node\Param $parameter The promoted parameter.
-     *
-     * @return string
+     * @param Node\Param $parameter the promoted parameter
      */
     private function promotedVisibility(Node\Param $parameter): string
     {
@@ -681,9 +641,7 @@ final readonly class MemberGraphDeclarationSnapshotBuilder
     /**
      * Converts a parser type node to a compact string.
      *
-     * @param Node\ComplexType|Identifier|Name|null $type The parser type node.
-     *
-     * @return string|null
+     * @param Node\ComplexType|Identifier|Name|null $type the parser type node
      */
     private function typeToString(Node\ComplexType|Identifier|Name|null $type): ?string
     {
@@ -696,7 +654,7 @@ final readonly class MemberGraphDeclarationSnapshotBuilder
         }
 
         if ($type instanceof NullableType) {
-            return '?' . $this->typeToString($type->type);
+            return '?'.$this->typeToString($type->type);
         }
 
         if ($type instanceof UnionType) {
@@ -713,9 +671,7 @@ final readonly class MemberGraphDeclarationSnapshotBuilder
     /**
      * Resolves a supported scalar value.
      *
-     * @param Node $node The value node.
-     *
-     * @return int|string|null
+     * @param Node $node the value node
      */
     private function scalarValue(Node $node): int|string|null
     {
@@ -733,10 +689,8 @@ final readonly class MemberGraphDeclarationSnapshotBuilder
     /**
      * Qualifies a local name with the current namespace.
      *
-     * @param string $name The local name.
-     * @param string $namespace The current namespace.
-     *
-     * @return string
+     * @param string $name      the local name
+     * @param string $namespace the current namespace
      */
     private function qualifiedName(string $name, string $namespace): string
     {
@@ -744,6 +698,6 @@ final readonly class MemberGraphDeclarationSnapshotBuilder
             return $name;
         }
 
-        return $namespace . '\\' . $name;
+        return $namespace.'\\'.$name;
     }
 }

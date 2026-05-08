@@ -4,19 +4,15 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Application\Build\Factory\Warning;
 
-use ArrayIterator;
-use Countable;
-use IteratorAggregate;
 use PhpNoobs\MemberGraph\Application\Cache\Core\MemberGraphCacheWriteResult;
 use PhpNoobs\MemberGraph\Application\Cache\Core\MemberGraphCacheWriteStatus;
-use Traversable;
 
 /**
  * Stores non-blocking member dependency graph factory warnings.
  *
- * @implements IteratorAggregate<int, MemberDependencyGraphFactoryWarning>
+ * @implements \IteratorAggregate<int, MemberDependencyGraphFactoryWarning>
  */
-final class MemberDependencyGraphFactoryWarningCollection implements Countable, IteratorAggregate
+final class MemberDependencyGraphFactoryWarningCollection implements \Countable, \IteratorAggregate
 {
     /** @var list<MemberDependencyGraphFactoryWarning> */
     private array $warnings = [];
@@ -24,9 +20,7 @@ final class MemberDependencyGraphFactoryWarningCollection implements Countable, 
     /**
      * Creates a warning collection from a cache write result.
      *
-     * @param MemberGraphCacheWriteResult $cacheWriteResult The cache write result.
-     *
-     * @return self
+     * @param MemberGraphCacheWriteResult $cacheWriteResult the cache write result
      */
     public static function fromCacheWriteResult(MemberGraphCacheWriteResult $cacheWriteResult): self
     {
@@ -53,9 +47,7 @@ final class MemberDependencyGraphFactoryWarningCollection implements Countable, 
     /**
      * Adds a warning.
      *
-     * @param MemberDependencyGraphFactoryWarning $warning The warning to add.
-     *
-     * @return void
+     * @param MemberDependencyGraphFactoryWarning $warning the warning to add
      */
     public function add(MemberDependencyGraphFactoryWarning $warning): void
     {
@@ -64,8 +56,6 @@ final class MemberDependencyGraphFactoryWarningCollection implements Countable, 
 
     /**
      * Indicates whether the collection is empty.
-     *
-     * @return bool
      */
     public function isEmpty(): bool
     {
@@ -84,8 +74,6 @@ final class MemberDependencyGraphFactoryWarningCollection implements Countable, 
 
     /**
      * Counts warnings.
-     *
-     * @return int
      */
     public function count(): int
     {
@@ -95,10 +83,10 @@ final class MemberDependencyGraphFactoryWarningCollection implements Countable, 
     /**
      * Returns an iterator over warnings.
      *
-     * @return Traversable<int, MemberDependencyGraphFactoryWarning>
+     * @return \Traversable<int, MemberDependencyGraphFactoryWarning>
      */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
-        return new ArrayIterator($this->warnings);
+        return new \ArrayIterator($this->warnings);
     }
 }

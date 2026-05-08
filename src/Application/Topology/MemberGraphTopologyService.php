@@ -18,7 +18,7 @@ final readonly class MemberGraphTopologyService
     /**
      * Constructor.
      *
-     * @param MemberGraphQueryService $graphQuery The graph query service.
+     * @param MemberGraphQueryService $graphQuery the graph query service
      */
     public function __construct(
         private MemberGraphQueryService $graphQuery,
@@ -28,9 +28,7 @@ final readonly class MemberGraphTopologyService
     /**
      * Creates a topology service from a member dependency graph.
      *
-     * @param MemberDependencyGraph $graph The member dependency graph.
-     *
-     * @return self
+     * @param MemberDependencyGraph $graph the member dependency graph
      */
     public static function fromGraph(MemberDependencyGraph $graph): self
     {
@@ -40,9 +38,7 @@ final readonly class MemberGraphTopologyService
     /**
      * Creates a topology service from an existing graph query service.
      *
-     * @param MemberGraphQueryService $graphQuery The graph query service.
-     *
-     * @return self
+     * @param MemberGraphQueryService $graphQuery the graph query service
      */
     public static function fromQuery(MemberGraphQueryService $graphQuery): self
     {
@@ -52,11 +48,9 @@ final readonly class MemberGraphTopologyService
     /**
      * Builds a bounded member-level topology from one root member.
      *
-     * @param MemberId $memberId The root member identifier.
-     * @param MemberGraphTopologyDirection $direction The traversal direction.
-     * @param int $maxDepth The maximum traversal depth.
-     *
-     * @return MemberGraphTopology
+     * @param MemberId                     $memberId  the root member identifier
+     * @param MemberGraphTopologyDirection $direction the traversal direction
+     * @param int                          $maxDepth  the maximum traversal depth
      */
     public function member(
         MemberId $memberId,
@@ -91,11 +85,9 @@ final readonly class MemberGraphTopologyService
     /**
      * Builds a bounded topology from members declared by one owner.
      *
-     * @param string $owner The owner FQCN.
-     * @param MemberGraphTopologyDirection $direction The traversal direction.
-     * @param int $maxDepth The maximum dependency traversal depth from each owner member.
-     *
-     * @return MemberGraphTopology
+     * @param string                       $owner     the owner FQCN
+     * @param MemberGraphTopologyDirection $direction the traversal direction
+     * @param int                          $maxDepth  the maximum dependency traversal depth from each owner member
      */
     public function owner(
         string $owner,
@@ -141,9 +133,7 @@ final readonly class MemberGraphTopologyService
     /**
      * Builds a complete codebase topology from known owners, declarations, and member dependencies.
      *
-     * @param MemberGraphTopologyDirection $direction The dependency direction to include.
-     *
-     * @return MemberGraphTopology
+     * @param MemberGraphTopologyDirection $direction the dependency direction to include
      */
     public function codebase(
         MemberGraphTopologyDirection $direction = MemberGraphTopologyDirection::BOTH,
@@ -201,16 +191,14 @@ final readonly class MemberGraphTopologyService
     /**
      * Recursively collects outgoing dependencies.
      *
-     * @param MemberLevelDependencyGraph $dependencyGraph The member-level dependency graph.
-     * @param MemberId $memberId The member currently being explored.
-     * @param int $currentDepth The current traversal depth.
-     * @param int $maxDepth The maximum traversal depth.
-     * @param int $depthOffset The topology depth offset to apply to member nodes and dependency edges.
-     * @param MemberGraphTopologyNodeCollection $nodes The node accumulator.
-     * @param MemberGraphTopologyEdgeCollection $edges The edge accumulator.
-     * @param array<string, int> $visitedDepthByMember The shortest depth already expanded for each member.
-     *
-     * @return void
+     * @param MemberLevelDependencyGraph        $dependencyGraph      the member-level dependency graph
+     * @param MemberId                          $memberId             the member currently being explored
+     * @param int                               $currentDepth         the current traversal depth
+     * @param int                               $maxDepth             the maximum traversal depth
+     * @param int                               $depthOffset          the topology depth offset to apply to member nodes and dependency edges
+     * @param MemberGraphTopologyNodeCollection $nodes                the node accumulator
+     * @param MemberGraphTopologyEdgeCollection $edges                the edge accumulator
+     * @param array<string, int>                $visitedDepthByMember the shortest depth already expanded for each member
      */
     private function collectOutgoing(
         MemberLevelDependencyGraph $dependencyGraph,
@@ -254,16 +242,14 @@ final readonly class MemberGraphTopologyService
     /**
      * Recursively collects incoming dependencies.
      *
-     * @param MemberLevelDependencyGraph $dependencyGraph The member-level dependency graph.
-     * @param MemberId $memberId The member currently being explored.
-     * @param int $currentDepth The current traversal depth.
-     * @param int $maxDepth The maximum traversal depth.
-     * @param int $depthOffset The topology depth offset to apply to member nodes and dependency edges.
-     * @param MemberGraphTopologyNodeCollection $nodes The node accumulator.
-     * @param MemberGraphTopologyEdgeCollection $edges The edge accumulator.
-     * @param array<string, int> $visitedDepthByMember The shortest depth already expanded for each member.
-     *
-     * @return void
+     * @param MemberLevelDependencyGraph        $dependencyGraph      the member-level dependency graph
+     * @param MemberId                          $memberId             the member currently being explored
+     * @param int                               $currentDepth         the current traversal depth
+     * @param int                               $maxDepth             the maximum traversal depth
+     * @param int                               $depthOffset          the topology depth offset to apply to member nodes and dependency edges
+     * @param MemberGraphTopologyNodeCollection $nodes                the node accumulator
+     * @param MemberGraphTopologyEdgeCollection $edges                the edge accumulator
+     * @param array<string, int>                $visitedDepthByMember the shortest depth already expanded for each member
      */
     private function collectIncoming(
         MemberLevelDependencyGraph $dependencyGraph,
@@ -307,12 +293,10 @@ final readonly class MemberGraphTopologyService
     /**
      * Indicates whether the traversal must stop for the current member.
      *
-     * @param MemberId $memberId The member currently being explored.
-     * @param int $currentDepth The current traversal depth.
-     * @param int $maxDepth The maximum traversal depth.
-     * @param array<string, int> $visitedDepthByMember The shortest depth already expanded for each member.
-     *
-     * @return bool
+     * @param MemberId           $memberId             the member currently being explored
+     * @param int                $currentDepth         the current traversal depth
+     * @param int                $maxDepth             the maximum traversal depth
+     * @param array<string, int> $visitedDepthByMember the shortest depth already expanded for each member
      */
     private function shouldStopTraversal(
         MemberId $memberId,
@@ -332,14 +316,12 @@ final readonly class MemberGraphTopologyService
     /**
      * Adds a dependency edge and both endpoint nodes.
      *
-     * @param MemberDependency $dependency The dependency to project.
-     * @param int $sourceDepth The source node depth from the topology root.
-     * @param int $targetDepth The target node depth from the topology root.
-     * @param int $edgeDepth The edge depth from the topology root.
-     * @param MemberGraphTopologyNodeCollection $nodes The node accumulator.
-     * @param MemberGraphTopologyEdgeCollection $edges The edge accumulator.
-     *
-     * @return void
+     * @param MemberDependency                  $dependency  the dependency to project
+     * @param int                               $sourceDepth the source node depth from the topology root
+     * @param int                               $targetDepth the target node depth from the topology root
+     * @param int                               $edgeDepth   the edge depth from the topology root
+     * @param MemberGraphTopologyNodeCollection $nodes       the node accumulator
+     * @param MemberGraphTopologyEdgeCollection $edges       the edge accumulator
      */
     private function addDependencyEdge(
         MemberDependency $dependency,
@@ -363,13 +345,11 @@ final readonly class MemberGraphTopologyService
     /**
      * Adds codebase dependency edges for one graph member according to the requested direction.
      *
-     * @param MemberLevelDependencyGraph $dependencyGraph The member-level dependency graph.
-     * @param MemberId $memberId The member whose dependencies must be projected.
-     * @param MemberGraphTopologyDirection $direction The dependency direction to include.
-     * @param MemberGraphTopologyNodeCollection $nodes The node accumulator.
-     * @param MemberGraphTopologyEdgeCollection $edges The edge accumulator.
-     *
-     * @return void
+     * @param MemberLevelDependencyGraph        $dependencyGraph the member-level dependency graph
+     * @param MemberId                          $memberId        the member whose dependencies must be projected
+     * @param MemberGraphTopologyDirection      $direction       the dependency direction to include
+     * @param MemberGraphTopologyNodeCollection $nodes           the node accumulator
+     * @param MemberGraphTopologyEdgeCollection $edges           the edge accumulator
      */
     private function addCodebaseDependenciesFor(
         MemberLevelDependencyGraph $dependencyGraph,
@@ -396,12 +376,10 @@ final readonly class MemberGraphTopologyService
     /**
      * Adds the codebase-to-owner structural edge.
      *
-     * @param string $codebaseNodeId The codebase topology node identifier.
-     * @param string $owner The owner FQCN.
-     * @param MemberGraphTopologyNodeCollection $nodes The node accumulator.
-     * @param MemberGraphTopologyEdgeCollection $edges The edge accumulator.
-     *
-     * @return void
+     * @param string                            $codebaseNodeId the codebase topology node identifier
+     * @param string                            $owner          the owner FQCN
+     * @param MemberGraphTopologyNodeCollection $nodes          the node accumulator
+     * @param MemberGraphTopologyEdgeCollection $edges          the edge accumulator
      */
     private function addCodebaseOwnerEdge(
         string $codebaseNodeId,

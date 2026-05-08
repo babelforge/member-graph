@@ -14,7 +14,7 @@ final readonly class MemberGraphFileFingerprintResolver
     /**
      * Constructor.
      *
-     * @param string $strategyVersion The fingerprint strategy version.
+     * @param string $strategyVersion the fingerprint strategy version
      */
     public function __construct(
         private string $strategyVersion = self::STRATEGY_VERSION,
@@ -23,8 +23,6 @@ final readonly class MemberGraphFileFingerprintResolver
 
     /**
      * Returns the fingerprint strategy version.
-     *
-     * @return string
      */
     public function strategyVersion(): string
     {
@@ -34,9 +32,7 @@ final readonly class MemberGraphFileFingerprintResolver
     /**
      * Computes the current file fingerprint.
      *
-     * @param string $filePath The file path to inspect.
-     *
-     * @return string
+     * @param string $filePath the file path to inspect
      */
     public function resolve(string $filePath): string
     {

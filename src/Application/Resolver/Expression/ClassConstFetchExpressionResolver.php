@@ -25,8 +25,8 @@ final readonly class ClassConstFetchExpressionResolver implements ExpressionReso
     /**
      * Constructor.
      *
-     * @param StaticOwnerResolver $staticOwnerResolver The static owner resolver.
-     * @param ClassConstantOwnerResolver $classConstantOwnerResolver The class constant owner resolver.
+     * @param StaticOwnerResolver        $staticOwnerResolver        the static owner resolver
+     * @param ClassConstantOwnerResolver $classConstantOwnerResolver the class constant owner resolver
      */
     public function __construct(
         private StaticOwnerResolver $staticOwnerResolver,
@@ -37,9 +37,7 @@ final readonly class ClassConstFetchExpressionResolver implements ExpressionReso
     /**
      * Tells whether this resolver can handle the given node.
      *
-     * @param Node $expression The expression or expression-like node to inspect.
-     *
-     * @return bool
+     * @param Node $expression the expression or expression-like node to inspect
      */
     public function supports(Node $expression): bool
     {
@@ -49,11 +47,9 @@ final readonly class ClassConstFetchExpressionResolver implements ExpressionReso
     /**
      * Resolves symbols produced by a class constant fetch.
      *
-     * @param Node $expression The class-constant-fetch expression.
-     * @param ExpressionResolutionContext $context The current expression resolution context.
-     * @param ExpressionTypeResolverInterface $fallbackResolver The facade resolver for recursive resolution.
-     *
-     * @return SymbolCollection|null
+     * @param Node                            $expression       the class-constant-fetch expression
+     * @param ExpressionResolutionContext     $context          the current expression resolution context
+     * @param ExpressionTypeResolverInterface $fallbackResolver the facade resolver for recursive resolution
      */
     public function resolve(
         Node $expression,
@@ -95,11 +91,9 @@ final readonly class ClassConstFetchExpressionResolver implements ExpressionReso
      *
      * Class constant fetches do not currently produce structured PHPDoc types.
      *
-     * @param Expr $expression The class-constant-fetch expression.
-     * @param ExpressionResolutionContext $context The current expression resolution context.
-     * @param ExpressionTypeResolverInterface $fallbackResolver The facade resolver for recursive resolution.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param Expr                            $expression       the class-constant-fetch expression
+     * @param ExpressionResolutionContext     $context          the current expression resolution context
+     * @param ExpressionTypeResolverInterface $fallbackResolver the facade resolver for recursive resolution
      */
     public function resolveStructuredPhpDocType(
         Expr $expression,

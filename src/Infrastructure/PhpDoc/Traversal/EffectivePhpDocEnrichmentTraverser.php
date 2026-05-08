@@ -26,15 +26,15 @@ final class EffectivePhpDocEnrichmentTraverser
     /**
      * Constructor.
      *
-     * @param KnownOwnerCollection $knownOwners The known owner collection.
-     * @param MethodNodeIndex $globalMethodNodeIndex The global method node index.
-     * @param MemberGraphIssueCollection|null $dependencyGraphIssues The optional dependency-graph issue collection.
+     * @param KnownOwnerCollection            $knownOwners           the known owner collection
+     * @param MethodNodeIndex                 $globalMethodNodeIndex the global method node index
+     * @param MemberGraphIssueCollection|null $dependencyGraphIssues the optional dependency-graph issue collection
      */
     public function __construct(
-        MemberGraphPhpSourceRegistryInstance  $fileRegistry,
+        MemberGraphPhpSourceRegistryInstance $fileRegistry,
         private readonly KnownOwnerCollection $knownOwners,
-        MethodNodeIndex                       $globalMethodNodeIndex,
-        ?MemberGraphIssueCollection           $dependencyGraphIssues = null,
+        MethodNodeIndex $globalMethodNodeIndex,
+        ?MemberGraphIssueCollection $dependencyGraphIssues = null,
     ) {
         $parentMethodNodeResolver = new ParentMethodNodeResolver($knownOwners, $globalMethodNodeIndex);
         $this->effectivePhpDocEnricher = new EffectivePhpDocEnricherFactory($fileRegistry, $dependencyGraphIssues)
@@ -44,11 +44,9 @@ final class EffectivePhpDocEnrichmentTraverser
     /**
      * Enriches the parsed file nodes with effective PHPDoc attributes.
      *
-     * @param Node[] $nodes The parsed file nodes.
-     * @param string $fullFilePath The original full file path.
-     * @param string $virtualFilePath The virtual file path.
-     *
-     * @return void
+     * @param Node[] $nodes           the parsed file nodes
+     * @param string $fullFilePath    the original full file path
+     * @param string $virtualFilePath the virtual file path
      */
     public function enrich(
         array $nodes,

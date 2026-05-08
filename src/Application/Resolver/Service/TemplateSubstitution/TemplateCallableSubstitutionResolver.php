@@ -15,12 +15,10 @@ final readonly class TemplateCallableSubstitutionResolver
     /**
      * Collects substitutions from callable parameter and return types.
      *
-     * @param ResolvedPhpDocType $parameterType The declared callable type.
-     * @param ResolvedPhpDocType $argumentType The concrete callable type.
-     * @param PhpDocTemplateSubstitutionContext $context The mutable substitution context.
-     * @param TemplateArgumentSubstitutionResolver $argumentSubstitutionResolver The recursive argument substitution resolver.
-     *
-     * @return void
+     * @param ResolvedPhpDocType                   $parameterType                the declared callable type
+     * @param ResolvedPhpDocType                   $argumentType                 the concrete callable type
+     * @param PhpDocTemplateSubstitutionContext    $context                      the mutable substitution context
+     * @param TemplateArgumentSubstitutionResolver $argumentSubstitutionResolver the recursive argument substitution resolver
      */
     public function collect(
         ResolvedPhpDocType $parameterType,

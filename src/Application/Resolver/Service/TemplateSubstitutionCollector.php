@@ -21,8 +21,8 @@ final readonly class TemplateSubstitutionCollector
     /**
      * Constructor.
      *
-     * @param TemplateSubstitutionMerger|null $templateSubstitutionMerger The optional template substitution merger.
-     * @param TemplateArgumentSubstitutionResolver|null $templateArgumentSubstitutionResolver The optional argument substitution resolver.
+     * @param TemplateSubstitutionMerger|null           $templateSubstitutionMerger           the optional template substitution merger
+     * @param TemplateArgumentSubstitutionResolver|null $templateArgumentSubstitutionResolver the optional argument substitution resolver
      */
     public function __construct(
         ?TemplateSubstitutionMerger $templateSubstitutionMerger = null,
@@ -36,11 +36,9 @@ final readonly class TemplateSubstitutionCollector
     /**
      * Collects substitutions by comparing one declared type against one concrete argument type.
      *
-     * @param ResolvedPhpDocType $parameterType The declared parameter type.
-     * @param ResolvedPhpDocType $argumentType The concrete argument type.
-     * @param PhpDocTemplateSubstitutionContext $context The mutable substitution context.
-     *
-     * @return void
+     * @param ResolvedPhpDocType                $parameterType the declared parameter type
+     * @param ResolvedPhpDocType                $argumentType  the concrete argument type
+     * @param PhpDocTemplateSubstitutionContext $context       the mutable substitution context
      */
     public function collect(
         ResolvedPhpDocType $parameterType,
@@ -53,11 +51,9 @@ final readonly class TemplateSubstitutionCollector
     /**
      * Adds one template substitution, preserving multiple discovered branches as a union.
      *
-     * @param PhpDocTemplateSubstitutionContext $context The mutable substitution context.
-     * @param string $templateName The template name.
-     * @param ResolvedPhpDocType $resolvedType The resolved template type.
-     *
-     * @return void
+     * @param PhpDocTemplateSubstitutionContext $context      the mutable substitution context
+     * @param string                            $templateName the template name
+     * @param ResolvedPhpDocType                $resolvedType the resolved template type
      */
     public function set(
         PhpDocTemplateSubstitutionContext $context,

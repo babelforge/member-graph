@@ -34,8 +34,6 @@ final class MemberGraphTopologyServiceTest extends TestCase
 {
     /**
      * Ensures outgoing topology follows direct and transitive member dependencies.
-     *
-     * @return void
      */
     public function testItBuildsOutgoingMemberTopology(): void
     {
@@ -66,8 +64,6 @@ final class MemberGraphTopologyServiceTest extends TestCase
 
     /**
      * Ensures incoming topology follows reverse member dependencies.
-     *
-     * @return void
      */
     public function testItBuildsIncomingMemberTopology(): void
     {
@@ -88,8 +84,6 @@ final class MemberGraphTopologyServiceTest extends TestCase
 
     /**
      * Ensures bidirectional topology keeps cycles bounded.
-     *
-     * @return void
      */
     public function testItBuildsBidirectionalTopologyWithoutLoopingOnCycles(): void
     {
@@ -120,8 +114,6 @@ final class MemberGraphTopologyServiceTest extends TestCase
 
     /**
      * Ensures zero-depth topology only contains the root node.
-     *
-     * @return void
      */
     public function testItBuildsRootOnlyTopologyWhenDepthIsZero(): void
     {
@@ -138,8 +130,6 @@ final class MemberGraphTopologyServiceTest extends TestCase
 
     /**
      * Ensures owner topology exposes the owner node and declared member roots.
-     *
-     * @return void
      */
     public function testItBuildsOwnerTopologyFromDeclaredMembers(): void
     {
@@ -184,8 +174,6 @@ final class MemberGraphTopologyServiceTest extends TestCase
 
     /**
      * Ensures owner incoming topology follows reverse dependencies targeting declared members.
-     *
-     * @return void
      */
     public function testItBuildsIncomingOwnerTopology(): void
     {
@@ -213,8 +201,6 @@ final class MemberGraphTopologyServiceTest extends TestCase
 
     /**
      * Ensures codebase topology exposes owners, declared members, and member dependencies.
-     *
-     * @return void
      */
     public function testItBuildsCodebaseTopology(): void
     {
@@ -284,11 +270,9 @@ final class MemberGraphTopologyServiceTest extends TestCase
     /**
      * Creates a member dependency graph for topology tests.
      *
-     * @param list<MemberUsage> $memberUsages The member usages to add.
-     * @param list<MemberDeclaration> $declarations The declarations to add.
-     * @param list<KnownOwner> $knownOwners The known owners to add.
-     *
-     * @return MemberDependencyGraph
+     * @param list<MemberUsage>       $memberUsages the member usages to add
+     * @param list<MemberDeclaration> $declarations the declarations to add
+     * @param list<KnownOwner>        $knownOwners  the known owners to add
      */
     private function createGraph(
         array $memberUsages,
@@ -325,11 +309,9 @@ final class MemberGraphTopologyServiceTest extends TestCase
     /**
      * Creates an expected member dependency for assertions.
      *
-     * @param MemberId $source The source member.
-     * @param MemberId $target The target member.
-     * @param string $file The source file.
-     *
-     * @return MemberDependency
+     * @param MemberId $source the source member
+     * @param MemberId $target the target member
+     * @param string   $file   the source file
      */
     private function dependency(
         MemberId $source,

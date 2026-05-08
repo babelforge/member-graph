@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Tests\Unit;
 
-use InvalidArgumentException;
-use JsonException;
 use PhpNoobs\MemberGraph\Application\Topology\Export\MemberGraphTopologyArrayExporter;
 use PhpNoobs\MemberGraph\Application\Topology\Export\MemberGraphTopologyDotExporter;
 use PhpNoobs\MemberGraph\Application\Topology\Export\MemberGraphTopologyJsonExporter;
@@ -34,8 +32,6 @@ final class MemberGraphTopologyExporterTest extends TestCase
 {
     /**
      * Ensures the array exporter emits a stable topology representation.
-     *
-     * @return void
      */
     public function testItExportsTopologyToArray(): void
     {
@@ -59,9 +55,7 @@ final class MemberGraphTopologyExporterTest extends TestCase
     /**
      * Ensures the JSON exporter delegates to the array exporter representation.
      *
-     * @return void
-     *
-     * @throws JsonException
+     * @throws \JsonException
      */
     public function testItExportsTopologyToJson(): void
     {
@@ -80,8 +74,6 @@ final class MemberGraphTopologyExporterTest extends TestCase
 
     /**
      * Ensures the Mermaid exporter emits readable flowchart syntax.
-     *
-     * @return void
      */
     public function testItExportsTopologyToMermaid(): void
     {
@@ -101,8 +93,6 @@ final class MemberGraphTopologyExporterTest extends TestCase
 
     /**
      * Ensures the DOT exporter emits Graphviz-compatible graph syntax.
-     *
-     * @return void
      */
     public function testItExportsTopologyToDot(): void
     {
@@ -126,8 +116,6 @@ final class MemberGraphTopologyExporterTest extends TestCase
 
     /**
      * Ensures the DOT exporter accepts supported graph direction and node shape options.
-     *
-     * @return void
      */
     public function testItExportsTopologyToDotWithCustomOptions(): void
     {
@@ -142,12 +130,10 @@ final class MemberGraphTopologyExporterTest extends TestCase
 
     /**
      * Ensures the DOT exporter rejects unsupported graph direction options.
-     *
-     * @return void
      */
     public function testItRejectsUnsupportedDotRankdir(): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Unsupported DOT rankdir "BT".');
 
         new MemberGraphTopologyDotExporter(rankdir: 'BT');
@@ -155,12 +141,10 @@ final class MemberGraphTopologyExporterTest extends TestCase
 
     /**
      * Ensures the DOT exporter rejects unsupported node shape options.
-     *
-     * @return void
      */
     public function testItRejectsUnsupportedDotShape(): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Unsupported DOT node shape "diamond".');
 
         new MemberGraphTopologyDotExporter(shape: 'diamond');
@@ -169,10 +153,8 @@ final class MemberGraphTopologyExporterTest extends TestCase
     /**
      * Creates a member dependency graph for exporter tests.
      *
-     * @param MemberId $aRun The source member.
-     * @param MemberId $bRun The target member.
-     *
-     * @return MemberDependencyGraph
+     * @param MemberId $aRun the source member
+     * @param MemberId $bRun the target member
      */
     private function createGraph(MemberId $aRun, MemberId $bRun): MemberDependencyGraph
     {
@@ -201,11 +183,9 @@ final class MemberGraphTopologyExporterTest extends TestCase
     /**
      * Indicates whether exported nodes contain the expected node.
      *
-     * @param mixed $nodes The exported nodes.
-     * @param string $id The expected node id.
-     * @param string $kind The expected node kind.
-     *
-     * @return bool
+     * @param mixed  $nodes the exported nodes
+     * @param string $id    the expected node id
+     * @param string $kind  the expected node kind
      */
     private function hasNode(mixed $nodes, string $id, string $kind): bool
     {
@@ -225,12 +205,10 @@ final class MemberGraphTopologyExporterTest extends TestCase
     /**
      * Indicates whether exported edges contain the expected member dependency edge.
      *
-     * @param mixed $edges The exported edges.
-     * @param string $sourceNodeId The expected source node id.
-     * @param string $targetNodeId The expected target node id.
-     * @param string $usageType The expected member usage type.
-     *
-     * @return bool
+     * @param mixed  $edges        the exported edges
+     * @param string $sourceNodeId the expected source node id
+     * @param string $targetNodeId the expected target node id
+     * @param string $usageType    the expected member usage type
      */
     private function hasDependencyEdge(
         mixed $edges,

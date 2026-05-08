@@ -23,7 +23,7 @@ final readonly class NativeStructuredTypeResolver
     /**
      * Constructor.
      *
-     * @param ClassNameResolver $classNameResolver The class-name resolver.
+     * @param ClassNameResolver $classNameResolver the class-name resolver
      */
     public function __construct(private ClassNameResolver $classNameResolver)
     {
@@ -32,11 +32,9 @@ final readonly class NativeStructuredTypeResolver
     /**
      * Resolves one native type node to one structured PHPDoc type.
      *
-     * @param Node|null $nativeType The native type node.
-     * @param string $currentClass The current class FQCN.
-     * @param UsesByAliasCollection $usesByAlias The imported symbols indexed by alias.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param Node|null             $nativeType   the native type node
+     * @param string                $currentClass the current class FQCN
+     * @param UsesByAliasCollection $usesByAlias  the imported symbols indexed by alias
      */
     public function resolve(
         ?Node $nativeType,
@@ -75,11 +73,9 @@ final readonly class NativeStructuredTypeResolver
     /**
      * Resolves one composite native type node to one structured PHPDoc type.
      *
-     * @param UnionType|IntersectionType $nativeType The composite native type node.
-     * @param string $currentClass The current class FQCN.
-     * @param UsesByAliasCollection $usesByAlias The imported symbols indexed by alias.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param UnionType|IntersectionType $nativeType   the composite native type node
+     * @param string                     $currentClass the current class FQCN
+     * @param UsesByAliasCollection      $usesByAlias  the imported symbols indexed by alias
      */
     private function resolveComposite(
         UnionType|IntersectionType $nativeType,
@@ -106,9 +102,7 @@ final readonly class NativeStructuredTypeResolver
     /**
      * Builds one regular structured type from one symbol.
      *
-     * @param string $symbol The type symbol.
-     *
-     * @return ResolvedPhpDocType
+     * @param string $symbol the type symbol
      */
     private function buildRegularStructuredType(string $symbol): ResolvedPhpDocType
     {

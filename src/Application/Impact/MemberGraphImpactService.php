@@ -23,8 +23,8 @@ final readonly class MemberGraphImpactService
     /**
      * Constructor.
      *
-     * @param MemberGraphQueryService $graphQuery The graph query service.
-     * @param MemberGraphSourceQueryService $sourceQuery The source-aware query service.
+     * @param MemberGraphQueryService       $graphQuery  the graph query service
+     * @param MemberGraphSourceQueryService $sourceQuery the source-aware query service
      */
     public function __construct(
         private MemberGraphQueryService $graphQuery,
@@ -35,9 +35,7 @@ final readonly class MemberGraphImpactService
     /**
      * Creates an impact service from a factory build result.
      *
-     * @param MemberDependencyGraphBuild $build The member dependency graph build result.
-     *
-     * @return self
+     * @param MemberDependencyGraphBuild $build the member dependency graph build result
      */
     public static function fromBuild(MemberDependencyGraphBuild $build): self
     {
@@ -50,13 +48,11 @@ final readonly class MemberGraphImpactService
     /**
      * Creates an impact service from a graph and its virtual files.
      *
-     * @param MemberDependencyGraph $graph The member dependency graph.
-     * @param VirtualPhpSourceFileCollection $virtualFiles The virtual files to index.
-     *
-     * @return self
+     * @param MemberDependencyGraph          $graph        the member dependency graph
+     * @param VirtualPhpSourceFileCollection $virtualFiles the virtual files to index
      */
     public static function fromGraphAndVirtualFiles(
-        MemberDependencyGraph          $graph,
+        MemberDependencyGraph $graph,
         VirtualPhpSourceFileCollection $virtualFiles,
     ): self {
         $graphQuery = MemberGraphQueryService::fromGraph($graph);
@@ -67,13 +63,11 @@ final readonly class MemberGraphImpactService
     /**
      * Creates an impact service from an existing graph query service and virtual files.
      *
-     * @param MemberGraphQueryService $graphQuery The graph query service.
-     * @param VirtualPhpSourceFileCollection $virtualFiles The virtual files to index.
-     *
-     * @return self
+     * @param MemberGraphQueryService        $graphQuery   the graph query service
+     * @param VirtualPhpSourceFileCollection $virtualFiles the virtual files to index
      */
     public static function fromQueryAndVirtualFiles(
-        MemberGraphQueryService        $graphQuery,
+        MemberGraphQueryService $graphQuery,
         VirtualPhpSourceFileCollection $virtualFiles,
     ): self {
         return new self(
@@ -85,10 +79,8 @@ final readonly class MemberGraphImpactService
     /**
      * Resolves impact information for one method.
      *
-     * @param string $owner The method owner FQCN.
-     * @param string $name The method name.
-     *
-     * @return MemberGraphImpact
+     * @param string $owner the method owner FQCN
+     * @param string $name  the method name
      */
     public function method(string $owner, string $name): MemberGraphImpact
     {
@@ -98,10 +90,8 @@ final readonly class MemberGraphImpactService
     /**
      * Resolves impact information for one property.
      *
-     * @param string $owner The property owner FQCN.
-     * @param string $name The property name.
-     *
-     * @return MemberGraphImpact
+     * @param string $owner the property owner FQCN
+     * @param string $name  the property name
      */
     public function property(string $owner, string $name): MemberGraphImpact
     {
@@ -111,10 +101,8 @@ final readonly class MemberGraphImpactService
     /**
      * Resolves impact information for one class constant.
      *
-     * @param string $owner The class-constant owner FQCN.
-     * @param string $name The class-constant name.
-     *
-     * @return MemberGraphImpact
+     * @param string $owner the class-constant owner FQCN
+     * @param string $name  the class-constant name
      */
     public function classConstant(string $owner, string $name): MemberGraphImpact
     {
@@ -124,9 +112,7 @@ final readonly class MemberGraphImpactService
     /**
      * Resolves impact information for one function.
      *
-     * @param string $name The fully-qualified function name.
-     *
-     * @return MemberGraphImpact
+     * @param string $name the fully-qualified function name
      */
     public function function(string $name): MemberGraphImpact
     {
@@ -136,11 +122,9 @@ final readonly class MemberGraphImpactService
     /**
      * Resolves impact information for one parameter.
      *
-     * @param string $owner The owner FQCN, or an empty string for functions.
-     * @param string $functionLikeName The method name or fully-qualified function name.
-     * @param string $parameterName The parameter name without "$".
-     *
-     * @return MemberGraphImpact
+     * @param string $owner            the owner FQCN, or an empty string for functions
+     * @param string $functionLikeName the method name or fully-qualified function name
+     * @param string $parameterName    the parameter name without "$"
      */
     public function parameter(string $owner, string $functionLikeName, string $parameterName): MemberGraphImpact
     {
@@ -150,9 +134,7 @@ final readonly class MemberGraphImpactService
     /**
      * Resolves rich impact information for one target.
      *
-     * @param MemberImpactTarget $target The impact target.
-     *
-     * @return MemberGraphImpact
+     * @param MemberImpactTarget $target the impact target
      */
     public function target(MemberImpactTarget $target): MemberGraphImpact
     {
@@ -180,14 +162,12 @@ final readonly class MemberGraphImpactService
     /**
      * Builds the physical file list backing impacted virtual files.
      *
-     * @param VirtualPhpSourceFileCollection $virtualFiles The impacted virtual files.
-     * @param ImpactedFileCollection $graphFiles The impacted graph files used as fallback.
-     *
-     * @return ImpactedFileCollection
+     * @param VirtualPhpSourceFileCollection $virtualFiles the impacted virtual files
+     * @param ImpactedFileCollection         $graphFiles   the impacted graph files used as fallback
      */
     private function physicalFilesFromVirtualFiles(
         VirtualPhpSourceFileCollection $virtualFiles,
-        ImpactedFileCollection         $graphFiles,
+        ImpactedFileCollection $graphFiles,
     ): ImpactedFileCollection {
         $physicalFiles = new ImpactedFileCollection();
 
@@ -209,10 +189,8 @@ final readonly class MemberGraphImpactService
     /**
      * Builds the impacted owner list from direct impact and file-index projections.
      *
-     * @param MemberImpact $memberImpact The low-level impact result.
-     * @param ImpactedFileCollection $graphFiles The impacted graph files.
-     *
-     * @return ImpactedOwnerCollection
+     * @param MemberImpact           $memberImpact the low-level impact result
+     * @param ImpactedFileCollection $graphFiles   the impacted graph files
      */
     private function impactedOwnersFromImpactAndFiles(
         MemberImpact $memberImpact,
@@ -236,9 +214,7 @@ final readonly class MemberGraphImpactService
     /**
      * Returns known owner DTOs matching impacted owner symbols.
      *
-     * @param ImpactedOwnerCollection $impactedOwners The impacted owner symbols.
-     *
-     * @return KnownOwnerCollection
+     * @param ImpactedOwnerCollection $impactedOwners the impacted owner symbols
      */
     private function knownOwnersFor(ImpactedOwnerCollection $impactedOwners): KnownOwnerCollection
     {
@@ -259,9 +235,7 @@ final readonly class MemberGraphImpactService
     /**
      * Returns declarations located in impacted graph files.
      *
-     * @param ImpactedFileCollection $graphFiles The impacted graph files.
-     *
-     * @return MemberDeclarationCollection
+     * @param ImpactedFileCollection $graphFiles the impacted graph files
      */
     private function declarationsInFiles(ImpactedFileCollection $graphFiles): MemberDeclarationCollection
     {
@@ -279,9 +253,7 @@ final readonly class MemberGraphImpactService
     /**
      * Returns member usages located in impacted graph files.
      *
-     * @param ImpactedFileCollection $graphFiles The impacted graph files.
-     *
-     * @return MemberUsageCollection
+     * @param ImpactedFileCollection $graphFiles the impacted graph files
      */
     private function memberUsagesInFiles(ImpactedFileCollection $graphFiles): MemberUsageCollection
     {
@@ -301,9 +273,7 @@ final readonly class MemberGraphImpactService
     /**
      * Returns parameter usages located in impacted graph files.
      *
-     * @param ImpactedFileCollection $graphFiles The impacted graph files.
-     *
-     * @return ParameterUsageCollection
+     * @param ImpactedFileCollection $graphFiles the impacted graph files
      */
     private function parameterUsagesInFiles(ImpactedFileCollection $graphFiles): ParameterUsageCollection
     {
@@ -323,9 +293,7 @@ final readonly class MemberGraphImpactService
     /**
      * Returns available members exposed by impacted owners.
      *
-     * @param ImpactedOwnerCollection $impactedOwners The impacted owner symbols.
-     *
-     * @return AvailableMemberCollection
+     * @param ImpactedOwnerCollection $impactedOwners the impacted owner symbols
      */
     private function availableMembersFor(ImpactedOwnerCollection $impactedOwners): AvailableMemberCollection
     {

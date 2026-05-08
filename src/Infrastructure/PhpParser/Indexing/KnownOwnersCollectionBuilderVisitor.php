@@ -17,14 +17,14 @@ use PhpParser\Node\Stmt\TraitUseAdaptation\Precedence;
 use PhpParser\NodeVisitorAbstract;
 
 /**
- * Class KnownOwnersCollectionBuilderVisitor
+ * Class KnownOwnersCollectionBuilderVisitor.
  */
 final class KnownOwnersCollectionBuilderVisitor extends NodeVisitorAbstract
 {
     private string $currentClass = 'global';
 
     /**
-     * @param KnownOwnerCollection $knownOwners The known owner collection.
+     * @param KnownOwnerCollection $knownOwners the known owner collection
      */
     public function __construct(
         private readonly KnownOwnerCollection $knownOwners,
@@ -34,9 +34,7 @@ final class KnownOwnersCollectionBuilderVisitor extends NodeVisitorAbstract
     /**
      * Handles node entry.
      *
-     * @param Node $node The current node.
-     *
-     * @return null
+     * @param Node $node the current node
      */
     public function enterNode(Node $node): null
     {
@@ -113,7 +111,6 @@ final class KnownOwnersCollectionBuilderVisitor extends NodeVisitorAbstract
             return null;
         }
 
-
         if ($node instanceof TraitUse && 'global' !== $this->currentClass) {
             $traits = [];
 
@@ -133,14 +130,13 @@ final class KnownOwnersCollectionBuilderVisitor extends NodeVisitorAbstract
 
                     if (null !== $adaptation->trait) {
                         $traitFqcn = $this->resolveName($adaptation->trait);
-                    } elseif (count($traits) === 1) {
+                    } elseif (1 === count($traits)) {
                         $traitFqcn = $traits[0];
                     }
 
                     if (null === $traitFqcn) {
                         continue;
                     }
-
 
                     $methodName = $adaptation->method->toString();
 
@@ -196,7 +192,7 @@ final class KnownOwnersCollectionBuilderVisitor extends NodeVisitorAbstract
     /**
      * Handles node exit.
      *
-     * @param Node $node The current node.
+     * @param Node $node the current node
      *
      * @return null
      */
@@ -209,13 +205,10 @@ final class KnownOwnersCollectionBuilderVisitor extends NodeVisitorAbstract
         return null;
     }
 
-
     /**
      * Resolves one name using NameResolver attributes only.
      *
-     * @param Name $name The name to resolve.
-     *
-     * @return string
+     * @param Name $name the name to resolve
      */
     private function resolveName(Name $name): string
     {

@@ -17,11 +17,9 @@ final readonly class ArgumentStructuredTypeResolver
     /**
      * Resolves one expression to one structured PHPDoc type.
      *
-     * @param Expr $expression The expression to resolve.
-     * @param ExpressionResolutionContext $context The expression resolution context.
-     * @param ExpressionTypeResolverInterface $fallbackResolver The fallback expression resolver.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param Expr                            $expression       the expression to resolve
+     * @param ExpressionResolutionContext     $context          the expression resolution context
+     * @param ExpressionTypeResolverInterface $fallbackResolver the fallback expression resolver
      */
     public function resolve(
         Expr $expression,

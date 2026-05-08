@@ -37,8 +37,6 @@ final class MemberGraphQueryServiceTest extends TestCase
 {
     /**
      * Ensures member and owner queries expose declarations, usages, and availability.
-     *
-     * @return void
      */
     public function testItQueriesDeclarationsUsagesAndAvailableMembers(): void
     {
@@ -97,8 +95,6 @@ final class MemberGraphQueryServiceTest extends TestCase
 
     /**
      * Ensures file index queries expose owners, members, and related files.
-     *
-     * @return void
      */
     public function testItQueriesFileRelationships(): void
     {
@@ -130,8 +126,6 @@ final class MemberGraphQueryServiceTest extends TestCase
 
     /**
      * Ensures parameter and impact queries are available from the query service.
-     *
-     * @return void
      */
     public function testItQueriesParameterUsagesAndImpact(): void
     {
@@ -166,8 +160,6 @@ final class MemberGraphQueryServiceTest extends TestCase
 
     /**
      * Ensures owner dependency queries expose exact outgoing and incoming member dependencies.
-     *
-     * @return void
      */
     public function testItQueriesOwnerDependencies(): void
     {
@@ -216,8 +208,6 @@ final class MemberGraphQueryServiceTest extends TestCase
 
     /**
      * Ensures owner dependency graph queries expose direct and transitive relationships.
-     *
-     * @return void
      */
     public function testItBuildsOwnerDependencyGraph(): void
     {
@@ -280,19 +270,17 @@ final class MemberGraphQueryServiceTest extends TestCase
 
     /**
      * Ensures member usage source symbols resolve to member identifiers when possible.
-     *
-     * @return void
      */
     public function testItResolvesMemberUsageSources(): void
     {
         $resolver = new MemberUsageSourceResolver();
 
         self::assertSame(
-            (new MemberId('App\\Runner', 'run', MemberType::METHOD))->hash(),
+            new MemberId('App\\Runner', 'run', MemberType::METHOD)->hash(),
             $resolver->resolve('App\\Runner::run')?->hash(),
         );
         self::assertSame(
-            (new MemberId('', 'App\\send_mail', MemberType::FUNCTION_))->hash(),
+            new MemberId('', 'App\\send_mail', MemberType::FUNCTION_)->hash(),
             $resolver->resolve('App\\send_mail')?->hash(),
         );
         self::assertNull($resolver->resolve('global::'));
@@ -301,8 +289,6 @@ final class MemberGraphQueryServiceTest extends TestCase
 
     /**
      * Ensures member dependency queries expose exact direct and transitive relationships.
-     *
-     * @return void
      */
     public function testItQueriesMemberDependencies(): void
     {
@@ -368,13 +354,11 @@ final class MemberGraphQueryServiceTest extends TestCase
     /**
      * Creates a member dependency graph for query service tests.
      *
-     * @param list<MemberDeclaration> $declarations The declarations to add.
-     * @param list<MemberUsage> $memberUsages The member usages to add.
-     * @param list<ParameterUsage> $parameterUsages The parameter usages to add.
-     * @param AvailableMemberCollection|null $availableMembers The available members collection.
-     * @param KnownOwnerCollection|null $knownOwners The known owners collection.
-     *
-     * @return MemberDependencyGraph
+     * @param list<MemberDeclaration>        $declarations     the declarations to add
+     * @param list<MemberUsage>              $memberUsages     the member usages to add
+     * @param list<ParameterUsage>           $parameterUsages  the parameter usages to add
+     * @param AvailableMemberCollection|null $availableMembers the available members collection
+     * @param KnownOwnerCollection|null      $knownOwners      the known owners collection
      */
     private function createGraph(
         array $declarations = [],

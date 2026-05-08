@@ -14,11 +14,11 @@ final readonly class MemberDependencyGraphFactoryWarning
     /**
      * Constructor.
      *
-     * @param MemberDependencyGraphFactoryWarningCode $code The warning code.
-     * @param string $message The human-readable warning message.
-     * @param string|null $cacheFilePath The related cache file path, when available.
-     * @param string|null $tempFilePath The related temporary file path, when available.
-     * @param MemberGraphCacheWriteStatus|null $cacheWriteStatus The related cache write status, when available.
+     * @param MemberDependencyGraphFactoryWarningCode $code             the warning code
+     * @param string                                  $message          the human-readable warning message
+     * @param string|null                             $cacheFilePath    the related cache file path, when available
+     * @param string|null                             $tempFilePath     the related temporary file path, when available
+     * @param MemberGraphCacheWriteStatus|null        $cacheWriteStatus the related cache write status, when available
      */
     public function __construct(
         public MemberDependencyGraphFactoryWarningCode $code,

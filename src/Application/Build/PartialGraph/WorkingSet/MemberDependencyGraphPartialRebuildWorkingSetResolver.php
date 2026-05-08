@@ -27,7 +27,7 @@ final readonly class MemberDependencyGraphPartialRebuildWorkingSetResolver
     /**
      * Constructor.
      *
-     * @param MemberGraphFragmentMerger $fragmentMerger The graph fragment merger.
+     * @param MemberGraphFragmentMerger $fragmentMerger the graph fragment merger
      */
     public function __construct(
         private MemberGraphFragmentMerger $fragmentMerger = new MemberGraphFragmentMerger(),
@@ -37,9 +37,7 @@ final readonly class MemberDependencyGraphPartialRebuildWorkingSetResolver
     /**
      * Resolves the initial partial rebuild working set.
      *
-     * @param MemberDependencyGraphPartialRebuildPreparedInput $preparedInput The prepared partial rebuild input.
-     *
-     * @return MemberDependencyGraphPartialRebuildWorkingSet
+     * @param MemberDependencyGraphPartialRebuildPreparedInput $preparedInput the prepared partial rebuild input
      */
     public function resolve(
         MemberDependencyGraphPartialRebuildPreparedInput $preparedInput,
@@ -66,10 +64,8 @@ final readonly class MemberDependencyGraphPartialRebuildWorkingSetResolver
     /**
      * Adds files impacted by declarations loaded from files scheduled for rebuild.
      *
-     * @param MemberDependencyGraphPartialRebuildWorkingSet $workingSet The working set being expanded.
-     * @param MemberDependencyGraphPartialRebuildPreparedInput $preparedInput The prepared partial rebuild input.
-     *
-     * @return int
+     * @param MemberDependencyGraphPartialRebuildWorkingSet    $workingSet    the working set being expanded
+     * @param MemberDependencyGraphPartialRebuildPreparedInput $preparedInput the prepared partial rebuild input
      */
     private function expandWithImpactedFiles(
         MemberDependencyGraphPartialRebuildWorkingSet $workingSet,
@@ -133,7 +129,7 @@ final readonly class MemberDependencyGraphPartialRebuildWorkingSetResolver
 
                     $workingSet->addFileToParseForContext($filePath);
                     $workingSet->addFileToRebuildGraph($filePath);
-                    $expandedFiles++;
+                    ++$expandedFiles;
                     $pendingTargets += $this->impactTargetsFromFragmentDeclarations(
                         $preparedInput->fragmentsToReuse->get($filePath),
                     );
@@ -144,7 +140,7 @@ final readonly class MemberDependencyGraphPartialRebuildWorkingSetResolver
                 continue;
             }
 
-            $iterations++;
+            ++$iterations;
         }
 
         return $iterations;
@@ -153,7 +149,7 @@ final readonly class MemberDependencyGraphPartialRebuildWorkingSetResolver
     /**
      * Returns impact targets declared by one cached graph fragment.
      *
-     * @param MemberDependencyGraph|null $fragment The graph fragment, or null when the file is not cached.
+     * @param MemberDependencyGraph|null $fragment the graph fragment, or null when the file is not cached
      *
      * @return array<string, MemberImpactTarget>
      */
@@ -181,9 +177,7 @@ final readonly class MemberDependencyGraphPartialRebuildWorkingSetResolver
     /**
      * Converts a member identifier into an impact target.
      *
-     * @param MemberId $memberId The declared member identifier.
-     *
-     * @return MemberImpactTarget|null
+     * @param MemberId $memberId the declared member identifier
      */
     private function impactTargetFromMemberId(MemberId $memberId): ?MemberImpactTarget
     {
@@ -199,7 +193,7 @@ final readonly class MemberDependencyGraphPartialRebuildWorkingSetResolver
     /**
      * Indexes impact targets by stable target key.
      *
-     * @param iterable<MemberImpactTarget> $targets The impact targets to index.
+     * @param iterable<MemberImpactTarget> $targets the impact targets to index
      *
      * @return array<string, MemberImpactTarget>
      */
@@ -217,10 +211,8 @@ final readonly class MemberDependencyGraphPartialRebuildWorkingSetResolver
     /**
      * Indicates whether all queued targets have already been processed.
      *
-     * @param array<string, MemberImpactTarget> $pendingTargets The queued targets.
-     * @param array<string, true> $processedTargets The processed target keys.
-     *
-     * @return bool
+     * @param array<string, MemberImpactTarget> $pendingTargets   the queued targets
+     * @param array<string, true>               $processedTargets the processed target keys
      */
     private function allTargetsProcessed(array $pendingTargets, array $processedTargets): bool
     {
@@ -236,9 +228,7 @@ final readonly class MemberDependencyGraphPartialRebuildWorkingSetResolver
     /**
      * Returns a stable key for an impact target.
      *
-     * @param MemberImpactTarget $target The impact target.
-     *
-     * @return string
+     * @param MemberImpactTarget $target the impact target
      */
     private function impactTargetKey(MemberImpactTarget $target): string
     {
@@ -248,7 +238,7 @@ final readonly class MemberDependencyGraphPartialRebuildWorkingSetResolver
     /**
      * Returns impact targets declared by freshly loaded files.
      *
-     * @param MemberGraphDeclarationSnapshot $loadedDeclarationSnapshot The loaded declaration snapshot.
+     * @param MemberGraphDeclarationSnapshot $loadedDeclarationSnapshot the loaded declaration snapshot
      *
      * @return iterable<MemberImpactTarget>
      */
@@ -283,7 +273,7 @@ final readonly class MemberDependencyGraphPartialRebuildWorkingSetResolver
     /**
      * Returns impact targets declared by cached declarations from files scheduled for rebuild.
      *
-     * @param MemberDependencyGraphPartialRebuildPreparedInput $preparedInput The prepared partial rebuild input.
+     * @param MemberDependencyGraphPartialRebuildPreparedInput $preparedInput the prepared partial rebuild input
      *
      * @return iterable<MemberImpactTarget>
      */
@@ -334,7 +324,7 @@ final readonly class MemberDependencyGraphPartialRebuildWorkingSetResolver
     /**
      * Returns impact targets created by changed class-like owner metadata.
      *
-     * @param MemberDependencyGraphPartialRebuildPreparedInput $preparedInput The prepared partial rebuild input.
+     * @param MemberDependencyGraphPartialRebuildPreparedInput $preparedInput the prepared partial rebuild input
      *
      * @return iterable<MemberImpactTarget>
      */
@@ -371,9 +361,9 @@ final readonly class MemberDependencyGraphPartialRebuildWorkingSetResolver
     /**
      * Returns one interface and every parent interface it extends.
      *
-     * @param string $interfaceFqcn The interface FQCN.
-     * @param MemberGraphDeclarationSnapshot $declarationSnapshot The declaration snapshot to inspect.
-     * @param array<string, true> $visited The already visited interfaces.
+     * @param string                         $interfaceFqcn       the interface FQCN
+     * @param MemberGraphDeclarationSnapshot $declarationSnapshot the declaration snapshot to inspect
+     * @param array<string, true>            $visited             the already visited interfaces
      *
      * @return list<string>
      */
@@ -410,9 +400,9 @@ final readonly class MemberDependencyGraphPartialRebuildWorkingSetResolver
     /**
      * Returns one class and every parent class it extends.
      *
-     * @param string $parentFqcn The parent class FQCN.
-     * @param MemberGraphDeclarationSnapshot $declarationSnapshot The declaration snapshot to inspect.
-     * @param array<string, true> $visited The already visited classes.
+     * @param string                         $parentFqcn          the parent class FQCN
+     * @param MemberGraphDeclarationSnapshot $declarationSnapshot the declaration snapshot to inspect
+     * @param array<string, true>            $visited             the already visited classes
      *
      * @return list<string>
      */
@@ -447,8 +437,8 @@ final readonly class MemberDependencyGraphPartialRebuildWorkingSetResolver
     /**
      * Returns method impact targets declared by one owner.
      *
-     * @param string $ownerFqcn The declaring owner FQCN.
-     * @param MemberGraphDeclarationSnapshot $declarationSnapshot The declaration snapshot to inspect.
+     * @param string                         $ownerFqcn           the declaring owner FQCN
+     * @param MemberGraphDeclarationSnapshot $declarationSnapshot the declaration snapshot to inspect
      *
      * @return iterable<MemberImpactTarget>
      */
@@ -468,8 +458,8 @@ final readonly class MemberDependencyGraphPartialRebuildWorkingSetResolver
     /**
      * Returns interfaces added to or removed from one owner.
      *
-     * @param OwnerDeclarationSnapshot|null $cachedOwner The cached owner snapshot.
-     * @param OwnerDeclarationSnapshot $loadedOwner The loaded owner snapshot.
+     * @param OwnerDeclarationSnapshot|null $cachedOwner the cached owner snapshot
+     * @param OwnerDeclarationSnapshot      $loadedOwner the loaded owner snapshot
      *
      * @return list<string>
      */
@@ -489,8 +479,8 @@ final readonly class MemberDependencyGraphPartialRebuildWorkingSetResolver
     /**
      * Returns parent classes added to or removed from one owner.
      *
-     * @param OwnerDeclarationSnapshot|null $cachedOwner The cached owner snapshot.
-     * @param OwnerDeclarationSnapshot $loadedOwner The loaded owner snapshot.
+     * @param OwnerDeclarationSnapshot|null $cachedOwner the cached owner snapshot
+     * @param OwnerDeclarationSnapshot      $loadedOwner the loaded owner snapshot
      *
      * @return list<string>
      */
@@ -515,10 +505,8 @@ final readonly class MemberDependencyGraphPartialRebuildWorkingSetResolver
     /**
      * Indicates whether one cached declaration belongs to a rebuilt or deleted file.
      *
-     * @param string $filePath The cached declaration physical file path.
-     * @param MemberDependencyGraphPartialRebuildPreparedInput $preparedInput The prepared partial rebuild input.
-     *
-     * @return bool
+     * @param string                                           $filePath      the cached declaration physical file path
+     * @param MemberDependencyGraphPartialRebuildPreparedInput $preparedInput the prepared partial rebuild input
      */
     private function isRemovedOrRebuiltFile(
         string $filePath,
@@ -531,10 +519,8 @@ final readonly class MemberDependencyGraphPartialRebuildWorkingSetResolver
     /**
      * Resolves a graph file path to its physical file path when source metadata is available.
      *
-     * @param string $graphFilePath The graph file path, usually a virtual file path.
-     * @param MemberGraphVirtualSourceMetadataCollection $allSourceMetadata The complete source metadata view.
-     *
-     * @return string|null
+     * @param string                                     $graphFilePath     the graph file path, usually a virtual file path
+     * @param MemberGraphVirtualSourceMetadataCollection $allSourceMetadata the complete source metadata view
      */
     private function physicalFilePathForGraphFile(
         string $graphFilePath,
@@ -546,11 +532,9 @@ final readonly class MemberDependencyGraphPartialRebuildWorkingSetResolver
     /**
      * Expands the rebuild set conservatively when one impacted graph file cannot be resolved.
      *
-     * @param string $graphFilePath The unresolved graph file path.
-     * @param MemberDependencyGraphPartialRebuildWorkingSet $workingSet The working set being expanded.
-     * @param MemberGraphFragmentCollection $reusableFragments The currently reusable fragments.
-     *
-     * @return int
+     * @param string                                        $graphFilePath     the unresolved graph file path
+     * @param MemberDependencyGraphPartialRebuildWorkingSet $workingSet        the working set being expanded
+     * @param MemberGraphFragmentCollection                 $reusableFragments the currently reusable fragments
      */
     private function expandConservativelyForUnresolvedGraphFile(
         string $graphFilePath,
@@ -593,10 +577,8 @@ final readonly class MemberDependencyGraphPartialRebuildWorkingSetResolver
     /**
      * Keeps only cached fragments that are outside files scheduled for graph rebuild.
      *
-     * @param MemberGraphFragmentCollection $fragmentsToReuse The cached fragments available for reuse.
-     * @param MemberGraphCacheFileCollection $filesToRebuildGraph The physical files scheduled for graph rebuild.
-     *
-     * @return MemberGraphFragmentCollection
+     * @param MemberGraphFragmentCollection  $fragmentsToReuse    the cached fragments available for reuse
+     * @param MemberGraphCacheFileCollection $filesToRebuildGraph the physical files scheduled for graph rebuild
      */
     private function fragmentsOutsideRebuildSet(
         MemberGraphFragmentCollection $fragmentsToReuse,

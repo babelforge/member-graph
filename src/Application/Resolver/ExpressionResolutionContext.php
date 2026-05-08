@@ -16,10 +16,10 @@ final readonly class ExpressionResolutionContext
     /**
      * Constructor.
      *
-     * @param array<string, VariableTypeInfo> $variableTypes The currently known local variable types.
-     * @param string $currentClass The current class-like owner FQCN.
-     * @param PhpDocTemplateDefinitionCollection $templateDefinitions The active PHPDoc template definitions.
-     * @param UsesByAliasCollection $usesByAlias The current file imports indexed by alias.
+     * @param array<string, VariableTypeInfo>    $variableTypes       the currently known local variable types
+     * @param string                             $currentClass        the current class-like owner FQCN
+     * @param PhpDocTemplateDefinitionCollection $templateDefinitions the active PHPDoc template definitions
+     * @param UsesByAliasCollection              $usesByAlias         the current file imports indexed by alias
      */
     public function __construct(
         public array $variableTypes,

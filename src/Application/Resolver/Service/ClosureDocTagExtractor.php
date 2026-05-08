@@ -18,7 +18,7 @@ final readonly class ClosureDocTagExtractor
     /**
      * Extracts raw closure PHPDoc parameter types indexed by parameter name.
      *
-     * @param Doc $doc The closure PHPDoc block.
+     * @param Doc $doc the closure PHPDoc block
      *
      * @return array<string, string>
      */
@@ -36,9 +36,7 @@ final readonly class ClosureDocTagExtractor
     /**
      * Extracts the raw local variable PHPDoc type.
      *
-     * @param Doc $doc The local PHPDoc block.
-     *
-     * @return string|null
+     * @param Doc $doc the local PHPDoc block
      */
     public function extractLocalVarType(Doc $doc): ?string
     {
@@ -54,7 +52,7 @@ final readonly class ClosureDocTagExtractor
     /**
      * Finds closure PHPDoc parameter type matches.
      *
-     * @param Doc $doc The closure PHPDoc block.
+     * @param Doc $doc the closure PHPDoc block
      *
      * @return list<array{0: string, 1: string, 2: string}>
      */
@@ -72,9 +70,7 @@ final readonly class ClosureDocTagExtractor
     /**
      * Returns whether a PHPDoc block contains closure parameter type tags.
      *
-     * @param Doc $doc The closure PHPDoc block.
-     *
-     * @return bool
+     * @param Doc $doc the closure PHPDoc block
      */
     private function matchesParameterDocTypes(Doc $doc): bool
     {
@@ -84,7 +80,7 @@ final readonly class ClosureDocTagExtractor
     /**
      * Finds the local variable PHPDoc type match.
      *
-     * @param Doc $doc The local PHPDoc block.
+     * @param Doc $doc the local PHPDoc block
      *
      * @return array{0: string, 1: string}|null
      */
@@ -104,9 +100,7 @@ final readonly class ClosureDocTagExtractor
     /**
      * Returns whether a PHPDoc block contains one local variable type tag.
      *
-     * @param Doc $doc The local PHPDoc block.
-     *
-     * @return bool
+     * @param Doc $doc the local PHPDoc block
      */
     private function matchesLocalVarDocType(Doc $doc): bool
     {

@@ -7,7 +7,7 @@ namespace PhpNoobs\MemberGraph\Domain\Index\Method;
 use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
 
 /**
- * Class MethodStructuredParameterTypeIndex
+ * Class MethodStructuredParameterTypeIndex.
  */
 final class MethodParameterStructuredTypeIndex
 {
@@ -18,14 +18,14 @@ final class MethodParameterStructuredTypeIndex
 
     public function set(string $owner, string $methodName, string $parameterName, ResolvedPhpDocType $type): self
     {
-        $this->items[$owner . '::' . $methodName][$parameterName] = $type;
+        $this->items[$owner.'::'.$methodName][$parameterName] = $type;
 
         return $this;
     }
 
     public function get(string $owner, string $methodName, string $parameterName): ?ResolvedPhpDocType
     {
-        return $this->items[$owner . '::' . $methodName][$parameterName] ?? null;
+        return $this->items[$owner.'::'.$methodName][$parameterName] ?? null;
     }
 
     /**
@@ -33,6 +33,6 @@ final class MethodParameterStructuredTypeIndex
      */
     public function getAll(string $owner, string $methodName): array
     {
-        return $this->items[$owner . '::' . $methodName] ?? [];
+        return $this->items[$owner.'::'.$methodName] ?? [];
     }
 }

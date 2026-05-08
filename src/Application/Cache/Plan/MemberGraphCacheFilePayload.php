@@ -15,8 +15,8 @@ final readonly class MemberGraphCacheFilePayload
     /**
      * Constructor.
      *
-     * @param MemberGraphCacheEntry $entry The file cache metadata.
-     * @param MemberDependencyGraph|null $graphFragment The optional graph fragment for this file.
+     * @param MemberGraphCacheEntry      $entry         the file cache metadata
+     * @param MemberDependencyGraph|null $graphFragment the optional graph fragment for this file
      */
     public function __construct(
         public MemberGraphCacheEntry $entry,

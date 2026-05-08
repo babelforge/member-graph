@@ -24,8 +24,6 @@ final class MemberGraphDeclarationSnapshotMergerTest extends TestCase
 {
     /**
      * Ensures rebuilt files replace all cached declarations from the same physical files.
-     *
-     * @return void
      */
     public function testItRemovesCachedDeclarationsForRebuiltFilesBeforeAddingLoadedDeclarations(): void
     {
@@ -66,12 +64,10 @@ final class MemberGraphDeclarationSnapshotMergerTest extends TestCase
     /**
      * Adds an owner and related member declarations.
      *
-     * @param MemberGraphDeclarationSnapshot $snapshot The snapshot to populate.
-     * @param string $filePath The physical file path.
-     * @param string $ownerFqcn The owner FQCN.
-     * @param string $variant The declaration variant.
-     *
-     * @return void
+     * @param MemberGraphDeclarationSnapshot $snapshot  the snapshot to populate
+     * @param string                         $filePath  the physical file path
+     * @param string                         $ownerFqcn the owner FQCN
+     * @param string                         $variant   the declaration variant
      */
     private function addOwnerFamily(
         MemberGraphDeclarationSnapshot $snapshot,
@@ -87,45 +83,45 @@ final class MemberGraphDeclarationSnapshotMergerTest extends TestCase
             fqcn: $ownerFqcn,
             kind: OwnerKind::CLASS_,
             fullFilePath: $filePath,
-            virtualFilePath: $filePath . '.virtual.0',
-            parentFqcn: $ownerFqcn . 'Parent' . $ownerSuffix,
+            virtualFilePath: $filePath.'.virtual.0',
+            parentFqcn: $ownerFqcn.'Parent'.$ownerSuffix,
         ));
         $snapshot->methods->add(new MethodDeclarationSnapshot(
             ownerFqcn: $ownerFqcn,
             name: 'run',
             fullFilePath: $filePath,
-            virtualFilePath: $filePath . '.virtual.0',
-            nativeReturnType: $valuePrefix . 'Return',
+            virtualFilePath: $filePath.'.virtual.0',
+            nativeReturnType: $valuePrefix.'Return',
         ));
         $snapshot->parameters->add(new ParameterDeclarationSnapshot(
-            callableId: $ownerFqcn . '::run',
+            callableId: $ownerFqcn.'::run',
             name: 'value',
-            nativeType: $valuePrefix . 'Param',
+            nativeType: $valuePrefix.'Param',
         ));
         $snapshot->functions->add(new FunctionDeclarationSnapshot(
             name: str_replace('Changed', 'changedFunction', $ownerFqcn),
             fullFilePath: $filePath,
-            virtualFilePath: $filePath . '.virtual.0',
-            nativeReturnType: $valuePrefix . 'FunctionReturn',
+            virtualFilePath: $filePath.'.virtual.0',
+            nativeReturnType: $valuePrefix.'FunctionReturn',
         ));
         $snapshot->properties->add(new PropertyDeclarationSnapshot(
             ownerFqcn: $ownerFqcn,
             name: 'value',
             fullFilePath: $filePath,
-            virtualFilePath: $filePath . '.virtual.0',
-            nativeType: $valuePrefix . 'Property',
+            virtualFilePath: $filePath.'.virtual.0',
+            nativeType: $valuePrefix.'Property',
         ));
         $snapshot->classConstants->add(new ClassConstantDeclarationSnapshot(
             ownerFqcn: $ownerFqcn,
             name: 'VALUE',
             fullFilePath: $filePath,
-            virtualFilePath: $filePath . '.virtual.0',
+            virtualFilePath: $filePath.'.virtual.0',
             scalarValue: $valuePrefix,
         ));
         $snapshot->templates->add(new TemplateDeclarationSnapshot(
             scopeId: $ownerFqcn,
             name: 'T',
-            boundType: $valuePrefix . 'Bound',
+            boundType: $valuePrefix.'Bound',
         ));
 
         if (!$isNewVariant) {
@@ -136,11 +132,9 @@ final class MemberGraphDeclarationSnapshotMergerTest extends TestCase
     /**
      * Adds declarations that should disappear when their file is rebuilt.
      *
-     * @param MemberGraphDeclarationSnapshot $snapshot The snapshot to populate.
-     * @param string $filePath The physical file path.
-     * @param string $ownerFqcn The owner FQCN.
-     *
-     * @return void
+     * @param MemberGraphDeclarationSnapshot $snapshot  the snapshot to populate
+     * @param string                         $filePath  the physical file path
+     * @param string                         $ownerFqcn the owner FQCN
      */
     private function addDeletedDeclarations(
         MemberGraphDeclarationSnapshot $snapshot,
@@ -151,31 +145,31 @@ final class MemberGraphDeclarationSnapshotMergerTest extends TestCase
             ownerFqcn: $ownerFqcn,
             name: 'deleted',
             fullFilePath: $filePath,
-            virtualFilePath: $filePath . '.virtual.0',
+            virtualFilePath: $filePath.'.virtual.0',
         ));
         $snapshot->parameters->add(new ParameterDeclarationSnapshot(
-            callableId: $ownerFqcn . '::deleted',
+            callableId: $ownerFqcn.'::deleted',
             name: 'value',
         ));
         $snapshot->functions->add(new FunctionDeclarationSnapshot(
             name: str_replace('Changed', 'deletedFunction', $ownerFqcn),
             fullFilePath: $filePath,
-            virtualFilePath: $filePath . '.virtual.0',
+            virtualFilePath: $filePath.'.virtual.0',
         ));
         $snapshot->properties->add(new PropertyDeclarationSnapshot(
             ownerFqcn: $ownerFqcn,
             name: 'deleted',
             fullFilePath: $filePath,
-            virtualFilePath: $filePath . '.virtual.0',
+            virtualFilePath: $filePath.'.virtual.0',
         ));
         $snapshot->classConstants->add(new ClassConstantDeclarationSnapshot(
             ownerFqcn: $ownerFqcn,
             name: 'DELETED',
             fullFilePath: $filePath,
-            virtualFilePath: $filePath . '.virtual.0',
+            virtualFilePath: $filePath.'.virtual.0',
         ));
         $snapshot->templates->add(new TemplateDeclarationSnapshot(
-            scopeId: $ownerFqcn . '::deleted',
+            scopeId: $ownerFqcn.'::deleted',
             name: 'T',
         ));
     }

@@ -21,7 +21,6 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Lexer\Lexer;
 use PHPStan\PhpDocParser\Parser\PhpDocParser;
 use PHPStan\PhpDocParser\Parser\TokenIterator;
-use Throwable;
 
 /**
  * Extracts @'param PHPDoc types from functions and methods.
@@ -29,15 +28,15 @@ use Throwable;
 final readonly class ParamPhpDocTypeExtractor
 {
     /**
-     * @param Lexer $lexer The PHPDoc lexer.
-     * @param PhpDocParser $phpDocParser The PHPDoc parser.
-     * @param PhpDocTypeNodeResolverInterface $phpDocTypeNodeResolver The PHPDoc type resolver.
+     * @param Lexer                           $lexer                  the PHPDoc lexer
+     * @param PhpDocParser                    $phpDocParser           the PHPDoc parser
+     * @param PhpDocTypeNodeResolverInterface $phpDocTypeNodeResolver the PHPDoc type resolver
      */
     public function __construct(
-        private Lexer                           $lexer,
-        private PhpDocParser                    $phpDocParser,
+        private Lexer $lexer,
+        private PhpDocParser $phpDocParser,
         private PhpDocTypeNodeResolverInterface $phpDocTypeNodeResolver,
-        private ?MemberGraphIssueCollection     $issues = null,
+        private ?MemberGraphIssueCollection $issues = null,
     ) {
     }
 
@@ -46,20 +45,20 @@ final readonly class ParamPhpDocTypeExtractor
      *
      * Rule: in case of multiple parameters with same name, the first one wins.
      *
-     * @param Node $node The function-like node carrying the docblock.
-     * @param string $currentNamespace The current namespace.
-     * @param UsesByAliasCollection $usesByAlias The use imports indexed by alias.
-     * @param PhpDocTemplateDefinitionCollection $templateDefinitions The declared template definitions.
-     * @param TypeIndexContext $context The type index context.
+     * @param Node                               $node                the function-like node carrying the docblock
+     * @param string                             $currentNamespace    the current namespace
+     * @param UsesByAliasCollection              $usesByAlias         the use imports indexed by alias
+     * @param PhpDocTemplateDefinitionCollection $templateDefinitions the declared template definitions
+     * @param TypeIndexContext                   $context             the type index context
      *
      * @return array<string, ParamPhpDocType>
      */
     public function extract(
-        Node                               $node,
-        string                             $currentNamespace,
-        UsesByAliasCollection              $usesByAlias,
+        Node $node,
+        string $currentNamespace,
+        UsesByAliasCollection $usesByAlias,
         PhpDocTemplateDefinitionCollection $templateDefinitions,
-        TypeIndexContext                   $context
+        TypeIndexContext $context,
     ): array {
         $docComment = PhpDocInheritDocResolver::getEffectiveDocComment($node);
 
@@ -119,9 +118,7 @@ final readonly class ParamPhpDocTypeExtractor
     /**
      * Parses one doc comment into a PhpDocNode.
      *
-     * @param Doc $docComment The doc comment to parse.
-     *
-     * @return PhpDocNode|null
+     * @param Doc $docComment the doc comment to parse
      */
     private function parsePhpDocNode(Doc $docComment): ?PhpDocNode
     {
@@ -129,7 +126,7 @@ final readonly class ParamPhpDocTypeExtractor
             $tokens = new TokenIterator($this->lexer->tokenize($docComment->getText()));
 
             return $this->phpDocParser->parse($tokens);
-        } catch (Throwable) {
+        } catch (\Throwable) {
             return null;
         }
     }
@@ -137,9 +134,7 @@ final readonly class ParamPhpDocTypeExtractor
     /**
      * Resolves the parameter name from one @'param tag value.
      *
-     * @param ParamTagValueNode $paramTagValue The parameter tag value.
-     *
-     * @return string|null
+     * @param ParamTagValueNode $paramTagValue the parameter tag value
      */
     private function resolveParameterName(ParamTagValueNode $paramTagValue): ?string
     {

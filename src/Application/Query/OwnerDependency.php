@@ -15,10 +15,10 @@ final readonly class OwnerDependency
     /**
      * Constructor.
      *
-     * @param string $sourceOwner The owner where the usage appears.
-     * @param MemberId $target The targeted member.
-     * @param MemberUsageType $usageType The member usage type.
-     * @param string $file The file where the usage appears.
+     * @param string          $sourceOwner the owner where the usage appears
+     * @param MemberId        $target      the targeted member
+     * @param MemberUsageType $usageType   the member usage type
+     * @param string          $file        the file where the usage appears
      */
     public function __construct(
         public string $sourceOwner,
@@ -30,8 +30,6 @@ final readonly class OwnerDependency
 
     /**
      * Returns a stable dependency hash.
-     *
-     * @return string
      */
     public function hash(): string
     {

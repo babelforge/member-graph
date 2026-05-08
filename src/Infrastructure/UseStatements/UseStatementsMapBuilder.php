@@ -15,9 +15,7 @@ final readonly class UseStatementsMapBuilder
     /**
      * Builds the alias => fully-qualified class name map.
      *
-     * @param array<int, Node> $ast The file AST.
-     *
-     * @return UsesByAliasCollection
+     * @param array<int, Node> $ast the file AST
      */
     public function build(array $ast): UsesByAliasCollection
     {

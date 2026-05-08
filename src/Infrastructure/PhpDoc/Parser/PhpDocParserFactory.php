@@ -24,8 +24,6 @@ final readonly class PhpDocParserFactory
 
     /**
      * Creates the PHPDoc lexer.
-     *
-     * @return Lexer
      */
     public function createLexer(): Lexer
     {
@@ -34,8 +32,6 @@ final readonly class PhpDocParserFactory
 
     /**
      * Creates the PHPDoc parser.
-     *
-     * @return PhpDocParser
      */
     public function createParser(): PhpDocParser
     {

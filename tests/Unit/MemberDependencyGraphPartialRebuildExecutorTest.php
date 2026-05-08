@@ -56,19 +56,15 @@ final class MemberDependencyGraphPartialRebuildExecutorTest extends TestCase
 
     /**
      * Prepares an isolated filesystem workspace.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
-        $this->workspace = sys_get_temp_dir() . '/member-graph-partial-executor-' . bin2hex(random_bytes(6));
-        mkdir($this->workspace, 0777, true);
+        $this->workspace = sys_get_temp_dir().'/member-graph-partial-executor-'.bin2hex(random_bytes(6));
+        mkdir($this->workspace, 0o777, true);
     }
 
     /**
      * Removes the isolated filesystem workspace.
-     *
-     * @return void
      */
     protected function tearDown(): void
     {
@@ -77,35 +73,33 @@ final class MemberDependencyGraphPartialRebuildExecutorTest extends TestCase
 
     /**
      * Ensures rebuilt fragments are merged with reusable cached fragments.
-     *
-     * @return void
      */
     public function testItExecutesPartialRebuildFromWorkingSet(): void
     {
-        $changedFilePath = $this->workspace . '/A.php';
-        $reusableFilePath = $this->workspace . '/B.php';
+        $changedFilePath = $this->workspace.'/A.php';
+        $reusableFilePath = $this->workspace.'/B.php';
         $knownOwners = new KnownOwnerCollection();
         $fragmentsToReuse = new MemberGraphFragmentCollection();
         $workingSet = new MemberDependencyGraphPartialRebuildWorkingSet();
 
         file_put_contents($changedFilePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class A
-{
-    public function changed(): void
-    {
-    }
-}
-PHP);
+            final class A
+            {
+                public function changed(): void
+                {
+                }
+            }
+            PHP);
         $knownOwners->add(new KnownOwner('App\\A', null, OwnerKind::CLASS_));
         $knownOwners->add(new KnownOwner('App\\B', null, OwnerKind::CLASS_));
         $fragmentsToReuse->add($reusableFilePath, $this->fragmentWithDeclaration(
             new MemberDeclaration(
                 id: new MemberId('App\\B', 'run', MemberType::METHOD),
-                file: $reusableFilePath . '.virtual.0',
+                file: $reusableFilePath.'.virtual.0',
             ),
             $knownOwners,
         ));
@@ -127,38 +121,36 @@ PHP);
 
     /**
      * Ensures a simple partial rebuild produces the same declarations as a fresh full build.
-     *
-     * @return void
      */
     public function testItMatchesFullBuildDeclarationsAfterOneFileChanges(): void
     {
-        $aFilePath = $this->workspace . '/A.php';
-        $bFilePath = $this->workspace . '/B.php';
+        $aFilePath = $this->workspace.'/A.php';
+        $bFilePath = $this->workspace.'/B.php';
 
         file_put_contents($aFilePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class A
-{
-    public function run(): void
-    {
-    }
-}
-PHP);
+            final class A
+            {
+                public function run(): void
+                {
+                }
+            }
+            PHP);
         file_put_contents($bFilePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class B
-{
-    public function old(): void
-    {
-    }
-}
-PHP);
+            final class B
+            {
+                public function old(): void
+                {
+                }
+            }
+            PHP);
 
         $initialGraph = $this->fullBuild([$aFilePath, $bFilePath]);
         $initialFragments = new MemberGraphFragmenter()->fragment(
@@ -172,17 +164,17 @@ PHP);
         $fragmentsToReuse->add($aFilePath, $aFragment);
 
         file_put_contents($bFilePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class B
-{
-    public function changed(): void
-    {
-    }
-}
-PHP);
+            final class B
+            {
+                public function changed(): void
+                {
+                }
+            }
+            PHP);
 
         $workingSet = new MemberDependencyGraphPartialRebuildWorkingSet();
         $workingSet
@@ -205,39 +197,37 @@ PHP);
 
     /**
      * Ensures a simple partial rebuild preserves the same member usages as a fresh full build.
-     *
-     * @return void
      */
     public function testItMatchesFullBuildUsagesAfterOneFileChanges(): void
     {
-        $aFilePath = $this->workspace . '/A.php';
-        $bFilePath = $this->workspace . '/B.php';
+        $aFilePath = $this->workspace.'/A.php';
+        $bFilePath = $this->workspace.'/B.php';
 
         file_put_contents($aFilePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class A
-{
-    public function run(B $b): void
-    {
-        $b->changed();
-    }
-}
-PHP);
+            final class A
+            {
+                public function run(B $b): void
+                {
+                    $b->changed();
+                }
+            }
+            PHP);
         file_put_contents($bFilePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class B
-{
-    public function changed(): void
-    {
-    }
-}
-PHP);
+            final class B
+            {
+                public function changed(): void
+                {
+                }
+            }
+            PHP);
 
         $initialGraph = $this->fullBuild([$aFilePath, $bFilePath]);
         $initialFragments = new MemberGraphFragmenter()->fragment(
@@ -251,18 +241,18 @@ PHP);
         $fragmentsToReuse->add($aFilePath, $aFragment);
 
         file_put_contents($bFilePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class B
-{
-    public function changed(): void
-    {
-        $value = 1;
-    }
-}
-PHP);
+            final class B
+            {
+                public function changed(): void
+                {
+                    $value = 1;
+                }
+            }
+            PHP);
 
         $workingSet = new MemberDependencyGraphPartialRebuildWorkingSet();
         $workingSet
@@ -290,10 +280,8 @@ PHP);
     /**
      * Creates a prepared input for isolated executor tests.
      *
-     * @param KnownOwnerCollection $knownOwners The known owners.
-     * @param MemberGraphFragmentCollection $fragmentsToReuse The reusable fragments.
-     *
-     * @return MemberDependencyGraphPartialRebuildPreparedInput
+     * @param KnownOwnerCollection          $knownOwners      the known owners
+     * @param MemberGraphFragmentCollection $fragmentsToReuse the reusable fragments
      */
     private function preparedInput(
         KnownOwnerCollection $knownOwners,
@@ -334,9 +322,7 @@ PHP);
     /**
      * Creates partial global indexes for executor tests.
      *
-     * @param KnownOwnerCollection $knownOwners The known owners.
-     *
-     * @return MemberGraphPartialGlobalIndexes
+     * @param KnownOwnerCollection $knownOwners the known owners
      */
     private function partialGlobalIndexes(KnownOwnerCollection $knownOwners): MemberGraphPartialGlobalIndexes
     {
@@ -357,10 +343,8 @@ PHP);
     /**
      * Creates a reusable graph fragment with one declaration.
      *
-     * @param MemberDeclaration $declaration The declaration to include.
-     * @param KnownOwnerCollection $knownOwners The known owners.
-     *
-     * @return MemberDependencyGraph
+     * @param MemberDeclaration    $declaration the declaration to include
+     * @param KnownOwnerCollection $knownOwners the known owners
      */
     private function fragmentWithDeclaration(
         MemberDeclaration $declaration,
@@ -383,9 +367,7 @@ PHP);
     /**
      * Builds a full graph from physical files.
      *
-     * @param list<string> $filePaths The physical file paths.
-     *
-     * @return MemberDependencyGraph
+     * @param list<string> $filePaths the physical file paths
      */
     private function fullBuild(array $filePaths): MemberDependencyGraph
     {
@@ -406,7 +388,7 @@ PHP);
     /**
      * Returns sorted declaration hashes.
      *
-     * @param MemberDependencyGraph $graph The graph to inspect.
+     * @param MemberDependencyGraph $graph the graph to inspect
      *
      * @return list<string>
      */
@@ -425,7 +407,7 @@ PHP);
     /**
      * Returns sorted member usage signatures.
      *
-     * @param MemberDependencyGraph $graph The graph to inspect.
+     * @param MemberDependencyGraph $graph the graph to inspect
      *
      * @return list<string>
      */
@@ -452,9 +434,7 @@ PHP);
     /**
      * Removes a directory recursively.
      *
-     * @param string $directory The directory to remove.
-     *
-     * @return void
+     * @param string $directory the directory to remove
      */
     private function removeDirectory(string $directory): void
     {
@@ -473,7 +453,7 @@ PHP);
                 continue;
             }
 
-            $path = $directory . DIRECTORY_SEPARATOR . $item;
+            $path = $directory.DIRECTORY_SEPARATOR.$item;
 
             if (is_dir($path)) {
                 $this->removeDirectory($path);

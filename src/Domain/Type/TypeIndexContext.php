@@ -7,7 +7,7 @@ namespace PhpNoobs\MemberGraph\Domain\Type;
 use PhpNoobs\MemberGraph\Infrastructure\UseStatements\UsesByAliasCollection;
 
 /**
- * Class TypeIndexContext
+ * Class TypeIndexContext.
  */
 final class TypeIndexContext
 {

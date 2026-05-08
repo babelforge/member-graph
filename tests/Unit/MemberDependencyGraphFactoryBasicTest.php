@@ -24,45 +24,43 @@ final class MemberDependencyGraphFactoryBasicTest extends MemberDependencyGraphF
 {
     /**
      * Ensures directory builds include recursive PHP files and exclude configured directories.
-     *
-     * @return void
      */
     public function testItBuildsFromDirectoryWithExclusions(): void
     {
-        $srcDirectory = $this->workspace . '/src';
-        $excludedDirectory = $srcDirectory . '/Excluded';
+        $srcDirectory = $this->workspace.'/src';
+        $excludedDirectory = $srcDirectory.'/Excluded';
 
-        mkdir($excludedDirectory, 0777, true);
-        file_put_contents($srcDirectory . '/Included.php', <<<'PHP'
-<?php
+        mkdir($excludedDirectory, 0o777, true);
+        file_put_contents($srcDirectory.'/Included.php', <<<'PHP'
+            <?php
 
-namespace App;
+            namespace App;
 
-final class Included
-{
-    public function run(): void
-    {
-    }
-}
-PHP);
-        file_put_contents($excludedDirectory . '/Skipped.php', <<<'PHP'
-<?php
+            final class Included
+            {
+                public function run(): void
+                {
+                }
+            }
+            PHP);
+        file_put_contents($excludedDirectory.'/Skipped.php', <<<'PHP'
+            <?php
 
-namespace App\Excluded;
+            namespace App\Excluded;
 
-final class Skipped
-{
-    public function run(): void
-    {
-    }
-}
-PHP);
-        file_put_contents($srcDirectory . '/notes.txt', 'ignored');
+            final class Skipped
+            {
+                public function run(): void
+                {
+                }
+            }
+            PHP);
+        file_put_contents($srcDirectory.'/notes.txt', 'ignored');
 
         $issues = new MemberGraphIssueCollection();
         $factory = MemberDependencyGraphFactory::fromDirectory(
             directories: [$srcDirectory],
-            cacheFilePath: $this->workspace . '/member-graph.cache',
+            cacheFilePath: $this->workspace.'/member-graph.cache',
             excludedDirectories: [$excludedDirectory],
             dependencyGraphIssues: $issues,
         );
@@ -93,56 +91,54 @@ PHP);
             new MemberId('App\\Excluded\\Skipped', 'run', MemberType::METHOD),
         ));
         self::assertNotNull($factory->virtualFileReferences->getByVirtualFilePath(
-            (realpath($srcDirectory . '/Included.php') ?: $srcDirectory . '/Included.php') . '.virtual.0',
+            (realpath($srcDirectory.'/Included.php') ?: $srcDirectory.'/Included.php').'.virtual.0',
         ));
         self::assertCount(1, $factory->virtualFileReferences->getByFullFilePath(
-            realpath($srcDirectory . '/Included.php') ?: $srcDirectory . '/Included.php',
+            realpath($srcDirectory.'/Included.php') ?: $srcDirectory.'/Included.php',
         ));
     }
 
     /**
      * Ensures factory results expose the graph recomposed from fragments.
-     *
-     * @return void
      */
     public function testItReturnsMergedGraphFromFragments(): void
     {
-        $srcDirectory = $this->workspace . '/src';
-        $aFilePath = $srcDirectory . '/A.php';
-        $bFilePath = $srcDirectory . '/B.php';
+        $srcDirectory = $this->workspace.'/src';
+        $aFilePath = $srcDirectory.'/A.php';
+        $bFilePath = $srcDirectory.'/B.php';
         $aRun = new MemberId('App\\A', 'run', MemberType::METHOD);
         $bSend = new MemberId('App\\B', 'send', MemberType::METHOD);
 
-        mkdir($srcDirectory, 0777, true);
+        mkdir($srcDirectory, 0o777, true);
         file_put_contents($aFilePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class A
-{
-    public function run(): void
-    {
-        B::send();
-    }
-}
-PHP);
+            final class A
+            {
+                public function run(): void
+                {
+                    B::send();
+                }
+            }
+            PHP);
         file_put_contents($bFilePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class B
-{
-    public static function send(): void
-    {
-    }
-}
-PHP);
+            final class B
+            {
+                public static function send(): void
+                {
+                }
+            }
+            PHP);
 
         $factory = MemberDependencyGraphFactory::fromDirectory(
             directories: [$srcDirectory],
-            cacheFilePath: $this->workspace . '/member-graph.cache',
+            cacheFilePath: $this->workspace.'/member-graph.cache',
         );
         $query = MemberGraphQueryService::fromGraph($factory->memberDependencyGraph);
 
@@ -153,50 +149,48 @@ PHP);
             source: $aRun,
             target: $bSend,
             usageType: MemberUsageType::STATIC_METHOD_CALL,
-            file: (realpath($aFilePath) ?: $aFilePath) . '.virtual.0',
+            file: (realpath($aFilePath) ?: $aFilePath).'.virtual.0',
         )));
     }
 
     /**
      * Ensures unchanged files can rebuild the graph from cached fragments without loading virtual files.
-     *
-     * @return void
      */
     public function testItUsesFastPathFromFreshCachedFragments(): void
     {
-        $srcDirectory = $this->workspace . '/src';
-        $aFilePath = $srcDirectory . '/A.php';
-        $bFilePath = $srcDirectory . '/B.php';
-        $cacheFilePath = $this->workspace . '/member-graph.cache';
+        $srcDirectory = $this->workspace.'/src';
+        $aFilePath = $srcDirectory.'/A.php';
+        $bFilePath = $srcDirectory.'/B.php';
+        $cacheFilePath = $this->workspace.'/member-graph.cache';
         $aRun = new MemberId('App\\A', 'run', MemberType::METHOD);
         $bSend = new MemberId('App\\B', 'send', MemberType::METHOD);
 
-        mkdir($srcDirectory, 0777, true);
+        mkdir($srcDirectory, 0o777, true);
         file_put_contents($aFilePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class A
-{
-    public function run(): void
-    {
-        B::send();
-    }
-}
-PHP);
+            final class A
+            {
+                public function run(): void
+                {
+                    B::send();
+                }
+            }
+            PHP);
         file_put_contents($bFilePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class B
-{
-    public static function send(): void
-    {
-    }
-}
-PHP);
+            final class B
+            {
+                public static function send(): void
+                {
+                }
+            }
+            PHP);
 
         MemberDependencyGraphFactory::fromDirectory(
             directories: [$srcDirectory],
@@ -237,34 +231,32 @@ PHP);
             source: $aRun,
             target: $bSend,
             usageType: MemberUsageType::STATIC_METHOD_CALL,
-            file: (realpath($aFilePath) ?: $aFilePath) . '.virtual.0',
+            file: (realpath($aFilePath) ?: $aFilePath).'.virtual.0',
         )));
     }
 
     /**
      * Ensures changed-only cache plans can be reported as partial candidates while still executing full builds by default.
-     *
-     * @return void
      */
     public function testBuildReportExposesPartialBuildCandidateWhenNoFragmentsCanBeReused(): void
     {
-        $srcDirectory = $this->workspace . '/src';
-        $filePath = $srcDirectory . '/A.php';
-        $cacheFilePath = $this->workspace . '/member-graph.cache';
+        $srcDirectory = $this->workspace.'/src';
+        $filePath = $srcDirectory.'/A.php';
+        $cacheFilePath = $this->workspace.'/member-graph.cache';
 
-        mkdir($srcDirectory, 0777, true);
+        mkdir($srcDirectory, 0o777, true);
         file_put_contents($filePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class A
-{
-    public function run(): void
-    {
-    }
-}
-PHP);
+            final class A
+            {
+                public function run(): void
+                {
+                }
+            }
+            PHP);
 
         MemberDependencyGraphFactory::fromDirectory(
             directories: [$srcDirectory],
@@ -273,17 +265,17 @@ PHP);
 
         sleep(1);
         file_put_contents($filePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class A
-{
-    public function changed(): void
-    {
-    }
-}
-PHP);
+            final class A
+            {
+                public function changed(): void
+                {
+                }
+            }
+            PHP);
 
         $factory = MemberDependencyGraphFactory::fromDirectory(
             directories: [$srcDirectory],
@@ -312,41 +304,39 @@ PHP);
 
     /**
      * Ensures partial rebuild candidates remain executed as full builds for now.
-     *
-     * @return void
      */
     public function testBuildReportExposesPartialBuildCandidateAfterOneFileChanges(): void
     {
-        $srcDirectory = $this->workspace . '/src';
-        $aFilePath = $srcDirectory . '/A.php';
-        $bFilePath = $srcDirectory . '/B.php';
-        $cacheFilePath = $this->workspace . '/member-graph.cache';
+        $srcDirectory = $this->workspace.'/src';
+        $aFilePath = $srcDirectory.'/A.php';
+        $bFilePath = $srcDirectory.'/B.php';
+        $cacheFilePath = $this->workspace.'/member-graph.cache';
 
-        mkdir($srcDirectory, 0777, true);
+        mkdir($srcDirectory, 0o777, true);
         file_put_contents($aFilePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class A
-{
-    public function run(): void
-    {
-    }
-}
-PHP);
+            final class A
+            {
+                public function run(): void
+                {
+                }
+            }
+            PHP);
         file_put_contents($bFilePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class B
-{
-    public function run(): void
-    {
-    }
-}
-PHP);
+            final class B
+            {
+                public function run(): void
+                {
+                }
+            }
+            PHP);
 
         MemberDependencyGraphFactory::fromDirectory(
             directories: [$srcDirectory],
@@ -355,17 +345,17 @@ PHP);
 
         sleep(1);
         file_put_contents($bFilePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class B
-{
-    public function changed(): void
-    {
-    }
-}
-PHP);
+            final class B
+            {
+                public function changed(): void
+                {
+                }
+            }
+            PHP);
 
         $factory = MemberDependencyGraphFactory::fromDirectory(
             directories: [$srcDirectory],
@@ -406,41 +396,39 @@ PHP);
 
     /**
      * Ensures partial rebuild execution can be enabled explicitly.
-     *
-     * @return void
      */
     public function testItUsesPartialBuildWhenOptionIsEnabled(): void
     {
-        $srcDirectory = $this->workspace . '/src';
-        $aFilePath = $srcDirectory . '/A.php';
-        $bFilePath = $srcDirectory . '/B.php';
-        $cacheFilePath = $this->workspace . '/member-graph.cache';
+        $srcDirectory = $this->workspace.'/src';
+        $aFilePath = $srcDirectory.'/A.php';
+        $bFilePath = $srcDirectory.'/B.php';
+        $cacheFilePath = $this->workspace.'/member-graph.cache';
 
-        mkdir($srcDirectory, 0777, true);
+        mkdir($srcDirectory, 0o777, true);
         file_put_contents($aFilePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class A
-{
-    public function run(): void
-    {
-    }
-}
-PHP);
+            final class A
+            {
+                public function run(): void
+                {
+                }
+            }
+            PHP);
         file_put_contents($bFilePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class B
-{
-    public function old(): void
-    {
-    }
-}
-PHP);
+            final class B
+            {
+                public function old(): void
+                {
+                }
+            }
+            PHP);
 
         MemberDependencyGraphFactory::fromDirectory(
             directories: [$srcDirectory],
@@ -449,17 +437,17 @@ PHP);
 
         sleep(1);
         file_put_contents($bFilePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class B
-{
-    public function changed(): void
-    {
-    }
-}
-PHP);
+            final class B
+            {
+                public function changed(): void
+                {
+                }
+            }
+            PHP);
 
         $factory = MemberDependencyGraphFactory::fromDirectory(
             directories: [$srcDirectory],
@@ -491,43 +479,41 @@ PHP);
 
     /**
      * Ensures opt-in partial factory builds match a fresh full factory build.
-     *
-     * @return void
      */
     public function testPartialBuildMatchesFreshFullBuildFacts(): void
     {
-        $srcDirectory = $this->workspace . '/src';
-        $aFilePath = $srcDirectory . '/A.php';
-        $bFilePath = $srcDirectory . '/B.php';
-        $partialCacheFilePath = $this->workspace . '/partial-member-graph.cache';
-        $fullCacheFilePath = $this->workspace . '/full-member-graph.cache';
+        $srcDirectory = $this->workspace.'/src';
+        $aFilePath = $srcDirectory.'/A.php';
+        $bFilePath = $srcDirectory.'/B.php';
+        $partialCacheFilePath = $this->workspace.'/partial-member-graph.cache';
+        $fullCacheFilePath = $this->workspace.'/full-member-graph.cache';
 
-        mkdir($srcDirectory, 0777, true);
+        mkdir($srcDirectory, 0o777, true);
         file_put_contents($aFilePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class A
-{
-    public function run(B $b): void
-    {
-        $b->changed();
-    }
-}
-PHP);
+            final class A
+            {
+                public function run(B $b): void
+                {
+                    $b->changed();
+                }
+            }
+            PHP);
         file_put_contents($bFilePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class B
-{
-    public function changed(): void
-    {
-    }
-}
-PHP);
+            final class B
+            {
+                public function changed(): void
+                {
+                }
+            }
+            PHP);
 
         MemberDependencyGraphFactory::fromDirectory(
             directories: [$srcDirectory],
@@ -536,18 +522,18 @@ PHP);
 
         sleep(1);
         file_put_contents($bFilePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class B
-{
-    public function changed(): void
-    {
-        $value = 1;
-    }
-}
-PHP);
+            final class B
+            {
+                public function changed(): void
+                {
+                    $value = 1;
+                }
+            }
+            PHP);
 
         $partialBuild = MemberDependencyGraphFactory::fromDirectory(
             directories: [$srcDirectory],
@@ -578,41 +564,39 @@ PHP);
 
     /**
      * Ensures partial cache updates preserve rebuilt physical files that produce several virtual files.
-     *
-     * @return void
      */
     public function testPartialBuildPersistsRebuiltVirtualFileReferences(): void
     {
-        $srcDirectory = $this->workspace . '/src-partial-virtual-references';
-        $aFilePath = $srcDirectory . '/A.php';
-        $bFilePath = $srcDirectory . '/B.php';
-        $cacheFilePath = $this->workspace . '/partial-virtual-references.cache';
+        $srcDirectory = $this->workspace.'/src-partial-virtual-references';
+        $aFilePath = $srcDirectory.'/A.php';
+        $bFilePath = $srcDirectory.'/B.php';
+        $cacheFilePath = $this->workspace.'/partial-virtual-references.cache';
 
-        mkdir($srcDirectory, 0777, true);
+        mkdir($srcDirectory, 0o777, true);
         file_put_contents($aFilePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class A
-{
-    public function run(): void
-    {
-    }
-}
-PHP);
+            final class A
+            {
+                public function run(): void
+                {
+                }
+            }
+            PHP);
         file_put_contents($bFilePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class B
-{
-    public function old(): void
-    {
-    }
-}
-PHP);
+            final class B
+            {
+                public function old(): void
+                {
+                }
+            }
+            PHP);
 
         MemberDependencyGraphFactory::fromDirectory(
             directories: [$srcDirectory],
@@ -621,24 +605,24 @@ PHP);
 
         sleep(1);
         file_put_contents($bFilePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class B
-{
-    public function changed(): void
-    {
-    }
-}
+            final class B
+            {
+                public function changed(): void
+                {
+                }
+            }
 
-final class C
-{
-    public function added(): void
-    {
-    }
-}
-PHP);
+            final class C
+            {
+                public function added(): void
+                {
+                }
+            }
+            PHP);
 
         $partialBuild = MemberDependencyGraphFactory::fromDirectory(
             directories: [$srcDirectory],
@@ -668,5 +652,4 @@ PHP);
             type: MemberType::METHOD,
         )));
     }
-
 }

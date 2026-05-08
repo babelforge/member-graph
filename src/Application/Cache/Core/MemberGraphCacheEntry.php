@@ -12,10 +12,10 @@ final readonly class MemberGraphCacheEntry
     /**
      * Constructor.
      *
-     * @param string $filePath The physical file path.
-     * @param string $fingerprint The file fingerprint.
-     * @param string $fingerprintStrategyVersion The file fingerprint strategy version.
-     * @param int $lastModifiedTime The file last modification timestamp.
+     * @param string $filePath                   the physical file path
+     * @param string $fingerprint                the file fingerprint
+     * @param string $fingerprintStrategyVersion the file fingerprint strategy version
+     * @param int    $lastModifiedTime           the file last modification timestamp
      */
     public function __construct(
         public string $filePath,

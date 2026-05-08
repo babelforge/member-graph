@@ -20,7 +20,7 @@ final readonly class MemberGraphTopologyArrayExporter implements MemberGraphTopo
     /**
      * Exports the given topology to an array.
      *
-     * @param MemberGraphTopology $topology The topology to export.
+     * @param MemberGraphTopology $topology the topology to export
      *
      * @return array<string, mixed>
      */
@@ -38,7 +38,7 @@ final readonly class MemberGraphTopologyArrayExporter implements MemberGraphTopo
     /**
      * Exports topology nodes.
      *
-     * @param MemberGraphTopology $topology The topology to export.
+     * @param MemberGraphTopology $topology the topology to export
      *
      * @return list<array<string, mixed>>
      */
@@ -56,7 +56,7 @@ final readonly class MemberGraphTopologyArrayExporter implements MemberGraphTopo
     /**
      * Exports one topology node.
      *
-     * @param MemberGraphTopologyNode $node The node to export.
+     * @param MemberGraphTopologyNode $node the node to export
      *
      * @return array<string, mixed>
      */
@@ -75,7 +75,7 @@ final readonly class MemberGraphTopologyArrayExporter implements MemberGraphTopo
     /**
      * Exports topology edges.
      *
-     * @param MemberGraphTopology $topology The topology to export.
+     * @param MemberGraphTopology $topology the topology to export
      *
      * @return list<array<string, mixed>>
      */
@@ -93,7 +93,7 @@ final readonly class MemberGraphTopologyArrayExporter implements MemberGraphTopo
     /**
      * Exports one topology edge.
      *
-     * @param MemberGraphTopologyEdge $edge The edge to export.
+     * @param MemberGraphTopologyEdge $edge the edge to export
      *
      * @return array<string, mixed>
      */
@@ -113,7 +113,7 @@ final readonly class MemberGraphTopologyArrayExporter implements MemberGraphTopo
     /**
      * Exports one member dependency.
      *
-     * @param MemberDependency $dependency The dependency to export.
+     * @param MemberDependency $dependency the dependency to export
      *
      * @return array<string, mixed>
      */
@@ -130,7 +130,7 @@ final readonly class MemberGraphTopologyArrayExporter implements MemberGraphTopo
     /**
      * Exports one member identifier.
      *
-     * @param MemberId $memberId The member identifier to export.
+     * @param MemberId $memberId the member identifier to export
      *
      * @return array<string, string>
      */

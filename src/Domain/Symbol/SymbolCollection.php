@@ -4,16 +4,12 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Domain\Symbol;
 
-use Countable;
-use IteratorAggregate;
-use Traversable;
-
 /**
- * Class SymbolCollection
+ * Class SymbolCollection.
  *
- * @implements IteratorAggregate<string>
+ * @implements \IteratorAggregate<string>
  */
-final class SymbolCollection implements IteratorAggregate, Countable
+final class SymbolCollection implements \IteratorAggregate, \Countable
 {
     /** @var array<string, true> */
     private array $items = [];
@@ -34,10 +30,6 @@ final class SymbolCollection implements IteratorAggregate, Countable
         return array_key_first($this->items);
     }
 
-    /**
-     * @param self $symbols
-     * @return void
-     */
     public function addMany(self $symbols): void
     {
         foreach ($symbols as $symbol) {
@@ -72,7 +64,7 @@ final class SymbolCollection implements IteratorAggregate, Countable
         return [] === $this->items;
     }
 
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         yield from array_keys($this->items);
     }

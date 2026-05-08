@@ -4,16 +4,14 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Domain\Index\Function;
 
-use IteratorAggregate;
 use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
-use Traversable;
 
 /**
  * Stores inferred structured return types for methods.
  *
- * @implements IteratorAggregate<string, ResolvedPhpDocType>
+ * @implements \IteratorAggregate<string, ResolvedPhpDocType>
  */
-final class FunctionReturnInferredStructuredTypeIndex implements IteratorAggregate
+final class FunctionReturnInferredStructuredTypeIndex implements \IteratorAggregate
 {
     /**
      * @var array<string, ResolvedPhpDocType>
@@ -23,10 +21,8 @@ final class FunctionReturnInferredStructuredTypeIndex implements IteratorAggrega
     /**
      * Stores one inferred structured return type.
      *
-     * @param string $methodName The method name.
-     * @param ResolvedPhpDocType $type The inferred structured return type.
-     *
-     * @return void
+     * @param string             $methodName the method name
+     * @param ResolvedPhpDocType $type       the inferred structured return type
      */
     public function set(string $methodName, ResolvedPhpDocType $type): void
     {
@@ -36,9 +32,7 @@ final class FunctionReturnInferredStructuredTypeIndex implements IteratorAggrega
     /**
      * Returns one inferred structured return type.
      *
-     * @param string $methodName The method name.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param string $methodName the method name
      */
     public function get(string $methodName): ?ResolvedPhpDocType
     {
@@ -48,9 +42,7 @@ final class FunctionReturnInferredStructuredTypeIndex implements IteratorAggrega
     /**
      * Returns whether one inferred structured return type exists.
      *
-     * @param string $methodName The method name.
-     *
-     * @return bool
+     * @param string $methodName the method name
      */
     public function has(string $methodName): bool
     {
@@ -60,9 +52,7 @@ final class FunctionReturnInferredStructuredTypeIndex implements IteratorAggrega
     /**
      * Merges another index into the current one.
      *
-     * @param self $other The other index.
-     *
-     * @return void
+     * @param self $other the other index
      */
     public function merge(self $other): void
     {
@@ -84,19 +74,14 @@ final class FunctionReturnInferredStructuredTypeIndex implements IteratorAggrega
     /**
      * Builds one internal key.
      *
-     * @param string $methodName The method name.
-     *
-     * @return string
+     * @param string $methodName the method name
      */
     private function buildKey(string $methodName): string
     {
         return $methodName;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         yield from $this->items;
     }

@@ -23,9 +23,9 @@ final readonly class InstancePropertyStructuredTypeResolver
     /**
      * Constructor.
      *
-     * @param PropertyStructuredTypeIndex $propertyStructuredTypeIndex The structured property type index.
-     * @param OwnerTemplateSubstitutionResolver $ownerTemplateSubstitutionResolver The owner template resolver.
-     * @param ArgumentStructuredTypeResolver $argumentStructuredTypeResolver The argument structured type resolver.
+     * @param PropertyStructuredTypeIndex       $propertyStructuredTypeIndex       the structured property type index
+     * @param OwnerTemplateSubstitutionResolver $ownerTemplateSubstitutionResolver the owner template resolver
+     * @param ArgumentStructuredTypeResolver    $argumentStructuredTypeResolver    the argument structured type resolver
      */
     public function __construct(
         private PropertyStructuredTypeIndex $propertyStructuredTypeIndex,
@@ -38,11 +38,9 @@ final readonly class InstancePropertyStructuredTypeResolver
     /**
      * Resolves one property fetch to one structured PHPDoc type when possible.
      *
-     * @param PropertyFetch|NullsafePropertyFetch $expression The property-fetch expression.
-     * @param ExpressionResolutionContext $context The expression resolution context.
-     * @param ExpressionTypeResolverInterface $fallbackResolver The fallback expression resolver.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param PropertyFetch|NullsafePropertyFetch $expression       the property-fetch expression
+     * @param ExpressionResolutionContext         $context          the expression resolution context
+     * @param ExpressionTypeResolverInterface     $fallbackResolver the fallback expression resolver
      */
     public function resolve(
         PropertyFetch|NullsafePropertyFetch $expression,

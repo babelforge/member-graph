@@ -26,9 +26,7 @@ final readonly class MemberGraphFragmentMerger
     /**
      * Merges graph fragments into one graph.
      *
-     * @param MemberGraphFragmentCollection $fragments The graph fragments to merge.
-     *
-     * @return MemberDependencyGraph
+     * @param MemberGraphFragmentCollection $fragments the graph fragments to merge
      */
     public function merge(MemberGraphFragmentCollection $fragments): MemberDependencyGraph
     {
@@ -38,10 +36,8 @@ final readonly class MemberGraphFragmentMerger
     /**
      * Merges graph fragments while rebuilding global facts from explicit known owners.
      *
-     * @param MemberGraphFragmentCollection $fragments The graph fragments to merge.
-     * @param KnownOwnerCollection $knownOwners The authoritative known owners.
-     *
-     * @return MemberDependencyGraph
+     * @param MemberGraphFragmentCollection $fragments   the graph fragments to merge
+     * @param KnownOwnerCollection          $knownOwners the authoritative known owners
      */
     public function mergeWithKnownOwners(
         MemberGraphFragmentCollection $fragments,
@@ -63,9 +59,7 @@ final readonly class MemberGraphFragmentMerger
     /**
      * Merges file-scoped graph facts from fragments.
      *
-     * @param MemberGraphFragmentCollection $fragments The graph fragments to merge.
-     *
-     * @return MemberDependencyGraph
+     * @param MemberGraphFragmentCollection $fragments the graph fragments to merge
      */
     private function mergeFileScopedFacts(MemberGraphFragmentCollection $fragments): MemberDependencyGraph
     {

@@ -16,8 +16,8 @@ use PhpParser\Node\Stmt\ClassMethod;
 final readonly class EffectivePhpDocEnricher
 {
     /**
-     * @param EffectivePhpDocBuilder $effectivePhpDocBuilder The effective PHPDoc builder.
-     * @param ParentMethodNodeResolver $parentMethodNodeResolver The parent method node resolver.
+     * @param EffectivePhpDocBuilder   $effectivePhpDocBuilder   the effective PHPDoc builder
+     * @param ParentMethodNodeResolver $parentMethodNodeResolver the parent method node resolver
      */
     public function __construct(
         private EffectivePhpDocBuilder $effectivePhpDocBuilder,
@@ -28,11 +28,9 @@ final readonly class EffectivePhpDocEnricher
     /**
      * Enriches one method node with one effective doc comment.
      *
-     * @param ClassMethod $method The method node.
-     * @param TypeIndexContext $context The type index context.
-     * @param KnownOwnerCollection $knownOwners The known owners collection.
-     *
-     * @return void
+     * @param ClassMethod          $method      the method node
+     * @param TypeIndexContext     $context     the type index context
+     * @param KnownOwnerCollection $knownOwners the known owners collection
      */
     public function enrichMethod(
         ClassMethod $method,

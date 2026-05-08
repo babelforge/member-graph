@@ -14,12 +14,12 @@ final readonly class MemberGraphTopologyEdge
     /**
      * Constructor.
      *
-     * @param string $sourceNodeId The source topology node identifier.
-     * @param string $targetNodeId The target topology node identifier.
-     * @param int $depth The edge depth from the topology root.
-     * @param MemberGraphTopologyEdgeKind $kind The edge kind.
-     * @param MemberDependency|null $dependency The underlying member dependency.
-     * @param string|null $file The source file when the edge is tied to a source file.
+     * @param string                      $sourceNodeId the source topology node identifier
+     * @param string                      $targetNodeId the target topology node identifier
+     * @param int                         $depth        the edge depth from the topology root
+     * @param MemberGraphTopologyEdgeKind $kind         the edge kind
+     * @param MemberDependency|null       $dependency   the underlying member dependency
+     * @param string|null                 $file         the source file when the edge is tied to a source file
      */
     public function __construct(
         public string $sourceNodeId,
@@ -33,8 +33,6 @@ final readonly class MemberGraphTopologyEdge
 
     /**
      * Returns a stable topology edge hash.
-     *
-     * @return string
      */
     public function hash(): string
     {

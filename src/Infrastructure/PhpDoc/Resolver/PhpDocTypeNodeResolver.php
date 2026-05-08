@@ -34,24 +34,24 @@ use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 final readonly class PhpDocTypeNodeResolver implements PhpDocTypeNodeResolverInterface
 {
     public function __construct(
-        private MemberGraphPhpSourceRegistryInstance   $fileRegistry,
+        private MemberGraphPhpSourceRegistryInstance $fileRegistry,
         private PhpDocValueExtractionStrategyInterface $valueExtractionStrategy = new CollectionLikePhpDocValueExtractionStrategy(),
-        private ?MemberGraphIssueCollection $issues = null
+        private ?MemberGraphIssueCollection $issues = null,
     ) {
     }
 
     /**
      * Resolves one PHPDoc type node into a structured resolved type tree.
      *
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function resolveStructured(
-        TypeNode                           $typeNode,
-        string                             $currentNamespace,
-        UsesByAliasCollection              $usesByAlias,
+        TypeNode $typeNode,
+        string $currentNamespace,
+        UsesByAliasCollection $usesByAlias,
         PhpDocTemplateDefinitionCollection $templateDefinitions,
-        TypeIndexContext                   $context,
-        PhpDocTagKind                      $kind
+        TypeIndexContext $context,
+        PhpDocTagKind $kind,
     ): ResolvedPhpDocType {
         $symbols = new SymbolCollection();
         $genericArguments = new ResolvedPhpDocTypeCollection();
@@ -183,24 +183,21 @@ final readonly class PhpDocTypeNodeResolver implements PhpDocTypeNodeResolverInt
      * For generic types such as Collection<Mailer>, the container type is ignored
      * and the generic argument symbols are preferred.
      *
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function resolveForValueUsage(
-        TypeNode                           $typeNode,
-        string                             $currentNamespace,
-        UsesByAliasCollection              $usesByAlias,
+        TypeNode $typeNode,
+        string $currentNamespace,
+        UsesByAliasCollection $usesByAlias,
         PhpDocTemplateDefinitionCollection $templateDefinitions,
-        TypeIndexContext                   $context,
-        PhpDocTagKind                      $kind
+        TypeIndexContext $context,
+        PhpDocTagKind $kind,
     ): SymbolCollection {
         $resolved = $this->resolveStructured($typeNode, $currentNamespace, $usesByAlias, $templateDefinitions, $context, $kind);
 
         return $this->extractValueUsage($resolved);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function extractValueUsage(ResolvedPhpDocType $resolvedStructured): SymbolCollection
     {
         return $this->valueExtractionStrategy->extract($resolvedStructured);
@@ -209,11 +206,9 @@ final readonly class PhpDocTypeNodeResolver implements PhpDocTypeNodeResolverInt
     /**
      * Resolves one raw PHPDoc identifier into one normalized class-like symbol.
      *
-     * @param string $rawType The raw PHPDoc type.
-     * @param string $currentNamespace The current namespace.
-     * @param UsesByAliasCollection $usesByAlias The use imports indexed by alias.
-     *
-     * @return string|null
+     * @param string                $rawType          the raw PHPDoc type
+     * @param string                $currentNamespace the current namespace
+     * @param UsesByAliasCollection $usesByAlias      the use imports indexed by alias
      */
     private function resolveIdentifier(string $rawType, string $currentNamespace, UsesByAliasCollection $usesByAlias): ?string
     {
@@ -241,11 +236,11 @@ final readonly class PhpDocTypeNodeResolver implements PhpDocTypeNodeResolverInt
                 return null;
             }
 
-            return $resolvedBase . $suffix;
+            return $resolvedBase.$suffix;
         }
 
         if ('' !== $currentNamespace) {
-            return $currentNamespace . '\\' . $rawType;
+            return $currentNamespace.'\\'.$rawType;
         }
 
         return $rawType;
@@ -254,22 +249,18 @@ final readonly class PhpDocTypeNodeResolver implements PhpDocTypeNodeResolverInt
     /**
      * Resolves an array shape node.
      *
-     * @param ArrayShapeNode $node The array shape node.
-     * @param string $currentNamespace The current namespace.
-     * @param UsesByAliasCollection $usesByAlias The use imports indexed by alias.
-     * @param PhpDocTemplateDefinitionCollection $templateDefinitions The declared template definitions.
-     * @param TypeIndexContext $context
-     * @param PhpDocTagKind $kind
-     *
-     * @return ResolvedPhpDocType
+     * @param ArrayShapeNode                     $node                the array shape node
+     * @param string                             $currentNamespace    the current namespace
+     * @param UsesByAliasCollection              $usesByAlias         the use imports indexed by alias
+     * @param PhpDocTemplateDefinitionCollection $templateDefinitions the declared template definitions
      */
     private function resolveArrayShapeNode(
-        ArrayShapeNode                     $node,
-        string                             $currentNamespace,
-        UsesByAliasCollection              $usesByAlias,
+        ArrayShapeNode $node,
+        string $currentNamespace,
+        UsesByAliasCollection $usesByAlias,
         PhpDocTemplateDefinitionCollection $templateDefinitions,
-        TypeIndexContext                   $context,
-        PhpDocTagKind                      $kind
+        TypeIndexContext $context,
+        PhpDocTagKind $kind,
     ): ResolvedPhpDocType {
         $shapeFields = new ShapeFieldCollection();
 
@@ -303,8 +294,7 @@ final readonly class PhpDocTypeNodeResolver implements PhpDocTypeNodeResolverInt
     /**
      * Resolves the literal key of an array shape item.
      *
-     * @param ArrayShapeItemNode $item The array shape item.
-     * @return int|string|null
+     * @param ArrayShapeItemNode $item the array shape item
      */
     /**
      * Resolves the literal key of an array shape item.
@@ -317,10 +307,10 @@ final readonly class PhpDocTypeNodeResolver implements PhpDocTypeNodeResolverInt
      * Constant fetch keys are intentionally not resolved here, because they require
      * a dedicated constant-resolution layer to be deterministic and namespace-aware.
      *
-     * @param ArrayShapeItemNode $item The array shape item to inspect.
+     * @param ArrayShapeItemNode $item the array shape item to inspect
      *
-     * @return int|string|null Returns the resolved literal key, or null when the key
-     *                         cannot be resolved safely.
+     * @return int|string|null returns the resolved literal key, or null when the key
+     *                         cannot be resolved safely
      */
     private function resolveArrayShapeKey(ArrayShapeItemNode $item): int|string|null
     {
@@ -335,7 +325,7 @@ final readonly class PhpDocTypeNodeResolver implements PhpDocTypeNodeResolverInt
         }
 
         if ($keyName instanceof ConstExprIntegerNode) {
-            return (int)$keyName->value;
+            return (int) $keyName->value;
         }
 
         if ($keyName instanceof IdentifierTypeNode) {
@@ -352,9 +342,7 @@ final readonly class PhpDocTypeNodeResolver implements PhpDocTypeNodeResolverInt
     /**
      * Indicates whether the given type is builtin-like and should be ignored.
      *
-     * @param string $rawType The raw type.
-     *
-     * @return bool
+     * @param string $rawType the raw type
      */
     private function isBuiltinType(string $rawType): bool
     {
@@ -387,9 +375,7 @@ final readonly class PhpDocTypeNodeResolver implements PhpDocTypeNodeResolverInt
     /**
      * Extracts the first namespace segment from one type name.
      *
-     * @param string $rawType The raw type.
-     *
-     * @return string
+     * @param string $rawType the raw type
      */
     private function extractFirstSegment(string $rawType): string
     {

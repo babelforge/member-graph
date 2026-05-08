@@ -14,17 +14,17 @@ final readonly class OwnerDeclarationSnapshot
     /**
      * Constructor.
      *
-     * @param string $fqcn The owner FQCN.
-     * @param OwnerKind $kind The owner kind.
-     * @param string $fullFilePath The physical file path.
-     * @param string $virtualFilePath The virtual file path.
-     * @param string|null $namespace The declared namespace.
-     * @param string|null $parentFqcn The direct parent class FQCN.
-     * @param bool $isAbstract Whether the owner is abstract.
-     * @param list<string> $traits The directly used traits.
-     * @param list<string> $interfaces The directly implemented interfaces.
-     * @param list<string> $extendsInterfaces The directly extended interfaces.
-     * @param TemplateDeclarationSnapshotCollection $templates The owner template declarations.
+     * @param string                                $fqcn              the owner FQCN
+     * @param OwnerKind                             $kind              the owner kind
+     * @param string                                $fullFilePath      the physical file path
+     * @param string                                $virtualFilePath   the virtual file path
+     * @param string|null                           $namespace         the declared namespace
+     * @param string|null                           $parentFqcn        the direct parent class FQCN
+     * @param bool                                  $isAbstract        whether the owner is abstract
+     * @param list<string>                          $traits            the directly used traits
+     * @param list<string>                          $interfaces        the directly implemented interfaces
+     * @param list<string>                          $extendsInterfaces the directly extended interfaces
+     * @param TemplateDeclarationSnapshotCollection $templates         the owner template declarations
      */
     public function __construct(
         public string $fqcn,

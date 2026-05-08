@@ -49,40 +49,40 @@ final readonly class ExpressionTypeResolver implements ExpressionTypeResolverInt
     /**
      * Constructor.
      *
-     * @param MethodReturnTypeIndex $globalMethodReturnTypeIndex The method return type index.
-     * @param MethodNodeIndex $globalMethodNodeIndex The method node index.
-     * @param MethodReturnStructuredTypeIndex $globalMethodStructuredReturnTypeIndex The method structured return type index.
-     * @param MethodParameterStructuredTypeIndex $globalMethodStructuredParameterTypeIndex The method structured parameter type index.
-     * @param MethodReturnInferredStructuredTypeIndex $globalMethodReturnInferredStructuredTypeIndex The method inferred structured return type index.
-     * @param FunctionReturnTypeIndex $globalFunctionReturnTypeIndex The function return type index.
-     * @param FunctionReturnStructuredTypeIndex $globalFunctionStructuredReturnTypeIndex The function structured return type index.
-     * @param FunctionParameterStructuredTypeIndex $globalFunctionStructuredParameterTypeIndex The function structured parameter type index.
-     * @param FunctionReturnInferredStructuredTypeIndex $globalFunctionReturnInferredStructuredTypeIndex The function inferred structured return type index.
-     * @param PropertyTypeIndex $globalPropertyTypeIndex The property type index.
-     * @param PropertyStructuredTypeIndex $globalPropertyStructuredTypeIndex The property structured type build result.
-     * @param ClassConstantTypeIndex $globalClassConstantTypeIndex The class constant type index.
-     * @param ClassConstantValueIndex $globalClassConstantValueIndex The scalar class constant value index.
-     * @param ClassTemplateDefinitionIndex $classTemplateDefinitionIndex The class template definition index.
-     * @param KnownOwnerCollection $knownOwners The known owners collection.
-     * @param PhpDocValueExtractionStrategyInterface $valueExtractionStrategy The value extraction strategy.
+     * @param MethodReturnTypeIndex                     $globalMethodReturnTypeIndex                     the method return type index
+     * @param MethodNodeIndex                           $globalMethodNodeIndex                           the method node index
+     * @param MethodReturnStructuredTypeIndex           $globalMethodStructuredReturnTypeIndex           the method structured return type index
+     * @param MethodParameterStructuredTypeIndex        $globalMethodStructuredParameterTypeIndex        the method structured parameter type index
+     * @param MethodReturnInferredStructuredTypeIndex   $globalMethodReturnInferredStructuredTypeIndex   the method inferred structured return type index
+     * @param FunctionReturnTypeIndex                   $globalFunctionReturnTypeIndex                   the function return type index
+     * @param FunctionReturnStructuredTypeIndex         $globalFunctionStructuredReturnTypeIndex         the function structured return type index
+     * @param FunctionParameterStructuredTypeIndex      $globalFunctionStructuredParameterTypeIndex      the function structured parameter type index
+     * @param FunctionReturnInferredStructuredTypeIndex $globalFunctionReturnInferredStructuredTypeIndex the function inferred structured return type index
+     * @param PropertyTypeIndex                         $globalPropertyTypeIndex                         the property type index
+     * @param PropertyStructuredTypeIndex               $globalPropertyStructuredTypeIndex               the property structured type build result
+     * @param ClassConstantTypeIndex                    $globalClassConstantTypeIndex                    the class constant type index
+     * @param ClassConstantValueIndex                   $globalClassConstantValueIndex                   the scalar class constant value index
+     * @param ClassTemplateDefinitionIndex              $classTemplateDefinitionIndex                    the class template definition index
+     * @param KnownOwnerCollection                      $knownOwners                                     the known owners collection
+     * @param PhpDocValueExtractionStrategyInterface    $valueExtractionStrategy                         the value extraction strategy
      */
     public function __construct(
-        MethodReturnTypeIndex                             $globalMethodReturnTypeIndex,
-        MethodNodeIndex                                   $globalMethodNodeIndex,
-        MethodReturnStructuredTypeIndex                   $globalMethodStructuredReturnTypeIndex,
-        MethodParameterStructuredTypeIndex                $globalMethodStructuredParameterTypeIndex,
-        MethodReturnInferredStructuredTypeIndex           $globalMethodReturnInferredStructuredTypeIndex,
-        FunctionReturnTypeIndex                           $globalFunctionReturnTypeIndex,
-        FunctionReturnStructuredTypeIndex                 $globalFunctionStructuredReturnTypeIndex,
-        FunctionParameterStructuredTypeIndex              $globalFunctionStructuredParameterTypeIndex,
-        FunctionReturnInferredStructuredTypeIndex         $globalFunctionReturnInferredStructuredTypeIndex,
-        PropertyTypeIndex                                 $globalPropertyTypeIndex,
-        PropertyStructuredTypeIndex                       $globalPropertyStructuredTypeIndex,
-        ClassConstantTypeIndex                            $globalClassConstantTypeIndex,
-        ClassConstantValueIndex                           $globalClassConstantValueIndex,
-        ClassTemplateDefinitionIndex                      $classTemplateDefinitionIndex,
-        KnownOwnerCollection                              $knownOwners,
-        private PhpDocValueExtractionStrategyInterface    $valueExtractionStrategy = new CollectionLikePhpDocValueExtractionStrategy(),
+        MethodReturnTypeIndex $globalMethodReturnTypeIndex,
+        MethodNodeIndex $globalMethodNodeIndex,
+        MethodReturnStructuredTypeIndex $globalMethodStructuredReturnTypeIndex,
+        MethodParameterStructuredTypeIndex $globalMethodStructuredParameterTypeIndex,
+        MethodReturnInferredStructuredTypeIndex $globalMethodReturnInferredStructuredTypeIndex,
+        FunctionReturnTypeIndex $globalFunctionReturnTypeIndex,
+        FunctionReturnStructuredTypeIndex $globalFunctionStructuredReturnTypeIndex,
+        FunctionParameterStructuredTypeIndex $globalFunctionStructuredParameterTypeIndex,
+        FunctionReturnInferredStructuredTypeIndex $globalFunctionReturnInferredStructuredTypeIndex,
+        PropertyTypeIndex $globalPropertyTypeIndex,
+        PropertyStructuredTypeIndex $globalPropertyStructuredTypeIndex,
+        ClassConstantTypeIndex $globalClassConstantTypeIndex,
+        ClassConstantValueIndex $globalClassConstantValueIndex,
+        ClassTemplateDefinitionIndex $classTemplateDefinitionIndex,
+        KnownOwnerCollection $knownOwners,
+        private PhpDocValueExtractionStrategyInterface $valueExtractionStrategy = new CollectionLikePhpDocValueExtractionStrategy(),
     ) {
         $graph = new ExpressionResolverGraphFactory()->create(
             globalMethodReturnTypeIndex: $globalMethodReturnTypeIndex,
@@ -110,10 +110,8 @@ final readonly class ExpressionTypeResolver implements ExpressionTypeResolverInt
     /**
      * Creates an expression type resolver from a member graph build context.
      *
-     * @param MemberGraphBuildContext $context The member graph build context.
-     * @param PhpDocValueExtractionStrategyInterface $valueExtractionStrategy The value extraction strategy.
-     *
-     * @return self
+     * @param MemberGraphBuildContext                $context                 the member graph build context
+     * @param PhpDocValueExtractionStrategyInterface $valueExtractionStrategy the value extraction strategy
      */
     public static function fromMemberGraphBuildContext(
         MemberGraphBuildContext $context,
@@ -142,14 +140,14 @@ final readonly class ExpressionTypeResolver implements ExpressionTypeResolverInt
     /**
      * Resolves the best-known type for one expression.
      *
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function resolve(
-        Node                               $expression,
-        array                              $variableTypes,
-        string                             $currentClass,
+        Node $expression,
+        array $variableTypes,
+        string $currentClass,
         PhpDocTemplateDefinitionCollection $templateDefinitions,
-        UsesByAliasCollection              $usesByAlias,
+        UsesByAliasCollection $usesByAlias,
     ): SymbolCollection {
         $context = new ExpressionResolutionContext(
             variableTypes: $variableTypes,
@@ -178,16 +176,12 @@ final readonly class ExpressionTypeResolver implements ExpressionTypeResolverInt
         return $types;
     }
 
-
-    /**
-     * @inheritDoc
-     */
     public function resolveStructuredPhpDocType(
-        Expr                               $expression,
-        array                              $variableTypes,
-        string                             $currentClass,
+        Expr $expression,
+        array $variableTypes,
+        string $currentClass,
         PhpDocTemplateDefinitionCollection $templateDefinitions,
-        UsesByAliasCollection              $usesByAlias,
+        UsesByAliasCollection $usesByAlias,
     ): ?ResolvedPhpDocType {
         $context = new ExpressionResolutionContext(
             variableTypes: $variableTypes,
@@ -229,9 +223,6 @@ final readonly class ExpressionTypeResolver implements ExpressionTypeResolverInt
         return null;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function extractStructuredSymbols(?ResolvedPhpDocType $structuredType): SymbolCollection
     {
         if (!$structuredType instanceof ResolvedPhpDocType) {
@@ -240,5 +231,4 @@ final readonly class ExpressionTypeResolver implements ExpressionTypeResolverInt
 
         return $this->valueExtractionStrategy->extract($structuredType);
     }
-
 }

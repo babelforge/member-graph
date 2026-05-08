@@ -20,10 +20,10 @@ final readonly class ConstructorTemplateInferenceResolver
     /**
      * Constructor.
      *
-     * @param MethodParameterStructuredTypeIndex $methodParameterStructuredTypeIndex The structured method parameter type index.
-     * @param ConstructorArgumentParameterResolver $constructorArgumentParameterResolver The constructor argument parameter resolver.
-     * @param ArgumentStructuredTypeResolver $argumentStructuredTypeResolver The argument structured type resolver.
-     * @param TemplateSubstitutionCollector $templateSubstitutionCollector The template substitution collector.
+     * @param MethodParameterStructuredTypeIndex   $methodParameterStructuredTypeIndex   the structured method parameter type index
+     * @param ConstructorArgumentParameterResolver $constructorArgumentParameterResolver the constructor argument parameter resolver
+     * @param ArgumentStructuredTypeResolver       $argumentStructuredTypeResolver       the argument structured type resolver
+     * @param TemplateSubstitutionCollector        $templateSubstitutionCollector        the template substitution collector
      */
     public function __construct(
         private MethodParameterStructuredTypeIndex $methodParameterStructuredTypeIndex,
@@ -36,13 +36,11 @@ final readonly class ConstructorTemplateInferenceResolver
     /**
      * Infers template substitutions from constructor arguments.
      *
-     * @param list<Arg> $arguments The constructor arguments.
-     * @param ClassMethod $constructorNode The constructor method node.
-     * @param string $className The constructed class FQCN.
-     * @param ExpressionResolutionContext $context The current expression resolution context.
-     * @param ExpressionTypeResolverInterface $fallbackResolver The facade resolver for recursive resolution.
-     *
-     * @return PhpDocTemplateSubstitutionContext
+     * @param list<Arg>                       $arguments        the constructor arguments
+     * @param ClassMethod                     $constructorNode  the constructor method node
+     * @param string                          $className        the constructed class FQCN
+     * @param ExpressionResolutionContext     $context          the current expression resolution context
+     * @param ExpressionTypeResolverInterface $fallbackResolver the facade resolver for recursive resolution
      */
     public function infer(
         array $arguments,
@@ -71,15 +69,13 @@ final readonly class ConstructorTemplateInferenceResolver
     /**
      * Collects template substitutions from one constructor argument.
      *
-     * @param Arg $arg The constructor argument.
-     * @param int $position The positional argument index.
-     * @param ClassMethod $constructorNode The constructor method node.
-     * @param string $className The constructed class FQCN.
-     * @param ExpressionResolutionContext $context The current expression resolution context.
-     * @param ExpressionTypeResolverInterface $fallbackResolver The facade resolver for recursive resolution.
-     * @param PhpDocTemplateSubstitutionContext $substitutionContext The mutable substitution context.
-     *
-     * @return void
+     * @param Arg                               $arg                 the constructor argument
+     * @param int                               $position            the positional argument index
+     * @param ClassMethod                       $constructorNode     the constructor method node
+     * @param string                            $className           the constructed class FQCN
+     * @param ExpressionResolutionContext       $context             the current expression resolution context
+     * @param ExpressionTypeResolverInterface   $fallbackResolver    the facade resolver for recursive resolution
+     * @param PhpDocTemplateSubstitutionContext $substitutionContext the mutable substitution context
      */
     private function collectArgumentSubstitution(
         Arg $arg,

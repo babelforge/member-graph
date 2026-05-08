@@ -6,16 +6,6 @@ namespace PhpNoobs\MemberGraph\Tests\Integration\Stability;
 
 use PhpNoobs\MemberGraph\Application\Validator\PhpDoc\PhpDocResolutionIssue;
 use PhpNoobs\MemberGraph\Application\Validator\PhpDoc\PhpDocResolutionIssueType;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberOriginType;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberType;
-use PhpNoobs\MemberGraph\Domain\Index\Template\PhpDocTemplateDefinitionCollection;
-use PhpNoobs\MemberGraph\Domain\Type\TypeIndexContext;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Parser\PhpDocParserFactory;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\PhpDocTagKind;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\PhpDocTypeNodeResolver;
-use PhpNoobs\MemberGraph\Infrastructure\UseStatements\UsesByAliasCollection;
-use PhpParser\Modifiers;
-use PHPStan\PhpDocParser\Parser\TokenIterator;
 
 /**
  * Covers migrated legacy member graph stability fixtures.
@@ -24,57 +14,55 @@ final class MemberGraphInheritDocTest extends AbstractMemberGraphStabilityTestCa
 {
     /**
      * Ensures legacy fixture 89 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInheritDocMethodReturnTypeIsInheritedFromParent(): void
     {
         $sources = [
             'TestCase89.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase89;
+                namespace TestCase89;
 
-class Mailer
-{
-    public function send(): void
-    {
-    }
-}
+                class Mailer
+                {
+                    public function send(): void
+                    {
+                    }
+                }
 
-class ParentService
-{
-    /**
-     * @return Mailer
-     */
-    public function make()
-    {
-        return new Mailer();
-    }
-}
+                class ParentService
+                {
+                    /**
+                     * @return Mailer
+                     */
+                    public function make()
+                    {
+                        return new Mailer();
+                    }
+                }
 
-class ChildService extends ParentService
-{
-    /**
-     * @inheritDoc
-     */
-    public function make()
-    {
-        return parent::make();
-    }
-}
+                class ChildService extends ParentService
+                {
+                    /**
+                     * @inheritDoc
+                     */
+                    public function make()
+                    {
+                        return parent::make();
+                    }
+                }
 
-class Runner
-{
-    public function run(): void
-    {
-        $service = new ChildService();
-        $mailer = $service->make();
-        $mailer->send();
-    }
-}
+                class Runner
+                {
+                    public function run(): void
+                    {
+                        $service = new ChildService();
+                        $mailer = $service->make();
+                        $mailer->send();
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -98,59 +86,57 @@ PHP,
 
     /**
      * Ensures legacy fixture 90 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInheritDocMethodTemplateReturnTypeIsInheritedFromParent(): void
     {
         $sources = [
             'TestCase90.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase90;
+                namespace TestCase90;
 
-class Mailer
-{
-    public function send(): void
-    {
-    }
-}
+                class Mailer
+                {
+                    public function send(): void
+                    {
+                    }
+                }
 
-class ParentService
-{
-    /**
-     * @template T
-     * @param T $value
-     * @return T
-     */
-    public function identity($value)
-    {
-        return $value;
-    }
-}
+                class ParentService
+                {
+                    /**
+                     * @template T
+                     * @param T $value
+                     * @return T
+                     */
+                    public function identity($value)
+                    {
+                        return $value;
+                    }
+                }
 
-class ChildService extends ParentService
-{
-    /**
-     * @inheritDoc
-     */
-    public function identity($value)
-    {
-        return parent::identity($value);
-    }
-}
+                class ChildService extends ParentService
+                {
+                    /**
+                     * @inheritDoc
+                     */
+                    public function identity($value)
+                    {
+                        return parent::identity($value);
+                    }
+                }
 
-class Runner
-{
-    public function run(): void
-    {
-        $service = new ChildService();
-        $mailer = $service->identity(new Mailer());
-        $mailer->send();
-    }
-}
+                class Runner
+                {
+                    public function run(): void
+                    {
+                        $service = new ChildService();
+                        $mailer = $service->identity(new Mailer());
+                        $mailer->send();
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -174,57 +160,55 @@ PHP,
 
     /**
      * Ensures legacy fixture 91 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInheritDocLowercaseMethodReturnTypeIsInheritedFromParent(): void
     {
         $sources = [
             'TestCase91.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase91;
+                namespace TestCase91;
 
-class Mailer
-{
-    public function send(): void
-    {
-    }
-}
+                class Mailer
+                {
+                    public function send(): void
+                    {
+                    }
+                }
 
-class ParentService
-{
-    /**
-     * @return Mailer
-     */
-    public function make()
-    {
-        return new Mailer();
-    }
-}
+                class ParentService
+                {
+                    /**
+                     * @return Mailer
+                     */
+                    public function make()
+                    {
+                        return new Mailer();
+                    }
+                }
 
-class ChildService extends ParentService
-{
-    /**
-     * @inheritdoc
-     */
-    public function make()
-    {
-        return parent::make();
-    }
-}
+                class ChildService extends ParentService
+                {
+                    /**
+                     * @inheritdoc
+                     */
+                    public function make()
+                    {
+                        return parent::make();
+                    }
+                }
 
-class Runner
-{
-    public function run(): void
-    {
-        $service = new ChildService();
-        $mailer = $service->make();
-        $mailer->send();
-    }
-}
+                class Runner
+                {
+                    public function run(): void
+                    {
+                        $service = new ChildService();
+                        $mailer = $service->make();
+                        $mailer->send();
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -248,57 +232,55 @@ PHP,
 
     /**
      * Ensures legacy fixture 92 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInlineInheritDocMethodReturnTypeIsInheritedFromParent(): void
     {
         $sources = [
             'TestCase92.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase92;
+                namespace TestCase92;
 
-class Mailer
-{
-    public function send(): void
-    {
-    }
-}
+                class Mailer
+                {
+                    public function send(): void
+                    {
+                    }
+                }
 
-class ParentService
-{
-    /**
-     * @return Mailer
-     */
-    public function make()
-    {
-        return new Mailer();
-    }
-}
+                class ParentService
+                {
+                    /**
+                     * @return Mailer
+                     */
+                    public function make()
+                    {
+                        return new Mailer();
+                    }
+                }
 
-class ChildService extends ParentService
-{
-    /**
-     * {@inheritDoc}
-     */
-    public function make()
-    {
-        return parent::make();
-    }
-}
+                class ChildService extends ParentService
+                {
+                    /**
+                     * {@inheritDoc}
+                     */
+                    public function make()
+                    {
+                        return parent::make();
+                    }
+                }
 
-class Runner
-{
-    public function run(): void
-    {
-        $service = new ChildService();
-        $mailer = $service->make();
-        $mailer->send();
-    }
-}
+                class Runner
+                {
+                    public function run(): void
+                    {
+                        $service = new ChildService();
+                        $mailer = $service->make();
+                        $mailer->send();
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -322,47 +304,45 @@ PHP,
 
     /**
      * Ensures legacy fixture 93 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInheritDocDoesNotInventTypeWhenParentHasNoDoc(): void
     {
         $sources = [
             'TestCase93.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase93;
+                namespace TestCase93;
 
-class ParentService
-{
-    public function make()
-    {
-        return getService();
-    }
-}
+                class ParentService
+                {
+                    public function make()
+                    {
+                        return getService();
+                    }
+                }
 
-class ChildService extends ParentService
-{
-    /**
-     * @inheritDoc
-     */
-    public function make()
-    {
-        return parent::make();
-    }
-}
+                class ChildService extends ParentService
+                {
+                    /**
+                     * @inheritDoc
+                     */
+                    public function make()
+                    {
+                        return parent::make();
+                    }
+                }
 
-class Runner
-{
-    public function run(): void
-    {
-        $service = new ChildService();
-        $mailer = $service->make();
-        $mailer->send();
-    }
-}
+                class Runner
+                {
+                    public function run(): void
+                    {
+                        $service = new ChildService();
+                        $mailer = $service->make();
+                        $mailer->send();
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -386,59 +366,57 @@ PHP,
 
     /**
      * Ensures legacy fixture 94 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInheritDocMethodTemplateReturnTypeIsInheritedFromParent2(): void
     {
         $sources = [
             'TestCase94.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase94;
+                namespace TestCase94;
 
-class Mailer
-{
-    public function send(): void
-    {
-    }
-}
+                class Mailer
+                {
+                    public function send(): void
+                    {
+                    }
+                }
 
-class ParentService
-{
-    /**
-     * @template T
-     * @param T $value
-     * @return T
-     */
-    public function identity($value)
-    {
-        return $value;
-    }
-}
+                class ParentService
+                {
+                    /**
+                     * @template T
+                     * @param T $value
+                     * @return T
+                     */
+                    public function identity($value)
+                    {
+                        return $value;
+                    }
+                }
 
-class ChildService extends ParentService
-{
-    /**
-     * @inheritDoc
-     */
-    public function identity($value)
-    {
-        return parent::identity($value);
-    }
-}
+                class ChildService extends ParentService
+                {
+                    /**
+                     * @inheritDoc
+                     */
+                    public function identity($value)
+                    {
+                        return parent::identity($value);
+                    }
+                }
 
-class Runner
-{
-    public function run(): void
-    {
-        $service = new ChildService();
-        $mailer = $service->identity(new Mailer());
-        $mailer->send();
-    }
-}
+                class Runner
+                {
+                    public function run(): void
+                    {
+                        $service = new ChildService();
+                        $mailer = $service->identity(new Mailer());
+                        $mailer->send();
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -462,63 +440,61 @@ PHP,
 
     /**
      * Ensures legacy fixture 95 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInheritDocMethodTemplateShapeReturnTypeIsInheritedFromParent(): void
     {
         $sources = [
             'TestCase95.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase95;
+                namespace TestCase95;
 
-class Mailer
-{
-    public function send(): void
-    {
-    }
-}
+                class Mailer
+                {
+                    public function send(): void
+                    {
+                    }
+                }
 
-class ParentService
-{
-    /**
-     * @template T
-     * @param array{service: T} $config
-     * @return T
-     */
-    public function getService(array $config)
-    {
-        return $config['service'];
-    }
-}
+                class ParentService
+                {
+                    /**
+                     * @template T
+                     * @param array{service: T} $config
+                     * @return T
+                     */
+                    public function getService(array $config)
+                    {
+                        return $config['service'];
+                    }
+                }
 
-class ChildService extends ParentService
-{
-    /**
-     * @inheritDoc
-     */
-    public function getService(array $config)
-    {
-        return parent::getService($config);
-    }
-}
+                class ChildService extends ParentService
+                {
+                    /**
+                     * @inheritDoc
+                     */
+                    public function getService(array $config)
+                    {
+                        return parent::getService($config);
+                    }
+                }
 
-class Runner
-{
-    public function run(): void
-    {
-        $service = new ChildService();
+                class Runner
+                {
+                    public function run(): void
+                    {
+                        $service = new ChildService();
 
-        /** @var array{service: Mailer} $config */
-        $config = ['service' => new Mailer()];
+                        /** @var array{service: Mailer} $config */
+                        $config = ['service' => new Mailer()];
 
-        $mailer = $service->getService($config);
-        $mailer->send();
-    }
-}
+                        $mailer = $service->getService($config);
+                        $mailer->send();
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -542,60 +518,58 @@ PHP,
 
     /**
      * Ensures legacy fixture 96 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInheritDocChildParamOverridesParentIsIncoherent(): void
     {
         $sources = [
             'TestCase96.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase96;
+                namespace TestCase96;
 
-class Mailer
-{
-    public function send(): void
-    {
-    }
-}
+                class Mailer
+                {
+                    public function send(): void
+                    {
+                    }
+                }
 
-class ParentService
-{
-    /**
-     * @template T
-     * @param T $value
-     * @return T
-     */
-    public function identity($value)
-    {
-        return $value;
-    }
-}
+                class ParentService
+                {
+                    /**
+                     * @template T
+                     * @param T $value
+                     * @return T
+                     */
+                    public function identity($value)
+                    {
+                        return $value;
+                    }
+                }
 
-class ChildService extends ParentService
-{
-    /**
-     * @inheritDoc
-     * @param Mailer $value
-     */
-    public function identity($value)
-    {
-        return parent::identity($value);
-    }
-}
+                class ChildService extends ParentService
+                {
+                    /**
+                     * @inheritDoc
+                     * @param Mailer $value
+                     */
+                    public function identity($value)
+                    {
+                        return parent::identity($value);
+                    }
+                }
 
-class Runner
-{
-    public function run(): void
-    {
-        $service = new ChildService();
-        $mailer = $service->identity(new Mailer());
-        $mailer->send();
-    }
-}
+                class Runner
+                {
+                    public function run(): void
+                    {
+                        $service = new ChildService();
+                        $mailer = $service->identity(new Mailer());
+                        $mailer->send();
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -603,8 +577,8 @@ PHP,
 
         /** @var PhpDocResolutionIssue $issue */
         foreach ($memberDependencyGraph->dependencyGraphIssues ?? [] as $issue) {
-            $foundIssue = $foundIssue ||
-                ((PhpDocResolutionIssueType::INHERIT_DOC_MERGE_INCOHERENT === $issue->type)
+            $foundIssue = $foundIssue
+                || ((PhpDocResolutionIssueType::INHERIT_DOC_MERGE_INCOHERENT === $issue->type)
                     && ('TestCase96\\ChildService' === $issue->owner)
                     && ('identity' === $issue->member));
         }
@@ -614,67 +588,65 @@ PHP,
 
     /**
      * Ensures legacy fixture 97 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInheritDocChildReturnOverridesParentParamIsInherited(): void
     {
         $sources = [
             'TestCase97.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase97;
+                namespace TestCase97;
 
-class Mailer
-{
-    public function send(): void
-    {
-    }
-}
+                class Mailer
+                {
+                    public function send(): void
+                    {
+                    }
+                }
 
-class Logger
-{
-    public function send(): void
-    {
-    }
-}
+                class Logger
+                {
+                    public function send(): void
+                    {
+                    }
+                }
 
-class ParentService
-{
-    /**
-     * @template T
-     * @param T $value
-     * @return T
-     */
-    public function identity($value)
-    {
-        return $value;
-    }
-}
+                class ParentService
+                {
+                    /**
+                     * @template T
+                     * @param T $value
+                     * @return T
+                     */
+                    public function identity($value)
+                    {
+                        return $value;
+                    }
+                }
 
-class ChildService extends ParentService
-{
-    /**
-     * @inheritDoc
-     * @return Mailer
-     */
-    public function identity($value)
-    {
-        return new Mailer();
-    }
-}
+                class ChildService extends ParentService
+                {
+                    /**
+                     * @inheritDoc
+                     * @return Mailer
+                     */
+                    public function identity($value)
+                    {
+                        return new Mailer();
+                    }
+                }
 
-class Runner
-{
-    public function run(): void
-    {
-        $service = new ChildService();
-        $mailer = $service->identity(new Logger());
-        $mailer->send();
-    }
-}
+                class Runner
+                {
+                    public function run(): void
+                    {
+                        $service = new ChildService();
+                        $mailer = $service->identity(new Logger());
+                        $mailer->send();
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -710,28 +682,26 @@ PHP,
 
     /**
      * Ensures legacy fixture 98 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInheritDocParentNotFoundRaisesIssue(): void
     {
         $sources = [
             'TestCase98.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase98;
+                namespace TestCase98;
 
-class ChildService
-{
-    /**
-     * @inheritDoc
-     */
-    public function make()
-    {
-        return getService();
-    }
-}
-PHP,
+                class ChildService
+                {
+                    /**
+                     * @inheritDoc
+                     */
+                    public function make()
+                    {
+                        return getService();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -739,8 +709,8 @@ PHP,
 
         /** @var PhpDocResolutionIssue $issue */
         foreach ($memberDependencyGraph->dependencyGraphIssues ?? [] as $issue) {
-            $foundIssue = $foundIssue ||
-                ((PhpDocResolutionIssueType::INHERIT_DOC_PARENT_NOT_FOUND === $issue->type)
+            $foundIssue = $foundIssue
+                || ((PhpDocResolutionIssueType::INHERIT_DOC_PARENT_NOT_FOUND === $issue->type)
                     && ('TestCase98\\ChildService' === $issue->owner)
                     && ('make' === $issue->member));
         }
@@ -750,40 +720,38 @@ PHP,
 
     /**
      * Ensures legacy fixture 99 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInheritDocParentNotUsableRaisesIssue(): void
     {
         $sources = [
             'TestCase99.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase99;
+                namespace TestCase99;
 
-class ParentService
-{
-    /**
-     * @return
-     */
-    public function make()
-    {
-        return getService();
-    }
-}
+                class ParentService
+                {
+                    /**
+                     * @return
+                     */
+                    public function make()
+                    {
+                        return getService();
+                    }
+                }
 
-class ChildService extends ParentService
-{
-    /**
-     * @inheritDoc
-     */
-    public function make()
-    {
-        return parent::make();
-    }
-}
+                class ChildService extends ParentService
+                {
+                    /**
+                     * @inheritDoc
+                     */
+                    public function make()
+                    {
+                        return parent::make();
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -791,8 +759,8 @@ PHP,
 
         /** @var PhpDocResolutionIssue $issue */
         foreach ($memberDependencyGraph->dependencyGraphIssues ?? [] as $issue) {
-            $foundIssue = $foundIssue ||
-                ((PhpDocResolutionIssueType::RETURN_TAG_NOT_USABLE === $issue->type)
+            $foundIssue = $foundIssue
+                || ((PhpDocResolutionIssueType::RETURN_TAG_NOT_USABLE === $issue->type)
                     && ('TestCase99\\ChildService' === $issue->owner)
                     && ('make' === $issue->member));
         }
@@ -802,61 +770,59 @@ PHP,
 
     /**
      * Ensures legacy fixture 126 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInheritDocMergesParentAndChildPhpDoc(): void
     {
         $sources = [
             'TestCase126.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase126;
+                namespace TestCase126;
 
-class Mailer
-{
-    public function send(): void
-    {
-    }
-}
+                class Mailer
+                {
+                    public function send(): void
+                    {
+                    }
+                }
 
-class ParentClass
-{
-    /**
-     * @template T
-     * @param T $a
-     * @param int $b
-     * @return T
-     */
-    public function foo($a, $b)
-    {
-        return $a;
-    }
-}
+                class ParentClass
+                {
+                    /**
+                     * @template T
+                     * @param T $a
+                     * @param int $b
+                     * @return T
+                     */
+                    public function foo($a, $b)
+                    {
+                        return $a;
+                    }
+                }
 
-class ChildClass extends ParentClass
-{
-    /**
-     * @inheritDoc
-     * @param string $b
-     */
-    public function foo($a, $b)
-    {
-        return parent::foo($a, $b);
-    }
-}
+                class ChildClass extends ParentClass
+                {
+                    /**
+                     * @inheritDoc
+                     * @param string $b
+                     */
+                    public function foo($a, $b)
+                    {
+                        return parent::foo($a, $b);
+                    }
+                }
 
-class TestClass
-{
-    public function run(): void
-    {
-        $child = new ChildClass();
-        $result = $child->foo(new Mailer(), "test");
+                class TestClass
+                {
+                    public function run(): void
+                    {
+                        $child = new ChildClass();
+                        $result = $child->foo(new Mailer(), "test");
 
-        $result->send();
-    }
-}
-PHP,
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -879,49 +845,47 @@ PHP,
 
     /**
      * Ensures legacy fixture 186 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInheritDocReturnTypeIsInheritedFromInterface(): void
     {
         $sources = [
             'TestCase186.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase186;
+                namespace TestCase186;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-function makeMixed(): mixed {
-    return new Mailer();
-}
+                function makeMixed(): mixed {
+                    return new Mailer();
+                }
 
-interface FactoryContract {
-    /**
-     * @return Mailer
-     */
-    public function make();
-}
+                interface FactoryContract {
+                    /**
+                     * @return Mailer
+                     */
+                    public function make();
+                }
 
-class Factory implements FactoryContract {
-    /**
-     * @inheritDoc
-     */
-    public function make() {
-        return loadMixed();
-    }
-}
+                class Factory implements FactoryContract {
+                    /**
+                     * @inheritDoc
+                     */
+                    public function make() {
+                        return loadMixed();
+                    }
+                }
 
-class TestClass {
-    public function run(): void {
-        $factory = new Factory();
-        $result = $factory->make();
-        $result->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): void {
+                        $factory = new Factory();
+                        $result = $factory->make();
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -931,47 +895,45 @@ PHP,
 
     /**
      * Ensures legacy fixture 187 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInheritDocTemplateReturnTypeIsInheritedFromInterface(): void
     {
         $sources = [
             'TestCase187.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase187;
+                namespace TestCase187;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-interface IdentityContract {
-    /**
-     * @template T
-     * @param T $value
-     * @return T
-     */
-    public function identity($value);
-}
+                interface IdentityContract {
+                    /**
+                     * @template T
+                     * @param T $value
+                     * @return T
+                     */
+                    public function identity($value);
+                }
 
-class Identity implements IdentityContract {
-    /**
-     * @inheritDoc
-     */
-    public function identity($value) {
-        return $value;
-    }
-}
+                class Identity implements IdentityContract {
+                    /**
+                     * @inheritDoc
+                     */
+                    public function identity($value) {
+                        return $value;
+                    }
+                }
 
-class TestClass {
-    public function run(): void {
-        $identity = new Identity();
-        $result = $identity->identity(new Mailer());
-        $result->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): void {
+                        $identity = new Identity();
+                        $result = $identity->identity(new Mailer());
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -981,53 +943,51 @@ PHP,
 
     /**
      * Ensures legacy fixture 188 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInheritDocReturnTypeIsInheritedFromTrait(): void
     {
         $sources = [
             'TestCase188.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase188;
+                namespace TestCase188;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-function makeMixed(): mixed {
-    return new Mailer();
-}
+                function makeMixed(): mixed {
+                    return new Mailer();
+                }
 
-trait MakesMailer {
-    /**
-     * @return Mailer
-     */
-    public function make() {
-        return new Mailer();
-    }
-}
+                trait MakesMailer {
+                    /**
+                     * @return Mailer
+                     */
+                    public function make() {
+                        return new Mailer();
+                    }
+                }
 
-class Factory {
-    use MakesMailer;
+                class Factory {
+                    use MakesMailer;
 
-    /**
-     * @inheritDoc
-     */
-    public function make() {
-        return loadMixed();
-    }
-}
+                    /**
+                     * @inheritDoc
+                     */
+                    public function make() {
+                        return loadMixed();
+                    }
+                }
 
-class TestClass {
-    public function run(): void {
-        $factory = new Factory();
-        $result = $factory->make();
-        $result->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): void {
+                        $factory = new Factory();
+                        $result = $factory->make();
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1037,48 +997,46 @@ PHP,
 
     /**
      * Ensures legacy fixture 189 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInheritDocReturnTypeIsInheritedFromExtendedInterface(): void
     {
         $sources = [
             'TestCase189.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase189;
+                namespace TestCase189;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-interface BaseFactoryContract {
-    /**
-     * @return Mailer
-     */
-    public function make();
-}
+                interface BaseFactoryContract {
+                    /**
+                     * @return Mailer
+                     */
+                    public function make();
+                }
 
-interface FactoryContract extends BaseFactoryContract {
-}
+                interface FactoryContract extends BaseFactoryContract {
+                }
 
-class Factory implements FactoryContract {
-    /**
-     * @inheritDoc
-     */
-    public function make() {
-        return loadMixed();
-    }
-}
+                class Factory implements FactoryContract {
+                    /**
+                     * @inheritDoc
+                     */
+                    public function make() {
+                        return loadMixed();
+                    }
+                }
 
-class TestClass {
-    public function run(): void {
-        $factory = new Factory();
-        $result = $factory->make();
-        $result->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): void {
+                        $factory = new Factory();
+                        $result = $factory->make();
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1088,53 +1046,51 @@ PHP,
 
     /**
      * Ensures legacy fixture 190 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInheritDocReturnTypeIsInheritedFromNestedTrait(): void
     {
         $sources = [
             'TestCase190.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase190;
+                namespace TestCase190;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-trait BaseMakesMailer {
-    /**
-     * @return Mailer
-     */
-    public function make() {
-        return new Mailer();
-    }
-}
+                trait BaseMakesMailer {
+                    /**
+                     * @return Mailer
+                     */
+                    public function make() {
+                        return new Mailer();
+                    }
+                }
 
-trait MakesMailer {
-    use BaseMakesMailer;
-}
+                trait MakesMailer {
+                    use BaseMakesMailer;
+                }
 
-class Factory {
-    use MakesMailer;
+                class Factory {
+                    use MakesMailer;
 
-    /**
-     * @inheritDoc
-     */
-    public function make() {
-        return loadMixed();
-    }
-}
+                    /**
+                     * @inheritDoc
+                     */
+                    public function make() {
+                        return loadMixed();
+                    }
+                }
 
-class TestClass {
-    public function run(): void {
-        $factory = new Factory();
-        $result = $factory->make();
-        $result->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): void {
+                        $factory = new Factory();
+                        $result = $factory->make();
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1144,58 +1100,56 @@ PHP,
 
     /**
      * Ensures legacy fixture 191 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInheritDocPrefersParentClassOverInterface(): void
     {
         $sources = [
             'TestCase191.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase191;
+                namespace TestCase191;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Notifier {
-    public function send(): void {}
-}
+                class Notifier {
+                    public function send(): void {}
+                }
 
-interface FactoryContract {
-    /**
-     * @return Notifier
-     */
-    public function make();
-}
+                interface FactoryContract {
+                    /**
+                     * @return Notifier
+                     */
+                    public function make();
+                }
 
-class ParentFactory {
-    /**
-     * @return Mailer
-     */
-    public function make() {
-        return loadMixed();
-    }
-}
+                class ParentFactory {
+                    /**
+                     * @return Mailer
+                     */
+                    public function make() {
+                        return loadMixed();
+                    }
+                }
 
-class Factory extends ParentFactory implements FactoryContract {
-    /**
-     * @inheritDoc
-     */
-    public function make() {
-        return loadMixed();
-    }
-}
+                class Factory extends ParentFactory implements FactoryContract {
+                    /**
+                     * @inheritDoc
+                     */
+                    public function make() {
+                        return loadMixed();
+                    }
+                }
 
-class TestClass {
-    public function run(): void {
-        $factory = new Factory();
-        $result = $factory->make();
-        $result->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): void {
+                        $factory = new Factory();
+                        $result = $factory->make();
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1215,42 +1169,40 @@ PHP,
 
     /**
      * Ensures legacy fixture 199 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTemplateBoundInheritDocFromInterfaceResolvesConcreteType(): void
     {
         $sources = [
             'TestCase199.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase199;
+                namespace TestCase199;
 
-interface HasSend { public function send(): void; }
-class Mailer implements HasSend { public function send(): void {} }
+                interface HasSend { public function send(): void; }
+                class Mailer implements HasSend { public function send(): void {} }
 
-interface IdentityContract {
-    /**
-     * @template T of HasSend
-     * @param T $service
-     * @return T
-     */
-    public function identity($service);
-}
+                interface IdentityContract {
+                    /**
+                     * @template T of HasSend
+                     * @param T $service
+                     * @return T
+                     */
+                    public function identity($service);
+                }
 
-class Identity implements IdentityContract {
-    /** @inheritDoc */
-    public function identity($service) { return $service; }
-}
+                class Identity implements IdentityContract {
+                    /** @inheritDoc */
+                    public function identity($service) { return $service; }
+                }
 
-class TestClass {
-    public function run(): void {
-        $identity = new Identity();
-        $result = $identity->identity(new Mailer());
-        $result->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): void {
+                        $identity = new Identity();
+                        $result = $identity->identity(new Mailer());
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1260,42 +1212,40 @@ PHP,
 
     /**
      * Ensures legacy fixture 200 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTemplateBoundInheritDocFromParentResolvesConcreteType(): void
     {
         $sources = [
             'TestCase200.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase200;
+                namespace TestCase200;
 
-interface HasSend { public function send(): void; }
-class Mailer implements HasSend { public function send(): void {} }
+                interface HasSend { public function send(): void; }
+                class Mailer implements HasSend { public function send(): void {} }
 
-class ParentIdentity {
-    /**
-     * @template T of HasSend
-     * @param T $service
-     * @return T
-     */
-    public function identity($service) { return $service; }
-}
+                class ParentIdentity {
+                    /**
+                     * @template T of HasSend
+                     * @param T $service
+                     * @return T
+                     */
+                    public function identity($service) { return $service; }
+                }
 
-class Identity extends ParentIdentity {
-    /** @inheritDoc */
-    public function identity($service) { return $service; }
-}
+                class Identity extends ParentIdentity {
+                    /** @inheritDoc */
+                    public function identity($service) { return $service; }
+                }
 
-class TestClass {
-    public function run(): void {
-        $identity = new Identity();
-        $result = $identity->identity(new Mailer());
-        $result->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): void {
+                        $identity = new Identity();
+                        $result = $identity->identity(new Mailer());
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1305,44 +1255,42 @@ PHP,
 
     /**
      * Ensures legacy fixture 211 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTemplateBoundExtendedInterfaceInheritDocResolvesConcreteType(): void
     {
         $sources = [
             'TestCase211.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase211;
+                namespace TestCase211;
 
-interface HasSend { public function send(): void; }
-class Mailer implements HasSend { public function send(): void {} }
+                interface HasSend { public function send(): void; }
+                class Mailer implements HasSend { public function send(): void {} }
 
-interface BaseIdentityContract {
-    /**
-     * @template T of HasSend
-     * @param T $service
-     * @return T
-     */
-    public function identity($service);
-}
+                interface BaseIdentityContract {
+                    /**
+                     * @template T of HasSend
+                     * @param T $service
+                     * @return T
+                     */
+                    public function identity($service);
+                }
 
-interface IdentityContract extends BaseIdentityContract {}
+                interface IdentityContract extends BaseIdentityContract {}
 
-class Identity implements IdentityContract {
-    /** @inheritDoc */
-    public function identity($service) { return $service; }
-}
+                class Identity implements IdentityContract {
+                    /** @inheritDoc */
+                    public function identity($service) { return $service; }
+                }
 
-class TestClass {
-    public function run(): void {
-        $identity = new Identity();
-        $result = $identity->identity(new Mailer());
-        $result->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): void {
+                        $identity = new Identity();
+                        $result = $identity->identity(new Mailer());
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1352,42 +1300,40 @@ PHP,
 
     /**
      * Ensures legacy fixture 217 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTemplateBoundInheritDocDoesNotOverrideConcreteType(): void
     {
         $sources = [
             'TestCase217.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase217;
+                namespace TestCase217;
 
-interface HasSend { public function send(): void; }
-class PlainService { public function plainOnly(): void {} }
+                interface HasSend { public function send(): void; }
+                class PlainService { public function plainOnly(): void {} }
 
-interface IdentityContract {
-    /**
-     * @template T of HasSend
-     * @param T $service
-     * @return T
-     */
-    public function identity($service);
-}
+                interface IdentityContract {
+                    /**
+                     * @template T of HasSend
+                     * @param T $service
+                     * @return T
+                     */
+                    public function identity($service);
+                }
 
-class Identity implements IdentityContract {
-    /** @inheritDoc */
-    public function identity($service) { return $service; }
-}
+                class Identity implements IdentityContract {
+                    /** @inheritDoc */
+                    public function identity($service) { return $service; }
+                }
 
-class TestClass {
-    public function run(): void {
-        $identity = new Identity();
-        $result = $identity->identity(new PlainService());
-        $result->plainOnly();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): void {
+                        $identity = new Identity();
+                        $result = $identity->identity(new PlainService());
+                        $result->plainOnly();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1397,51 +1343,49 @@ PHP,
 
     /**
      * Ensures legacy fixture 277 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testClassTraitUseKeepsInterfaceInheritDocReturnType(): void
     {
         $sources = [
             'TestCase277.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase277;
+                namespace TestCase277;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-trait HasHelper {
-    public function helper(): void {}
-}
+                trait HasHelper {
+                    public function helper(): void {}
+                }
 
-interface FactoryContract {
-    /**
-     * @return Mailer
-     */
-    public function make();
-}
+                interface FactoryContract {
+                    /**
+                     * @return Mailer
+                     */
+                    public function make();
+                }
 
-class Factory implements FactoryContract {
-    use HasHelper;
+                class Factory implements FactoryContract {
+                    use HasHelper;
 
-    /**
-     * @inheritDoc
-     */
-    public function make() {
-        return loadMixed();
-    }
-}
+                    /**
+                     * @inheritDoc
+                     */
+                    public function make() {
+                        return loadMixed();
+                    }
+                }
 
-class TestClass {
-    public function run(): void {
-        $factory = new Factory();
-        $result = $factory->make();
-        $result->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): void {
+                        $factory = new Factory();
+                        $result = $factory->make();
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1451,52 +1395,50 @@ PHP,
 
     /**
      * Ensures legacy fixture 278 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testEnumTraitUseKeepsInterfaceInheritDocReturnType(): void
     {
         $sources = [
             'TestCase278.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase278;
+                namespace TestCase278;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-trait HasHelper {
-    public function helper(): void {}
-}
+                trait HasHelper {
+                    public function helper(): void {}
+                }
 
-interface FactoryContract {
-    /**
-     * @return Mailer
-     */
-    public function make();
-}
+                interface FactoryContract {
+                    /**
+                     * @return Mailer
+                     */
+                    public function make();
+                }
 
-enum Factory implements FactoryContract {
-    use HasHelper;
+                enum Factory implements FactoryContract {
+                    use HasHelper;
 
-    case Default;
+                    case Default;
 
-    /**
-     * @inheritDoc
-     */
-    public function make() {
-        return loadMixed();
-    }
-}
+                    /**
+                     * @inheritDoc
+                     */
+                    public function make() {
+                        return loadMixed();
+                    }
+                }
 
-class TestClass {
-    public function run(): void {
-        $result = Factory::Default->make();
-        $result->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): void {
+                        $result = Factory::Default->make();
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1506,49 +1448,47 @@ PHP,
 
     /**
      * Ensures legacy fixture 309 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInheritDocMergeUsesParentTemplateParamAndChildReturn(): void
     {
         $sources = [
             'TestCase309.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase309;
+                namespace TestCase309;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class ParentService {
-    /**
-     * @template T
-     * @param T $value
-     */
-    public function identity($value) {
-        return $value;
-    }
-}
+                class ParentService {
+                    /**
+                     * @template T
+                     * @param T $value
+                     */
+                    public function identity($value) {
+                        return $value;
+                    }
+                }
 
-class ChildService extends ParentService {
-    /**
-     * @inheritDoc
-     * @return T
-     */
-    public function identity($value) {
-        return parent::identity($value);
-    }
-}
+                class ChildService extends ParentService {
+                    /**
+                     * @inheritDoc
+                     * @return T
+                     */
+                    public function identity($value) {
+                        return parent::identity($value);
+                    }
+                }
 
-class TestClass {
-    public function run(): void {
-        $service = new ChildService();
-        $result = $service->identity(new Mailer());
-        $result->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): void {
+                        $service = new ChildService();
+                        $result = $service->identity(new Mailer());
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1558,53 +1498,51 @@ PHP,
 
     /**
      * Ensures legacy fixture 310 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInheritDocMergeUsesParentShapeParamAndChildReturn(): void
     {
         $sources = [
             'TestCase310.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase310;
+                namespace TestCase310;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class ParentService {
-    /**
-     * @template T
-     * @param array{service: T} $config
-     */
-    public function getService(array $config) {
-        return $config['service'];
-    }
-}
+                class ParentService {
+                    /**
+                     * @template T
+                     * @param array{service: T} $config
+                     */
+                    public function getService(array $config) {
+                        return $config['service'];
+                    }
+                }
 
-class ChildService extends ParentService {
-    /**
-     * @inheritDoc
-     * @return T
-     */
-    public function getService(array $config) {
-        return parent::getService($config);
-    }
-}
+                class ChildService extends ParentService {
+                    /**
+                     * @inheritDoc
+                     * @return T
+                     */
+                    public function getService(array $config) {
+                        return parent::getService($config);
+                    }
+                }
 
-class TestClass {
-    public function run(): void {
-        $service = new ChildService();
+                class TestClass {
+                    public function run(): void {
+                        $service = new ChildService();
 
-        /** @var array{service: Mailer} $config */
-        $config = ['service' => new Mailer()];
+                        /** @var array{service: Mailer} $config */
+                        $config = ['service' => new Mailer()];
 
-        $result = $service->getService($config);
-        $result->send();
-    }
-}
-PHP,
+                        $result = $service->getService($config);
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1614,58 +1552,56 @@ PHP,
 
     /**
      * Ensures legacy fixture 311 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInheritDocMergeKeepsChildShapeParamAndParentReturn(): void
     {
         $sources = [
             'TestCase311.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase311;
+                namespace TestCase311;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Logger {
-    public function send(): void {}
-}
+                class Logger {
+                    public function send(): void {}
+                }
 
-class ParentService {
-    /**
-     * @return Mailer
-     */
-    public function make(array $config) {
-        return new Mailer();
-    }
-}
+                class ParentService {
+                    /**
+                     * @return Mailer
+                     */
+                    public function make(array $config) {
+                        return new Mailer();
+                    }
+                }
 
-class ChildService extends ParentService {
-    /**
-     * @inheritDoc
-     * @param array{logger: Logger} $config
-     */
-    public function make(array $config) {
-        $config['logger']->send();
+                class ChildService extends ParentService {
+                    /**
+                     * @inheritDoc
+                     * @param array{logger: Logger} $config
+                     */
+                    public function make(array $config) {
+                        $config['logger']->send();
 
-        return parent::make($config);
-    }
-}
+                        return parent::make($config);
+                    }
+                }
 
-class TestClass {
-    public function run(): void {
-        $service = new ChildService();
+                class TestClass {
+                    public function run(): void {
+                        $service = new ChildService();
 
-        /** @var array{logger: Logger} $config */
-        $config = ['logger' => new Logger()];
+                        /** @var array{logger: Logger} $config */
+                        $config = ['logger' => new Logger()];
 
-        $result = $service->make($config);
-        $result->send();
-    }
-}
-PHP,
+                        $result = $service->make($config);
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1676,56 +1612,54 @@ PHP,
 
     /**
      * Ensures legacy fixture 312 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInheritDocResolvesThroughRecursiveParentChain(): void
     {
         $sources = [
             'TestCase312.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase312;
+                namespace TestCase312;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class GrandParentService {
-    /**
-     * @return Mailer
-     */
-    public function make() {
-        return new Mailer();
-    }
-}
+                class GrandParentService {
+                    /**
+                     * @return Mailer
+                     */
+                    public function make() {
+                        return new Mailer();
+                    }
+                }
 
-class ParentService extends GrandParentService {
-    /**
-     * @inheritDoc
-     */
-    public function make() {
-        return parent::make();
-    }
-}
+                class ParentService extends GrandParentService {
+                    /**
+                     * @inheritDoc
+                     */
+                    public function make() {
+                        return parent::make();
+                    }
+                }
 
-class ChildService extends ParentService {
-    /**
-     * @inheritDoc
-     */
-    public function make() {
-        return parent::make();
-    }
-}
+                class ChildService extends ParentService {
+                    /**
+                     * @inheritDoc
+                     */
+                    public function make() {
+                        return parent::make();
+                    }
+                }
 
-class TestClass {
-    public function run(): void {
-        $service = new ChildService();
-        $result = $service->make();
-        $result->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): void {
+                        $service = new ChildService();
+                        $result = $service->make();
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1735,47 +1669,45 @@ PHP,
 
     /**
      * Ensures legacy fixture 313 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInheritDocMergeUsesInterfaceParamAndChildReturn(): void
     {
         $sources = [
             'TestCase313.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase313;
+                namespace TestCase313;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-interface IdentityContract {
-    /**
-     * @template T
-     * @param T $value
-     */
-    public function identity($value);
-}
+                interface IdentityContract {
+                    /**
+                     * @template T
+                     * @param T $value
+                     */
+                    public function identity($value);
+                }
 
-class Identity implements IdentityContract {
-    /**
-     * @inheritDoc
-     * @return T
-     */
-    public function identity($value) {
-        return $value;
-    }
-}
+                class Identity implements IdentityContract {
+                    /**
+                     * @inheritDoc
+                     * @return T
+                     */
+                    public function identity($value) {
+                        return $value;
+                    }
+                }
 
-class TestClass {
-    public function run(): void {
-        $identity = new Identity();
-        $result = $identity->identity(new Mailer());
-        $result->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): void {
+                        $identity = new Identity();
+                        $result = $identity->identity(new Mailer());
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1785,51 +1717,49 @@ PHP,
 
     /**
      * Ensures legacy fixture 314 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInheritDocMergeUsesTraitParamAndChildReturn(): void
     {
         $sources = [
             'TestCase314.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase314;
+                namespace TestCase314;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-trait IdentityTrait {
-    /**
-     * @template T
-     * @param T $value
-     */
-    public function identity($value) {
-        return $value;
-    }
-}
+                trait IdentityTrait {
+                    /**
+                     * @template T
+                     * @param T $value
+                     */
+                    public function identity($value) {
+                        return $value;
+                    }
+                }
 
-class Identity {
-    use IdentityTrait;
+                class Identity {
+                    use IdentityTrait;
 
-    /**
-     * @inheritDoc
-     * @return T
-     */
-    public function identity($value) {
-        return $value;
-    }
-}
+                    /**
+                     * @inheritDoc
+                     * @return T
+                     */
+                    public function identity($value) {
+                        return $value;
+                    }
+                }
 
-class TestClass {
-    public function run(): void {
-        $identity = new Identity();
-        $result = $identity->identity(new Mailer());
-        $result->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): void {
+                        $identity = new Identity();
+                        $result = $identity->identity(new Mailer());
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1839,49 +1769,47 @@ PHP,
 
     /**
      * Ensures legacy fixture 315 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInlineInheritDocMergeUsesParentTemplateParamAndChildReturn(): void
     {
         $sources = [
             'TestCase315.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase315;
+                namespace TestCase315;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class ParentService {
-    /**
-     * @template T
-     * @param T $value
-     */
-    public function identity($value) {
-        return $value;
-    }
-}
+                class ParentService {
+                    /**
+                     * @template T
+                     * @param T $value
+                     */
+                    public function identity($value) {
+                        return $value;
+                    }
+                }
 
-class ChildService extends ParentService {
-    /**
-     * {@inheritDoc}
-     * @return T
-     */
-    public function identity($value) {
-        return parent::identity($value);
-    }
-}
+                class ChildService extends ParentService {
+                    /**
+                     * {@inheritDoc}
+                     * @return T
+                     */
+                    public function identity($value) {
+                        return parent::identity($value);
+                    }
+                }
 
-class TestClass {
-    public function run(): void {
-        $service = new ChildService();
-        $result = $service->identity(new Mailer());
-        $result->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): void {
+                        $service = new ChildService();
+                        $result = $service->identity(new Mailer());
+                        $result->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1891,60 +1819,58 @@ PHP,
 
     /**
      * Ensures legacy fixture 335 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInheritDocParentClassTemplateTakesPriorityOverInterfaceReturn(): void
     {
         $sources = [
             'TestCase335.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase335;
+                namespace TestCase335;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Notifier {
-    public function send(): void {}
-}
+                class Notifier {
+                    public function send(): void {}
+                }
 
-interface IdentityContract {
-    /**
-     * @return Notifier
-     */
-    public function identity($value);
-}
+                interface IdentityContract {
+                    /**
+                     * @return Notifier
+                     */
+                    public function identity($value);
+                }
 
-class ParentIdentity {
-    /**
-     * @template T
-     * @param T $value
-     * @return T
-     */
-    public function identity($value) {
-        return $value;
-    }
-}
+                class ParentIdentity {
+                    /**
+                     * @template T
+                     * @param T $value
+                     * @return T
+                     */
+                    public function identity($value) {
+                        return $value;
+                    }
+                }
 
-class Identity extends ParentIdentity implements IdentityContract {
-    /**
-     * @inheritDoc
-     */
-    public function identity($value) {
-        return parent::identity($value);
-    }
-}
+                class Identity extends ParentIdentity implements IdentityContract {
+                    /**
+                     * @inheritDoc
+                     */
+                    public function identity($value) {
+                        return parent::identity($value);
+                    }
+                }
 
-class TestClass {
-    public function run(): void {
-        $identity = new Identity();
+                class TestClass {
+                    public function run(): void {
+                        $identity = new Identity();
 
-        $identity->identity(new Mailer())->send();
-    }
-}
-PHP,
+                        $identity->identity(new Mailer())->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1964,60 +1890,58 @@ PHP,
 
     /**
      * Ensures legacy fixture 336 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInheritDocInterfaceTakesPriorityOverTraitReturn(): void
     {
         $sources = [
             'TestCase336.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase336;
+                namespace TestCase336;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Notifier {
-    public function send(): void {}
-}
+                class Notifier {
+                    public function send(): void {}
+                }
 
-interface FactoryContract {
-    /**
-     * @return Mailer
-     */
-    public function make();
-}
+                interface FactoryContract {
+                    /**
+                     * @return Mailer
+                     */
+                    public function make();
+                }
 
-trait MakesNotifier {
-    /**
-     * @return Notifier
-     */
-    public function make() {
-        return new Notifier();
-    }
-}
+                trait MakesNotifier {
+                    /**
+                     * @return Notifier
+                     */
+                    public function make() {
+                        return new Notifier();
+                    }
+                }
 
-class Factory implements FactoryContract {
-    use MakesNotifier;
+                class Factory implements FactoryContract {
+                    use MakesNotifier;
 
-    /**
-     * @inheritDoc
-     */
-    public function make() {
-        return loadMixed();
-    }
-}
+                    /**
+                     * @inheritDoc
+                     */
+                    public function make() {
+                        return loadMixed();
+                    }
+                }
 
-class TestClass {
-    public function run(): void {
-        $factory = new Factory();
+                class TestClass {
+                    public function run(): void {
+                        $factory = new Factory();
 
-        $factory->make()->send();
-    }
-}
-PHP,
+                        $factory->make()->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -2037,63 +1961,61 @@ PHP,
 
     /**
      * Ensures legacy fixture 337 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInheritDocChildReturnOverridesParentAndInterfaceReturn(): void
     {
         $sources = [
             'TestCase337.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase337;
+                namespace TestCase337;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Logger {
-    public function send(): void {}
-}
+                class Logger {
+                    public function send(): void {}
+                }
 
-class Notifier {
-    public function send(): void {}
-}
+                class Notifier {
+                    public function send(): void {}
+                }
 
-interface FactoryContract {
-    /**
-     * @return Notifier
-     */
-    public function make();
-}
+                interface FactoryContract {
+                    /**
+                     * @return Notifier
+                     */
+                    public function make();
+                }
 
-class ParentFactory {
-    /**
-     * @return Logger
-     */
-    public function make() {
-        return new Logger();
-    }
-}
+                class ParentFactory {
+                    /**
+                     * @return Logger
+                     */
+                    public function make() {
+                        return new Logger();
+                    }
+                }
 
-class Factory extends ParentFactory implements FactoryContract {
-    /**
-     * @inheritDoc
-     * @return Mailer
-     */
-    public function make() {
-        return new Mailer();
-    }
-}
+                class Factory extends ParentFactory implements FactoryContract {
+                    /**
+                     * @inheritDoc
+                     * @return Mailer
+                     */
+                    public function make() {
+                        return new Mailer();
+                    }
+                }
 
-class TestClass {
-    public function run(): void {
-        $factory = new Factory();
+                class TestClass {
+                    public function run(): void {
+                        $factory = new Factory();
 
-        $factory->make()->send();
-    }
-}
-PHP,
+                        $factory->make()->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -2119,64 +2041,62 @@ PHP,
 
     /**
      * Ensures legacy fixture 338 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInheritDocDirectTraitTakesPriorityOverNestedTraitReturn(): void
     {
         $sources = [
             'TestCase338.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase338;
+                namespace TestCase338;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Notifier {
-    public function send(): void {}
-}
+                class Notifier {
+                    public function send(): void {}
+                }
 
-trait NestedMakesNotifier {
-    /**
-     * @return Notifier
-     */
-    public function make() {
-        return new Notifier();
-    }
-}
+                trait NestedMakesNotifier {
+                    /**
+                     * @return Notifier
+                     */
+                    public function make() {
+                        return new Notifier();
+                    }
+                }
 
-trait MakesMailer {
-    use NestedMakesNotifier;
+                trait MakesMailer {
+                    use NestedMakesNotifier;
 
-    /**
-     * @return Mailer
-     */
-    public function make() {
-        return new Mailer();
-    }
-}
+                    /**
+                     * @return Mailer
+                     */
+                    public function make() {
+                        return new Mailer();
+                    }
+                }
 
-class Factory {
-    use MakesMailer;
+                class Factory {
+                    use MakesMailer;
 
-    /**
-     * @inheritDoc
-     */
-    public function make() {
-        return loadMixed();
-    }
-}
+                    /**
+                     * @inheritDoc
+                     */
+                    public function make() {
+                        return loadMixed();
+                    }
+                }
 
-class TestClass {
-    public function run(): void {
-        $factory = new Factory();
+                class TestClass {
+                    public function run(): void {
+                        $factory = new Factory();
 
-        $factory->make()->send();
-    }
-}
-PHP,
+                        $factory->make()->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -2196,67 +2116,65 @@ PHP,
 
     /**
      * Ensures legacy fixture 339 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInheritDocRecursiveParentClassTakesPriorityOverInterfaceReturn(): void
     {
         $sources = [
             'TestCase339.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase339;
+                namespace TestCase339;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Notifier {
-    public function send(): void {}
-}
+                class Notifier {
+                    public function send(): void {}
+                }
 
-interface FactoryContract {
-    /**
-     * @return Notifier
-     */
-    public function make();
-}
+                interface FactoryContract {
+                    /**
+                     * @return Notifier
+                     */
+                    public function make();
+                }
 
-class GrandParentFactory {
-    /**
-     * @return Mailer
-     */
-    public function make() {
-        return new Mailer();
-    }
-}
+                class GrandParentFactory {
+                    /**
+                     * @return Mailer
+                     */
+                    public function make() {
+                        return new Mailer();
+                    }
+                }
 
-class ParentFactory extends GrandParentFactory {
-    /**
-     * @inheritDoc
-     */
-    public function make() {
-        return parent::make();
-    }
-}
+                class ParentFactory extends GrandParentFactory {
+                    /**
+                     * @inheritDoc
+                     */
+                    public function make() {
+                        return parent::make();
+                    }
+                }
 
-class Factory extends ParentFactory implements FactoryContract {
-    /**
-     * @inheritDoc
-     */
-    public function make() {
-        return parent::make();
-    }
-}
+                class Factory extends ParentFactory implements FactoryContract {
+                    /**
+                     * @inheritDoc
+                     */
+                    public function make() {
+                        return parent::make();
+                    }
+                }
 
-class TestClass {
-    public function run(): void {
-        $factory = new Factory();
+                class TestClass {
+                    public function run(): void {
+                        $factory = new Factory();
 
-        $factory->make()->send();
-    }
-}
-PHP,
+                        $factory->make()->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -2276,70 +2194,68 @@ PHP,
 
     /**
      * Ensures legacy fixture 353 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInheritDocTemplateUnionGenericReturnPreservesConcreteTypes(): void
     {
         $sources = [
             'TestCase353.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase353;
+                namespace TestCase353;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Notifier {
-    public function send(): void {}
-}
+                class Notifier {
+                    public function send(): void {}
+                }
 
-/**
- * @template T
- */
-class Box {
-    public function __construct(private mixed $value) {}
+                /**
+                 * @template T
+                 */
+                class Box {
+                    public function __construct(private mixed $value) {}
 
-    /**
-     * @return T
-     */
-    public function get() {
-        return $this->value;
-    }
-}
+                    /**
+                     * @return T
+                     */
+                    public function get() {
+                        return $this->value;
+                    }
+                }
 
-class ParentFactory {
-    /**
-     * @template T
-     * @template U
-     * @param T $left
-     * @param U $right
-     * @return Box<T|U>
-     */
-    public function boxed($left, $right): Box {
-        return new Box($left);
-    }
-}
+                class ParentFactory {
+                    /**
+                     * @template T
+                     * @template U
+                     * @param T $left
+                     * @param U $right
+                     * @return Box<T|U>
+                     */
+                    public function boxed($left, $right): Box {
+                        return new Box($left);
+                    }
+                }
 
-class Factory extends ParentFactory {
-    /**
-     * @inheritDoc
-     */
-    public function boxed($left, $right): Box {
-        return parent::boxed($left, $right);
-    }
-}
+                class Factory extends ParentFactory {
+                    /**
+                     * @inheritDoc
+                     */
+                    public function boxed($left, $right): Box {
+                        return parent::boxed($left, $right);
+                    }
+                }
 
-class TestClass {
-    public function run(): void {
-        $factory = new Factory();
-        $box = $factory->boxed(new Mailer(), new Notifier());
+                class TestClass {
+                    public function run(): void {
+                        $factory = new Factory();
+                        $box = $factory->boxed(new Mailer(), new Notifier());
 
-        $box->get()->send();
-    }
-}
-PHP,
+                        $box->get()->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -2350,69 +2266,67 @@ PHP,
 
     /**
      * Ensures legacy fixture 359 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInheritDocStaticMethodTemplateUnionGenericReturnPreservesConcreteTypes(): void
     {
         $sources = [
             'TestCase359.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase359;
+                namespace TestCase359;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Notifier {
-    public function send(): void {}
-}
+                class Notifier {
+                    public function send(): void {}
+                }
 
-/**
- * @template T
- */
-class Box {
-    public function __construct(private mixed $value) {}
+                /**
+                 * @template T
+                 */
+                class Box {
+                    public function __construct(private mixed $value) {}
 
-    /**
-     * @return T
-     */
-    public function get() {
-        return $this->value;
-    }
-}
+                    /**
+                     * @return T
+                     */
+                    public function get() {
+                        return $this->value;
+                    }
+                }
 
-class ParentFactory {
-    /**
-     * @template T
-     * @template U
-     * @param T $left
-     * @param U $right
-     * @return Box<T|U>
-     */
-    public static function boxed($left, $right): Box {
-        return new Box($left);
-    }
-}
+                class ParentFactory {
+                    /**
+                     * @template T
+                     * @template U
+                     * @param T $left
+                     * @param U $right
+                     * @return Box<T|U>
+                     */
+                    public static function boxed($left, $right): Box {
+                        return new Box($left);
+                    }
+                }
 
-class Factory extends ParentFactory {
-    /**
-     * @inheritDoc
-     */
-    public static function boxed($left, $right): Box {
-        return parent::boxed($left, $right);
-    }
-}
+                class Factory extends ParentFactory {
+                    /**
+                     * @inheritDoc
+                     */
+                    public static function boxed($left, $right): Box {
+                        return parent::boxed($left, $right);
+                    }
+                }
 
-class TestClass {
-    public function run(): void {
-        $box = Factory::boxed(new Mailer(), new Notifier());
+                class TestClass {
+                    public function run(): void {
+                        $box = Factory::boxed(new Mailer(), new Notifier());
 
-        $box->get()->send();
-    }
-}
-PHP,
+                        $box->get()->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -2423,56 +2337,54 @@ PHP,
 
     /**
      * Ensures legacy fixture 364 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInheritDocStaticMethodTemplateUnionShapeReturnPreservesConcreteTypes(): void
     {
         $sources = [
             'TestCase364.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase364;
+                namespace TestCase364;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Notifier {
-    public function send(): void {}
-}
+                class Notifier {
+                    public function send(): void {}
+                }
 
-class ParentFactory {
-    /**
-     * @template T
-     * @template U
-     * @param T $left
-     * @param U $right
-     * @return array{primary: T, secondary: U}
-     */
-    public static function pair($left, $right): array {
-        return ['primary' => $left, 'secondary' => $right];
-    }
-}
+                class ParentFactory {
+                    /**
+                     * @template T
+                     * @template U
+                     * @param T $left
+                     * @param U $right
+                     * @return array{primary: T, secondary: U}
+                     */
+                    public static function pair($left, $right): array {
+                        return ['primary' => $left, 'secondary' => $right];
+                    }
+                }
 
-class Factory extends ParentFactory {
-    /**
-     * @inheritDoc
-     */
-    public static function pair($left, $right): array {
-        return parent::pair($left, $right);
-    }
-}
+                class Factory extends ParentFactory {
+                    /**
+                     * @inheritDoc
+                     */
+                    public static function pair($left, $right): array {
+                        return parent::pair($left, $right);
+                    }
+                }
 
-class TestClass {
-    public function run(): void {
-        $pair = Factory::pair(new Mailer(), new Notifier());
+                class TestClass {
+                    public function run(): void {
+                        $pair = Factory::pair(new Mailer(), new Notifier());
 
-        $pair['primary']->send();
-        $pair['secondary']->send();
-    }
-}
-PHP,
+                        $pair['primary']->send();
+                        $pair['secondary']->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);

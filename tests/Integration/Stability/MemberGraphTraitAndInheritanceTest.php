@@ -4,18 +4,8 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Tests\Integration\Stability;
 
-use PhpNoobs\MemberGraph\Application\Validator\PhpDoc\PhpDocResolutionIssue;
-use PhpNoobs\MemberGraph\Application\Validator\PhpDoc\PhpDocResolutionIssueType;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberOriginType;
 use PhpNoobs\MemberGraph\Domain\Graph\MemberType;
-use PhpNoobs\MemberGraph\Domain\Index\Template\PhpDocTemplateDefinitionCollection;
-use PhpNoobs\MemberGraph\Domain\Type\TypeIndexContext;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Parser\PhpDocParserFactory;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\PhpDocTagKind;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\PhpDocTypeNodeResolver;
-use PhpNoobs\MemberGraph\Infrastructure\UseStatements\UsesByAliasCollection;
 use PhpParser\Modifiers;
-use PHPStan\PhpDocParser\Parser\TokenIterator;
 
 /**
  * Covers migrated legacy member graph stability fixtures.
@@ -24,33 +14,31 @@ final class MemberGraphTraitAndInheritanceTest extends AbstractMemberGraphStabil
 {
     /**
      * Ensures legacy fixture 1 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTraitProjectionDoesNotLoop(): void
     {
         $sources = [
             'TestCase.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase;
+                namespace TestCase;
 
-trait T1 {
-    public function a() {
-        return $this->b();
-    }
-}
+                trait T1 {
+                    public function a() {
+                        return $this->b();
+                    }
+                }
 
-trait T2 {
-    public function b() {
-        return $this->a();
-    }
-}
+                trait T2 {
+                    public function b() {
+                        return $this->a();
+                    }
+                }
 
-class A {
-    use T1, T2;
-}
-PHP,
+                class A {
+                    use T1, T2;
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -62,29 +50,27 @@ PHP,
 
     /**
      * Ensures legacy fixture 3 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testNoDuplicateTraitUsages(): void
     {
         $sources = [
             'TestCase3.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase3;
+                namespace TestCase3;
 
-trait T {
-    public function call() {
-        $this->foo();
-    }
-}
+                trait T {
+                    public function call() {
+                        $this->foo();
+                    }
+                }
 
-class A {
-    use T;
+                class A {
+                    use T;
 
-    public function foo() {}
-}
-PHP,
+                    public function foo() {}
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -96,40 +82,37 @@ PHP,
         foreach ($usages as $group) {
             foreach ($group as $usage) {
                 if ('TestCase3\A' === $usage->target->owner && 'foo' === $usage->target->name) {
-                    $count++;
+                    ++$count;
                 }
             }
         }
 
         $this->assertSame(1, $count);
-
     }
 
     /**
      * Ensures legacy fixture 4 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTraitAndInheritanceProjection(): void
     {
         $sources = [
             'TestCase4.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase4;
+                namespace TestCase4;
 
-trait T {
-    public function t() {}
-}
+                trait T {
+                    public function t() {}
+                }
 
-class B {
-    public function b() {}
-}
+                class B {
+                    public function b() {}
+                }
 
-class A extends B {
-    use T;
-}
-PHP,
+                class A extends B {
+                    use T;
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -140,29 +123,26 @@ PHP,
 
         $this->assertContains('t', $names);
         $this->assertContains('b', $names);
-
     }
 
     /**
      * Ensures legacy fixture 7 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testSamePropertiesInTrait(): void
     {
         $sources = [
             'TestCase7.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase7;
+                namespace TestCase7;
 
-trait A { public string $x = 'a'; }
-trait B { public string $x = 'a'; }
+                trait A { public string $x = 'a'; }
+                trait B { public string $x = 'a'; }
 
-class C {
-    use A, B;
-}
-PHP,
+                class C {
+                    use A, B;
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -192,40 +172,37 @@ PHP,
             $declaredIns,
             'C::$x should originate from both traits A and B'
         );
-
     }
 
     /**
      * Ensures legacy fixture 49 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTraitAliasCreatesNewAvailableMember(): void
     {
         $sources = [
             'TestCase49.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase49;
+                namespace TestCase49;
 
-trait T
-{
-    public function foo(): void {}
-}
+                trait T
+                {
+                    public function foo(): void {}
+                }
 
-class C
-{
-    use T {
-        foo as bar;
-    }
+                class C
+                {
+                    use T {
+                        foo as bar;
+                    }
 
-    public function run(): void
-    {
-        $this->bar();
-    }
-}
+                    public function run(): void
+                    {
+                        $this->bar();
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -244,46 +221,42 @@ PHP,
         }
 
         $this->assertTrue($found);
-
-
     }
 
     /**
      * Ensures legacy fixture 50 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTraitInsteadOfKeepsOnlyPreferredTraitMethod(): void
     {
         $sources = [
             'TestCase50.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase50;
+                namespace TestCase50;
 
-trait A
-{
-    public function foo(): void {}
-}
+                trait A
+                {
+                    public function foo(): void {}
+                }
 
-trait B
-{
-    public function foo(): void {}
-}
+                trait B
+                {
+                    public function foo(): void {}
+                }
 
-class C
-{
-    use A, B {
-        A::foo insteadof B;
-    }
+                class C
+                {
+                    use A, B {
+                        A::foo insteadof B;
+                    }
 
-    public function run(): void
-    {
-        $this->foo();
-    }
-}
+                    public function run(): void
+                    {
+                        $this->foo();
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -297,53 +270,49 @@ PHP,
                 MemberType::METHOD === $member->member->type
                 && 'foo' === $member->member->name
             ) {
-                $count++;
+                ++$count;
             }
         }
 
         $this->assertSame(1, $count);
-
-
     }
 
     /**
      * Ensures legacy fixture 51 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTraitInsteadOfAndAliasCanBeCombined(): void
     {
         $sources = [
             'TestCase51.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase51;
+                namespace TestCase51;
 
-trait A
-{
-    public function foo(): void {}
-}
+                trait A
+                {
+                    public function foo(): void {}
+                }
 
-trait B
-{
-    public function foo(): void {}
-}
+                trait B
+                {
+                    public function foo(): void {}
+                }
 
-class C
-{
-    use A, B {
-        A::foo insteadof B;
-        A::foo as bar;
-    }
+                class C
+                {
+                    use A, B {
+                        A::foo insteadof B;
+                        A::foo as bar;
+                    }
 
-    public function run(): void
-    {
-        $this->foo();
-        $this->bar();
-    }
-}
+                    public function run(): void
+                    {
+                        $this->foo();
+                        $this->bar();
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -371,36 +340,32 @@ PHP,
 
         $this->assertTrue($foundFoo);
         $this->assertTrue($foundBar);
-
-
     }
 
     /**
      * Ensures legacy fixture 52 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTraitAliasVisibilityWithoutNewNameAppliesToOriginalMethod(): void
     {
         $sources = [
             'TestCase52.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase52;
+                namespace TestCase52;
 
-trait T
-{
-    public function foo(): void {}
-}
+                trait T
+                {
+                    public function foo(): void {}
+                }
 
-class C
-{
-    use T {
-        foo as private;
-    }
-}
+                class C
+                {
+                    use T {
+                        foo as private;
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -421,36 +386,32 @@ PHP,
 
         $this->assertNotNull($found);
         $this->assertSame(Modifiers::PRIVATE, $found->visibility);
-
-
     }
 
     /**
      * Ensures legacy fixture 53 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTraitAliasVisibilityWithNewNameAppliesToAliasedMethod(): void
     {
         $sources = [
             'TestCase53.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase53;
+                namespace TestCase53;
 
-trait T
-{
-    public function foo(): void {}
-}
+                trait T
+                {
+                    public function foo(): void {}
+                }
 
-class C
-{
-    use T {
-        foo as protected bar;
-    }
-}
+                class C
+                {
+                    use T {
+                        foo as protected bar;
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -471,36 +432,32 @@ PHP,
 
         $this->assertNotNull($found);
         $this->assertSame(Modifiers::PROTECTED, $found->visibility);
-
-
     }
 
     /**
      * Ensures legacy fixture 54 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTraitAliasKeepsOriginalMethodAndAddsAliasedMethodWithVisibility(): void
     {
         $sources = [
             'TestCase54.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase54;
+                namespace TestCase54;
 
-trait T
-{
-    public function foo(): void {}
-}
+                trait T
+                {
+                    public function foo(): void {}
+                }
 
-class C
-{
-    use T {
-        foo as private bar;
-    }
-}
+                class C
+                {
+                    use T {
+                        foo as private bar;
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -529,36 +486,32 @@ PHP,
         $this->assertTrue($foundFoo);
         $this->assertTrue($foundBar);
         $this->assertSame(Modifiers::PRIVATE, $barVisibility);
-
-
     }
 
     /**
      * Ensures legacy fixture 55 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTraitAliasVisibilityWithoutNewNameCanBeProtected(): void
     {
         $sources = [
             'TestCase55.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase55;
+                namespace TestCase55;
 
-trait T
-{
-    public function foo(): void {}
-}
+                trait T
+                {
+                    public function foo(): void {}
+                }
 
-class C
-{
-    use T {
-        foo as protected;
-    }
-}
+                class C
+                {
+                    use T {
+                        foo as protected;
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -579,36 +532,32 @@ PHP,
 
         $this->assertNotNull($found);
         $this->assertSame(Modifiers::PROTECTED, $found->visibility);
-
-
     }
 
     /**
      * Ensures legacy fixture 56 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTraitAliasVisibilityWithoutNewNameCanBePublic(): void
     {
         $sources = [
             'TestCase56.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase56;
+                namespace TestCase56;
 
-trait T
-{
-    protected function foo(): void {}
-}
+                trait T
+                {
+                    protected function foo(): void {}
+                }
 
-class C
-{
-    use T {
-        foo as public;
-    }
-}
+                class C
+                {
+                    use T {
+                        foo as public;
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -629,36 +578,32 @@ PHP,
 
         $this->assertNotNull($found);
         $this->assertSame(Modifiers::PUBLIC, $found->visibility);
-
-
     }
 
     /**
      * Ensures legacy fixture 57 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTraitAliasWithNewNameCanBePrivate(): void
     {
         $sources = [
             'TestCase57.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase57;
+                namespace TestCase57;
 
-trait T
-{
-    public function foo(): void {}
-}
+                trait T
+                {
+                    public function foo(): void {}
+                }
 
-class C
-{
-    use T {
-        foo as private bar;
-    }
-}
+                class C
+                {
+                    use T {
+                        foo as private bar;
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -679,36 +624,32 @@ PHP,
 
         $this->assertNotNull($found);
         $this->assertSame(Modifiers::PRIVATE, $found->visibility);
-
-
     }
 
     /**
      * Ensures legacy fixture 58 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTraitAliasWithNewNameCanBeProtected(): void
     {
         $sources = [
             'TestCase58.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase58;
+                namespace TestCase58;
 
-trait T
-{
-    public function foo(): void {}
-}
+                trait T
+                {
+                    public function foo(): void {}
+                }
 
-class C
-{
-    use T {
-        foo as protected bar;
-    }
-}
+                class C
+                {
+                    use T {
+                        foo as protected bar;
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -729,36 +670,32 @@ PHP,
 
         $this->assertNotNull($found);
         $this->assertSame(Modifiers::PROTECTED, $found->visibility);
-
-
     }
 
     /**
      * Ensures legacy fixture 59 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTraitAliasWithNewNameCanBePublic(): void
     {
         $sources = [
             'TestCase59.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase59;
+                namespace TestCase59;
 
-trait T
-{
-    protected function foo(): void {}
-}
+                trait T
+                {
+                    protected function foo(): void {}
+                }
 
-class C
-{
-    use T {
-        foo as public bar;
-    }
-}
+                class C
+                {
+                    use T {
+                        foo as public bar;
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -779,36 +716,32 @@ PHP,
 
         $this->assertNotNull($found);
         $this->assertSame(Modifiers::PUBLIC, $found->visibility);
-
-
     }
 
     /**
      * Ensures legacy fixture 60 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTraitAliasVisibilityKeepsOriginalAndAliasWhenNewNameExists(): void
     {
         $sources = [
             'TestCase60.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase60;
+                namespace TestCase60;
 
-trait T
-{
-    public function foo(): void {}
-}
+                trait T
+                {
+                    public function foo(): void {}
+                }
 
-class C
-{
-    use T {
-        foo as protected bar;
-    }
-}
+                class C
+                {
+                    use T {
+                        foo as protected bar;
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -837,37 +770,33 @@ PHP,
         $this->assertTrue($foundFoo);
         $this->assertTrue($foundBar);
         $this->assertSame(Modifiers::PROTECTED, $barVisibility);
-
-
     }
 
     /**
      * Ensures legacy fixture 249 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTraitClassConstantFetchTargetsTraitOwner(): void
     {
         $sources = [
             'TestCase249.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase249;
+                namespace TestCase249;
 
-trait HasToken {
-    public const TOKEN = 'token';
-}
+                trait HasToken {
+                    public const TOKEN = 'token';
+                }
 
-class Registry {
-    use HasToken;
-}
+                class Registry {
+                    use HasToken;
+                }
 
-class TestClass {
-    public function run(): string {
-        return Registry::TOKEN;
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): string {
+                        return Registry::TOKEN;
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -877,35 +806,33 @@ PHP,
 
     /**
      * Ensures legacy fixture 250 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testNestedTraitClassConstantFetchTargetsNestedTraitOwner(): void
     {
         $sources = [
             'TestCase250.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase250;
+                namespace TestCase250;
 
-trait BaseHasToken {
-    public const TOKEN = 'token';
-}
+                trait BaseHasToken {
+                    public const TOKEN = 'token';
+                }
 
-trait HasToken {
-    use BaseHasToken;
-}
+                trait HasToken {
+                    use BaseHasToken;
+                }
 
-class Registry {
-    use HasToken;
-}
+                class Registry {
+                    use HasToken;
+                }
 
-class TestClass {
-    public function run(): string {
-        return Registry::TOKEN;
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): string {
+                        return Registry::TOKEN;
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -915,33 +842,31 @@ PHP,
 
     /**
      * Ensures legacy fixture 253 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testOwnClassConstantOverridesTraitClassConstantOwner(): void
     {
         $sources = [
             'TestCase253.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase253;
+                namespace TestCase253;
 
-trait HasToken {
-    public const TOKEN = 'trait';
-}
+                trait HasToken {
+                    public const TOKEN = 'trait';
+                }
 
-class Registry {
-    use HasToken;
+                class Registry {
+                    use HasToken;
 
-    public const TOKEN = 'class';
-}
+                    public const TOKEN = 'class';
+                }
 
-class TestClass {
-    public function run(): string {
-        return Registry::TOKEN;
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): string {
+                        return Registry::TOKEN;
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -951,33 +876,31 @@ PHP,
 
     /**
      * Ensures legacy fixture 271 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testEnumTraitConstantFetchTargetsTraitOwner(): void
     {
         $sources = [
             'TestCase271.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase271;
+                namespace TestCase271;
 
-trait HasToken {
-    public const TOKEN = 'token';
-}
+                trait HasToken {
+                    public const TOKEN = 'token';
+                }
 
-enum Status {
-    use HasToken;
+                enum Status {
+                    use HasToken;
 
-    case Open;
-}
+                    case Open;
+                }
 
-class TestClass {
-    public function run(): string {
-        return Status::TOKEN;
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): string {
+                        return Status::TOKEN;
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -987,35 +910,33 @@ PHP,
 
     /**
      * Ensures legacy fixture 274 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testClassTraitUseKeepsImplementedInterfaceConstantOwner(): void
     {
         $sources = [
             'TestCase274.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase274;
+                namespace TestCase274;
 
-interface HasToken {
-    public const TOKEN = 'token';
-}
+                interface HasToken {
+                    public const TOKEN = 'token';
+                }
 
-trait HasHelper {
-    public function helper(): void {}
-}
+                trait HasHelper {
+                    public function helper(): void {}
+                }
 
-class Service implements HasToken {
-    use HasHelper;
-}
+                class Service implements HasToken {
+                    use HasHelper;
+                }
 
-class TestClass {
-    public function run(): string {
-        return Service::TOKEN;
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): string {
+                        return Service::TOKEN;
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1025,37 +946,35 @@ PHP,
 
     /**
      * Ensures legacy fixture 275 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testEnumTraitUseKeepsImplementedInterfaceConstantOwner(): void
     {
         $sources = [
             'TestCase275.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase275;
+                namespace TestCase275;
 
-interface HasToken {
-    public const TOKEN = 'token';
-}
+                interface HasToken {
+                    public const TOKEN = 'token';
+                }
 
-trait HasHelper {
-    public function helper(): void {}
-}
+                trait HasHelper {
+                    public function helper(): void {}
+                }
 
-enum Status implements HasToken {
-    use HasHelper;
+                enum Status implements HasToken {
+                    use HasHelper;
 
-    case Open;
-}
+                    case Open;
+                }
 
-class TestClass {
-    public function run(): string {
-        return Status::TOKEN;
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): string {
+                        return Status::TOKEN;
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1065,38 +984,36 @@ PHP,
 
     /**
      * Ensures legacy fixture 276 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testClassTraitUseKeepsExtendedInterfaceConstantOwner(): void
     {
         $sources = [
             'TestCase276.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase276;
+                namespace TestCase276;
 
-interface BaseHasToken {
-    public const TOKEN = 'token';
-}
+                interface BaseHasToken {
+                    public const TOKEN = 'token';
+                }
 
-interface HasToken extends BaseHasToken {
-}
+                interface HasToken extends BaseHasToken {
+                }
 
-trait HasHelper {
-    public function helper(): void {}
-}
+                trait HasHelper {
+                    public function helper(): void {}
+                }
 
-class Service implements HasToken {
-    use HasHelper;
-}
+                class Service implements HasToken {
+                    use HasHelper;
+                }
 
-class TestClass {
-    public function run(): string {
-        return Service::TOKEN;
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): string {
+                        return Service::TOKEN;
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1106,35 +1023,33 @@ PHP,
 
     /**
      * Ensures legacy fixture 294 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInterfacePolymorphismTargetsClassUsingTraitImplementation(): void
     {
         $sources = [
             'TestCase294.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase294;
+                namespace TestCase294;
 
-interface Contract {
-    public function send(): void;
-}
+                interface Contract {
+                    public function send(): void;
+                }
 
-trait Sends {
-    public function send(): void {}
-}
+                trait Sends {
+                    public function send(): void {}
+                }
 
-class Service implements Contract {
-    use Sends;
-}
+                class Service implements Contract {
+                    use Sends;
+                }
 
-class TestClass {
-    public function run(Contract $service): void {
-        $service->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(Contract $service): void {
+                        $service->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1144,38 +1059,36 @@ PHP,
 
     /**
      * Ensures legacy fixture 295 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testExtendedInterfacePolymorphismTargetsClassUsingTraitImplementation(): void
     {
         $sources = [
             'TestCase295.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase295;
+                namespace TestCase295;
 
-interface RootContract {
-    public function send(): void;
-}
+                interface RootContract {
+                    public function send(): void;
+                }
 
-interface LeafContract extends RootContract {
-}
+                interface LeafContract extends RootContract {
+                }
 
-trait Sends {
-    public function send(): void {}
-}
+                trait Sends {
+                    public function send(): void {}
+                }
 
-class Service implements LeafContract {
-    use Sends;
-}
+                class Service implements LeafContract {
+                    use Sends;
+                }
 
-class TestClass {
-    public function run(RootContract $service): void {
-        $service->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(RootContract $service): void {
+                        $service->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1185,37 +1098,35 @@ PHP,
 
     /**
      * Ensures legacy fixture 296 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInterfacePolymorphismTargetsEnumUsingTraitImplementation(): void
     {
         $sources = [
             'TestCase296.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase296;
+                namespace TestCase296;
 
-interface Contract {
-    public function send(): void;
-}
+                interface Contract {
+                    public function send(): void;
+                }
 
-trait Sends {
-    public function send(): void {}
-}
+                trait Sends {
+                    public function send(): void {}
+                }
 
-enum Status implements Contract {
-    use Sends;
+                enum Status implements Contract {
+                    use Sends;
 
-    case Open;
-}
+                    case Open;
+                }
 
-class TestClass {
-    public function run(Contract $status): void {
-        $status->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(Contract $status): void {
+                        $status->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1225,35 +1136,33 @@ PHP,
 
     /**
      * Ensures legacy fixture 297 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInterfaceNamedArgumentUsageTargetsClassUsingTraitImplementation(): void
     {
         $sources = [
             'TestCase297.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase297;
+                namespace TestCase297;
 
-interface Contract {
-    public function send(string $message): void;
-}
+                interface Contract {
+                    public function send(string $message): void;
+                }
 
-trait Sends {
-    public function send(string $message): void {}
-}
+                trait Sends {
+                    public function send(string $message): void {}
+                }
 
-class Service implements Contract {
-    use Sends;
-}
+                class Service implements Contract {
+                    use Sends;
+                }
 
-class TestClass {
-    public function run(Contract $service): void {
-        $service->send(message: 'hello');
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(Contract $service): void {
+                        $service->send(message: 'hello');
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1277,38 +1186,36 @@ PHP,
 
     /**
      * Ensures legacy fixture 298 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInterfacePolymorphismTargetsChildClassInheritingTraitImplementation(): void
     {
         $sources = [
             'TestCase298.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase298;
+                namespace TestCase298;
 
-interface Contract {
-    public function send(): void;
-}
+                interface Contract {
+                    public function send(): void;
+                }
 
-trait Sends {
-    public function send(): void {}
-}
+                trait Sends {
+                    public function send(): void {}
+                }
 
-class ParentService implements Contract {
-    use Sends;
-}
+                class ParentService implements Contract {
+                    use Sends;
+                }
 
-class Service extends ParentService {
-}
+                class Service extends ParentService {
+                }
 
-class TestClass {
-    public function run(Contract $service): void {
-        $service->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(Contract $service): void {
+                        $service->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1318,37 +1225,35 @@ PHP,
 
     /**
      * Ensures legacy fixture 299 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInterfacePolymorphismTargetsClassUsingTraitAliasImplementation(): void
     {
         $sources = [
             'TestCase299.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase299;
+                namespace TestCase299;
 
-interface Contract {
-    public function send(): void;
-}
+                interface Contract {
+                    public function send(): void;
+                }
 
-trait Notifies {
-    public function notify(): void {}
-}
+                trait Notifies {
+                    public function notify(): void {}
+                }
 
-class Service implements Contract {
-    use Notifies {
-        notify as send;
-    }
-}
+                class Service implements Contract {
+                    use Notifies {
+                        notify as send;
+                    }
+                }
 
-class TestClass {
-    public function run(Contract $service): void {
-        $service->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(Contract $service): void {
+                        $service->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1358,40 +1263,38 @@ PHP,
 
     /**
      * Ensures legacy fixture 300 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testExtendedInterfacePolymorphismTargetsClassUsingTraitAliasImplementation(): void
     {
         $sources = [
             'TestCase300.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase300;
+                namespace TestCase300;
 
-interface RootContract {
-    public function send(): void;
-}
+                interface RootContract {
+                    public function send(): void;
+                }
 
-interface LeafContract extends RootContract {
-}
+                interface LeafContract extends RootContract {
+                }
 
-trait Notifies {
-    public function notify(): void {}
-}
+                trait Notifies {
+                    public function notify(): void {}
+                }
 
-class Service implements LeafContract {
-    use Notifies {
-        notify as send;
-    }
-}
+                class Service implements LeafContract {
+                    use Notifies {
+                        notify as send;
+                    }
+                }
 
-class TestClass {
-    public function run(RootContract $service): void {
-        $service->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(RootContract $service): void {
+                        $service->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1401,39 +1304,37 @@ PHP,
 
     /**
      * Ensures legacy fixture 301 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInterfacePolymorphismTargetsEnumUsingTraitAliasImplementation(): void
     {
         $sources = [
             'TestCase301.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase301;
+                namespace TestCase301;
 
-interface Contract {
-    public function send(): void;
-}
+                interface Contract {
+                    public function send(): void;
+                }
 
-trait Notifies {
-    public function notify(): void {}
-}
+                trait Notifies {
+                    public function notify(): void {}
+                }
 
-enum Status implements Contract {
-    use Notifies {
-        notify as send;
-    }
+                enum Status implements Contract {
+                    use Notifies {
+                        notify as send;
+                    }
 
-    case Open;
-}
+                    case Open;
+                }
 
-class TestClass {
-    public function run(Contract $status): void {
-        $status->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(Contract $status): void {
+                        $status->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1443,37 +1344,35 @@ PHP,
 
     /**
      * Ensures legacy fixture 302 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testInterfaceNamedArgumentUsageTargetsClassUsingTraitAliasImplementation(): void
     {
         $sources = [
             'TestCase302.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase302;
+                namespace TestCase302;
 
-interface Contract {
-    public function send(string $message): void;
-}
+                interface Contract {
+                    public function send(string $message): void;
+                }
 
-trait Notifies {
-    public function notify(string $message): void {}
-}
+                trait Notifies {
+                    public function notify(string $message): void {}
+                }
 
-class Service implements Contract {
-    use Notifies {
-        notify as send;
-    }
-}
+                class Service implements Contract {
+                    use Notifies {
+                        notify as send;
+                    }
+                }
 
-class TestClass {
-    public function run(Contract $service): void {
-        $service->send(message: 'hello');
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(Contract $service): void {
+                        $service->send(message: 'hello');
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1497,31 +1396,29 @@ PHP,
 
     /**
      * Ensures legacy fixture 303 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testTraitAliasImplementationIsAvailableOnClassOwner(): void
     {
         $sources = [
             'TestCase303.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase303;
+                namespace TestCase303;
 
-interface Contract {
-    public function send(): void;
-}
+                interface Contract {
+                    public function send(): void;
+                }
 
-trait Notifies {
-    public function notify(): void {}
-}
+                trait Notifies {
+                    public function notify(): void {}
+                }
 
-class Service implements Contract {
-    use Notifies {
-        notify as send;
-    }
-}
-PHP,
+                class Service implements Contract {
+                    use Notifies {
+                        notify as send;
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);

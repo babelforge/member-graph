@@ -26,9 +26,9 @@ final readonly class StaticPropertyFetchExpressionResolver implements Expression
     /**
      * Constructor.
      *
-     * @param PropertyTypeResolver $propertyTypeResolver The property type resolver.
-     * @param StructuredPhpDocTypeInspector $structuredPhpDocTypeInspector The structured PHPDoc inspector.
-     * @param StaticOwnerResolver $staticOwnerResolver The static owner resolver.
+     * @param PropertyTypeResolver          $propertyTypeResolver          the property type resolver
+     * @param StructuredPhpDocTypeInspector $structuredPhpDocTypeInspector the structured PHPDoc inspector
+     * @param StaticOwnerResolver           $staticOwnerResolver           the static owner resolver
      */
     public function __construct(
         private PropertyTypeResolver $propertyTypeResolver,
@@ -40,9 +40,7 @@ final readonly class StaticPropertyFetchExpressionResolver implements Expression
     /**
      * Tells whether this resolver can handle the given node.
      *
-     * @param Node $expression The expression or expression-like node to inspect.
-     *
-     * @return bool
+     * @param Node $expression the expression or expression-like node to inspect
      */
     public function supports(Node $expression): bool
     {
@@ -52,11 +50,9 @@ final readonly class StaticPropertyFetchExpressionResolver implements Expression
     /**
      * Resolves symbols produced by a static property fetch.
      *
-     * @param Node $expression The static-property-fetch expression.
-     * @param ExpressionResolutionContext $context The current expression resolution context.
-     * @param ExpressionTypeResolverInterface $fallbackResolver The facade resolver for recursive resolution.
-     *
-     * @return SymbolCollection|null
+     * @param Node                            $expression       the static-property-fetch expression
+     * @param ExpressionResolutionContext     $context          the current expression resolution context
+     * @param ExpressionTypeResolverInterface $fallbackResolver the facade resolver for recursive resolution
      */
     public function resolve(
         Node $expression,
@@ -103,11 +99,9 @@ final readonly class StaticPropertyFetchExpressionResolver implements Expression
     /**
      * Resolves the structured PHPDoc type produced by a static property fetch.
      *
-     * @param Expr $expression The static-property-fetch expression.
-     * @param ExpressionResolutionContext $context The current expression resolution context.
-     * @param ExpressionTypeResolverInterface $fallbackResolver The facade resolver for recursive resolution.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param Expr                            $expression       the static-property-fetch expression
+     * @param ExpressionResolutionContext     $context          the current expression resolution context
+     * @param ExpressionTypeResolverInterface $fallbackResolver the facade resolver for recursive resolution
      */
     public function resolveStructuredPhpDocType(
         Expr $expression,

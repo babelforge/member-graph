@@ -16,10 +16,10 @@ final readonly class MemberGraphPartialGlobalIndexesBuilder
     /**
      * Constructor.
      *
-     * @param MemberGraphSourceMetadataGlobalOwnerIndexesBuilder $ownerIndexesBuilder The owner index builder.
-     * @param MemberGraphDeclarationSnapshotMerger $declarationSnapshotMerger The declaration snapshot merger.
-     * @param MemberGraphDeclarationFlatMemberIndexesBuilder $flatMemberIndexesBuilder The flat member index builder.
-     * @param MemberGraphDeclarationCallableFlatIndexesBuilder $callableFlatIndexesBuilder The callable flat index builder.
+     * @param MemberGraphSourceMetadataGlobalOwnerIndexesBuilder $ownerIndexesBuilder        the owner index builder
+     * @param MemberGraphDeclarationSnapshotMerger               $declarationSnapshotMerger  the declaration snapshot merger
+     * @param MemberGraphDeclarationFlatMemberIndexesBuilder     $flatMemberIndexesBuilder   the flat member index builder
+     * @param MemberGraphDeclarationCallableFlatIndexesBuilder   $callableFlatIndexesBuilder the callable flat index builder
      */
     public function __construct(
         private MemberGraphSourceMetadataGlobalOwnerIndexesBuilder $ownerIndexesBuilder = new MemberGraphSourceMetadataGlobalOwnerIndexesBuilder(),
@@ -32,10 +32,8 @@ final readonly class MemberGraphPartialGlobalIndexesBuilder
     /**
      * Builds partial-compatible global indexes.
      *
-     * @param MemberDependencyGraphPartialRebuildSourceView $sourceView The partial rebuild source view.
-     * @param MemberGraphDeclarationSnapshot $cachedDeclarationSnapshot The cached declaration snapshot.
-     *
-     * @return MemberGraphPartialGlobalIndexes
+     * @param MemberDependencyGraphPartialRebuildSourceView $sourceView                the partial rebuild source view
+     * @param MemberGraphDeclarationSnapshot                $cachedDeclarationSnapshot the cached declaration snapshot
      */
     public function build(
         MemberDependencyGraphPartialRebuildSourceView $sourceView,

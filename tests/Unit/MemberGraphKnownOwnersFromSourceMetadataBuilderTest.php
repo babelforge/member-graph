@@ -17,8 +17,6 @@ final class MemberGraphKnownOwnersFromSourceMetadataBuilderTest extends TestCase
 {
     /**
      * Ensures source metadata can rebuild known owners without PHPParser nodes.
-     *
-     * @return void
      */
     public function testItBuildsKnownOwnersFromSourceMetadata(): void
     {

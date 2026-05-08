@@ -14,8 +14,6 @@ final class MemberGraphCachePathNormalizerTest extends TestCase
 {
     /**
      * Ensures existing paths are normalized through realpath.
-     *
-     * @return void
      */
     public function testItNormalizesExistingPathsThroughRealpath(): void
     {
@@ -26,13 +24,11 @@ final class MemberGraphCachePathNormalizerTest extends TestCase
 
     /**
      * Ensures non-existing paths are returned unchanged.
-     *
-     * @return void
      */
     public function testItReturnsNonExistingPathsUnchanged(): void
     {
         $normalizer = new MemberGraphCachePathNormalizer();
-        $filePath = sys_get_temp_dir() . '/member-graph-missing-' . bin2hex(random_bytes(6)) . '.php';
+        $filePath = sys_get_temp_dir().'/member-graph-missing-'.bin2hex(random_bytes(6)).'.php';
 
         self::assertSame($filePath, $normalizer->normalize($filePath));
     }

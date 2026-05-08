@@ -39,14 +39,14 @@ final readonly class LocalVariableTypeCollector
     /**
      * Constructor.
      *
-     * @param ExpressionTypeResolverInterface $expressionTypeResolver The expression type resolver.
-     * @param LocalVarPhpDocTypeExtractor $localVarPhpDocTypeExtractor The local variable PHPDoc type extractor.
-     * @param ParamPhpDocTypeExtractor $paramPhpDocTypeExtractor The parameter PHPDoc type extractor.
-     * @param MethodParameterStructuredTypeIndex $methodParameterStructuredTypeIndex The method parameter structured type index.
-     * @param FunctionParameterStructuredTypeIndex $functionParameterStructuredTypeIndex The function parameter structured type index.
-     * @param UsesByAliasCollection $usesByAlias The current use imports indexed by alias.
-     * @param StructuredPhpDocTypeSelector $structuredPhpDocTypeSelector The structured PHPDoc type selector.
-     * @param VariableTypePropagationResolver $variableTypePropagationResolver The variable type propagation resolver.
+     * @param ExpressionTypeResolverInterface      $expressionTypeResolver               the expression type resolver
+     * @param LocalVarPhpDocTypeExtractor          $localVarPhpDocTypeExtractor          the local variable PHPDoc type extractor
+     * @param ParamPhpDocTypeExtractor             $paramPhpDocTypeExtractor             the parameter PHPDoc type extractor
+     * @param MethodParameterStructuredTypeIndex   $methodParameterStructuredTypeIndex   the method parameter structured type index
+     * @param FunctionParameterStructuredTypeIndex $functionParameterStructuredTypeIndex the function parameter structured type index
+     * @param UsesByAliasCollection                $usesByAlias                          the current use imports indexed by alias
+     * @param StructuredPhpDocTypeSelector         $structuredPhpDocTypeSelector         the structured PHPDoc type selector
+     * @param VariableTypePropagationResolver      $variableTypePropagationResolver      the variable type propagation resolver
      */
     public function __construct(
         private ExpressionTypeResolverInterface $expressionTypeResolver,
@@ -63,10 +63,8 @@ final readonly class LocalVariableTypeCollector
     /**
      * Collects variable type information from one assignment.
      *
-     * @param Assign $assign The assignment node.
-     * @param MemberGraphTraversalState $state The current traversal state.
-     *
-     * @return void
+     * @param Assign                    $assign the assignment node
+     * @param MemberGraphTraversalState $state  the current traversal state
      */
     public function collectAssignment(Assign $assign, MemberGraphTraversalState $state): void
     {
@@ -109,11 +107,9 @@ final readonly class LocalVariableTypeCollector
     /**
      * Collects parameter types into the local variable type map.
      *
-     * @param Param[] $params The parameters to collect.
-     * @param string $methodOrFunctionName The name of the method or function.
-     * @param MemberGraphTraversalState $state The current traversal state.
-     *
-     * @return void
+     * @param Param[]                   $params               the parameters to collect
+     * @param string                    $methodOrFunctionName the name of the method or function
+     * @param MemberGraphTraversalState $state                the current traversal state
      */
     public function collectParameters(array $params, string $methodOrFunctionName, MemberGraphTraversalState $state): void
     {
@@ -152,10 +148,8 @@ final readonly class LocalVariableTypeCollector
      *
      * Native parameter types remain authoritative.
      *
-     * @param ClassMethod|Function_ $functionLike The function-like node.
-     * @param MemberGraphTraversalState $state The current traversal state.
-     *
-     * @return void
+     * @param ClassMethod|Function_     $functionLike the function-like node
+     * @param MemberGraphTraversalState $state        the current traversal state
      */
     public function collectParametersFromPhpDoc(
         ClassMethod|Function_ $functionLike,
@@ -189,10 +183,8 @@ final readonly class LocalVariableTypeCollector
     /**
      * Collects variable type information from a local @var docblock.
      *
-     * @param Expression $expression The statement expression node.
-     * @param MemberGraphTraversalState $state The current traversal state.
-     *
-     * @return void
+     * @param Expression                $expression the statement expression node
+     * @param MemberGraphTraversalState $state      the current traversal state
      */
     public function collectLocalVarPhpDoc(Expression $expression, MemberGraphTraversalState $state): void
     {
@@ -219,10 +211,8 @@ final readonly class LocalVariableTypeCollector
     /**
      * Resolves the structured type of one assignment expression when possible.
      *
-     * @param Expr $expression The assigned expression.
-     * @param MemberGraphTraversalState $state The current traversal state.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param Expr                      $expression the assigned expression
+     * @param MemberGraphTraversalState $state      the current traversal state
      */
     private function resolveAssignedExprStructuredType(
         Expr $expression,
@@ -240,10 +230,8 @@ final readonly class LocalVariableTypeCollector
     /**
      * Resolves the type produced by a simple assignment expression.
      *
-     * @param Expr $expression The assigned expression.
-     * @param MemberGraphTraversalState $state The current traversal state.
-     *
-     * @return SymbolCollection
+     * @param Expr                      $expression the assigned expression
+     * @param MemberGraphTraversalState $state      the current traversal state
      */
     private function resolveAssignedExprTypes(Expr $expression, MemberGraphTraversalState $state): SymbolCollection
     {
@@ -259,12 +247,10 @@ final readonly class LocalVariableTypeCollector
     /**
      * Resolves parameter types from a declared parameter type node.
      *
-     * @param null|Identifier|Name|ComplexType $type The parameter type node.
-     *
-     * @return SymbolCollection
+     * @param Identifier|Name|ComplexType|null $type the parameter type node
      */
     private function resolveParameterTypes(
-        null|Identifier|Name|ComplexType $type,
+        Identifier|Name|ComplexType|null $type,
     ): SymbolCollection {
         if ($type instanceof Name) {
             $resolvedName = $type->getAttribute('resolvedName');
@@ -316,11 +302,9 @@ final readonly class LocalVariableTypeCollector
     /**
      * Resolves the structured type of one parameter when possible.
      *
-     * @param Param $param The parameter node.
-     * @param string $methodOrFunctionName The name of the method or function.
-     * @param MemberGraphTraversalState $state The current traversal state.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param Param                     $param                the parameter node
+     * @param string                    $methodOrFunctionName the name of the method or function
+     * @param MemberGraphTraversalState $state                the current traversal state
      */
     private function resolveParameterStructuredType(
         Param $param,
@@ -351,10 +335,8 @@ final readonly class LocalVariableTypeCollector
     /**
      * Resolves the best-known owner type for one expression.
      *
-     * @param Expr $expression The expression node.
-     * @param MemberGraphTraversalState $state The current traversal state.
-     *
-     * @return SymbolCollection
+     * @param Expr                      $expression the expression node
+     * @param MemberGraphTraversalState $state      the current traversal state
      */
     private function resolveExprTypes(Expr $expression, MemberGraphTraversalState $state): SymbolCollection
     {

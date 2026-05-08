@@ -17,8 +17,6 @@ final class MemberGraphDeclarationFlatMemberIndexesBuilderTest extends TestCase
 {
     /**
      * Ensures property and class constant indexes can be rebuilt without PHPParser nodes.
-     *
-     * @return void
      */
     public function testItBuildsFlatMemberIndexesFromDeclarationSnapshots(): void
     {

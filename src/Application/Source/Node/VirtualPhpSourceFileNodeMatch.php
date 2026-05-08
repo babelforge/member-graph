@@ -16,15 +16,15 @@ final readonly class VirtualPhpSourceFileNodeMatch
     /**
      * Constructor.
      *
-     * @param VirtualPhpSourceFile $virtualFile The virtual registry file containing the node.
-     * @param Node $node The matched AST node.
-     * @param MemberImpactTarget $target The source impact target.
-     * @param VirtualPhpSourceFileNodeMatchRole $role The match role.
+     * @param VirtualPhpSourceFile              $virtualFile the virtual registry file containing the node
+     * @param Node                              $node        the matched AST node
+     * @param MemberImpactTarget                $target      the source impact target
+     * @param VirtualPhpSourceFileNodeMatchRole $role        the match role
      */
     public function __construct(
-        public VirtualPhpSourceFile              $virtualFile,
-        public Node                              $node,
-        public MemberImpactTarget                $target,
+        public VirtualPhpSourceFile $virtualFile,
+        public Node $node,
+        public MemberImpactTarget $target,
         public VirtualPhpSourceFileNodeMatchRole $role,
     ) {
     }

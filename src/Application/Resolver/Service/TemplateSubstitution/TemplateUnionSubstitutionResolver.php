@@ -15,12 +15,10 @@ final readonly class TemplateUnionSubstitutionResolver
     /**
      * Collects substitutions when the declared parameter is a union.
      *
-     * @param ResolvedPhpDocType $parameterType The declared union type.
-     * @param ResolvedPhpDocType $argumentType The concrete argument type.
-     * @param PhpDocTemplateSubstitutionContext $context The mutable substitution context.
-     * @param TemplateArgumentSubstitutionResolver $argumentSubstitutionResolver The recursive argument substitution resolver.
-     *
-     * @return void
+     * @param ResolvedPhpDocType                   $parameterType                the declared union type
+     * @param ResolvedPhpDocType                   $argumentType                 the concrete argument type
+     * @param PhpDocTemplateSubstitutionContext    $context                      the mutable substitution context
+     * @param TemplateArgumentSubstitutionResolver $argumentSubstitutionResolver the recursive argument substitution resolver
      */
     public function collectFromUnionParameter(
         ResolvedPhpDocType $parameterType,
@@ -46,12 +44,10 @@ final readonly class TemplateUnionSubstitutionResolver
     /**
      * Collects substitutions from each concrete argument union branch.
      *
-     * @param ResolvedPhpDocType $parameterType The declared parameter type.
-     * @param ResolvedPhpDocType $argumentType The concrete argument union type.
-     * @param PhpDocTemplateSubstitutionContext $context The mutable substitution context.
-     * @param TemplateArgumentSubstitutionResolver $argumentSubstitutionResolver The recursive argument substitution resolver.
-     *
-     * @return void
+     * @param ResolvedPhpDocType                   $parameterType                the declared parameter type
+     * @param ResolvedPhpDocType                   $argumentType                 the concrete argument union type
+     * @param PhpDocTemplateSubstitutionContext    $context                      the mutable substitution context
+     * @param TemplateArgumentSubstitutionResolver $argumentSubstitutionResolver the recursive argument substitution resolver
      */
     public function collectFromUnionArgument(
         ResolvedPhpDocType $parameterType,

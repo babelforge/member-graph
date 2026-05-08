@@ -18,13 +18,11 @@ final readonly class MemberGraphFragmenter
     /**
      * Fragments a global graph by physical file path.
      *
-     * @param MemberDependencyGraph $graph The global graph.
-     * @param VirtualPhpSourceFileCollection $virtualFiles The virtual files used for the build.
-     *
-     * @return MemberGraphFragmentCollection
+     * @param MemberDependencyGraph          $graph        the global graph
+     * @param VirtualPhpSourceFileCollection $virtualFiles the virtual files used for the build
      */
     public function fragment(
-        MemberDependencyGraph          $graph,
+        MemberDependencyGraph $graph,
         VirtualPhpSourceFileCollection $virtualFiles,
     ): MemberGraphFragmentCollection {
         $fragments = new MemberGraphFragmentCollection();
@@ -44,11 +42,9 @@ final readonly class MemberGraphFragmenter
     /**
      * Builds one graph fragment for a physical file.
      *
-     * @param MemberDependencyGraph $graph The global graph.
-     * @param string $physicalFilePath The physical file path.
-     * @param array<string, string> $virtualToPhysicalFilePaths Virtual-to-physical file path map.
-     *
-     * @return MemberDependencyGraph
+     * @param MemberDependencyGraph $graph                      the global graph
+     * @param string                $physicalFilePath           the physical file path
+     * @param array<string, string> $virtualToPhysicalFilePaths virtual-to-physical file path map
      */
     private function fragmentForFile(
         MemberDependencyGraph $graph,
@@ -95,11 +91,9 @@ final readonly class MemberGraphFragmenter
     /**
      * Checks whether a graph virtual file path belongs to one physical file.
      *
-     * @param string $graphFilePath The graph file path.
-     * @param string $physicalFilePath The physical file path.
-     * @param array<string, string> $virtualToPhysicalFilePaths Virtual-to-physical file path map.
-     *
-     * @return bool
+     * @param string                $graphFilePath              the graph file path
+     * @param string                $physicalFilePath           the physical file path
+     * @param array<string, string> $virtualToPhysicalFilePaths virtual-to-physical file path map
      */
     private function belongsToPhysicalFile(
         string $graphFilePath,
@@ -112,7 +106,7 @@ final readonly class MemberGraphFragmenter
     /**
      * Builds a virtual-to-physical file path map.
      *
-     * @param VirtualPhpSourceFileCollection $virtualFiles The virtual files.
+     * @param VirtualPhpSourceFileCollection $virtualFiles the virtual files
      *
      * @return array<string, string>
      */
@@ -130,7 +124,7 @@ final readonly class MemberGraphFragmenter
     /**
      * Returns unique physical file paths from virtual files.
      *
-     * @param VirtualPhpSourceFileCollection $virtualFiles The virtual files.
+     * @param VirtualPhpSourceFileCollection $virtualFiles the virtual files
      *
      * @return list<string>
      */

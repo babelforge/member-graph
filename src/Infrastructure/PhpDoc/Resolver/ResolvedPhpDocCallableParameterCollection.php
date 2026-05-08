@@ -4,16 +4,12 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver;
 
-use Countable;
-use IteratorAggregate;
-use Traversable;
-
 /**
- * Class ResolvedPhpDocCallableParameterCollection
+ * Class ResolvedPhpDocCallableParameterCollection.
  *
- * @implements IteratorAggregate<int, ResolvedPhpDocCallableParameter>
+ * @implements \IteratorAggregate<int, ResolvedPhpDocCallableParameter>
  */
-final class ResolvedPhpDocCallableParameterCollection implements Countable, IteratorAggregate
+final class ResolvedPhpDocCallableParameterCollection implements \Countable, \IteratorAggregate
 {
     /**
      * @var ResolvedPhpDocCallableParameter[]
@@ -35,17 +31,11 @@ final class ResolvedPhpDocCallableParameterCollection implements Countable, Iter
         return $this->parameters;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         yield from $this->parameters;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function count(): int
     {
         return count($this->parameters);

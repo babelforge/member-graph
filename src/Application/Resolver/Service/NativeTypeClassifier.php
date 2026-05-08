@@ -12,9 +12,7 @@ final readonly class NativeTypeClassifier
     /**
      * Tells whether one native identifier is weak enough to be refined by PHPDoc.
      *
-     * @param string $nativeName The lower-case native identifier.
-     *
-     * @return bool
+     * @param string $nativeName the lower-case native identifier
      */
     public function isWeakIdentifier(string $nativeName): bool
     {
@@ -24,9 +22,7 @@ final readonly class NativeTypeClassifier
     /**
      * Tells whether one native identifier is a collection-like type.
      *
-     * @param string $nativeName The lower-case native identifier.
-     *
-     * @return bool
+     * @param string $nativeName the lower-case native identifier
      */
     public function isCollectionIdentifier(string $nativeName): bool
     {

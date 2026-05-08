@@ -20,8 +20,8 @@ final readonly class MemberLineageResolverV2
      * Returned members are the exposed members on each owner that belong to the
      * same logical family.
      *
-     * @param MemberDependencyGraph $graph The member graph.
-     * @param MemberId $target The target member.
+     * @param MemberDependencyGraph $graph  the member graph
+     * @param MemberId              $target the target member
      *
      * @return list<MemberId>
      */
@@ -60,8 +60,8 @@ final readonly class MemberLineageResolverV2
     /**
      * Resolves the declaration owners for one member.
      *
-     * @param MemberDependencyGraph $graph The member graph.
-     * @param MemberId $target The target member.
+     * @param MemberDependencyGraph $graph  the member graph
+     * @param MemberId              $target the target member
      *
      * @return list<string>
      */
@@ -79,8 +79,8 @@ final readonly class MemberLineageResolverV2
     /**
      * Resolves the root members for one target member.
      *
-     * @param MemberDependencyGraph $graph The member graph.
-     * @param MemberId $target The target member.
+     * @param MemberDependencyGraph $graph  the member graph
+     * @param MemberId              $target the target member
      *
      * @return list<MemberId>
      */

@@ -23,10 +23,10 @@ final readonly class FunctionLikeStructuredCallResolver
     /**
      * Constructor.
      *
-     * @param FunctionLikeStructuredReturnResolver $structuredReturnResolver The structured return resolver.
-     * @param FunctionLikeCallTemplateContextResolver $templateContextResolver The call template context resolver.
-     * @param StructuredPhpDocTypeInspector $structuredPhpDocTypeInspector The structured PHPDoc inspector.
-     * @param SpecialClassReferenceNormalizer $specialClassReferenceNormalizer The special class reference normalizer.
+     * @param FunctionLikeStructuredReturnResolver    $structuredReturnResolver        the structured return resolver
+     * @param FunctionLikeCallTemplateContextResolver $templateContextResolver         the call template context resolver
+     * @param StructuredPhpDocTypeInspector           $structuredPhpDocTypeInspector   the structured PHPDoc inspector
+     * @param SpecialClassReferenceNormalizer         $specialClassReferenceNormalizer the special class reference normalizer
      */
     public function __construct(
         private FunctionLikeStructuredReturnResolver $structuredReturnResolver,
@@ -40,14 +40,12 @@ final readonly class FunctionLikeStructuredCallResolver
     /**
      * Resolves one function-like call to one structured PHPDoc type when possible.
      *
-     * @param MethodCall|NullsafeMethodCall|StaticCall|FuncCall $expression The call expression.
-     * @param string|null $owner The method owner, or null for functions.
-     * @param string $methodName The method or function name.
-     * @param ExpressionResolutionContext $context The expression resolution context.
-     * @param ExpressionTypeResolverInterface $fallbackResolver The fallback expression resolver.
-     * @param ResolvedPhpDocType|null $receiverStructuredType The receiver structured type.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param MethodCall|NullsafeMethodCall|StaticCall|FuncCall $expression             the call expression
+     * @param string|null                                       $owner                  the method owner, or null for functions
+     * @param string                                            $methodName             the method or function name
+     * @param ExpressionResolutionContext                       $context                the expression resolution context
+     * @param ExpressionTypeResolverInterface                   $fallbackResolver       the fallback expression resolver
+     * @param ResolvedPhpDocType|null                           $receiverStructuredType the receiver structured type
      */
     public function resolve(
         MethodCall|NullsafeMethodCall|StaticCall|FuncCall $expression,

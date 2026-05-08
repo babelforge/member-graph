@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Application\Topology\Export;
 
-use JsonException;
 use PhpNoobs\MemberGraph\Application\Topology\MemberGraphTopology;
 
 /**
@@ -17,8 +16,8 @@ final readonly class MemberGraphTopologyJsonExporter implements MemberGraphTopol
     /**
      * Constructor.
      *
-     * @param MemberGraphTopologyArrayExporter $arrayExporter The canonical array exporter.
-     * @param int $jsonFlags The json_encode flags.
+     * @param MemberGraphTopologyArrayExporter $arrayExporter the canonical array exporter
+     * @param int                              $jsonFlags     the json_encode flags
      */
     public function __construct(
         private MemberGraphTopologyArrayExporter $arrayExporter = new MemberGraphTopologyArrayExporter(),
@@ -29,18 +28,16 @@ final readonly class MemberGraphTopologyJsonExporter implements MemberGraphTopol
     /**
      * Exports the given topology to JSON.
      *
-     * @param MemberGraphTopology $topology The topology to export.
+     * @param MemberGraphTopology $topology the topology to export
      *
-     * @return string
-     *
-     * @throws JsonException When JSON encoding fails.
+     * @throws \JsonException when JSON encoding fails
      */
     public function export(MemberGraphTopology $topology): string
     {
         $json = json_encode($this->arrayExporter->export($topology), $this->jsonFlags);
 
         if (false === $json) {
-            throw new JsonException(json_last_error_msg(), json_last_error());
+            throw new \JsonException(json_last_error_msg(), json_last_error());
         }
 
         return $json;

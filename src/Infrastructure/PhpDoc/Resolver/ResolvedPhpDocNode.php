@@ -12,12 +12,12 @@ use PhpNoobs\MemberGraph\Domain\Symbol\SymbolCollection;
 final readonly class ResolvedPhpDocNode
 {
     /**
-     * @param ResolvedPhpDocNodeKind $kind The node kind.
-     * @param SymbolCollection $symbols The node symbols when relevant.
-     * @param ResolvedPhpDocNodeCollection $children Child nodes when relevant.
-     * @param ShapeFieldCollection $shapeFields Shape fields when relevant.
-     * @param ResolvedPhpDocTemplateReference $templateReference Template reference when relevant.
-     * @param ResolvedPhpDocCallableSignature|null $callableSignature Callable signature when relevant.
+     * @param ResolvedPhpDocNodeKind               $kind              the node kind
+     * @param SymbolCollection                     $symbols           the node symbols when relevant
+     * @param ResolvedPhpDocNodeCollection         $children          child nodes when relevant
+     * @param ShapeFieldCollection                 $shapeFields       shape fields when relevant
+     * @param ResolvedPhpDocTemplateReference      $templateReference template reference when relevant
+     * @param ResolvedPhpDocCallableSignature|null $callableSignature callable signature when relevant
      */
     public function __construct(
         public ResolvedPhpDocNodeKind $kind,

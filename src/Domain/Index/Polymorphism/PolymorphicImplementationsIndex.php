@@ -17,10 +17,8 @@ final class PolymorphicImplementationsIndex
     /**
      * Registers one implementation for one contract.
      *
-     * @param string $contract The contract FQCN.
-     * @param string $implementation The implementation FQCN.
-     *
-     * @return void
+     * @param string $contract       the contract FQCN
+     * @param string $implementation the implementation FQCN
      */
     public function addImplementation(string $contract, string $implementation): void
     {
@@ -30,9 +28,7 @@ final class PolymorphicImplementationsIndex
     /**
      * Indicates whether the given contract has known implementations.
      *
-     * @param string $contract The contract FQCN.
-     *
-     * @return bool
+     * @param string $contract the contract FQCN
      */
     public function hasImplementations(string $contract): bool
     {
@@ -42,7 +38,7 @@ final class PolymorphicImplementationsIndex
     /**
      * Returns all known implementations for the given contract.
      *
-     * @param string $contract The contract FQCN.
+     * @param string $contract the contract FQCN
      *
      * @return list<string>
      */
@@ -62,7 +58,6 @@ final class PolymorphicImplementationsIndex
     }
 
     /**
-     * @param string $owner
      * @return string[]
      */
     public function getAllTargets(string $owner): array

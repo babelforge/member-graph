@@ -79,24 +79,22 @@ final readonly class ExpressionResolverGraphFactory
     /**
      * Builds the resolver graph from all member graph indexes.
      *
-     * @param MethodReturnTypeIndex $globalMethodReturnTypeIndex The method return type index.
-     * @param MethodNodeIndex $globalMethodNodeIndex The method node index.
-     * @param MethodReturnStructuredTypeIndex $globalMethodStructuredReturnTypeIndex The method structured return type index.
-     * @param MethodParameterStructuredTypeIndex $globalMethodStructuredParameterTypeIndex The method structured parameter type index.
-     * @param MethodReturnInferredStructuredTypeIndex $globalMethodReturnInferredStructuredTypeIndex The method inferred structured return type index.
-     * @param FunctionReturnTypeIndex $globalFunctionReturnTypeIndex The function return type index.
-     * @param FunctionReturnStructuredTypeIndex $globalFunctionStructuredReturnTypeIndex The function structured return type index.
-     * @param FunctionParameterStructuredTypeIndex $globalFunctionStructuredParameterTypeIndex The function structured parameter type index.
-     * @param FunctionReturnInferredStructuredTypeIndex $globalFunctionReturnInferredStructuredTypeIndex The function inferred structured return type index.
-     * @param PropertyTypeIndex $globalPropertyTypeIndex The property type index.
-     * @param PropertyStructuredTypeIndex $globalPropertyStructuredTypeIndex The property structured type index.
-     * @param ClassConstantTypeIndex $globalClassConstantTypeIndex The class constant type index.
-     * @param ClassConstantValueIndex $globalClassConstantValueIndex The scalar class constant value index.
-     * @param ClassTemplateDefinitionIndex $classTemplateDefinitionIndex The class template definition index.
-     * @param KnownOwnerCollection $knownOwners The known owners collection.
-     * @param PhpDocValueExtractionStrategyInterface $valueExtractionStrategy The value extraction strategy.
-     *
-     * @return ExpressionResolverGraph
+     * @param MethodReturnTypeIndex                     $globalMethodReturnTypeIndex                     the method return type index
+     * @param MethodNodeIndex                           $globalMethodNodeIndex                           the method node index
+     * @param MethodReturnStructuredTypeIndex           $globalMethodStructuredReturnTypeIndex           the method structured return type index
+     * @param MethodParameterStructuredTypeIndex        $globalMethodStructuredParameterTypeIndex        the method structured parameter type index
+     * @param MethodReturnInferredStructuredTypeIndex   $globalMethodReturnInferredStructuredTypeIndex   the method inferred structured return type index
+     * @param FunctionReturnTypeIndex                   $globalFunctionReturnTypeIndex                   the function return type index
+     * @param FunctionReturnStructuredTypeIndex         $globalFunctionStructuredReturnTypeIndex         the function structured return type index
+     * @param FunctionParameterStructuredTypeIndex      $globalFunctionStructuredParameterTypeIndex      the function structured parameter type index
+     * @param FunctionReturnInferredStructuredTypeIndex $globalFunctionReturnInferredStructuredTypeIndex the function inferred structured return type index
+     * @param PropertyTypeIndex                         $globalPropertyTypeIndex                         the property type index
+     * @param PropertyStructuredTypeIndex               $globalPropertyStructuredTypeIndex               the property structured type index
+     * @param ClassConstantTypeIndex                    $globalClassConstantTypeIndex                    the class constant type index
+     * @param ClassConstantValueIndex                   $globalClassConstantValueIndex                   the scalar class constant value index
+     * @param ClassTemplateDefinitionIndex              $classTemplateDefinitionIndex                    the class template definition index
+     * @param KnownOwnerCollection                      $knownOwners                                     the known owners collection
+     * @param PhpDocValueExtractionStrategyInterface    $valueExtractionStrategy                         the value extraction strategy
      */
     public function create(
         MethodReturnTypeIndex $globalMethodReturnTypeIndex,

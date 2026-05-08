@@ -14,10 +14,8 @@ final readonly class StructuredReturnTypeSelector
     /**
      * Chooses between one declared and one inferred structured return type.
      *
-     * @param ResolvedPhpDocType|null $declaredType The declared type.
-     * @param ResolvedPhpDocType|null $inferredType The inferred type.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param ResolvedPhpDocType|null $declaredType the declared type
+     * @param ResolvedPhpDocType|null $inferredType the inferred type
      */
     public function choose(
         ?ResolvedPhpDocType $declaredType,
@@ -44,9 +42,7 @@ final readonly class StructuredReturnTypeSelector
     /**
      * Returns a heuristic richness score for one structured PHPDoc type.
      *
-     * @param ResolvedPhpDocType $type The type to score.
-     *
-     * @return int
+     * @param ResolvedPhpDocType $type the type to score
      */
     private function getRichnessScore(ResolvedPhpDocType $type): int
     {

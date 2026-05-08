@@ -7,7 +7,7 @@ namespace PhpNoobs\MemberGraph\Application\Validator\PhpDoc;
 use PhpNoobs\MemberGraph\Application\Issue\MemberGraphIssueInterface;
 
 /**
- * Class PhpDocResolutionIssue
+ * Class PhpDocResolutionIssue.
  */
 final readonly class PhpDocResolutionIssue implements MemberGraphIssueInterface
 {

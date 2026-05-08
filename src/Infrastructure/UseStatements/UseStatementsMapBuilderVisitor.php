@@ -10,12 +10,12 @@ use PhpParser\Node\Stmt\Use_;
 use PhpParser\NodeVisitorAbstract;
 
 /**
- * Class UseStatementsMapBuilderVisitor
+ * Class UseStatementsMapBuilderVisitor.
  */
 final class UseStatementsMapBuilderVisitor extends NodeVisitorAbstract
 {
     /**
-     * @var UsesByAliasCollection $usesByAlias The alias map to fill.
+     * @var UsesByAliasCollection the alias map to fill
      */
     private UsesByAliasCollection $usesByAlias;
 
@@ -24,9 +24,6 @@ final class UseStatementsMapBuilderVisitor extends NodeVisitorAbstract
         $this->usesByAlias = new UsesByAliasCollection();
     }
 
-    /**
-     * @return UsesByAliasCollection
-     */
     public function getUsesByAlias(): UsesByAliasCollection
     {
         return $this->usesByAlias;
@@ -35,9 +32,7 @@ final class UseStatementsMapBuilderVisitor extends NodeVisitorAbstract
     /**
      * Handles node entry.
      *
-     * @param Node $node The current node.
-     *
-     * @return null
+     * @param Node $node the current node
      */
     public function enterNode(Node $node): null
     {
@@ -60,7 +55,7 @@ final class UseStatementsMapBuilderVisitor extends NodeVisitorAbstract
             $prefix = $node->prefix->toString();
 
             foreach ($node->uses as $useUse) {
-                $fqcn = $prefix . '\\' . $useUse->name->toString();
+                $fqcn = $prefix.'\\'.$useUse->name->toString();
                 $alias = $useUse->alias?->toString() ?? $useUse->name->getLast();
 
                 if ('' === $alias) {

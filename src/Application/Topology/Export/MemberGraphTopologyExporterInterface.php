@@ -16,7 +16,7 @@ interface MemberGraphTopologyExporterInterface
     /**
      * Exports the given topology.
      *
-     * @param MemberGraphTopology $topology The topology to export.
+     * @param MemberGraphTopology $topology the topology to export
      *
      * @return TExport
      */

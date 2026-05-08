@@ -12,7 +12,7 @@ final readonly class MemberGraphVirtualFileReference
     /**
      * Constructor.
      *
-     * @param MemberGraphVirtualFileMetadata $metadata The virtual file metadata.
+     * @param MemberGraphVirtualFileMetadata $metadata the virtual file metadata
      */
     public function __construct(
         public MemberGraphVirtualFileMetadata $metadata,
@@ -21,8 +21,6 @@ final readonly class MemberGraphVirtualFileReference
 
     /**
      * Returns the physical file path.
-     *
-     * @return string
      */
     public function fullFilePath(): string
     {
@@ -31,8 +29,6 @@ final readonly class MemberGraphVirtualFileReference
 
     /**
      * Returns the virtual file path.
-     *
-     * @return string
      */
     public function virtualFilePath(): string
     {

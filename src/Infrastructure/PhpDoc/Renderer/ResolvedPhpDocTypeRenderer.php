@@ -7,7 +7,7 @@ namespace PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Renderer;
 use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
 
 /**
- * Class ResolvedPhpDocTypeRenderer
+ * Class ResolvedPhpDocTypeRenderer.
  */
 final class ResolvedPhpDocTypeRenderer
 {
@@ -23,10 +23,10 @@ final class ResolvedPhpDocTypeRenderer
             $fields = [];
 
             foreach ($type->shapeFields as $name => $fieldType) {
-                $fields[] = $name . ': ' . $this->toDocString($fieldType);
+                $fields[] = $name.': '.$this->toDocString($fieldType);
             }
 
-            return 'array{' . implode(', ', $fields) . '}';
+            return 'array{'.implode(', ', $fields).'}';
         }
 
         // 3. Base symbol(s)
@@ -40,7 +40,7 @@ final class ResolvedPhpDocTypeRenderer
                 $args[] = $this->toDocString($arg);
             }
 
-            return $base . '<' . implode(', ', $args) . '>';
+            return $base.'<'.implode(', ', $args).'>';
         }
 
         // 5. Fallback simple
@@ -49,10 +49,6 @@ final class ResolvedPhpDocTypeRenderer
 
     /**
      * Renders the base symbol part of a type (without generics).
-     *
-     * @param ResolvedPhpDocType $type
-     *
-     * @return string
      */
     private function toDocStringFromSymbols(ResolvedPhpDocType $type): string
     {
@@ -63,7 +59,7 @@ final class ResolvedPhpDocTypeRenderer
         }
 
         // Cas simple : un seul symbole
-        if (count($symbols) === 1) {
+        if (1 === count($symbols)) {
             return $symbols[0];
         }
 

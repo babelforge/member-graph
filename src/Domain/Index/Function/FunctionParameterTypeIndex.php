@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Domain\Index\Function;
 
-use IteratorAggregate;
 use PhpNoobs\MemberGraph\Domain\Symbol\SymbolCollection;
 use PhpNoobs\MemberGraph\Domain\Type\FunctionParameterType;
-use Traversable;
 
 /**
  * Stores simple function return types.
  *
- * @implements IteratorAggregate<string, FunctionParameterType>
+ * @implements \IteratorAggregate<string, FunctionParameterType>
  */
-final class FunctionParameterTypeIndex implements IteratorAggregate
+final class FunctionParameterTypeIndex implements \IteratorAggregate
 {
     /**
      * @var array<string, FunctionParameterType>
@@ -24,11 +22,9 @@ final class FunctionParameterTypeIndex implements IteratorAggregate
     /**
      * Stores one function return type.
      *
-     * @param string $functionName The function name.
-     * @param string $parameterName The parameter name.
-     * @param FunctionParameterType $details The resolved return type FQCN.
-     *
-     * @return self
+     * @param string                $functionName  the function name
+     * @param string                $parameterName the parameter name
+     * @param FunctionParameterType $details       the resolved return type FQCN
      */
     public function set(string $functionName, string $parameterName, FunctionParameterType $details): self
     {
@@ -46,10 +42,8 @@ final class FunctionParameterTypeIndex implements IteratorAggregate
     /**
      * Returns one method return type.
      *
-     * @param string $functionName The function name.
-     * @param string $parameterName The parameter name.
-     *
-     * @return FunctionParameterType|null
+     * @param string $functionName  the function name
+     * @param string $parameterName the parameter name
      */
     public function get(string $functionName, string $parameterName): ?FunctionParameterType
     {
@@ -61,10 +55,8 @@ final class FunctionParameterTypeIndex implements IteratorAggregate
     /**
      * Returns one method return type.
      *
-     * @param string $functionName The function name.
-     * @param string $parameterName The parameter name.
-     *
-     * @return SymbolCollection
+     * @param string $functionName  the function name
+     * @param string $parameterName the parameter name
      */
     public function getType(string $functionName, string $parameterName): SymbolCollection
     {
@@ -72,7 +64,6 @@ final class FunctionParameterTypeIndex implements IteratorAggregate
 
         return $this->items[$key]->types ?? new SymbolCollection();
     }
-
 
     public function merge(self $other): self
     {
@@ -91,20 +82,15 @@ final class FunctionParameterTypeIndex implements IteratorAggregate
     /**
      * Builds the internal key.
      *
-     * @param string $functionName The function name.
-     * @param string $parameterName The parameter name.
-     *
-     * @return string
+     * @param string $functionName  the function name
+     * @param string $parameterName the parameter name
      */
     private function buildKey(string $functionName, string $parameterName): string
     {
-        return $functionName . '::' . $parameterName;
+        return $functionName.'::'.$parameterName;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         yield from $this->items;
     }

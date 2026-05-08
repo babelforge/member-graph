@@ -18,10 +18,10 @@ final readonly class FunctionStructuredReturnResolver
     /**
      * Constructor.
      *
-     * @param FunctionReturnTypeIndex $functionReturnTypeIndex The function return type index.
-     * @param FunctionReturnStructuredTypeIndex $functionStructuredReturnTypeIndex The function structured return type index.
-     * @param FunctionReturnInferredStructuredTypeIndex $functionReturnInferredStructuredTypeIndex The function inferred structured return type index.
-     * @param StructuredReturnTypeSelector $structuredReturnTypeSelector The declared-vs-inferred selector.
+     * @param FunctionReturnTypeIndex                   $functionReturnTypeIndex                   the function return type index
+     * @param FunctionReturnStructuredTypeIndex         $functionStructuredReturnTypeIndex         the function structured return type index
+     * @param FunctionReturnInferredStructuredTypeIndex $functionReturnInferredStructuredTypeIndex the function inferred structured return type index
+     * @param StructuredReturnTypeSelector              $structuredReturnTypeSelector              the declared-vs-inferred selector
      */
     public function __construct(
         private FunctionReturnTypeIndex $functionReturnTypeIndex,
@@ -34,9 +34,7 @@ final readonly class FunctionStructuredReturnResolver
     /**
      * Returns the native return metadata of one function.
      *
-     * @param string $functionName The function name.
-     *
-     * @return FunctionLikeReturnType|null
+     * @param string $functionName the function name
      */
     public function resolveReturnTypeDetails(string $functionName): ?FunctionLikeReturnType
     {
@@ -46,9 +44,7 @@ final readonly class FunctionStructuredReturnResolver
     /**
      * Returns the structured return type of one function.
      *
-     * @param string $functionName The function name.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param string $functionName the function name
      */
     public function resolveStructuredReturnType(string $functionName): ?ResolvedPhpDocType
     {

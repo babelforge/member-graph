@@ -22,10 +22,9 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Lexer\Lexer;
 use PHPStan\PhpDocParser\Parser\PhpDocParser;
 use PHPStan\PhpDocParser\Parser\TokenIterator;
-use Throwable;
 
 /**
- * Resolves effective PHPDoc when @inheritDoc is used.
+ * Resolves effective PHPDoc when {@inheritDoc is used.}
  */
 final class PhpDocInheritDocResolver
 {
@@ -37,22 +36,22 @@ final class PhpDocInheritDocResolver
     /**
      * Constructor.
      *
-     * @param Lexer $lexer The PHPDoc lexer.
-     * @param PhpDocParser $phpDocParser The PHPDoc parser.
-     * @param PhpDocValidityChecker $phpDocValidityChecker The semantic validity checker.
-     * @param ParamPhpDocTypeExtractor $paramPhpDocTypeExtractor The parameter PHPDoc extractor.
-     * @param ReturnPhpDocTypeExtractor $returnPhpDocTypeExtractor The return PHPDoc extractor.
-     * @param PhpDocTemplateDefinitionExtractor $phpDocTemplateDefinitionExtractor The template definition extractor.
-     * @param MemberGraphIssueCollection|null $issues The optional dependency-graph issue collection.
+     * @param Lexer                             $lexer                             the PHPDoc lexer
+     * @param PhpDocParser                      $phpDocParser                      the PHPDoc parser
+     * @param PhpDocValidityChecker             $phpDocValidityChecker             the semantic validity checker
+     * @param ParamPhpDocTypeExtractor          $paramPhpDocTypeExtractor          the parameter PHPDoc extractor
+     * @param ReturnPhpDocTypeExtractor         $returnPhpDocTypeExtractor         the return PHPDoc extractor
+     * @param PhpDocTemplateDefinitionExtractor $phpDocTemplateDefinitionExtractor the template definition extractor
+     * @param MemberGraphIssueCollection|null   $issues                            the optional dependency-graph issue collection
      */
     public function __construct(
-        private readonly Lexer                             $lexer,
-        private readonly PhpDocParser                      $phpDocParser,
-        private readonly PhpDocValidityChecker             $phpDocValidityChecker,
-        private readonly ParamPhpDocTypeExtractor          $paramPhpDocTypeExtractor,
-        private readonly ReturnPhpDocTypeExtractor         $returnPhpDocTypeExtractor,
+        private readonly Lexer $lexer,
+        private readonly PhpDocParser $phpDocParser,
+        private readonly PhpDocValidityChecker $phpDocValidityChecker,
+        private readonly ParamPhpDocTypeExtractor $paramPhpDocTypeExtractor,
+        private readonly ReturnPhpDocTypeExtractor $returnPhpDocTypeExtractor,
         private readonly PhpDocTemplateDefinitionExtractor $phpDocTemplateDefinitionExtractor,
-        private readonly ?MemberGraphIssueCollection       $issues = null,
+        private readonly ?MemberGraphIssueCollection $issues = null,
     ) {
     }
 
@@ -61,10 +60,8 @@ final class PhpDocInheritDocResolver
      *
      * This helper keeps the original V1 behavior and is intentionally simple.
      *
-     * @param Node $childNode The current node.
-     * @param Node|null $parentNode The inherited parent node, when available.
-     *
-     * @return Doc|null
+     * @param Node      $childNode  the current node
+     * @param Node|null $parentNode the inherited parent node, when available
      */
     public function resolve(Node $childNode, ?Node $parentNode): ?Doc
     {
@@ -91,17 +88,15 @@ final class PhpDocInheritDocResolver
      *
      * Strategy:
      * - if the child has no doc, the first valid resolved parent doc is returned
-     * - if the child doc has no @inheritDoc marker, the child doc is returned as-is
+     * - if the child doc has no marker, the child doc is returned as-is
      * - if the child doc has @inheritDoc, each parent is considered in order
      * - if a parent also contains @inheritDoc, it is first resolved recursively against the remaining parents
      * - the first valid merged result is returned
      * - issues are collected for unusable parents, incoherent merges, and missing valid parent docs
      *
-     * @param Node $childNode The child node.
-     * @param Node[] $parentNodes The inherited parent nodes ordered from nearest to farthest.
-     * @param TypeIndexContext $typeIndexContext The type index context.
-     *
-     * @return Doc|null
+     * @param Node             $childNode        the child node
+     * @param Node[]           $parentNodes      the inherited parent nodes ordered from nearest to farthest
+     * @param TypeIndexContext $typeIndexContext the type index context
      */
     public function mergeEffectiveDoc(
         Node $childNode,
@@ -168,10 +163,8 @@ final class PhpDocInheritDocResolver
     /**
      * Resolves the first valid parent doc for one child node.
      *
-     * @param Node $childNode The child node.
-     * @param Node[] $parentNodes The ordered parent nodes.
-     *
-     * @return Doc|null
+     * @param Node   $childNode   the child node
+     * @param Node[] $parentNodes the ordered parent nodes
      */
     private function resolveFirstValidParentDoc(
         Node $childNode,
@@ -208,13 +201,11 @@ final class PhpDocInheritDocResolver
     /**
      * Resolves one parent doc candidate.
      *
-     * If the parent itself contains @inheritDoc, the method resolves it recursively
+     * If the parent itself contains , the method resolves it recursively
      * against the remaining parent nodes.
      *
-     * @param Node $parentNode The parent node to inspect.
-     * @param Node[] $remainingParentNodes The remaining parent nodes after the current one.
-     *
-     * @return Doc|null
+     * @param Node   $parentNode           the parent node to inspect
+     * @param Node[] $remainingParentNodes the remaining parent nodes after the current one
      */
     private function resolveParentDocCandidate(
         Node $parentNode,
@@ -240,9 +231,7 @@ final class PhpDocInheritDocResolver
     /**
      * Adds one issue to the dependency-graph issue collection when available.
      *
-     * @param PhpDocResolutionIssueType $issueType The issue type.
-     *
-     * @return void
+     * @param PhpDocResolutionIssueType $issueType the issue type
      */
     public function addIssue(PhpDocResolutionIssueType $issueType): void
     {
@@ -258,26 +247,24 @@ final class PhpDocInheritDocResolver
     /**
      * Returns whether one inherited doc candidate is valid.
      *
-     * @param Node $node The related node.
-     * @param Doc $doc The candidate doc.
-     *
-     * @return bool
+     * @param Node $node the related node
+     * @param Doc  $doc  the candidate doc
      */
     private function isValidInheritedDoc(
         Node $node,
         Doc $doc,
     ): bool {
-        return $this->collectSemanticProblems(
+        return [] === $this->collectSemanticProblems(
             node: $node,
             doc: $doc,
-        ) === [];
+        );
     }
 
     /**
      * Collects semantic problems for one resolved doc candidate.
      *
-     * @param Node $node The related node.
-     * @param Doc $doc The doc to validate.
+     * @param Node $node the related node
+     * @param Doc  $doc  the doc to validate
      *
      * @return list<PhpDocResolutionIssueType>
      */
@@ -296,10 +283,8 @@ final class PhpDocInheritDocResolver
     /**
      * Builds the semantic state from one effective doc candidate.
      *
-     * @param Node $node The related node.
-     * @param Doc $doc The doc to analyze.
-     *
-     * @return SemanticState
+     * @param Node $node the related node
+     * @param Doc  $doc  the doc to analyze
      */
     private function buildSemanticStateFromDoc(
         Node $node,
@@ -360,10 +345,8 @@ final class PhpDocInheritDocResolver
     /**
      * Stores one effective doc comment on one node.
      *
-     * @param Node $methodNode The node to update.
-     * @param Doc|null $doc The effective doc comment.
-     *
-     * @return void
+     * @param Node     $methodNode the node to update
+     * @param Doc|null $doc        the effective doc comment
      */
     public static function setEffectiveDocComment(Node $methodNode, ?Doc $doc): void
     {
@@ -375,9 +358,7 @@ final class PhpDocInheritDocResolver
     /**
      * Returns the effective doc comment for one node.
      *
-     * @param Node|null $node The node to inspect.
-     *
-     * @return Doc|null
+     * @param Node|null $node the node to inspect
      */
     public static function getEffectiveDocComment(?Node $node): ?Doc
     {
@@ -399,9 +380,7 @@ final class PhpDocInheritDocResolver
     /**
      * Parses one doc comment into one PhpDocNode.
      *
-     * @param Doc $doc The doc comment to parse.
-     *
-     * @return PhpDocNode|null
+     * @param Doc $doc the doc comment to parse
      */
     private function parsePhpDocNode(Doc $doc): ?PhpDocNode
     {
@@ -409,17 +388,15 @@ final class PhpDocInheritDocResolver
             $tokens = new TokenIterator($this->lexer->tokenize($doc->getText()));
 
             return $this->phpDocParser->parse($tokens);
-        } catch (Throwable) {
+        } catch (\Throwable) {
             return null;
         }
     }
 
     /**
-     * Returns whether one doc comment contains @inheritDoc or @inheritdoc.
+     * Returns whether one doc comment contains or @inheritdoc.
      *
-     * @param Doc $doc The doc comment to inspect.
-     *
-     * @return bool
+     * @param Doc $doc the doc comment to inspect
      */
     private function containsInheritDoc(Doc $doc): bool
     {
@@ -434,10 +411,8 @@ final class PhpDocInheritDocResolver
      *
      * Child overrides parent.
      *
-     * @param Doc $childDoc The child doc block.
-     * @param Doc $parentDoc The parent doc block.
-     *
-     * @return Doc
+     * @param Doc $childDoc  the child doc block
+     * @param Doc $parentDoc the parent doc block
      */
     private function mergeTwoDocs(Doc $childDoc, Doc $parentDoc): Doc
     {
@@ -490,7 +465,7 @@ final class PhpDocInheritDocResolver
 
         foreach ($merged as $entries) {
             foreach ($entries as $entry) {
-                $lines[] = ' * ' . $entry;
+                $lines[] = ' * '.$entry;
             }
         }
 
@@ -502,7 +477,7 @@ final class PhpDocInheritDocResolver
     /**
      * Extracts the significant lines of one doc comment.
      *
-     * @param Doc $doc The doc comment to normalize.
+     * @param Doc $doc the doc comment to normalize
      *
      * @return string[]
      */
@@ -532,7 +507,7 @@ final class PhpDocInheritDocResolver
     /**
      * Groups raw doc lines by tag kind.
      *
-     * @param string[] $lines The normalized doc lines.
+     * @param string[] $lines the normalized doc lines
      *
      * @return array<string, string[]>
      */
@@ -568,13 +543,10 @@ final class PhpDocInheritDocResolver
     /**
      * Extracts the parameter name from one @param line.
      *
-     * @param string $line The raw @param line.
-     *
-     * @return string|null
+     * @param string $line the raw @param line
      */
     private function extractParamName(string $line): ?string
     {
-
         if (!preg_match('/\$([A-Za-z_][A-Za-z0-9_]*)\b/', $line, $matches)) {
             return null;
         }

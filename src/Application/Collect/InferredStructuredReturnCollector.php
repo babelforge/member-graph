@@ -22,7 +22,6 @@ use PhpParser\Node\Stmt\Function_;
 use PhpParser\Node\Stmt\Return_;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Parser\TokenIterator;
-use Throwable;
 
 /**
  * Collects inferred structured return types for methods and functions.
@@ -32,13 +31,13 @@ final readonly class InferredStructuredReturnCollector
     /**
      * Constructor.
      *
-     * @param ExpressionTypeResolverInterface $expressionTypeResolver The expression type resolver.
-     * @param MethodReturnStructuredTypeIndex $methodReturnStructuredTypeIndex The declared method structured return index.
-     * @param MethodReturnInferredStructuredTypeIndex $methodReturnInferredStructuredTypeIndex The inferred method structured return index.
-     * @param FunctionReturnStructuredTypeIndex $functionReturnStructuredTypeIndex The declared function structured return index.
-     * @param FunctionReturnInferredStructuredTypeIndex $functionReturnInferredStructuredTypeIndex The inferred function structured return index.
-     * @param UsesByAliasCollection $usesByAlias The current use imports indexed by alias.
-     * @param StructuredPhpDocTypeSelector $structuredPhpDocTypeSelector The structured PHPDoc type selector.
+     * @param ExpressionTypeResolverInterface           $expressionTypeResolver                    the expression type resolver
+     * @param MethodReturnStructuredTypeIndex           $methodReturnStructuredTypeIndex           the declared method structured return index
+     * @param MethodReturnInferredStructuredTypeIndex   $methodReturnInferredStructuredTypeIndex   the inferred method structured return index
+     * @param FunctionReturnStructuredTypeIndex         $functionReturnStructuredTypeIndex         the declared function structured return index
+     * @param FunctionReturnInferredStructuredTypeIndex $functionReturnInferredStructuredTypeIndex the inferred function structured return index
+     * @param UsesByAliasCollection                     $usesByAlias                               the current use imports indexed by alias
+     * @param StructuredPhpDocTypeSelector              $structuredPhpDocTypeSelector              the structured PHPDoc type selector
      */
     public function __construct(
         private ExpressionTypeResolverInterface $expressionTypeResolver,
@@ -54,10 +53,8 @@ final readonly class InferredStructuredReturnCollector
     /**
      * Collects one inferred structured return type from one return statement.
      *
-     * @param Return_ $return The return statement node.
-     * @param MemberGraphTraversalState $state The current traversal state.
-     *
-     * @return void
+     * @param Return_                   $return the return statement node
+     * @param MemberGraphTraversalState $state  the current traversal state
      */
     public function collect(Return_ $return, MemberGraphTraversalState $state): void
     {
@@ -75,10 +72,8 @@ final readonly class InferredStructuredReturnCollector
     /**
      * Collects one inferred structured method return type.
      *
-     * @param Return_ $return The return statement node.
-     * @param MemberGraphTraversalState $state The current traversal state.
-     *
-     * @return void
+     * @param Return_                   $return the return statement node
+     * @param MemberGraphTraversalState $state  the current traversal state
      */
     private function collectMethodReturn(Return_ $return, MemberGraphTraversalState $state): void
     {
@@ -136,10 +131,8 @@ final readonly class InferredStructuredReturnCollector
     /**
      * Collects one inferred structured function return type.
      *
-     * @param Return_ $return The return statement node.
-     * @param MemberGraphTraversalState $state The current traversal state.
-     *
-     * @return void
+     * @param Return_                   $return the return statement node
+     * @param MemberGraphTraversalState $state  the current traversal state
      */
     private function collectFunctionReturn(Return_ $return, MemberGraphTraversalState $state): void
     {
@@ -195,9 +188,7 @@ final readonly class InferredStructuredReturnCollector
     /**
      * Returns whether one method has an explicit @return PHPDoc tag.
      *
-     * @param ClassMethod $method The method node.
-     *
-     * @return bool
+     * @param ClassMethod $method the method node
      */
     private function hasExplicitReturnPhpDoc(ClassMethod $method): bool
     {
@@ -219,9 +210,7 @@ final readonly class InferredStructuredReturnCollector
     /**
      * Returns whether one function has an explicit @return PHPDoc tag.
      *
-     * @param Function_ $function The function node.
-     *
-     * @return bool
+     * @param Function_ $function the function node
      */
     private function hasExplicitFunctionReturnPhpDoc(Function_ $function): bool
     {
@@ -243,9 +232,7 @@ final readonly class InferredStructuredReturnCollector
     /**
      * Parses one PHPDoc node from one doc comment.
      *
-     * @param Doc $docComment The doc comment.
-     *
-     * @return PhpDocNode|null
+     * @param Doc $docComment the doc comment
      */
     private function parsePhpDocNode(Doc $docComment): ?PhpDocNode
     {
@@ -256,7 +243,7 @@ final readonly class InferredStructuredReturnCollector
             );
 
             return $factory->createParser()->parse($tokens);
-        } catch (Throwable) {
+        } catch (\Throwable) {
             return null;
         }
     }

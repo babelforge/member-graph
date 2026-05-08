@@ -18,9 +18,9 @@ use PhpParser\Node\Stmt\ClassMethod;
 final readonly class EffectivePhpDocBuilder
 {
     /**
-     * @param PhpDocInheritDocResolver $phpDocInheritDocResolver The inheritDoc resolver.
-     * @param PhpDocVisibleTemplateResolver $phpDocVisibleTemplateResolver The visible-template resolver.
-     * @param EffectivePhpDocRenderer $effectivePhpDocRenderer The effective-doc renderer.
+     * @param PhpDocInheritDocResolver      $phpDocInheritDocResolver      the inheritDoc resolver
+     * @param PhpDocVisibleTemplateResolver $phpDocVisibleTemplateResolver the visible-template resolver
+     * @param EffectivePhpDocRenderer       $effectivePhpDocRenderer       the effective-doc renderer
      */
     public function __construct(
         private PhpDocInheritDocResolver $phpDocInheritDocResolver,
@@ -36,12 +36,10 @@ final readonly class EffectivePhpDocBuilder
      * - resolve inherited doc first
      * - then inject visible templates from outer scopes
      *
-     * @param ClassMethod $method The method node.
-     * @param ClassMethod[] $parentMethods The parent methods ordered from nearest to farthest.
-     * @param TypeIndexContext $context The type index context.
-     * @param KnownOwnerCollection $knownOwners The known owners collection.
-     *
-     * @return Doc|null
+     * @param ClassMethod          $method        the method node
+     * @param ClassMethod[]        $parentMethods the parent methods ordered from nearest to farthest
+     * @param TypeIndexContext     $context       the type index context
+     * @param KnownOwnerCollection $knownOwners   the known owners collection
      */
     public function buildForMethod(
         ClassMethod $method,

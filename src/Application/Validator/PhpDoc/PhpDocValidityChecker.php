@@ -14,8 +14,6 @@ final readonly class PhpDocValidityChecker
     /**
      * Returns whether one PHPDoc signature is semantically coherent.
      *
-     * @param SemanticState $semanticState
-     *
      * @return true|PhpDocResolutionIssueType[]
      */
     public function isSemanticallyCoherent(SemanticState $semanticState): true|array
@@ -33,8 +31,6 @@ final readonly class PhpDocValidityChecker
      * - every parameter type must be usable
      * - every referenced template name must exist in the visible template definitions
      * - every template referenced in the return type must still be anchored in at least one parameter
-     *
-     * @param SemanticState $semanticState
      *
      * @return PhpDocResolutionIssueType[]
      */

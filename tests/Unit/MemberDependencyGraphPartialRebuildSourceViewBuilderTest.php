@@ -25,19 +25,15 @@ final class MemberDependencyGraphPartialRebuildSourceViewBuilderTest extends Tes
 
     /**
      * Prepares an isolated filesystem workspace.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
-        $this->workspace = sys_get_temp_dir() . '/member-graph-source-view-' . bin2hex(random_bytes(6));
-        mkdir($this->workspace, 0777, true);
+        $this->workspace = sys_get_temp_dir().'/member-graph-source-view-'.bin2hex(random_bytes(6));
+        mkdir($this->workspace, 0o777, true);
     }
 
     /**
      * Removes the isolated filesystem workspace.
-     *
-     * @return void
      */
     protected function tearDown(): void
     {
@@ -46,44 +42,42 @@ final class MemberDependencyGraphPartialRebuildSourceViewBuilderTest extends Tes
 
     /**
      * Ensures reusable and loaded source metadata are assembled into one source view.
-     *
-     * @return void
      */
     public function testItBuildsSourceViewFromReusableAndLoadedSources(): void
     {
-        $changedFilePath = $this->workspace . '/Changed.php';
-        $reusableFilePath = $this->workspace . '/Reusable.php';
+        $changedFilePath = $this->workspace.'/Changed.php';
+        $reusableFilePath = $this->workspace.'/Reusable.php';
         $filesToBuild = new MemberGraphCacheFileCollection();
         $cachedSources = new MemberGraphVirtualSourceMetadataCollection();
 
         file_put_contents($changedFilePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class Changed
-{
-}
-PHP);
+            final class Changed
+            {
+            }
+            PHP);
         file_put_contents($reusableFilePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class Reusable
-{
-}
-PHP);
+            final class Reusable
+            {
+            }
+            PHP);
         $filesToBuild->add($changedFilePath);
         $cachedSources->add(new MemberGraphVirtualSourceMetadata(
             fullFilePath: $reusableFilePath,
-            virtualFilePath: $reusableFilePath . '.virtual.0',
+            virtualFilePath: $reusableFilePath.'.virtual.0',
             namespace: 'App',
             ownerName: 'App\\Reusable',
         ));
         $cachedSources->add(new MemberGraphVirtualSourceMetadata(
             fullFilePath: $changedFilePath,
-            virtualFilePath: $changedFilePath . '.virtual.0',
+            virtualFilePath: $changedFilePath.'.virtual.0',
             namespace: 'App',
             ownerName: 'App\\OldChanged',
         ));
@@ -103,12 +97,12 @@ PHP);
 
         self::assertNotNull($loadedVirtualFile);
         self::assertCount(1, $sourceView->globalIndexRebuildInput->reusableSources);
-        self::assertNotNull($sourceView->globalIndexRebuildInput->reusableSources->get($reusableFilePath . '.virtual.0'));
-        self::assertNull($sourceView->globalIndexRebuildInput->reusableSources->get($changedFilePath . '.virtual.0'));
+        self::assertNotNull($sourceView->globalIndexRebuildInput->reusableSources->get($reusableFilePath.'.virtual.0'));
+        self::assertNull($sourceView->globalIndexRebuildInput->reusableSources->get($changedFilePath.'.virtual.0'));
         self::assertCount(1, $sourceView->loadedInput->loadedVirtualFiles);
         self::assertNotNull($sourceView->loadedInput->loadedDeclarationSnapshot->owners->get('App\\Changed'));
         self::assertCount(2, $sourceView->allSourceMetadata);
-        self::assertNotNull($sourceView->allSourceMetadata->get($reusableFilePath . '.virtual.0'));
+        self::assertNotNull($sourceView->allSourceMetadata->get($reusableFilePath.'.virtual.0'));
         $loadedSourceMetadata = $sourceView->allSourceMetadata->get($loadedVirtualFile->virtualFilePath);
         self::assertNotNull($loadedSourceMetadata);
         self::assertSame('App\\Changed', $loadedSourceMetadata->ownerName);
@@ -118,9 +112,7 @@ PHP);
     /**
      * Removes a directory recursively.
      *
-     * @param string $directory The directory to remove.
-     *
-     * @return void
+     * @param string $directory the directory to remove
      */
     private function removeDirectory(string $directory): void
     {
@@ -139,7 +131,7 @@ PHP);
                 continue;
             }
 
-            $path = $directory . DIRECTORY_SEPARATOR . $item;
+            $path = $directory.DIRECTORY_SEPARATOR.$item;
 
             if (is_dir($path)) {
                 $this->removeDirectory($path);

@@ -16,16 +16,16 @@ final readonly class MemberDependencyGraphPartialRebuildExecutionResult
     /**
      * Constructor.
      *
-     * @param MemberDependencyGraph $memberDependencyGraph The merged member dependency graph.
-     * @param VirtualPhpSourceFileCollection $rebuiltVirtualFiles The virtual files rebuilt from source.
-     * @param MemberGraphFragmentCollection $rebuiltFragments The freshly rebuilt graph fragments.
-     * @param MemberGraphFragmentCollection $mergedFragments The full fragment set after merging reusable and rebuilt fragments.
+     * @param MemberDependencyGraph          $memberDependencyGraph the merged member dependency graph
+     * @param VirtualPhpSourceFileCollection $rebuiltVirtualFiles   the virtual files rebuilt from source
+     * @param MemberGraphFragmentCollection  $rebuiltFragments      the freshly rebuilt graph fragments
+     * @param MemberGraphFragmentCollection  $mergedFragments       the full fragment set after merging reusable and rebuilt fragments
      */
     public function __construct(
-        public MemberDependencyGraph          $memberDependencyGraph,
+        public MemberDependencyGraph $memberDependencyGraph,
         public VirtualPhpSourceFileCollection $rebuiltVirtualFiles,
-        public MemberGraphFragmentCollection  $rebuiltFragments,
-        public MemberGraphFragmentCollection  $mergedFragments,
+        public MemberGraphFragmentCollection $rebuiltFragments,
+        public MemberGraphFragmentCollection $mergedFragments,
     ) {
     }
 }

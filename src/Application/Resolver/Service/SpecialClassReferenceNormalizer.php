@@ -18,7 +18,7 @@ final readonly class SpecialClassReferenceNormalizer
     /**
      * Constructor.
      *
-     * @param StaticOwnerResolver $staticOwnerResolver The static owner resolver.
+     * @param StaticOwnerResolver $staticOwnerResolver the static owner resolver
      */
     public function __construct(
         private StaticOwnerResolver $staticOwnerResolver,
@@ -28,10 +28,8 @@ final readonly class SpecialClassReferenceNormalizer
     /**
      * Normalizes special class references inside one structured PHPDoc type.
      *
-     * @param ResolvedPhpDocType $type The type to normalize.
-     * @param string $currentOwner The current class-like owner FQCN.
-     *
-     * @return ResolvedPhpDocType
+     * @param ResolvedPhpDocType $type         the type to normalize
+     * @param string             $currentOwner the current class-like owner FQCN
      */
     public function normalize(ResolvedPhpDocType $type, string $currentOwner): ResolvedPhpDocType
     {
@@ -94,10 +92,8 @@ final readonly class SpecialClassReferenceNormalizer
     /**
      * Normalizes special class-reference symbols in one symbol collection.
      *
-     * @param SymbolCollection $symbols The symbols to normalize.
-     * @param string $currentOwner The owner used to resolve self/static/parent.
-     *
-     * @return SymbolCollection
+     * @param SymbolCollection $symbols      the symbols to normalize
+     * @param string           $currentOwner the owner used to resolve self/static/parent
      */
     public function normalizeSymbols(SymbolCollection $symbols, string $currentOwner): SymbolCollection
     {
@@ -113,10 +109,8 @@ final readonly class SpecialClassReferenceNormalizer
     /**
      * Normalizes one special class-reference symbol.
      *
-     * @param string $symbol The symbol to normalize.
-     * @param string $currentOwner The current class-like owner FQCN.
-     *
-     * @return string
+     * @param string $symbol       the symbol to normalize
+     * @param string $currentOwner the current class-like owner FQCN
      */
     private function normalizeSymbol(string $symbol, string $currentOwner): string
     {

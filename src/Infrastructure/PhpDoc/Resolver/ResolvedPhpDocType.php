@@ -12,14 +12,14 @@ use PhpNoobs\MemberGraph\Domain\Symbol\SymbolCollection;
 final class ResolvedPhpDocType
 {
     /**
-     * @param SymbolCollection $symbols Resolved symbols for the current node.
-     * @param int $kinds Resolved type kinds.
-     * @param ResolvedPhpDocTypeCollection $genericArguments Resolved generic arguments.
-     * @param ShapeFieldCollection $shapeFields Resolved array-shape fields.
-     * @param ResolvedPhpDocTemplateReference $templateReference Resolved template reference.
-     * @param ResolvedPhpDocTypeCollection $intersectionTypes Resolved intersection members.
-     * @param ResolvedPhpDocTypeCollection $callableParameters Resolved callable parameter types.
-     * @param ResolvedPhpDocType|null $callableReturnType Resolved callable return type.
+     * @param SymbolCollection                $symbols            resolved symbols for the current node
+     * @param int                             $kinds              resolved type kinds
+     * @param ResolvedPhpDocTypeCollection    $genericArguments   resolved generic arguments
+     * @param ShapeFieldCollection            $shapeFields        resolved array-shape fields
+     * @param ResolvedPhpDocTemplateReference $templateReference  resolved template reference
+     * @param ResolvedPhpDocTypeCollection    $intersectionTypes  resolved intersection members
+     * @param ResolvedPhpDocTypeCollection    $callableParameters resolved callable parameter types
+     * @param ResolvedPhpDocType|null         $callableReturnType resolved callable return type
      */
     private function __construct(
         public SymbolCollection $symbols,
@@ -46,14 +46,13 @@ final class ResolvedPhpDocType
     }
 
     /**
-     * @param SymbolCollection $symbols Resolved symbols for the current node.
-     * @param ResolvedPhpDocTypeCollection $genericArguments Resolved generic arguments.
-     * @param ShapeFieldCollection $shapeFields Resolved array-shape fields.
-     * @param ResolvedPhpDocTemplateReference $templateReference Resolved template reference.
-     * @param ResolvedPhpDocTypeCollection|null $intersectionTypes Resolved intersection members.
-     * @param ResolvedPhpDocTypeCollection|null $callableParameters Resolved callable parameter types.
-     * @param ResolvedPhpDocType|null $callableReturnType Resolved callable return type.
-     * @return self
+     * @param SymbolCollection                  $symbols            resolved symbols for the current node
+     * @param ResolvedPhpDocTypeCollection      $genericArguments   resolved generic arguments
+     * @param ShapeFieldCollection              $shapeFields        resolved array-shape fields
+     * @param ResolvedPhpDocTemplateReference   $templateReference  resolved template reference
+     * @param ResolvedPhpDocTypeCollection|null $intersectionTypes  resolved intersection members
+     * @param ResolvedPhpDocTypeCollection|null $callableParameters resolved callable parameter types
+     * @param ResolvedPhpDocType|null           $callableReturnType resolved callable return type
      */
     public static function new(
         SymbolCollection $symbols,
@@ -102,15 +101,14 @@ final class ResolvedPhpDocType
     }
 
     /**
-     * @param SymbolCollection $symbols Resolved symbols for the current node.
-     * @param int $kinds Resolved type kinds.
-     * @param ResolvedPhpDocTypeCollection $genericArguments Resolved generic arguments.
-     * @param ShapeFieldCollection $shapeFields Resolved array-shape fields.
-     * @param ResolvedPhpDocTemplateReference $templateReference Resolved template reference.
-     * @param ResolvedPhpDocTypeCollection|null $intersectionTypes Resolved intersection members.
-     * @param ResolvedPhpDocTypeCollection|null $callableParameters Resolved callable parameter types.
-     * @param ResolvedPhpDocType|null $callableReturnType Resolved callable return type.
-     * @return self
+     * @param SymbolCollection                  $symbols            resolved symbols for the current node
+     * @param int                               $kinds              resolved type kinds
+     * @param ResolvedPhpDocTypeCollection      $genericArguments   resolved generic arguments
+     * @param ShapeFieldCollection              $shapeFields        resolved array-shape fields
+     * @param ResolvedPhpDocTemplateReference   $templateReference  resolved template reference
+     * @param ResolvedPhpDocTypeCollection|null $intersectionTypes  resolved intersection members
+     * @param ResolvedPhpDocTypeCollection|null $callableParameters resolved callable parameter types
+     * @param ResolvedPhpDocType|null           $callableReturnType resolved callable return type
      */
     public static function fromParts(
         SymbolCollection $symbols,
@@ -141,11 +139,6 @@ final class ResolvedPhpDocType
         );
     }
 
-    /**
-     * @param SymbolCollection $symbols
-     * @param ResolvedPhpDocTypeCollection $genericArguments
-     * @return self
-     */
     public static function newGeneric(SymbolCollection $symbols, ResolvedPhpDocTypeCollection $genericArguments): self
     {
         return new self(
@@ -158,11 +151,6 @@ final class ResolvedPhpDocType
         );
     }
 
-    /**
-     * @param SymbolCollection $symbols
-     * @param ShapeFieldCollection $shapeFields
-     * @return self
-     */
     public static function newShaped(SymbolCollection $symbols, ShapeFieldCollection $shapeFields): self
     {
         return new self(
@@ -187,10 +175,6 @@ final class ResolvedPhpDocType
         );
     }
 
-    /**
-     * @param ResolvedPhpDocTypeCollection $intersectionTypes
-     * @return self
-     */
     public static function intersection(ResolvedPhpDocTypeCollection $intersectionTypes): self
     {
         return new self(
@@ -203,10 +187,6 @@ final class ResolvedPhpDocType
         );
     }
 
-    /**
-     * @param self $wrappedType
-     * @return self
-     */
     public static function parenthesized(self $wrappedType): self
     {
         $genericArguments = new ResolvedPhpDocTypeCollection();
@@ -222,11 +202,6 @@ final class ResolvedPhpDocType
         );
     }
 
-    /**
-     * @param ResolvedPhpDocTypeCollection $parameters
-     * @param ResolvedPhpDocType|null $returnType
-     * @return self
-     */
     public static function callableSignature(
         ResolvedPhpDocTypeCollection $parameters,
         ?self $returnType = null,
@@ -284,8 +259,6 @@ final class ResolvedPhpDocType
 
     /**
      * Tells whether this node behaves like a union container.
-     *
-     * @return bool
      */
     public function isUnionContainer(): bool
     {
@@ -333,9 +306,6 @@ final class ResolvedPhpDocType
 
     /**
      * Returns the resolved field type for a literal shape key.
-     *
-     * @param int|string $key
-     * @return ResolvedPhpDocType|null
      */
     public function getShapeField(int|string $key): ?self
     {
@@ -360,8 +330,6 @@ final class ResolvedPhpDocType
 
     /**
      * Returns the wrapped type when current node is parenthesized.
-     *
-     * @return ResolvedPhpDocType|null
      */
     public function getParenthesizedInnerType(): ?self
     {
@@ -377,9 +345,7 @@ final class ResolvedPhpDocType
     /**
      * Flattens the current node and all nested members into one symbol collection.
      *
-     * @param bool $excludeScalarBuiltSymbols Whether to exclude scalar built-in symbols.
-     *
-     * @return SymbolCollection
+     * @param bool $excludeScalarBuiltSymbols whether to exclude scalar built-in symbols
      */
     public function flattenAllSymbols(bool $excludeScalarBuiltSymbols = false): SymbolCollection
     {

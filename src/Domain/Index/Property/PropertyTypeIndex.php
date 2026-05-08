@@ -4,16 +4,14 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Domain\Index\Property;
 
-use IteratorAggregate;
 use PhpNoobs\MemberGraph\Domain\Symbol\SymbolCollection;
-use Traversable;
 
 /**
  * Stores simple property types.
  *
- * @implements IteratorAggregate<string, SymbolCollection>
+ * @implements \IteratorAggregate<string, SymbolCollection>
  */
-final class PropertyTypeIndex implements IteratorAggregate
+final class PropertyTypeIndex implements \IteratorAggregate
 {
     /**
      * @var array<string, SymbolCollection>
@@ -23,11 +21,9 @@ final class PropertyTypeIndex implements IteratorAggregate
     /**
      * Stores one property type.
      *
-     * @param string $owner The owner FQCN.
-     * @param string $propertyName The property name without "$".
-     * @param SymbolCollection $propertyTypes The resolved property type FQCN.
-     *
-     * @return self
+     * @param string           $owner         the owner FQCN
+     * @param string           $propertyName  the property name without "$"
+     * @param SymbolCollection $propertyTypes the resolved property type FQCN
      */
     public function set(string $owner, string $propertyName, SymbolCollection $propertyTypes): self
     {
@@ -44,10 +40,8 @@ final class PropertyTypeIndex implements IteratorAggregate
     /**
      * Returns one property type.
      *
-     * @param string $owner The owner FQCN.
-     * @param string $propertyName The property name without "$".
-     *
-     * @return SymbolCollection
+     * @param string $owner        the owner FQCN
+     * @param string $propertyName the property name without "$"
      */
     public function get(string $owner, string $propertyName): SymbolCollection
     {
@@ -71,20 +65,15 @@ final class PropertyTypeIndex implements IteratorAggregate
     /**
      * Builds the internal key.
      *
-     * @param string $owner The owner FQCN.
-     * @param string $propertyName The property name without "$".
-     *
-     * @return string
+     * @param string $owner        the owner FQCN
+     * @param string $propertyName the property name without "$"
      */
     private function buildKey(string $owner, string $propertyName): string
     {
-        return $owner . '::$' . $propertyName;
+        return $owner.'::$'.$propertyName;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         yield from $this->items;
     }

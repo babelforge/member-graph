@@ -16,7 +16,7 @@ final readonly class StructuredPhpDocTypeInspector
     /**
      * Constructor.
      *
-     * @param MethodNodeIndex $methodNodeIndex The method node index.
+     * @param MethodNodeIndex $methodNodeIndex the method node index
      */
     public function __construct(
         private MethodNodeIndex $methodNodeIndex,
@@ -26,9 +26,7 @@ final readonly class StructuredPhpDocTypeInspector
     /**
      * Extracts root owner symbols from one structured PHPDoc type.
      *
-     * @param ResolvedPhpDocType|null $structuredType The structured type to inspect.
-     *
-     * @return SymbolCollection
+     * @param ResolvedPhpDocType|null $structuredType the structured type to inspect
      */
     public function extractRootSymbols(?ResolvedPhpDocType $structuredType): SymbolCollection
     {
@@ -68,10 +66,8 @@ final readonly class StructuredPhpDocTypeInspector
     /**
      * Collects all structured owner symbols that declare one method.
      *
-     * @param ResolvedPhpDocType $type The structured type to inspect.
-     * @param string $methodName The method name to find.
-     *
-     * @return SymbolCollection
+     * @param ResolvedPhpDocType $type       the structured type to inspect
+     * @param string             $methodName the method name to find
      */
     public function collectOwnersDeclaringMethod(
         ResolvedPhpDocType $type,
@@ -129,9 +125,7 @@ final readonly class StructuredPhpDocTypeInspector
     /**
      * Returns whether one structured type contains any template reference recursively.
      *
-     * @param ResolvedPhpDocType $type The structured type to inspect.
-     *
-     * @return bool
+     * @param ResolvedPhpDocType $type the structured type to inspect
      */
     public function containsTemplateReference(ResolvedPhpDocType $type): bool
     {

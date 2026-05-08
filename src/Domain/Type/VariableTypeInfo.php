@@ -8,16 +8,16 @@ use PhpNoobs\MemberGraph\Domain\Symbol\SymbolCollection;
 use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
 
 /**
- * Class VariableTypeInfo
+ * Class VariableTypeInfo.
  *
  * Stores resolved type information for one variable.
  */
 final readonly class VariableTypeInfo
 {
     /**
-     * @param SymbolCollection $types Flattened symbols usable by the existing resolver pipeline.
-     * @param VariableTypeSource $source Origin of the type information.
-     * @param ResolvedPhpDocType|null $structuredPhpDocType Structured PHPDoc type, when available.
+     * @param SymbolCollection        $types                flattened symbols usable by the existing resolver pipeline
+     * @param VariableTypeSource      $source               origin of the type information
+     * @param ResolvedPhpDocType|null $structuredPhpDocType structured PHPDoc type, when available
      */
     public function __construct(
         public SymbolCollection $types,

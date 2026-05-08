@@ -12,11 +12,11 @@ final readonly class MemberGraphTopology
     /**
      * Constructor.
      *
-     * @param string $rootNodeId The root topology node identifier.
-     * @param MemberGraphTopologyDirection $direction The explored direction.
-     * @param int $maxDepth The maximum traversal depth.
-     * @param MemberGraphTopologyNodeCollection $nodes The collected topology nodes.
-     * @param MemberGraphTopologyEdgeCollection $edges The collected topology edges.
+     * @param string                            $rootNodeId the root topology node identifier
+     * @param MemberGraphTopologyDirection      $direction  the explored direction
+     * @param int                               $maxDepth   the maximum traversal depth
+     * @param MemberGraphTopologyNodeCollection $nodes      the collected topology nodes
+     * @param MemberGraphTopologyEdgeCollection $edges      the collected topology edges
      */
     public function __construct(
         public string $rootNodeId,

@@ -20,9 +20,7 @@ final readonly class ParserTypeNodeToSymbolCollectionResolver
     /**
      * Resolves one parser type node into symbols.
      *
-     * @param Identifier|Name|ComplexType|null $type The type node.
-     *
-     * @return SymbolCollection
+     * @param Identifier|Name|ComplexType|null $type the type node
      */
     public function resolve(
         Identifier|Name|ComplexType|null $type,

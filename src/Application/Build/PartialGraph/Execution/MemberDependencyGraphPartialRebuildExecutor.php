@@ -24,26 +24,24 @@ final readonly class MemberDependencyGraphPartialRebuildExecutor
     /**
      * Constructor.
      *
-     * @param MemberGraphPhpSourceRegistryInstance $fileRegistry The member graph file registry.
-     * @param MemberGraphFragmenter $fragmenter The graph fragmenter.
-     * @param MemberGraphFragmentMerger $fragmentMerger The graph fragment merger.
-     * @param MemberGraphIssueCollection|null $dependencyGraphIssues The optional dependency graph issue collection.
+     * @param MemberGraphPhpSourceRegistryInstance $fileRegistry          the member graph file registry
+     * @param MemberGraphFragmenter                $fragmenter            the graph fragmenter
+     * @param MemberGraphFragmentMerger            $fragmentMerger        the graph fragment merger
+     * @param MemberGraphIssueCollection|null      $dependencyGraphIssues the optional dependency graph issue collection
      */
     public function __construct(
         private MemberGraphPhpSourceRegistryInstance $fileRegistry,
-        private MemberGraphFragmenter                $fragmenter = new MemberGraphFragmenter(),
-        private MemberGraphFragmentMerger            $fragmentMerger = new MemberGraphFragmentMerger(),
-        private ?MemberGraphIssueCollection          $dependencyGraphIssues = null,
+        private MemberGraphFragmenter $fragmenter = new MemberGraphFragmenter(),
+        private MemberGraphFragmentMerger $fragmentMerger = new MemberGraphFragmentMerger(),
+        private ?MemberGraphIssueCollection $dependencyGraphIssues = null,
     ) {
     }
 
     /**
      * Rebuilds graph fragments from the working set and merges them with reusable fragments.
      *
-     * @param MemberDependencyGraphPartialRebuildPreparedInput $preparedInput The prepared partial rebuild input.
-     * @param MemberDependencyGraphPartialRebuildWorkingSet $workingSet The resolved working set.
-     *
-     * @return MemberDependencyGraph
+     * @param MemberDependencyGraphPartialRebuildPreparedInput $preparedInput the prepared partial rebuild input
+     * @param MemberDependencyGraphPartialRebuildWorkingSet    $workingSet    the resolved working set
      */
     public function execute(
         MemberDependencyGraphPartialRebuildPreparedInput $preparedInput,
@@ -55,10 +53,8 @@ final readonly class MemberDependencyGraphPartialRebuildExecutor
     /**
      * Rebuilds graph fragments and returns the graph together with cache-update data.
      *
-     * @param MemberDependencyGraphPartialRebuildPreparedInput $preparedInput The prepared partial rebuild input.
-     * @param MemberDependencyGraphPartialRebuildWorkingSet $workingSet The resolved working set.
-     *
-     * @return MemberDependencyGraphPartialRebuildExecutionResult
+     * @param MemberDependencyGraphPartialRebuildPreparedInput $preparedInput the prepared partial rebuild input
+     * @param MemberDependencyGraphPartialRebuildWorkingSet    $workingSet    the resolved working set
      */
     public function executeWithResult(
         MemberDependencyGraphPartialRebuildPreparedInput $preparedInput,
@@ -92,9 +88,7 @@ final readonly class MemberDependencyGraphPartialRebuildExecutor
     /**
      * Loads virtual files for every physical file scheduled for graph rebuild.
      *
-     * @param MemberDependencyGraphPartialRebuildWorkingSet $workingSet The resolved working set.
-     *
-     * @return VirtualPhpSourceFileCollection
+     * @param MemberDependencyGraphPartialRebuildWorkingSet $workingSet the resolved working set
      */
     private function loadVirtualFilesToRebuild(
         MemberDependencyGraphPartialRebuildWorkingSet $workingSet,
@@ -111,10 +105,8 @@ final readonly class MemberDependencyGraphPartialRebuildExecutor
     /**
      * Merges reusable and rebuilt fragments into one fragment collection.
      *
-     * @param MemberGraphFragmentCollection $reusableFragments The cached fragments that remain reusable.
-     * @param MemberGraphFragmentCollection $rebuiltFragments The freshly rebuilt graph fragments.
-     *
-     * @return MemberGraphFragmentCollection
+     * @param MemberGraphFragmentCollection $reusableFragments the cached fragments that remain reusable
+     * @param MemberGraphFragmentCollection $rebuiltFragments  the freshly rebuilt graph fragments
      */
     private function mergeFragments(
         MemberGraphFragmentCollection $reusableFragments,

@@ -31,12 +31,12 @@ final readonly class MemberDependencyGraphBuilder
     /**
      * Constructor.
      *
-     * @param MemberGraphPhpSourceRegistryInstance $fileRegistry The member graph file registry.
-     * @param MemberGraphIssueCollection|null $dependencyGraphIssues The optional dependency-graph issue collection.
+     * @param MemberGraphPhpSourceRegistryInstance $fileRegistry          the member graph file registry
+     * @param MemberGraphIssueCollection|null      $dependencyGraphIssues the optional dependency-graph issue collection
      */
     public function __construct(
         private MemberGraphPhpSourceRegistryInstance $fileRegistry,
-        private ?MemberGraphIssueCollection          $dependencyGraphIssues = null,
+        private ?MemberGraphIssueCollection $dependencyGraphIssues = null,
     ) {
         $this->memberGraphBuilder = new MemberGraphBuilder($fileRegistry, $dependencyGraphIssues);
         $this->availableMemberProjector = new AvailableMemberProjector();
@@ -48,9 +48,7 @@ final readonly class MemberDependencyGraphBuilder
     /**
      * Builds the global member dependency graph.
      *
-     * @param MemberGraphBuildInput $input The member graph build input.
-     *
-     * @return MemberDependencyGraph
+     * @param MemberGraphBuildInput $input the member graph build input
      */
     public function build(MemberGraphBuildInput $input): MemberDependencyGraph
     {

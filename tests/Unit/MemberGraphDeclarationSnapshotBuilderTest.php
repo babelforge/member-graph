@@ -18,52 +18,50 @@ final class MemberGraphDeclarationSnapshotBuilderTest extends TestCase
 {
     /**
      * Ensures declaration snapshots are extracted from class-like and function declarations.
-     *
-     * @return void
      */
     public function testItBuildsDeclarationSnapshotsFromVirtualFiles(): void
     {
         $code = <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-/**
- * @template T of object
- */
-final class Box extends BaseBox implements BoxContract
-{
-    use Timestamped;
+            /**
+             * @template T of object
+             */
+            final class Box extends BaseBox implements BoxContract
+            {
+                use Timestamped;
 
-    /**
-     * @var non-empty-string
-     */
-    private string $name;
+                /**
+                 * @var non-empty-string
+                 */
+                private string $name;
 
-    public const LIMIT = 10;
+                public const LIMIT = 10;
 
-    public function __construct(private int $id)
-    {
-    }
+                public function __construct(private int $id)
+                {
+                }
 
-    /**
-     * @template TValue of object
-     * @param positive-int $id
-     * @return TValue
-     */
-    protected function get(int $id): object
-    {
-    }
-}
+                /**
+                 * @template TValue of object
+                 * @param positive-int $id
+                 * @return TValue
+                 */
+                protected function get(int $id): object
+                {
+                }
+            }
 
-/**
- * @param string $name
- * @return Box
- */
-function make_box(string $name): Box
-{
-}
-PHP;
+            /**
+             * @param string $name
+             * @return Box
+             */
+            function make_box(string $name): Box
+            {
+            }
+            PHP;
         $virtualFile = new VirtualPhpSourceFile(
             fullFilePath: '/project/src/Box.php',
             virtualFilePath: '/project/src/Box.php.virtual.0',

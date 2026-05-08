@@ -55,7 +55,7 @@ use PhpParser\Node\VarLikeIdentifier;
 use PhpParser\NodeVisitorAbstract;
 
 /**
- * Class MemberGraphBuilderVisitor
+ * Class MemberGraphBuilderVisitor.
  */
 final class MemberGraphBuilderVisitor extends NodeVisitorAbstract
 {
@@ -74,30 +74,30 @@ final class MemberGraphBuilderVisitor extends NodeVisitorAbstract
     private MemberGraphBuildContext $context;
 
     /**
-     * @param string $fullFilePath The full file path.
-     * @param string $virtualFilePath The current virtual file path.
-     * @param MemberDeclarationCollection $declarations The declarations collection.
-     * @param MemberUsageCollection $usages The usages collection.
-     * @param ParameterUsageCollection $parameterUsages The parameter usages collection.
-     * @param ExpressionTypeResolverInterface $expressionTypeResolver The expression type resolver.
-     * @param LocalVarPhpDocTypeExtractor $localVarPhpDocTypeExtractor The local variable type extractor.
-     * @param ParamPhpDocTypeExtractor $paramPhpDocTypeExtractor The parameter type extractor.
-     * @param PhpDocTemplateDefinitionExtractor $phpDocTemplateDefinitionExtractor The PHPDoc template definition extractor.
-     * @param UsesByAliasCollection $usesByAlias The uses by alias map.
-     * @param MemberGraphBuildContext $context The enriched member graph build context.
+     * @param string                            $fullFilePath                      the full file path
+     * @param string                            $virtualFilePath                   the current virtual file path
+     * @param MemberDeclarationCollection       $declarations                      the declarations collection
+     * @param MemberUsageCollection             $usages                            the usages collection
+     * @param ParameterUsageCollection          $parameterUsages                   the parameter usages collection
+     * @param ExpressionTypeResolverInterface   $expressionTypeResolver            the expression type resolver
+     * @param LocalVarPhpDocTypeExtractor       $localVarPhpDocTypeExtractor       the local variable type extractor
+     * @param ParamPhpDocTypeExtractor          $paramPhpDocTypeExtractor          the parameter type extractor
+     * @param PhpDocTemplateDefinitionExtractor $phpDocTemplateDefinitionExtractor the PHPDoc template definition extractor
+     * @param UsesByAliasCollection             $usesByAlias                       the uses by alias map
+     * @param MemberGraphBuildContext           $context                           the enriched member graph build context
      */
     public function __construct(
-        string                                                     $fullFilePath,
-        string                                                     $virtualFilePath,
-        MemberDeclarationCollection                                $declarations,
-        MemberUsageCollection                                      $usages,
-        ParameterUsageCollection                                   $parameterUsages,
-        private readonly ExpressionTypeResolverInterface           $expressionTypeResolver,
-        LocalVarPhpDocTypeExtractor                                $localVarPhpDocTypeExtractor,
-        ParamPhpDocTypeExtractor                                   $paramPhpDocTypeExtractor,
-        private readonly PhpDocTemplateDefinitionExtractor         $phpDocTemplateDefinitionExtractor,
-        private readonly UsesByAliasCollection                     $usesByAlias,
-        MemberGraphBuildContext                                    $context,
+        string $fullFilePath,
+        string $virtualFilePath,
+        MemberDeclarationCollection $declarations,
+        MemberUsageCollection $usages,
+        ParameterUsageCollection $parameterUsages,
+        private readonly ExpressionTypeResolverInterface $expressionTypeResolver,
+        LocalVarPhpDocTypeExtractor $localVarPhpDocTypeExtractor,
+        ParamPhpDocTypeExtractor $paramPhpDocTypeExtractor,
+        private readonly PhpDocTemplateDefinitionExtractor $phpDocTemplateDefinitionExtractor,
+        private readonly UsesByAliasCollection $usesByAlias,
+        MemberGraphBuildContext $context,
     ) {
         $this->context = $context;
         $this->state = new MemberGraphTraversalState($fullFilePath, $virtualFilePath);
@@ -138,9 +138,7 @@ final class MemberGraphBuilderVisitor extends NodeVisitorAbstract
     /**
      * Handles node entry.
      *
-     * @param Node $node The current node.
-     *
-     * @return null
+     * @param Node $node the current node
      */
     public function enterNode(Node $node): null
     {
@@ -235,7 +233,7 @@ final class MemberGraphBuilderVisitor extends NodeVisitorAbstract
     /**
      * Handles node exit.
      *
-     * @param Node $node The current node.
+     * @param Node $node the current node
      *
      * @return null
      */
@@ -294,9 +292,7 @@ final class MemberGraphBuilderVisitor extends NodeVisitorAbstract
     /**
      * Enters a class-like node and collects its template definitions.
      *
-     * @param Class_|Trait_|Interface_|Enum_ $node The class-like node.
-     *
-     * @return void
+     * @param Class_|Trait_|Interface_|Enum_ $node the class-like node
      */
     private function enterClassLikeNode(Class_|Trait_|Interface_|Enum_ $node): void
     {
@@ -311,9 +307,7 @@ final class MemberGraphBuilderVisitor extends NodeVisitorAbstract
     /**
      * Enters a class method node and collects method-local declarations and parameter types.
      *
-     * @param ClassMethod $node The class method node.
-     *
-     * @return void
+     * @param ClassMethod $node the class method node
      */
     private function enterClassMethodNode(ClassMethod $node): void
     {
@@ -332,9 +326,7 @@ final class MemberGraphBuilderVisitor extends NodeVisitorAbstract
     /**
      * Enters a function node and collects function-local declarations and parameter types.
      *
-     * @param Function_ $node The function node.
-     *
-     * @return void
+     * @param Function_ $node the function node
      */
     private function enterFunctionNode(Function_ $node): void
     {
@@ -356,9 +348,7 @@ final class MemberGraphBuilderVisitor extends NodeVisitorAbstract
     /**
      * Enters a closure-like node and opens a local variable scope.
      *
-     * @param Closure|ArrowFunction $node The closure-like node.
-     *
-     * @return void
+     * @param Closure|ArrowFunction $node the closure-like node
      */
     private function enterClosureLikeNode(Closure|ArrowFunction $node): void
     {
@@ -368,8 +358,6 @@ final class MemberGraphBuilderVisitor extends NodeVisitorAbstract
 
     /**
      * Leaves the current class-like node.
-     *
-     * @return void
      */
     private function leaveClassLikeNode(): void
     {
@@ -379,8 +367,6 @@ final class MemberGraphBuilderVisitor extends NodeVisitorAbstract
 
     /**
      * Leaves the current class method node.
-     *
-     * @return void
      */
     private function leaveClassMethodNode(): void
     {
@@ -391,9 +377,7 @@ final class MemberGraphBuilderVisitor extends NodeVisitorAbstract
     /**
      * Collects one class constant fetch usage.
      *
-     * @param ClassConstFetch $node The class constant fetch node.
-     *
-     * @return void
+     * @param ClassConstFetch $node the class constant fetch node
      */
     private function collectClassConstantFetchUsage(ClassConstFetch $node): void
     {
@@ -424,9 +408,7 @@ final class MemberGraphBuilderVisitor extends NodeVisitorAbstract
     /**
      * Collects one property fetch usage.
      *
-     * @param PropertyFetch $node The property fetch node.
-     *
-     * @return void
+     * @param PropertyFetch $node the property fetch node
      */
     private function collectPropertyFetchUsage(PropertyFetch $node): void
     {
@@ -447,9 +429,7 @@ final class MemberGraphBuilderVisitor extends NodeVisitorAbstract
     /**
      * Collects one static property fetch usage.
      *
-     * @param StaticPropertyFetch $node The static property fetch node.
-     *
-     * @return void
+     * @param StaticPropertyFetch $node the static property fetch node
      */
     private function collectStaticPropertyFetchUsage(StaticPropertyFetch $node): void
     {
@@ -471,9 +451,7 @@ final class MemberGraphBuilderVisitor extends NodeVisitorAbstract
     /**
      * Collects one method or nullsafe method call usage.
      *
-     * @param MethodCall|NullsafeMethodCall $node The method call node.
-     *
-     * @return void
+     * @param MethodCall|NullsafeMethodCall $node the method call node
      */
     private function collectMethodCallUsage(MethodCall|NullsafeMethodCall $node): void
     {
@@ -505,9 +483,7 @@ final class MemberGraphBuilderVisitor extends NodeVisitorAbstract
     /**
      * Collects one static method call usage.
      *
-     * @param StaticCall $node The static call node.
-     *
-     * @return void
+     * @param StaticCall $node the static call node
      */
     private function collectStaticCallUsage(StaticCall $node): void
     {
@@ -537,9 +513,7 @@ final class MemberGraphBuilderVisitor extends NodeVisitorAbstract
     /**
      * Collects one function call usage.
      *
-     * @param FuncCall $node The function call node.
-     *
-     * @return void
+     * @param FuncCall $node the function call node
      */
     private function collectFunctionCallUsage(FuncCall $node): void
     {
@@ -564,8 +538,6 @@ final class MemberGraphBuilderVisitor extends NodeVisitorAbstract
 
     /**
      * Leaves the current function node.
-     *
-     * @return void
      */
     private function leaveFunctionNode(): void
     {
@@ -576,12 +548,10 @@ final class MemberGraphBuilderVisitor extends NodeVisitorAbstract
     /**
      * Collects template definitions declared by a class-like or function-like node.
      *
-     * @param ClassMethod|Function_|Class_|Trait_|Interface_|Enum_ $node The node carrying template PHPDoc.
-     *
-     * @return void
+     * @param ClassMethod|Function_|Class_|Trait_|Interface_|Enum_ $node the node carrying template PHPDoc
      */
     private function collectTemplateDefinitions(
-        ClassMethod|Function_|Class_|Trait_|Interface_|Enum_ $node
+        ClassMethod|Function_|Class_|Trait_|Interface_|Enum_ $node,
     ): void {
         $parent = $this->state->currentTemplateDefinitions();
         $current = $this->phpDocTemplateDefinitionExtractor->extract(
@@ -599,9 +569,7 @@ final class MemberGraphBuilderVisitor extends NodeVisitorAbstract
     /**
      * Resolves the best-known owner type for one expression.
      *
-     * @param Node $node The expression node.
-     *
-     * @return SymbolCollection
+     * @param Node $node the expression node
      */
     private function resolveExprTypes(Node $node): SymbolCollection
     {
@@ -623,9 +591,7 @@ final class MemberGraphBuilderVisitor extends NodeVisitorAbstract
     /**
      * Resolves the effective owner of one static call.
      *
-     * @param Name $className The static call class part.
-     *
-     * @return SymbolCollection
+     * @param Name $className the static call class part
      */
     private function resolveStaticCallOwner(Name $className): SymbolCollection
     {
@@ -653,9 +619,7 @@ final class MemberGraphBuilderVisitor extends NodeVisitorAbstract
     /**
      * Resolves one static call owner, falling back to unknown when no owner can be resolved.
      *
-     * @param Name $className The static call class part.
-     *
-     * @return string
+     * @param Name $className the static call class part
      */
     private function resolveSingleStaticCallOwner(Name $className): string
     {
@@ -675,10 +639,8 @@ final class MemberGraphBuilderVisitor extends NodeVisitorAbstract
     /**
      * Resolves the declaring owner of one static property fetch.
      *
-     * @param Name $className The static property class part.
-     * @param string $propertyName The static property name without "$".
-     *
-     * @return SymbolCollection
+     * @param Name   $className    the static property class part
+     * @param string $propertyName the static property name without "$"
      */
     private function resolveStaticPropertyFetchOwners(Name $className, string $propertyName): SymbolCollection
     {
@@ -711,9 +673,7 @@ final class MemberGraphBuilderVisitor extends NodeVisitorAbstract
     /**
      * Resolves a function call name from PHPParser name attributes when available.
      *
-     * @param Name $name The function call name node.
-     *
-     * @return string
+     * @param Name $name the function call name node
      */
     private function resolveFunctionName(Name $name): string
     {
@@ -739,7 +699,7 @@ final class MemberGraphBuilderVisitor extends NodeVisitorAbstract
     /**
      * Filters parser call arguments to concrete argument nodes.
      *
-     * @param array<array-key, Arg|VariadicPlaceholder> $arguments The parser arguments.
+     * @param array<array-key, Arg|VariadicPlaceholder> $arguments the parser arguments
      *
      * @return array<int, Arg>
      */

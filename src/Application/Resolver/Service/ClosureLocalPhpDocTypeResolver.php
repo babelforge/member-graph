@@ -19,7 +19,7 @@ final readonly class ClosureLocalPhpDocTypeResolver
     /**
      * Constructor.
      *
-     * @param ClassNameResolver $classNameResolver The class-name resolver.
+     * @param ClassNameResolver $classNameResolver the class-name resolver
      */
     public function __construct(private ClassNameResolver $classNameResolver)
     {
@@ -28,11 +28,9 @@ final readonly class ClosureLocalPhpDocTypeResolver
     /**
      * Resolves a raw PHPDoc type into a structured PHPDoc type.
      *
-     * @param string $rawType The raw PHPDoc type.
-     * @param string $currentClass The current class FQCN.
-     * @param UsesByAliasCollection $usesByAlias The imported symbols indexed by alias.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param string                $rawType      the raw PHPDoc type
+     * @param string                $currentClass the current class FQCN
+     * @param UsesByAliasCollection $usesByAlias  the imported symbols indexed by alias
      */
     public function resolve(
         string $rawType,
@@ -69,11 +67,9 @@ final readonly class ClosureLocalPhpDocTypeResolver
     /**
      * Resolves one raw union PHPDoc type to a structured union container.
      *
-     * @param string $rawType The raw union type.
-     * @param string $currentClass The current class FQCN.
-     * @param UsesByAliasCollection $usesByAlias The imported symbols indexed by alias.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param string                $rawType      the raw union type
+     * @param string                $currentClass the current class FQCN
+     * @param UsesByAliasCollection $usesByAlias  the imported symbols indexed by alias
      */
     private function resolveUnion(
         string $rawType,
@@ -100,9 +96,7 @@ final readonly class ClosureLocalPhpDocTypeResolver
     /**
      * Returns whether one raw type is a simple array-shape type.
      *
-     * @param string $rawType The raw PHPDoc type.
-     *
-     * @return bool
+     * @param string $rawType the raw PHPDoc type
      */
     private function isSimpleArrayShape(string $rawType): bool
     {
@@ -112,11 +106,9 @@ final readonly class ClosureLocalPhpDocTypeResolver
     /**
      * Resolves a simple array-shape PHPDoc type.
      *
-     * @param string $rawType The raw array-shape type.
-     * @param string $currentClass The current class FQCN.
-     * @param UsesByAliasCollection $usesByAlias The imported symbols indexed by alias.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param string                $rawType      the raw array-shape type
+     * @param string                $currentClass the current class FQCN
+     * @param UsesByAliasCollection $usesByAlias  the imported symbols indexed by alias
      */
     private function resolveSimpleArrayShape(
         string $rawType,
@@ -151,9 +143,7 @@ final readonly class ClosureLocalPhpDocTypeResolver
     /**
      * Returns whether one local PHPDoc type can be represented as a simple built-in type.
      *
-     * @param string $rawType The raw local PHPDoc type.
-     *
-     * @return bool
+     * @param string $rawType the raw local PHPDoc type
      */
     private function isSimpleBuiltinType(string $rawType): bool
     {
@@ -171,9 +161,7 @@ final readonly class ClosureLocalPhpDocTypeResolver
     /**
      * Builds one regular structured type from one symbol.
      *
-     * @param string $symbol The type symbol.
-     *
-     * @return ResolvedPhpDocType
+     * @param string $symbol the type symbol
      */
     private function buildRegularStructuredType(string $symbol): ResolvedPhpDocType
     {

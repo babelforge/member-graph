@@ -33,8 +33,6 @@ final class MemberGraphPartialGlobalIndexesBuilderTest extends TestCase
 {
     /**
      * Ensures available node-free global indexes are assembled from source metadata and declaration snapshots.
-     *
-     * @return void
      */
     public function testItBuildsPartialGlobalIndexesFromSourceViewAndCachedDeclarations(): void
     {
@@ -95,10 +93,8 @@ final class MemberGraphPartialGlobalIndexesBuilderTest extends TestCase
     /**
      * Adds reusable source metadata.
      *
-     * @param MemberGraphVirtualSourceMetadataCollection $sourceMetadata The source metadata collection.
-     * @param string $filePath The reusable file path.
-     *
-     * @return void
+     * @param MemberGraphVirtualSourceMetadataCollection $sourceMetadata the source metadata collection
+     * @param string                                     $filePath       the reusable file path
      */
     private function addReusableSourceMetadata(
         MemberGraphVirtualSourceMetadataCollection $sourceMetadata,
@@ -106,7 +102,7 @@ final class MemberGraphPartialGlobalIndexesBuilderTest extends TestCase
     ): void {
         $sourceMetadata->add(new MemberGraphVirtualSourceMetadata(
             fullFilePath: $filePath,
-            virtualFilePath: $filePath . '.virtual.0',
+            virtualFilePath: $filePath.'.virtual.0',
             namespace: 'App',
             ownerName: 'App\\Reusable',
             ownerKind: OwnerKind::CLASS_,
@@ -116,10 +112,8 @@ final class MemberGraphPartialGlobalIndexesBuilderTest extends TestCase
     /**
      * Adds changed source metadata.
      *
-     * @param MemberGraphVirtualSourceMetadataCollection $sourceMetadata The source metadata collection.
-     * @param string $filePath The changed file path.
-     *
-     * @return void
+     * @param MemberGraphVirtualSourceMetadataCollection $sourceMetadata the source metadata collection
+     * @param string                                     $filePath       the changed file path
      */
     private function addChangedSourceMetadata(
         MemberGraphVirtualSourceMetadataCollection $sourceMetadata,
@@ -127,7 +121,7 @@ final class MemberGraphPartialGlobalIndexesBuilderTest extends TestCase
     ): void {
         $sourceMetadata->add(new MemberGraphVirtualSourceMetadata(
             fullFilePath: $filePath,
-            virtualFilePath: $filePath . '.virtual.0',
+            virtualFilePath: $filePath.'.virtual.0',
             namespace: 'App',
             ownerName: 'App\\ChangedParentNew',
             ownerKind: OwnerKind::CLASS_,
@@ -135,7 +129,7 @@ final class MemberGraphPartialGlobalIndexesBuilderTest extends TestCase
         ));
         $sourceMetadata->add(new MemberGraphVirtualSourceMetadata(
             fullFilePath: $filePath,
-            virtualFilePath: $filePath . '.virtual.1',
+            virtualFilePath: $filePath.'.virtual.1',
             namespace: 'App',
             ownerName: 'App\\Changed',
             ownerKind: OwnerKind::CLASS_,
@@ -143,7 +137,7 @@ final class MemberGraphPartialGlobalIndexesBuilderTest extends TestCase
         ));
         $sourceMetadata->add(new MemberGraphVirtualSourceMetadata(
             fullFilePath: $filePath,
-            virtualFilePath: $filePath . '.virtual.2',
+            virtualFilePath: $filePath.'.virtual.2',
             namespace: 'App',
             ownerName: 'App\\ChangedContract',
             ownerKind: OwnerKind::INTERFACE,
@@ -153,11 +147,9 @@ final class MemberGraphPartialGlobalIndexesBuilderTest extends TestCase
     /**
      * Adds cached declarations.
      *
-     * @param MemberGraphDeclarationSnapshot $snapshot The cached declaration snapshot.
-     * @param string $reusableFilePath The reusable file path.
-     * @param string $changedFilePath The changed file path.
-     *
-     * @return void
+     * @param MemberGraphDeclarationSnapshot $snapshot         the cached declaration snapshot
+     * @param string                         $reusableFilePath the reusable file path
+     * @param string                         $changedFilePath  the changed file path
      */
     private function addCachedDeclarations(
         MemberGraphDeclarationSnapshot $snapshot,
@@ -175,13 +167,13 @@ final class MemberGraphPartialGlobalIndexesBuilderTest extends TestCase
             fqcn: 'App\\Reusable',
             kind: OwnerKind::CLASS_,
             fullFilePath: $reusableFilePath,
-            virtualFilePath: $reusableFilePath . '.virtual.0',
+            virtualFilePath: $reusableFilePath.'.virtual.0',
         ));
         $snapshot->methods->add(new MethodDeclarationSnapshot(
             ownerFqcn: 'App\\Reusable',
             name: 'run',
             fullFilePath: $reusableFilePath,
-            virtualFilePath: $reusableFilePath . '.virtual.0',
+            virtualFilePath: $reusableFilePath.'.virtual.0',
             nativeReturnType: 'App\\ReusableResult',
             parameters: $reusableParameters,
         ));
@@ -189,35 +181,35 @@ final class MemberGraphPartialGlobalIndexesBuilderTest extends TestCase
             ownerFqcn: 'App\\Reusable',
             name: 'label',
             fullFilePath: $reusableFilePath,
-            virtualFilePath: $reusableFilePath . '.virtual.0',
+            virtualFilePath: $reusableFilePath.'.virtual.0',
             nativeType: 'string',
         ));
         $snapshot->owners->add(new OwnerDeclarationSnapshot(
             fqcn: 'App\\Changed',
             kind: OwnerKind::CLASS_,
             fullFilePath: $changedFilePath,
-            virtualFilePath: $changedFilePath . '.virtual.0',
+            virtualFilePath: $changedFilePath.'.virtual.0',
             parentFqcn: 'App\\ChangedParentOld',
         ));
         $snapshot->methods->add(new MethodDeclarationSnapshot(
             ownerFqcn: 'App\\Changed',
             name: 'deleted',
             fullFilePath: $changedFilePath,
-            virtualFilePath: $changedFilePath . '.virtual.0',
+            virtualFilePath: $changedFilePath.'.virtual.0',
             nativeReturnType: 'App\\DeletedResult',
         ));
         $snapshot->properties->add(new PropertyDeclarationSnapshot(
             ownerFqcn: 'App\\Changed',
             name: 'deleted',
             fullFilePath: $changedFilePath,
-            virtualFilePath: $changedFilePath . '.virtual.0',
+            virtualFilePath: $changedFilePath.'.virtual.0',
             nativeType: 'string',
         ));
         $snapshot->classConstants->add(new ClassConstantDeclarationSnapshot(
             ownerFqcn: 'App\\Changed',
             name: 'DELETED',
             fullFilePath: $changedFilePath,
-            virtualFilePath: $changedFilePath . '.virtual.0',
+            virtualFilePath: $changedFilePath.'.virtual.0',
             scalarValue: 'old',
         ));
     }
@@ -225,10 +217,8 @@ final class MemberGraphPartialGlobalIndexesBuilderTest extends TestCase
     /**
      * Adds loaded declarations.
      *
-     * @param MemberGraphDeclarationSnapshot $snapshot The loaded declaration snapshot.
-     * @param string $changedFilePath The changed file path.
-     *
-     * @return void
+     * @param MemberGraphDeclarationSnapshot $snapshot        the loaded declaration snapshot
+     * @param string                         $changedFilePath the changed file path
      */
     private function addLoadedDeclarations(MemberGraphDeclarationSnapshot $snapshot, string $changedFilePath): void
     {
@@ -243,14 +233,14 @@ final class MemberGraphPartialGlobalIndexesBuilderTest extends TestCase
             fqcn: 'App\\Changed',
             kind: OwnerKind::CLASS_,
             fullFilePath: $changedFilePath,
-            virtualFilePath: $changedFilePath . '.virtual.1',
+            virtualFilePath: $changedFilePath.'.virtual.1',
             parentFqcn: 'App\\ChangedParentNew',
         ));
         $snapshot->methods->add(new MethodDeclarationSnapshot(
             ownerFqcn: 'App\\Changed',
             name: 'run',
             fullFilePath: $changedFilePath,
-            virtualFilePath: $changedFilePath . '.virtual.1',
+            virtualFilePath: $changedFilePath.'.virtual.1',
             nativeReturnType: 'App\\ChangedResult',
             parameters: $changedParameters,
         ));
@@ -258,14 +248,14 @@ final class MemberGraphPartialGlobalIndexesBuilderTest extends TestCase
             ownerFqcn: 'App\\Changed',
             name: 'value',
             fullFilePath: $changedFilePath,
-            virtualFilePath: $changedFilePath . '.virtual.1',
+            virtualFilePath: $changedFilePath.'.virtual.1',
             nativeType: 'int',
         ));
         $snapshot->classConstants->add(new ClassConstantDeclarationSnapshot(
             ownerFqcn: 'App\\Changed',
             name: 'VALUE',
             fullFilePath: $changedFilePath,
-            virtualFilePath: $changedFilePath . '.virtual.1',
+            virtualFilePath: $changedFilePath.'.virtual.1',
             scalarValue: 'new',
         ));
     }

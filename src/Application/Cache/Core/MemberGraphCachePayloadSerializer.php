@@ -12,9 +12,7 @@ final readonly class MemberGraphCachePayloadSerializer
     /**
      * Serializes one cache payload.
      *
-     * @param MemberGraphCachePayload $payload The cache payload.
-     *
-     * @return string
+     * @param MemberGraphCachePayload $payload the cache payload
      */
     public function serialize(MemberGraphCachePayload $payload): string
     {
@@ -24,9 +22,7 @@ final readonly class MemberGraphCachePayloadSerializer
     /**
      * Deserializes one cache payload string.
      *
-     * @param string $contents The serialized cache payload contents.
-     *
-     * @return mixed
+     * @param string $contents the serialized cache payload contents
      */
     public function deserialize(string $contents): mixed
     {

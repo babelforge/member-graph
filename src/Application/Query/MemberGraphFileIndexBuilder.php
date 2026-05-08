@@ -14,9 +14,7 @@ final readonly class MemberGraphFileIndexBuilder
     /**
      * Builds the file index.
      *
-     * @param MemberDependencyGraph $graph The member dependency graph.
-     *
-     * @return MemberGraphFileIndex
+     * @param MemberDependencyGraph $graph the member dependency graph
      */
     public function build(MemberDependencyGraph $graph): MemberGraphFileIndex
     {
@@ -46,9 +44,7 @@ final readonly class MemberGraphFileIndexBuilder
     /**
      * Extracts an owner FQCN from a member source symbol.
      *
-     * @param string $sourceSymbol The source symbol.
-     *
-     * @return string
+     * @param string $sourceSymbol the source symbol
      */
     private function ownerFromSourceSymbol(string $sourceSymbol): string
     {

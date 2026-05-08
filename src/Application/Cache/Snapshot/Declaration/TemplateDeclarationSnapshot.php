@@ -12,11 +12,11 @@ final readonly class TemplateDeclarationSnapshot
     /**
      * Constructor.
      *
-     * @param string $scopeId The owner, method, or function scope identifier.
-     * @param string $name The template name.
-     * @param string|null $boundType The resolved template bound type.
-     * @param string|null $defaultType The resolved default template type.
-     * @param string|null $variance The declared template variance when available.
+     * @param string      $scopeId     the owner, method, or function scope identifier
+     * @param string      $name        the template name
+     * @param string|null $boundType   the resolved template bound type
+     * @param string|null $defaultType the resolved default template type
+     * @param string|null $variance    the declared template variance when available
      */
     public function __construct(
         public string $scopeId,

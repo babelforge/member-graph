@@ -24,10 +24,10 @@ final class EffectivePhpDocEnrichmentVisitor extends NodeVisitorAbstract
     private PhpDocTraversalScope $scope;
 
     /**
-     * @param EffectivePhpDocEnricher $effectivePhpDocEnricher The effective PHPDoc enricher.
-     * @param KnownOwnerCollection $knownOwners The known owners collection.
-     * @param string $fullFilePath The original full file path.
-     * @param string $virtualFilePath The virtual file path.
+     * @param EffectivePhpDocEnricher $effectivePhpDocEnricher the effective PHPDoc enricher
+     * @param KnownOwnerCollection    $knownOwners             the known owners collection
+     * @param string                  $fullFilePath            the original full file path
+     * @param string                  $virtualFilePath         the virtual file path
      */
     public function __construct(
         private readonly EffectivePhpDocEnricher $effectivePhpDocEnricher,
@@ -38,9 +38,6 @@ final class EffectivePhpDocEnrichmentVisitor extends NodeVisitorAbstract
         $this->scope = new PhpDocTraversalScope();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function beforeTraverse(array $nodes): ?array
     {
         $this->scope->reset();
@@ -48,10 +45,7 @@ final class EffectivePhpDocEnrichmentVisitor extends NodeVisitorAbstract
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function enterNode(Node $node): null|int|Node|array
+    public function enterNode(Node $node): int|Node|array|null
     {
         if ($node instanceof Namespace_) {
             $this->scope->enterNamespace($node);
@@ -86,10 +80,7 @@ final class EffectivePhpDocEnrichmentVisitor extends NodeVisitorAbstract
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function leaveNode(Node $node): null|int|Node|array
+    public function leaveNode(Node $node): int|Node|array|null
     {
         if ($node instanceof ClassLike) {
             $this->scope->leaveClassLike();
@@ -109,9 +100,7 @@ final class EffectivePhpDocEnrichmentVisitor extends NodeVisitorAbstract
     /**
      * Enriches one class method with an effective PHPDoc.
      *
-     * @param ClassMethod $method The method node.
-     *
-     * @return void
+     * @param ClassMethod $method the method node
      */
     private function enrichClassMethod(ClassMethod $method): void
     {

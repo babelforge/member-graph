@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Tests\Unit;
 
-use JsonException;
 use PhpNoobs\MemberGraph\Application\Topology\Api\MemberGraphTopologyApi;
 use PhpNoobs\MemberGraph\Application\Topology\Export\MemberGraphTopologyArrayExporter;
 use PhpNoobs\MemberGraph\Application\Topology\Export\MemberGraphTopologyJsonExporter;
@@ -34,8 +33,6 @@ final class MemberGraphTopologyApiTest extends TestCase
 {
     /**
      * Ensures the facade builds filtered topology DTOs.
-     *
-     * @return void
      */
     public function testItBuildsFilteredCodebaseTopology(): void
     {
@@ -51,8 +48,6 @@ final class MemberGraphTopologyApiTest extends TestCase
 
     /**
      * Ensures the facade exports filtered topology DTOs to arrays.
-     *
-     * @return void
      */
     public function testItExportsCodebaseTopologyToArray(): void
     {
@@ -73,9 +68,7 @@ final class MemberGraphTopologyApiTest extends TestCase
     /**
      * Ensures the facade exports owner topology DTOs to JSON.
      *
-     * @return void
-     *
-     * @throws JsonException
+     * @throws \JsonException
      */
     public function testItExportsOwnerTopologyToJson(): void
     {
@@ -95,8 +88,6 @@ final class MemberGraphTopologyApiTest extends TestCase
 
     /**
      * Ensures the facade exports member topology DTOs to Mermaid.
-     *
-     * @return void
      */
     public function testItExportsMemberTopologyToMermaid(): void
     {
@@ -116,8 +107,6 @@ final class MemberGraphTopologyApiTest extends TestCase
 
     /**
      * Ensures the facade can export an already built topology.
-     *
-     * @return void
      */
     public function testItExportsExistingTopology(): void
     {
@@ -130,8 +119,6 @@ final class MemberGraphTopologyApiTest extends TestCase
 
     /**
      * Creates a member dependency graph for API tests.
-     *
-     * @return MemberDependencyGraph
      */
     private function createGraph(): MemberDependencyGraph
     {

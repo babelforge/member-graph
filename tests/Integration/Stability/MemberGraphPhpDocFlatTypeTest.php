@@ -4,19 +4,6 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Tests\Integration\Stability;
 
-use PhpNoobs\MemberGraph\Application\Validator\PhpDoc\PhpDocResolutionIssue;
-use PhpNoobs\MemberGraph\Application\Validator\PhpDoc\PhpDocResolutionIssueType;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberOriginType;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberType;
-use PhpNoobs\MemberGraph\Domain\Index\Template\PhpDocTemplateDefinitionCollection;
-use PhpNoobs\MemberGraph\Domain\Type\TypeIndexContext;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Parser\PhpDocParserFactory;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\PhpDocTagKind;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\PhpDocTypeNodeResolver;
-use PhpNoobs\MemberGraph\Infrastructure\UseStatements\UsesByAliasCollection;
-use PhpParser\Modifiers;
-use PHPStan\PhpDocParser\Parser\TokenIterator;
-
 /**
  * Covers migrated legacy member graph stability fixtures.
  */
@@ -24,35 +11,33 @@ final class MemberGraphPhpDocFlatTypeTest extends AbstractMemberGraphStabilityTe
 {
     /**
      * Ensures legacy fixture 14 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testLocalVarPhpDocResolvesVariableType(): void
     {
         $sources = [
             'TestCase14.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase14;
+                namespace TestCase14;
 
-class A
-{
-    public function foo(): void
-    {
-    }
-}
+                class A
+                {
+                    public function foo(): void
+                    {
+                    }
+                }
 
-class B
-{
-    public function run(): void
-    {
-        /** @var A $service */
-        $service = getService();
+                class B
+                {
+                    public function run(): void
+                    {
+                        /** @var A $service */
+                        $service = getService();
 
-        $service->foo();
-    }
-}
-PHP,
+                        $service->foo();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -71,43 +56,39 @@ PHP,
         }
 
         $this->assertTrue($found);
-
-
     }
 
     /**
      * Ensures legacy fixture 15 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testLocalVarPhpDocWithoutVariableNameResolvesAssignedVariableType(): void
     {
         $sources = [
             'TestCase15.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase15;
+                namespace TestCase15;
 
-class A
-{
-    public function foo(): void
-    {
-    }
-}
+                class A
+                {
+                    public function foo(): void
+                    {
+                    }
+                }
 
-class B
-{
-    public function run(): void
-    {
-        /** @var A */
-        $service = getService();
+                class B
+                {
+                    public function run(): void
+                    {
+                        /** @var A */
+                        $service = getService();
 
-        $service->foo();
-    }
-}
+                        $service->foo();
+                    }
+                }
 
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -126,45 +107,41 @@ PHP,
         }
 
         $this->assertTrue($found);
-
-
     }
 
     /**
      * Ensures legacy fixture 16 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testUnsupportedLocalVarPhpDocTypeIsIgnored(): void
     {
         $sources = [
             'TestCase16.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase16;
+                namespace TestCase16;
 
-class A
-{
-    public function foo(): void
-    {
-    }
-}
+                class A
+                {
+                    public function foo(): void
+                    {
+                    }
+                }
 
-class B
-{
-    public function foo(): void
-    {
-    }
+                class B
+                {
+                    public function foo(): void
+                    {
+                    }
 
-    public function run(): void
-    {
-        /** @var A|B $service */
-        $service = getService();
+                    public function run(): void
+                    {
+                        /** @var A|B $service */
+                        $service = getService();
 
-        $service->foo();
-    }
-}
-PHP,
+                        $service->foo();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -205,39 +182,37 @@ PHP,
 
     /**
      * Ensures legacy fixture 35 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testLocalVarPhpDocResolvesImportedShortName(): void
     {
         $sources = [
             'TestCase35.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase35;
+                namespace TestCase35;
 
-use TestCase35\Service\Mailer;
+                use TestCase35\Service\Mailer;
 
-class Runner
-{
-    public function run(): void
-    {
-        /** @var Mailer $mailer */
-        $mailer = getService();
+                class Runner
+                {
+                    public function run(): void
+                    {
+                        /** @var Mailer $mailer */
+                        $mailer = getService();
 
-        $mailer->send();
-    }
-}
+                        $mailer->send();
+                    }
+                }
 
-namespace TestCase35\Service;
+                namespace TestCase35\Service;
 
-class Mailer
-{
-    public function send(): void
-    {
-    }
-}
-PHP,
+                class Mailer
+                {
+                    public function send(): void
+                    {
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -256,46 +231,42 @@ PHP,
         }
 
         $this->assertTrue($found);
-
-
     }
 
     /**
      * Ensures legacy fixture 36 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testLocalVarPhpDocResolvesImportedAlias(): void
     {
         $sources = [
             'TestCase36.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase36;
+                namespace TestCase36;
 
-use TestCase36\Service\Mailer as AppMailer;
+                use TestCase36\Service\Mailer as AppMailer;
 
-class Runner
-{
-    public function run(): void
-    {
-        /** @var AppMailer $mailer */
-        $mailer = getService();
+                class Runner
+                {
+                    public function run(): void
+                    {
+                        /** @var AppMailer $mailer */
+                        $mailer = getService();
 
-        $mailer->send();
-    }
-}
+                        $mailer->send();
+                    }
+                }
 
-namespace TestCase36\Service;
+                namespace TestCase36\Service;
 
-class Mailer
-{
-    public function send(): void
-    {
-    }
-}
+                class Mailer
+                {
+                    public function send(): void
+                    {
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -314,55 +285,52 @@ PHP,
         }
 
         $this->assertTrue($found);
-
     }
 
     /**
      * Ensures legacy fixture 37 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testLocalVarPhpDocResolvesSimpleUnion(): void
     {
         $sources = [
             'TestCase37.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase37;
+                namespace TestCase37;
 
-use TestCase37\Service\Mailer;
-use TestCase37\Service\Notifier;
+                use TestCase37\Service\Mailer;
+                use TestCase37\Service\Notifier;
 
-class Runner
-{
-    public function run(): void
-    {
-        /** @var Mailer|Notifier $service */
-        $service = getService();
+                class Runner
+                {
+                    public function run(): void
+                    {
+                        /** @var Mailer|Notifier $service */
+                        $service = getService();
 
-        $service->send();
-    }
-}
+                        $service->send();
+                    }
+                }
 
-namespace TestCase37\Service;
+                namespace TestCase37\Service;
 
-class Mailer
-{
-    public function send(): void
-    {
-    }
-}
+                class Mailer
+                {
+                    public function send(): void
+                    {
+                    }
+                }
 
-namespace TestCase37\Service;
+                namespace TestCase37\Service;
 
-class Notifier
-{
-    public function send(): void
-    {
-    }
-}
+                class Notifier
+                {
+                    public function send(): void
+                    {
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -384,40 +352,37 @@ PHP,
 
         $this->assertTrue($foundMailer);
         $this->assertTrue($foundNotifier);
-
     }
 
     /**
      * Ensures legacy fixture 38 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testFileTypeIndexesBuilderSupportsMethodReturnUnionTypes(): void
     {
         $sources = [
             'TestCase38.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase38;
+                namespace TestCase38;
 
-class A {}
-class B {}
+                class A {}
+                class B {}
 
-class C
-{
-    public function make(): A|B
-    {
-        return new A();
-    }
+                class C
+                {
+                    public function make(): A|B
+                    {
+                        return new A();
+                    }
 
-    public function run(): void
-    {
-        $x = $this->make();
-        $x->foo();
-    }
-}
+                    public function run(): void
+                    {
+                        $x = $this->make();
+                        $x->foo();
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -439,36 +404,33 @@ PHP,
 
         $this->assertTrue($foundA);
         $this->assertTrue($foundB);
-
     }
 
     /**
      * Ensures legacy fixture 39 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testFileTypeIndexesBuilderSupportsPropertyUnionTypes(): void
     {
         $sources = [
             'TestCase39.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase39;
+                namespace TestCase39;
 
-class A {}
-class B {}
+                class A {}
+                class B {}
 
-class C
-{
-    public A|B $service;
+                class C
+                {
+                    public A|B $service;
 
-    public function run(): void
-    {
-        $this->service->foo();
-    }
-}
+                    public function run(): void
+                    {
+                        $this->service->foo();
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -490,40 +452,37 @@ PHP,
 
         $this->assertTrue($foundA);
         $this->assertTrue($foundB);
-
     }
 
     /**
      * Ensures legacy fixture 40 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testNullableTypesAreReducedToUnderlyingSymbol(): void
     {
         $sources = [
             'TestCase40.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase40;
+                namespace TestCase40;
 
-class A
-{
-    public function foo(): void
-    {
-    }
-}
+                class A
+                {
+                    public function foo(): void
+                    {
+                    }
+                }
 
-class C
-{
-    public ?A $service;
+                class C
+                {
+                    public ?A $service;
 
-    public function run(): void
-    {
-        $this->service->foo();
-    }
-}
+                    public function run(): void
+                    {
+                        $this->service->foo();
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -539,45 +498,42 @@ PHP,
         }
 
         $this->assertTrue($foundA);
-
     }
 
     /**
      * Ensures legacy fixture 42 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testLocalVarPhpDocResolvesNullableType(): void
     {
         $sources = [
             'TestCase42.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase42;
+                namespace TestCase42;
 
-use TestCase42\Service\Mailer;
+                use TestCase42\Service\Mailer;
 
-class Runner
-{
-    public function run(): void
-    {
-        /** @var ?Mailer $mailer */
-        $mailer = getService();
+                class Runner
+                {
+                    public function run(): void
+                    {
+                        /** @var ?Mailer $mailer */
+                        $mailer = getService();
 
-        $mailer->send();
-    }
-}
+                        $mailer->send();
+                    }
+                }
 
-namespace TestCase42\Service;
+                namespace TestCase42\Service;
 
-class Mailer
-{
-    public function send(): void
-    {
-    }
-}
+                class Mailer
+                {
+                    public function send(): void
+                    {
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -593,55 +549,52 @@ PHP,
         }
 
         $this->assertTrue($foundMailer);
-
     }
 
     /**
      * Ensures legacy fixture 43 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testLocalVarPhpDocResolvesAliasedUnion(): void
     {
         $sources = [
             'TestCase43.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase43;
+                namespace TestCase43;
 
-use TestCase43\Service\Mailer as AppMailer;
-use TestCase43\Service\Notifier as AppNotifier;
+                use TestCase43\Service\Mailer as AppMailer;
+                use TestCase43\Service\Notifier as AppNotifier;
 
-class Runner
-{
-    public function run(): void
-    {
-        /** @var AppMailer|AppNotifier $service */
-        $service = getService();
+                class Runner
+                {
+                    public function run(): void
+                    {
+                        /** @var AppMailer|AppNotifier $service */
+                        $service = getService();
 
-        $service->send();
-    }
-}
+                        $service->send();
+                    }
+                }
 
-namespace TestCase43\Service;
+                namespace TestCase43\Service;
 
-class Mailer
-{
-    public function send(): void
-    {
-    }
-}
+                class Mailer
+                {
+                    public function send(): void
+                    {
+                    }
+                }
 
-namespace TestCase43\Service;
+                namespace TestCase43\Service;
 
-class Notifier
-{
-    public function send(): void
-    {
-    }
-}
+                class Notifier
+                {
+                    public function send(): void
+                    {
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -663,55 +616,52 @@ PHP,
 
         $this->assertTrue($foundMailer);
         $this->assertTrue($foundNotifier);
-
     }
 
     /**
      * Ensures legacy fixture 44 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testParamPhpDocUnionResolvesMethodCallTargets(): void
     {
         $sources = [
             'TestCase44.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase44;
+                namespace TestCase44;
 
-use TestCase44\Service\Mailer;
-use TestCase44\Service\Notifier;
+                use TestCase44\Service\Mailer;
+                use TestCase44\Service\Notifier;
 
-class Runner
-{
-    /**
-     * @param Mailer|Notifier $service
-     */
-    public function run($service): void
-    {
-        $service->send();
-    }
-}
+                class Runner
+                {
+                    /**
+                     * @param Mailer|Notifier $service
+                     */
+                    public function run($service): void
+                    {
+                        $service->send();
+                    }
+                }
 
-namespace TestCase44\Service;
+                namespace TestCase44\Service;
 
-class Mailer
-{
-    public function send(): void
-    {
-    }
-}
+                class Mailer
+                {
+                    public function send(): void
+                    {
+                    }
+                }
 
-namespace TestCase44\Service;
+                namespace TestCase44\Service;
 
-class Notifier
-{
-    public function send(): void
-    {
-    }
-}
+                class Notifier
+                {
+                    public function send(): void
+                    {
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -737,56 +687,52 @@ PHP,
 
         $this->assertTrue($foundMailer);
         $this->assertTrue($foundNotifier);
-
-
     }
 
     /**
      * Ensures legacy fixture 45 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testNativeParameterTypeHasPriorityOverParamPhpDoc(): void
     {
         $sources = [
             'TestCase45.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase45;
+                namespace TestCase45;
 
-use TestCase45\Service\Mailer;
-use TestCase45\Service\Notifier;
+                use TestCase45\Service\Mailer;
+                use TestCase45\Service\Notifier;
 
-class Runner
-{
-    /**
-     * @param Notifier $service
-     */
-    public function run(Mailer $service): void
-    {
-        $service->send();
-    }
-}
+                class Runner
+                {
+                    /**
+                     * @param Notifier $service
+                     */
+                    public function run(Mailer $service): void
+                    {
+                        $service->send();
+                    }
+                }
 
-namespace TestCase45\Service;
+                namespace TestCase45\Service;
 
-class Mailer
-{
-    public function send(): void
-    {
-    }
-}
+                class Mailer
+                {
+                    public function send(): void
+                    {
+                    }
+                }
 
-namespace TestCase45\Service;
+                namespace TestCase45\Service;
 
-class Notifier
-{
-    public function send(): void
-    {
-    }
-}
+                class Notifier
+                {
+                    public function send(): void
+                    {
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -812,62 +758,58 @@ PHP,
 
         $this->assertTrue($foundMailer);
         $this->assertFalse($foundNotifier);
-
-
     }
 
     /**
      * Ensures legacy fixture 46 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testReturnPhpDocUnionResolvesMethodCallTargets(): void
     {
         $sources = [
             'TestCase46.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase46;
+                namespace TestCase46;
 
-use TestCase46\Service\Mailer;
-use TestCase46\Service\Notifier;
+                use TestCase46\Service\Mailer;
+                use TestCase46\Service\Notifier;
 
-class Runner
-{
-    /**
-     * @return Mailer|Notifier
-     */
-    public function make()
-    {
-        return getService();
-    }
+                class Runner
+                {
+                    /**
+                     * @return Mailer|Notifier
+                     */
+                    public function make()
+                    {
+                        return getService();
+                    }
 
-    public function run(): void
-    {
-        $service = $this->make();
-        $service->send();
-    }
-}
+                    public function run(): void
+                    {
+                        $service = $this->make();
+                        $service->send();
+                    }
+                }
 
-namespace TestCase46\Service;
+                namespace TestCase46\Service;
 
-class Mailer
-{
-    public function send(): void
-    {
-    }
-}
+                class Mailer
+                {
+                    public function send(): void
+                    {
+                    }
+                }
 
-namespace TestCase46\Service;
+                namespace TestCase46\Service;
 
-class Notifier
-{
-    public function send(): void
-    {
-    }
-}
+                class Notifier
+                {
+                    public function send(): void
+                    {
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -893,62 +835,58 @@ PHP,
 
         $this->assertTrue($foundMailer);
         $this->assertTrue($foundNotifier);
-
-
     }
 
     /**
      * Ensures legacy fixture 47 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testNativeReturnTypeHasPriorityOverReturnPhpDoc(): void
     {
         $sources = [
             'TestCase47.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase47;
+                namespace TestCase47;
 
-use TestCase47\Service\Mailer;
-use TestCase47\Service\Notifier;
+                use TestCase47\Service\Mailer;
+                use TestCase47\Service\Notifier;
 
-class Runner
-{
-    /**
-     * @return Notifier
-     */
-    public function make(): Mailer
-    {
-        return new Mailer();
-    }
+                class Runner
+                {
+                    /**
+                     * @return Notifier
+                     */
+                    public function make(): Mailer
+                    {
+                        return new Mailer();
+                    }
 
-    public function run(): void
-    {
-        $service = $this->make();
-        $service->send();
-    }
-}
+                    public function run(): void
+                    {
+                        $service = $this->make();
+                        $service->send();
+                    }
+                }
 
-namespace TestCase47\Service;
+                namespace TestCase47\Service;
 
-class Mailer
-{
-    public function send(): void
-    {
-    }
-}
+                class Mailer
+                {
+                    public function send(): void
+                    {
+                    }
+                }
 
-namespace TestCase47\Service;
+                namespace TestCase47\Service;
 
-class Notifier
-{
-    public function send(): void
-    {
-    }
-}
+                class Notifier
+                {
+                    public function send(): void
+                    {
+                    }
+                }
 
-PHP,
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -974,47 +912,43 @@ PHP,
 
         $this->assertTrue($foundMailer);
         $this->assertFalse($foundNotifier);
-
-
     }
 
     /**
      * Ensures legacy fixture 143 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testNativeOverridesConflictingPhpDoc(): void
     {
         $sources = [
             'TestCase143.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase143;
+                namespace TestCase143;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Notifier {
-    public function send(): void {}
-}
+                class Notifier {
+                    public function send(): void {}
+                }
 
-class Factory {
-    /**
-     * @return Notifier
-     */
-    public function make(): Mailer {
-        return new Mailer();
-    }
-}
+                class Factory {
+                    /**
+                     * @return Notifier
+                     */
+                    public function make(): Mailer {
+                        return new Mailer();
+                    }
+                }
 
-class TestClass {
-    public function run(): void {
-        $x = (new Factory())->make();
-        $x->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): void {
+                        $x = (new Factory())->make();
+                        $x->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1040,33 +974,31 @@ PHP,
 
     /**
      * Ensures legacy fixture 144 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testNativeUnionIsPreserved(): void
     {
         $sources = [
             'TestCase144.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase144;
+                namespace TestCase144;
 
-class A { public function foo(): void {} }
-class B { public function foo(): void {} }
+                class A { public function foo(): void {} }
+                class B { public function foo(): void {} }
 
-class Factory {
-    public function make(): A|B {
-        return new A();
-    }
-}
+                class Factory {
+                    public function make(): A|B {
+                        return new A();
+                    }
+                }
 
-class TestClass {
-    public function run(): void {
-        $x = (new Factory())->make();
-        $x->foo();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): void {
+                        $x = (new Factory())->make();
+                        $x->foo();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1091,37 +1023,35 @@ PHP,
 
     /**
      * Ensures legacy fixture 146 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testMixedNativeUsesPrecisePhpDoc(): void
     {
         $sources = [
             'TestCase146.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase146;
+                namespace TestCase146;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Factory {
-    /**
-     * @return Mailer
-     */
-    public function make(): mixed {
-        return new Mailer();
-    }
-}
+                class Factory {
+                    /**
+                     * @return Mailer
+                     */
+                    public function make(): mixed {
+                        return new Mailer();
+                    }
+                }
 
-class TestClass {
-    public function run(): void {
-        $x = (new Factory())->make();
-        $x->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): void {
+                        $x = (new Factory())->make();
+                        $x->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1144,37 +1074,35 @@ PHP,
 
     /**
      * Ensures legacy fixture 147 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testNativeMorePreciseThanPhpDoc(): void
     {
         $sources = [
             'TestCase147.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase147;
+                namespace TestCase147;
 
-class Mailer {
-    public function send(): void {}
-}
+                class Mailer {
+                    public function send(): void {}
+                }
 
-class Factory {
-    /**
-     * @return object
-     */
-    public function make(): Mailer {
-        return new Mailer();
-    }
-}
+                class Factory {
+                    /**
+                     * @return object
+                     */
+                    public function make(): Mailer {
+                        return new Mailer();
+                    }
+                }
 
-class TestClass {
-    public function run(): void {
-        $x = (new Factory())->make();
-        $x->send();
-    }
-}
-PHP,
+                class TestClass {
+                    public function run(): void {
+                        $x = (new Factory())->make();
+                        $x->send();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);
@@ -1197,39 +1125,37 @@ PHP,
 
     /**
      * Ensures legacy fixture 154 keeps its member graph behavior stable.
-     *
-     * @return void
      */
     public function testNativeUnionReturnTypeStillWinsOverContradictoryPhpDoc(): void
     {
         $sources = [
             'TestCase154.php' => <<<'PHP'
-<?php
+                <?php
 
-namespace TestCase154;
+                namespace TestCase154;
 
-class A {
-    public function foo(): void {}
-}
+                class A {
+                    public function foo(): void {}
+                }
 
-class B {
-    public function foo(): void {}
-}
+                class B {
+                    public function foo(): void {}
+                }
 
-class C {
-    /**
-     * @return A
-     */
-    public function make(): A|B {
-        return new A();
-    }
+                class C {
+                    /**
+                     * @return A
+                     */
+                    public function make(): A|B {
+                        return new A();
+                    }
 
-    public function run(): void {
-        $x = $this->make();
-        $x->foo();
-    }
-}
-PHP,
+                    public function run(): void {
+                        $x = $this->make();
+                        $x->foo();
+                    }
+                }
+                PHP,
         ];
 
         $memberDependencyGraph = $this->buildGraphFromSources($sources);

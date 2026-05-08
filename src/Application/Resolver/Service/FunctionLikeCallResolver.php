@@ -22,9 +22,9 @@ final readonly class FunctionLikeCallResolver
     /**
      * Constructor.
      *
-     * @param FunctionLikeFlatReturnResolver $flatReturnResolver The flat return resolver.
-     * @param FunctionLikeStructuredCallResolver $structuredCallResolver The structured call resolver.
-     * @param PhpDocValueExtractionStrategyInterface $valueExtractionStrategy The value extraction strategy.
+     * @param FunctionLikeFlatReturnResolver         $flatReturnResolver      the flat return resolver
+     * @param FunctionLikeStructuredCallResolver     $structuredCallResolver  the structured call resolver
+     * @param PhpDocValueExtractionStrategyInterface $valueExtractionStrategy the value extraction strategy
      */
     public function __construct(
         private FunctionLikeFlatReturnResolver $flatReturnResolver,
@@ -36,14 +36,12 @@ final readonly class FunctionLikeCallResolver
     /**
      * Resolves one function-like call to flat symbols.
      *
-     * @param MethodCall|NullsafeMethodCall|StaticCall|FuncCall $expression The call expression.
-     * @param string|null $owner The method owner, or null for functions.
-     * @param string $methodName The method or function name.
-     * @param ExpressionResolutionContext $context The expression resolution context.
-     * @param ExpressionTypeResolverInterface $fallbackResolver The fallback expression resolver.
-     * @param ResolvedPhpDocType|null $receiverStructuredType The receiver structured type.
-     *
-     * @return SymbolCollection
+     * @param MethodCall|NullsafeMethodCall|StaticCall|FuncCall $expression             the call expression
+     * @param string|null                                       $owner                  the method owner, or null for functions
+     * @param string                                            $methodName             the method or function name
+     * @param ExpressionResolutionContext                       $context                the expression resolution context
+     * @param ExpressionTypeResolverInterface                   $fallbackResolver       the fallback expression resolver
+     * @param ResolvedPhpDocType|null                           $receiverStructuredType the receiver structured type
      */
     public function resolveTypes(
         MethodCall|NullsafeMethodCall|StaticCall|FuncCall $expression,
@@ -77,14 +75,12 @@ final readonly class FunctionLikeCallResolver
     /**
      * Resolves one function-like call to one structured PHPDoc type when possible.
      *
-     * @param MethodCall|NullsafeMethodCall|StaticCall|FuncCall $expression The call expression.
-     * @param string|null $owner The method owner, or null for functions.
-     * @param string $methodName The method or function name.
-     * @param ExpressionResolutionContext $context The expression resolution context.
-     * @param ExpressionTypeResolverInterface $fallbackResolver The fallback expression resolver.
-     * @param ResolvedPhpDocType|null $receiverStructuredType The receiver structured type.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param MethodCall|NullsafeMethodCall|StaticCall|FuncCall $expression             the call expression
+     * @param string|null                                       $owner                  the method owner, or null for functions
+     * @param string                                            $methodName             the method or function name
+     * @param ExpressionResolutionContext                       $context                the expression resolution context
+     * @param ExpressionTypeResolverInterface                   $fallbackResolver       the fallback expression resolver
+     * @param ResolvedPhpDocType|null                           $receiverStructuredType the receiver structured type
      */
     public function resolveStructuredType(
         MethodCall|NullsafeMethodCall|StaticCall|FuncCall $expression,

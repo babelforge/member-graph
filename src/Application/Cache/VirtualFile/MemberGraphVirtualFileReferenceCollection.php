@@ -4,17 +4,14 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Application\Cache\VirtualFile;
 
-use Countable;
-use IteratorAggregate;
 use PhpNoobs\PhpSource\VirtualPhpSourceFileCollection;
-use Traversable;
 
 /**
  * Stores virtual file references indexed by virtual file path and physical file path.
  *
- * @implements IteratorAggregate<string, MemberGraphVirtualFileReference>
+ * @implements \IteratorAggregate<string, MemberGraphVirtualFileReference>
  */
-final class MemberGraphVirtualFileReferenceCollection implements Countable, IteratorAggregate
+final class MemberGraphVirtualFileReferenceCollection implements \Countable, \IteratorAggregate
 {
     /**
      * @var array<string, MemberGraphVirtualFileReference>
@@ -29,9 +26,7 @@ final class MemberGraphVirtualFileReferenceCollection implements Countable, Iter
     /**
      * Creates references from loaded virtual files.
      *
-     * @param VirtualPhpSourceFileCollection $virtualFiles The loaded virtual files.
-     *
-     * @return self
+     * @param VirtualPhpSourceFileCollection $virtualFiles the loaded virtual files
      */
     public static function fromVirtualFiles(VirtualPhpSourceFileCollection $virtualFiles): self
     {
@@ -49,9 +44,7 @@ final class MemberGraphVirtualFileReferenceCollection implements Countable, Iter
     /**
      * Adds one virtual file reference.
      *
-     * @param MemberGraphVirtualFileReference $reference The reference to add.
-     *
-     * @return void
+     * @param MemberGraphVirtualFileReference $reference the reference to add
      */
     public function add(MemberGraphVirtualFileReference $reference): void
     {
@@ -62,9 +55,7 @@ final class MemberGraphVirtualFileReferenceCollection implements Countable, Iter
     /**
      * Returns one reference by virtual file path.
      *
-     * @param string $virtualFilePath The virtual file path.
-     *
-     * @return MemberGraphVirtualFileReference|null
+     * @param string $virtualFilePath the virtual file path
      */
     public function getByVirtualFilePath(string $virtualFilePath): ?MemberGraphVirtualFileReference
     {
@@ -74,7 +65,7 @@ final class MemberGraphVirtualFileReferenceCollection implements Countable, Iter
     /**
      * Returns references for one physical file path.
      *
-     * @param string $fullFilePath The physical file path.
+     * @param string $fullFilePath the physical file path
      *
      * @return list<MemberGraphVirtualFileReference>
      */
@@ -96,17 +87,15 @@ final class MemberGraphVirtualFileReferenceCollection implements Countable, Iter
     /**
      * Returns an iterator over references indexed by virtual file path.
      *
-     * @return Traversable<string, MemberGraphVirtualFileReference>
+     * @return \Traversable<string, MemberGraphVirtualFileReference>
      */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         yield from $this->byVirtualFilePath;
     }
 
     /**
      * Counts virtual file references.
-     *
-     * @return int
      */
     public function count(): int
     {

@@ -12,21 +12,16 @@ use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Extractor\ReturnPhpDocTypeExtract
 use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Parser\PhpDocParserFactory;
 
 /**
- * Class PhpDocInheritDocResolverFactory
+ * Class PhpDocInheritDocResolverFactory.
  */
 final readonly class PhpDocInheritDocResolverFactory
 {
     public function __construct(private ?MemberGraphIssueCollection $issues = null)
     {
     }
+
     /**
      * Creates the PhpDocInheritDocResolver.
-     *
-     * @param ParamPhpDocTypeExtractor $paramPhpDocTypeExtractor
-     * @param ReturnPhpDocTypeExtractor $returnPhpDocTypeExtractor
-     * @param PhpDocTemplateDefinitionExtractor $phpDocTemplateDefinitionExtractor
-     *
-     * @return PhpDocInheritDocResolver
      */
     public function createResolver(
         ParamPhpDocTypeExtractor $paramPhpDocTypeExtractor,

@@ -22,8 +22,6 @@ final class MemberGraphDeclarationCallableFlatIndexesBuilderTest extends TestCas
 {
     /**
      * Ensures method and function flat indexes can be rebuilt from declaration snapshots.
-     *
-     * @return void
      */
     public function testItBuildsCallableFlatIndexesFromDeclarationSnapshots(): void
     {

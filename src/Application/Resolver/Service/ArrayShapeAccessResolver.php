@@ -18,7 +18,7 @@ final readonly class ArrayShapeAccessResolver
     /**
      * Constructor.
      *
-     * @param LiteralArrayKeyResolverInterface $literalArrayKeyResolver The literal array key resolver.
+     * @param LiteralArrayKeyResolverInterface $literalArrayKeyResolver the literal array key resolver
      */
     public function __construct(
         private LiteralArrayKeyResolverInterface $literalArrayKeyResolver,
@@ -28,11 +28,9 @@ final readonly class ArrayShapeAccessResolver
     /**
      * Resolves one array access from an already resolved parent type.
      *
-     * @param ResolvedPhpDocType $parentType The parent structured type.
-     * @param Expr|null $dimension The array dimension expression.
-     * @param string $currentClass The current class-like owner.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param ResolvedPhpDocType $parentType   the parent structured type
+     * @param Expr|null          $dimension    the array dimension expression
+     * @param string             $currentClass the current class-like owner
      */
     public function resolve(
         ResolvedPhpDocType $parentType,
@@ -69,11 +67,9 @@ final readonly class ArrayShapeAccessResolver
     /**
      * Resolves one array access against every branch of a structured union.
      *
-     * @param ResolvedPhpDocType $parentType The union-like parent type.
-     * @param Expr|null $dimension The array dimension expression.
-     * @param string $currentClass The current class-like owner.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param ResolvedPhpDocType $parentType   the union-like parent type
+     * @param Expr|null          $dimension    the array dimension expression
+     * @param string             $currentClass the current class-like owner
      */
     private function resolveUnionAccess(
         ResolvedPhpDocType $parentType,
@@ -107,11 +103,9 @@ final readonly class ArrayShapeAccessResolver
     /**
      * Resolves one array-shape field access.
      *
-     * @param ResolvedPhpDocType $parentType The parent shape type.
-     * @param Expr|null $dimension The array dimension expression.
-     * @param string $currentClass The current class-like owner.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param ResolvedPhpDocType $parentType   the parent shape type
+     * @param Expr|null          $dimension    the array dimension expression
+     * @param string             $currentClass the current class-like owner
      */
     private function resolveShapeAccess(
         ResolvedPhpDocType $parentType,
@@ -133,9 +127,7 @@ final readonly class ArrayShapeAccessResolver
     /**
      * Tells whether one symbol is a keyed array-like PHPDoc symbol.
      *
-     * @param mixed $symbol The symbol to inspect.
-     *
-     * @return bool
+     * @param mixed $symbol the symbol to inspect
      */
     private function isKeyedArrayLikeSymbol(mixed $symbol): bool
     {

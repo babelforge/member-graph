@@ -33,19 +33,15 @@ final class MemberGraphCachePlannerTest extends TestCase
 
     /**
      * Prepares an isolated filesystem workspace.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
-        $this->workspace = sys_get_temp_dir() . '/member-graph-cache-planner-' . bin2hex(random_bytes(6));
-        mkdir($this->workspace, 0777, true);
+        $this->workspace = sys_get_temp_dir().'/member-graph-cache-planner-'.bin2hex(random_bytes(6));
+        mkdir($this->workspace, 0o777, true);
     }
 
     /**
      * Removes the isolated filesystem workspace.
-     *
-     * @return void
      */
     protected function tearDown(): void
     {
@@ -54,14 +50,12 @@ final class MemberGraphCachePlannerTest extends TestCase
 
     /**
      * Ensures cache planning classifies fresh, stale, and missing files.
-     *
-     * @return void
      */
     public function testItClassifiesFreshStaleAndMissingFiles(): void
     {
-        $freshFilePath = $this->workspace . '/Fresh.php';
-        $staleFilePath = $this->workspace . '/Stale.php';
-        $missingFilePath = $this->workspace . '/Missing.php';
+        $freshFilePath = $this->workspace.'/Fresh.php';
+        $staleFilePath = $this->workspace.'/Stale.php';
+        $missingFilePath = $this->workspace.'/Missing.php';
         $resolver = new MemberGraphFileFingerprintResolver();
         $state = new MemberGraphCacheState();
         $planner = new MemberGraphCachePlanner($resolver);
@@ -94,12 +88,10 @@ final class MemberGraphCachePlannerTest extends TestCase
 
     /**
      * Ensures cache planning distinguishes missing graph fragments from missing file payloads.
-     *
-     * @return void
      */
     public function testItReportsMissingGraphFragmentsSeparately(): void
     {
-        $filePath = $this->workspace . '/NoFragment.php';
+        $filePath = $this->workspace.'/NoFragment.php';
         $resolver = new MemberGraphFileFingerprintResolver();
         $state = new MemberGraphCacheState();
 
@@ -117,12 +109,10 @@ final class MemberGraphCachePlannerTest extends TestCase
 
     /**
      * Ensures fast path requires fresh fragments, known owners, and virtual file references.
-     *
-     * @return void
      */
     public function testItAllowsFastPathWhenAllRequiredCacheStateIsAvailable(): void
     {
-        $filePath = $this->workspace . '/Fresh.php';
+        $filePath = $this->workspace.'/Fresh.php';
         $resolver = new MemberGraphFileFingerprintResolver();
         $state = new MemberGraphCacheState();
         $references = new MemberGraphVirtualFileReferenceCollection();
@@ -131,7 +121,7 @@ final class MemberGraphCachePlannerTest extends TestCase
         $this->storeFilePayload($state, $filePath, $resolver, $this->createGraphFragment());
         $references->add(new MemberGraphVirtualFileReference(new MemberGraphVirtualFileMetadata(
             fullFilePath: realpath($filePath) ?: $filePath,
-            virtualFilePath: (realpath($filePath) ?: $filePath) . '.virtual.0',
+            virtualFilePath: (realpath($filePath) ?: $filePath).'.virtual.0',
         )));
         $state->setVirtualFileReferences($references);
         $state->setKnownOwners(new KnownOwnerCollection());
@@ -151,12 +141,10 @@ final class MemberGraphCachePlannerTest extends TestCase
 
     /**
      * Ensures a missing global-index input snapshot remains observable without blocking the current fast path.
-     *
-     * @return void
      */
     public function testItReportsMissingGlobalIndexInputSnapshotWithoutBlockingFastPath(): void
     {
-        $filePath = $this->workspace . '/FreshWithoutSnapshot.php';
+        $filePath = $this->workspace.'/FreshWithoutSnapshot.php';
         $resolver = new MemberGraphFileFingerprintResolver();
         $state = new MemberGraphCacheState();
 
@@ -174,12 +162,10 @@ final class MemberGraphCachePlannerTest extends TestCase
 
     /**
      * Ensures an incompatible global-index input snapshot remains observable without blocking the current fast path.
-     *
-     * @return void
      */
     public function testItReportsIncompatibleGlobalIndexInputSnapshotWithoutBlockingFastPath(): void
     {
-        $filePath = $this->workspace . '/FreshWithIncompatibleSnapshot.php';
+        $filePath = $this->workspace.'/FreshWithIncompatibleSnapshot.php';
         $resolver = new MemberGraphFileFingerprintResolver();
         $state = new MemberGraphCacheState();
 
@@ -199,12 +185,10 @@ final class MemberGraphCachePlannerTest extends TestCase
 
     /**
      * Ensures a missing declaration snapshot remains observable without blocking the current fast path.
-     *
-     * @return void
      */
     public function testItReportsMissingDeclarationSnapshotWithoutBlockingFastPath(): void
     {
-        $filePath = $this->workspace . '/FreshWithoutDeclarationSnapshot.php';
+        $filePath = $this->workspace.'/FreshWithoutDeclarationSnapshot.php';
         $resolver = new MemberGraphFileFingerprintResolver();
         $state = new MemberGraphCacheState();
 
@@ -222,12 +206,10 @@ final class MemberGraphCachePlannerTest extends TestCase
 
     /**
      * Ensures an available declaration snapshot removes the declaration snapshot diagnostic.
-     *
-     * @return void
      */
     public function testItReportsAvailableDeclarationSnapshot(): void
     {
-        $filePath = $this->workspace . '/FreshWithDeclarationSnapshot.php';
+        $filePath = $this->workspace.'/FreshWithDeclarationSnapshot.php';
         $resolver = new MemberGraphFileFingerprintResolver();
         $state = new MemberGraphCacheState();
 
@@ -247,12 +229,10 @@ final class MemberGraphCachePlannerTest extends TestCase
     /**
      * Stores one file payload in cache state.
      *
-     * @param MemberGraphCacheState $state The cache state.
-     * @param string $filePath The physical file path.
-     * @param MemberGraphFileFingerprintResolver $resolver The fingerprint resolver.
-     * @param MemberDependencyGraph|null $graphFragment The graph fragment.
-     *
-     * @return void
+     * @param MemberGraphCacheState              $state         the cache state
+     * @param string                             $filePath      the physical file path
+     * @param MemberGraphFileFingerprintResolver $resolver      the fingerprint resolver
+     * @param MemberDependencyGraph|null         $graphFragment the graph fragment
      */
     private function storeFilePayload(
         MemberGraphCacheState $state,
@@ -274,8 +254,6 @@ final class MemberGraphCachePlannerTest extends TestCase
 
     /**
      * Creates an empty graph fragment.
-     *
-     * @return MemberDependencyGraph
      */
     private function createGraphFragment(): MemberDependencyGraph
     {
@@ -293,10 +271,8 @@ final class MemberGraphCachePlannerTest extends TestCase
     /**
      * Stores the non-snapshot cache state required by the current fast path.
      *
-     * @param MemberGraphCacheState $state The cache state.
-     * @param string $filePath The physical file path.
-     *
-     * @return void
+     * @param MemberGraphCacheState $state    the cache state
+     * @param string                $filePath the physical file path
      */
     private function storeRequiredFastPathState(MemberGraphCacheState $state, string $filePath): void
     {
@@ -305,7 +281,7 @@ final class MemberGraphCachePlannerTest extends TestCase
 
         $references->add(new MemberGraphVirtualFileReference(new MemberGraphVirtualFileMetadata(
             fullFilePath: $normalizedFilePath,
-            virtualFilePath: $normalizedFilePath . '.virtual.0',
+            virtualFilePath: $normalizedFilePath.'.virtual.0',
         )));
 
         $state->setVirtualFileReferences($references);
@@ -315,9 +291,7 @@ final class MemberGraphCachePlannerTest extends TestCase
     /**
      * Removes a directory recursively.
      *
-     * @param string $directory The directory to remove.
-     *
-     * @return void
+     * @param string $directory the directory to remove
      */
     private function removeDirectory(string $directory): void
     {
@@ -336,7 +310,7 @@ final class MemberGraphCachePlannerTest extends TestCase
                 continue;
             }
 
-            $path = $directory . DIRECTORY_SEPARATOR . $item;
+            $path = $directory.DIRECTORY_SEPARATOR.$item;
 
             if (is_dir($path)) {
                 $this->removeDirectory($path);

@@ -29,10 +29,10 @@ final readonly class MemberGraphQueryService
     /**
      * Constructor.
      *
-     * @param MemberDependencyGraph $graph The member dependency graph.
-     * @param MemberGraphFileIndex $fileIndex The read-side file index.
-     * @param MemberImpactResolver $impactResolver The impact resolver.
-     * @param MemberUsageSourceResolver $sourceResolver The usage source resolver.
+     * @param MemberDependencyGraph     $graph          the member dependency graph
+     * @param MemberGraphFileIndex      $fileIndex      the read-side file index
+     * @param MemberImpactResolver      $impactResolver the impact resolver
+     * @param MemberUsageSourceResolver $sourceResolver the usage source resolver
      */
     public function __construct(
         private MemberDependencyGraph $graph,
@@ -45,9 +45,7 @@ final readonly class MemberGraphQueryService
     /**
      * Creates a query service from a member dependency graph.
      *
-     * @param MemberDependencyGraph $graph The member dependency graph.
-     *
-     * @return self
+     * @param MemberDependencyGraph $graph the member dependency graph
      */
     public static function fromGraph(MemberDependencyGraph $graph): self
     {
@@ -62,9 +60,7 @@ final readonly class MemberGraphQueryService
     /**
      * Returns one member declaration.
      *
-     * @param MemberId $memberId The member identifier.
-     *
-     * @return MemberDeclaration|null
+     * @param MemberId $memberId the member identifier
      */
     public function declaration(MemberId $memberId): ?MemberDeclaration
     {
@@ -73,8 +69,6 @@ final readonly class MemberGraphQueryService
 
     /**
      * Returns all member declarations.
-     *
-     * @return MemberDeclarationCollection
      */
     public function allDeclarations(): MemberDeclarationCollection
     {
@@ -90,9 +84,7 @@ final readonly class MemberGraphQueryService
     /**
      * Returns declarations owned by the given owner.
      *
-     * @param string $owner The owner FQCN.
-     *
-     * @return MemberDeclarationCollection
+     * @param string $owner the owner FQCN
      */
     public function declarationsOfOwner(string $owner): MemberDeclarationCollection
     {
@@ -110,9 +102,7 @@ final readonly class MemberGraphQueryService
     /**
      * Returns usages targeting one member.
      *
-     * @param MemberId $memberId The member identifier.
-     *
-     * @return MemberUsageCollection
+     * @param MemberId $memberId the member identifier
      */
     public function usagesOfMember(MemberId $memberId): MemberUsageCollection
     {
@@ -127,8 +117,6 @@ final readonly class MemberGraphQueryService
 
     /**
      * Returns all member usages.
-     *
-     * @return MemberUsageCollection
      */
     public function allMemberUsages(): MemberUsageCollection
     {
@@ -146,9 +134,7 @@ final readonly class MemberGraphQueryService
     /**
      * Returns parameter usages targeting one parameter.
      *
-     * @param ParameterId $parameterId The parameter identifier.
-     *
-     * @return ParameterUsageCollection
+     * @param ParameterId $parameterId the parameter identifier
      */
     public function parameterUsagesOf(ParameterId $parameterId): ParameterUsageCollection
     {
@@ -163,8 +149,6 @@ final readonly class MemberGraphQueryService
 
     /**
      * Returns all parameter usages.
-     *
-     * @return ParameterUsageCollection
      */
     public function allParameterUsages(): ParameterUsageCollection
     {
@@ -182,9 +166,7 @@ final readonly class MemberGraphQueryService
     /**
      * Returns available members exposed by one owner.
      *
-     * @param string $owner The owner FQCN.
-     *
-     * @return AvailableMemberCollection
+     * @param string $owner the owner FQCN
      */
     public function availableMembersOf(string $owner): AvailableMemberCollection
     {
@@ -199,8 +181,6 @@ final readonly class MemberGraphQueryService
 
     /**
      * Returns all available members.
-     *
-     * @return AvailableMemberCollection
      */
     public function allAvailableMembers(): AvailableMemberCollection
     {
@@ -217,8 +197,6 @@ final readonly class MemberGraphQueryService
 
     /**
      * Returns all known owners.
-     *
-     * @return KnownOwnerCollection
      */
     public function allOwners(): KnownOwnerCollection
     {
@@ -234,9 +212,7 @@ final readonly class MemberGraphQueryService
     /**
      * Returns all members declared by the given owner.
      *
-     * @param string $owner The owner FQCN.
-     *
-     * @return MemberIdCollection
+     * @param string $owner the owner FQCN
      */
     public function membersOfOwner(string $owner): MemberIdCollection
     {
@@ -254,9 +230,7 @@ final readonly class MemberGraphQueryService
     /**
      * Returns method members declared by the given owner.
      *
-     * @param string $owner The owner FQCN.
-     *
-     * @return MemberIdCollection
+     * @param string $owner the owner FQCN
      */
     public function methodsOfOwner(string $owner): MemberIdCollection
     {
@@ -266,9 +240,7 @@ final readonly class MemberGraphQueryService
     /**
      * Returns property members declared by the given owner.
      *
-     * @param string $owner The owner FQCN.
-     *
-     * @return MemberIdCollection
+     * @param string $owner the owner FQCN
      */
     public function propertiesOfOwner(string $owner): MemberIdCollection
     {
@@ -278,9 +250,7 @@ final readonly class MemberGraphQueryService
     /**
      * Returns class-constant members declared by the given owner.
      *
-     * @param string $owner The owner FQCN.
-     *
-     * @return MemberIdCollection
+     * @param string $owner the owner FQCN
      */
     public function classConstantsOfOwner(string $owner): MemberIdCollection
     {
@@ -289,8 +259,6 @@ final readonly class MemberGraphQueryService
 
     /**
      * Returns all declared functions.
-     *
-     * @return MemberIdCollection
      */
     public function functions(): MemberIdCollection
     {
@@ -308,9 +276,7 @@ final readonly class MemberGraphQueryService
     /**
      * Indicates whether the given member is declared.
      *
-     * @param MemberId $memberId The member identifier.
-     *
-     * @return bool
+     * @param MemberId $memberId the member identifier
      */
     public function hasDeclaration(MemberId $memberId): bool
     {
@@ -320,9 +286,7 @@ final readonly class MemberGraphQueryService
     /**
      * Indicates whether the given member has at least one usage.
      *
-     * @param MemberId $memberId The member identifier.
-     *
-     * @return bool
+     * @param MemberId $memberId the member identifier
      */
     public function hasUsage(MemberId $memberId): bool
     {
@@ -332,9 +296,7 @@ final readonly class MemberGraphQueryService
     /**
      * Indicates whether the given parameter has at least one usage.
      *
-     * @param ParameterId $parameterId The parameter identifier.
-     *
-     * @return bool
+     * @param ParameterId $parameterId the parameter identifier
      */
     public function hasParameterUsage(ParameterId $parameterId): bool
     {
@@ -344,9 +306,7 @@ final readonly class MemberGraphQueryService
     /**
      * Resolves graph impact for one target.
      *
-     * @param MemberImpactTarget $target The impact target.
-     *
-     * @return MemberImpact
+     * @param MemberImpactTarget $target the impact target
      */
     public function impactOf(MemberImpactTarget $target): MemberImpact
     {
@@ -356,9 +316,7 @@ final readonly class MemberGraphQueryService
     /**
      * Returns impacted files for one target.
      *
-     * @param MemberImpactTarget $target The impact target.
-     *
-     * @return ImpactedFileCollection
+     * @param MemberImpactTarget $target the impact target
      */
     public function impactedFilesFor(MemberImpactTarget $target): ImpactedFileCollection
     {
@@ -368,9 +326,7 @@ final readonly class MemberGraphQueryService
     /**
      * Returns files related to one owner.
      *
-     * @param string $owner The owner FQCN.
-     *
-     * @return ImpactedFileCollection
+     * @param string $owner the owner FQCN
      */
     public function filesForOwner(string $owner): ImpactedFileCollection
     {
@@ -380,9 +336,7 @@ final readonly class MemberGraphQueryService
     /**
      * Returns files related to one member.
      *
-     * @param MemberId $memberId The member identifier.
-     *
-     * @return ImpactedFileCollection
+     * @param MemberId $memberId the member identifier
      */
     public function filesForMember(MemberId $memberId): ImpactedFileCollection
     {
@@ -392,9 +346,7 @@ final readonly class MemberGraphQueryService
     /**
      * Returns owners related to one file.
      *
-     * @param string $file The file path.
-     *
-     * @return ImpactedOwnerCollection
+     * @param string $file the file path
      */
     public function ownersInFile(string $file): ImpactedOwnerCollection
     {
@@ -404,9 +356,7 @@ final readonly class MemberGraphQueryService
     /**
      * Returns members related to one file.
      *
-     * @param string $file The file path.
-     *
-     * @return MemberIdCollection
+     * @param string $file the file path
      */
     public function membersInFile(string $file): MemberIdCollection
     {
@@ -415,8 +365,6 @@ final readonly class MemberGraphQueryService
 
     /**
      * Returns all source files known by the read-side file index.
-     *
-     * @return ImpactedFileCollection
      */
     public function sourceFiles(): ImpactedFileCollection
     {
@@ -426,9 +374,7 @@ final readonly class MemberGraphQueryService
     /**
      * Returns exact member dependencies emitted by the given source owner.
      *
-     * @param string $owner The source owner FQCN.
-     *
-     * @return OwnerDependencyCollection
+     * @param string $owner the source owner FQCN
      */
     public function dependenciesOfOwner(string $owner): OwnerDependencyCollection
     {
@@ -448,9 +394,7 @@ final readonly class MemberGraphQueryService
     /**
      * Returns exact member dependencies targeting the given owner.
      *
-     * @param string $owner The target owner FQCN.
-     *
-     * @return OwnerDependencyCollection
+     * @param string $owner the target owner FQCN
      */
     public function reverseDependenciesOfOwner(string $owner): OwnerDependencyCollection
     {
@@ -469,8 +413,6 @@ final readonly class MemberGraphQueryService
 
     /**
      * Builds a read-side owner dependency graph from exact member usages.
-     *
-     * @return OwnerDependencyGraph
      */
     public function ownerDependencyGraph(): OwnerDependencyGraph
     {
@@ -488,9 +430,7 @@ final readonly class MemberGraphQueryService
     /**
      * Returns exact member dependencies emitted by the given source member.
      *
-     * @param MemberId $sourceMember The source member identifier.
-     *
-     * @return MemberDependencyCollection
+     * @param MemberId $sourceMember the source member identifier
      */
     public function dependenciesOfMember(MemberId $sourceMember): MemberDependencyCollection
     {
@@ -512,9 +452,7 @@ final readonly class MemberGraphQueryService
     /**
      * Returns exact member dependencies targeting the given member.
      *
-     * @param MemberId $targetMember The target member identifier.
-     *
-     * @return MemberDependencyCollection
+     * @param MemberId $targetMember the target member identifier
      */
     public function reverseDependenciesOfMember(MemberId $targetMember): MemberDependencyCollection
     {
@@ -533,8 +471,6 @@ final readonly class MemberGraphQueryService
 
     /**
      * Builds a read-side member dependency graph from exact member usages.
-     *
-     * @return MemberLevelDependencyGraph
      */
     public function memberDependencyGraph(): MemberLevelDependencyGraph
     {
@@ -556,10 +492,8 @@ final readonly class MemberGraphQueryService
     /**
      * Returns owner members filtered by member type.
      *
-     * @param string $owner The owner FQCN.
-     * @param MemberType $type The member type.
-     *
-     * @return MemberIdCollection
+     * @param string     $owner the owner FQCN
+     * @param MemberType $type  the member type
      */
     private function membersOfOwnerByType(string $owner, MemberType $type): MemberIdCollection
     {
@@ -577,9 +511,7 @@ final readonly class MemberGraphQueryService
     /**
      * Creates an owner dependency from one member usage.
      *
-     * @param MemberUsage $usage The member usage.
-     *
-     * @return OwnerDependency
+     * @param MemberUsage $usage the member usage
      */
     private function ownerDependencyFromUsage(MemberUsage $usage): OwnerDependency
     {
@@ -594,9 +526,7 @@ final readonly class MemberGraphQueryService
     /**
      * Creates a member dependency from one member usage when the source can be resolved.
      *
-     * @param MemberUsage $usage The member usage.
-     *
-     * @return MemberDependency|null
+     * @param MemberUsage $usage the member usage
      */
     private function memberDependencyFromUsage(MemberUsage $usage): ?MemberDependency
     {
@@ -617,9 +547,7 @@ final readonly class MemberGraphQueryService
     /**
      * Extracts an owner FQCN from a member source symbol.
      *
-     * @param string $sourceSymbol The source symbol.
-     *
-     * @return string
+     * @param string $sourceSymbol the source symbol
      */
     private function ownerFromSourceSymbol(string $sourceSymbol): string
     {

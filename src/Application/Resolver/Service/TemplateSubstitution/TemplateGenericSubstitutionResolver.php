@@ -15,10 +15,8 @@ final readonly class TemplateGenericSubstitutionResolver
     /**
      * Returns whether two structured types expose comparable generic arguments.
      *
-     * @param ResolvedPhpDocType $parameterType The declared parameter type.
-     * @param ResolvedPhpDocType $argumentType The concrete argument type.
-     *
-     * @return bool
+     * @param ResolvedPhpDocType $parameterType the declared parameter type
+     * @param ResolvedPhpDocType $argumentType  the concrete argument type
      */
     public function supports(ResolvedPhpDocType $parameterType, ResolvedPhpDocType $argumentType): bool
     {
@@ -28,12 +26,10 @@ final readonly class TemplateGenericSubstitutionResolver
     /**
      * Collects substitutions from matching generic argument positions.
      *
-     * @param ResolvedPhpDocType $parameterType The declared parameter type.
-     * @param ResolvedPhpDocType $argumentType The concrete argument type.
-     * @param PhpDocTemplateSubstitutionContext $context The mutable substitution context.
-     * @param TemplateArgumentSubstitutionResolver $argumentSubstitutionResolver The recursive argument substitution resolver.
-     *
-     * @return void
+     * @param ResolvedPhpDocType                   $parameterType                the declared parameter type
+     * @param ResolvedPhpDocType                   $argumentType                 the concrete argument type
+     * @param PhpDocTemplateSubstitutionContext    $context                      the mutable substitution context
+     * @param TemplateArgumentSubstitutionResolver $argumentSubstitutionResolver the recursive argument substitution resolver
      */
     public function collect(
         ResolvedPhpDocType $parameterType,

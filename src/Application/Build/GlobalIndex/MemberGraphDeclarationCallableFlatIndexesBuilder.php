@@ -38,9 +38,7 @@ final readonly class MemberGraphDeclarationCallableFlatIndexesBuilder
     /**
      * Builds callable flat indexes.
      *
-     * @param MemberGraphDeclarationSnapshot $declarationSnapshot The declaration snapshot.
-     *
-     * @return MemberGraphDeclarationCallableFlatIndexes
+     * @param MemberGraphDeclarationSnapshot $declarationSnapshot the declaration snapshot
      */
     public function build(MemberGraphDeclarationSnapshot $declarationSnapshot): MemberGraphDeclarationCallableFlatIndexes
     {
@@ -68,11 +66,9 @@ final readonly class MemberGraphDeclarationCallableFlatIndexesBuilder
     /**
      * Registers one method snapshot.
      *
-     * @param MethodDeclarationSnapshot $methodSnapshot The method snapshot.
-     * @param MethodReturnTypeIndex $methodReturnTypeIndex The method return type index.
-     * @param MethodParameterTypeIndex $methodParameterTypeIndex The method parameter type index.
-     *
-     * @return void
+     * @param MethodDeclarationSnapshot $methodSnapshot           the method snapshot
+     * @param MethodReturnTypeIndex     $methodReturnTypeIndex    the method return type index
+     * @param MethodParameterTypeIndex  $methodParameterTypeIndex the method parameter type index
      */
     private function registerMethod(
         MethodDeclarationSnapshot $methodSnapshot,
@@ -121,11 +117,9 @@ final readonly class MemberGraphDeclarationCallableFlatIndexesBuilder
     /**
      * Registers one function snapshot.
      *
-     * @param FunctionDeclarationSnapshot $functionSnapshot The function snapshot.
-     * @param FunctionReturnTypeIndex $functionReturnTypeIndex The function return type index.
-     * @param FunctionParameterTypeIndex $functionParameterTypeIndex The function parameter type index.
-     *
-     * @return void
+     * @param FunctionDeclarationSnapshot $functionSnapshot           the function snapshot
+     * @param FunctionReturnTypeIndex     $functionReturnTypeIndex    the function return type index
+     * @param FunctionParameterTypeIndex  $functionParameterTypeIndex the function parameter type index
      */
     private function registerFunction(
         FunctionDeclarationSnapshot $functionSnapshot,
@@ -172,10 +166,8 @@ final readonly class MemberGraphDeclarationCallableFlatIndexesBuilder
     /**
      * Creates a synthetic method node that preserves the snapshot return type.
      *
-     * @param MethodDeclarationSnapshot $methodSnapshot The method snapshot.
-     * @param list<Param> $parameters The synthetic parameter nodes.
-     *
-     * @return ClassMethod
+     * @param MethodDeclarationSnapshot $methodSnapshot the method snapshot
+     * @param list<Param>               $parameters     the synthetic parameter nodes
      */
     private function methodNode(MethodDeclarationSnapshot $methodSnapshot, array $parameters): ClassMethod
     {
@@ -188,10 +180,8 @@ final readonly class MemberGraphDeclarationCallableFlatIndexesBuilder
     /**
      * Creates a synthetic function node that preserves the snapshot return type.
      *
-     * @param FunctionDeclarationSnapshot $functionSnapshot The function snapshot.
-     * @param list<Param> $parameters The synthetic parameter nodes.
-     *
-     * @return Function_
+     * @param FunctionDeclarationSnapshot $functionSnapshot the function snapshot
+     * @param list<Param>                 $parameters       the synthetic parameter nodes
      */
     private function functionNode(FunctionDeclarationSnapshot $functionSnapshot, array $parameters): Function_
     {
@@ -204,7 +194,7 @@ final readonly class MemberGraphDeclarationCallableFlatIndexesBuilder
     /**
      * Creates synthetic parameter nodes indexed by parameter name.
      *
-     * @param ParameterDeclarationSnapshotCollection $parameterSnapshots The parameter snapshots.
+     * @param ParameterDeclarationSnapshotCollection $parameterSnapshots the parameter snapshots
      *
      * @return array<string, Param>
      */
@@ -222,9 +212,7 @@ final readonly class MemberGraphDeclarationCallableFlatIndexesBuilder
     /**
      * Creates a synthetic parameter node that preserves the snapshot native type.
      *
-     * @param ParameterDeclarationSnapshot $parameterSnapshot The parameter snapshot.
-     *
-     * @return Param
+     * @param ParameterDeclarationSnapshot $parameterSnapshot the parameter snapshot
      */
     private function parameterNode(ParameterDeclarationSnapshot $parameterSnapshot): Param
     {
@@ -237,12 +225,10 @@ final readonly class MemberGraphDeclarationCallableFlatIndexesBuilder
     /**
      * Creates a type index context.
      *
-     * @param string $owner The owner FQCN.
-     * @param string $member The member name.
-     * @param string $fullFilePath The physical file path.
-     * @param string $virtualFilePath The virtual file path.
-     *
-     * @return TypeIndexContext
+     * @param string $owner           the owner FQCN
+     * @param string $member          the member name
+     * @param string $fullFilePath    the physical file path
+     * @param string $virtualFilePath the virtual file path
      */
     private function context(
         string $owner,
@@ -261,10 +247,8 @@ final readonly class MemberGraphDeclarationCallableFlatIndexesBuilder
     /**
      * Converts native or PHPDoc type strings into flat symbols.
      *
-     * @param string|null $nativeType The native type string.
-     * @param string|null $phpDocType The PHPDoc type string.
-     *
-     * @return SymbolCollection
+     * @param string|null $nativeType the native type string
+     * @param string|null $phpDocType the PHPDoc type string
      */
     private function symbolsFromPreferredType(?string $nativeType, ?string $phpDocType): SymbolCollection
     {
@@ -280,9 +264,7 @@ final readonly class MemberGraphDeclarationCallableFlatIndexesBuilder
     /**
      * Converts a compact declaration type string into flat symbols.
      *
-     * @param string|null $typeString The compact declaration type string.
-     *
-     * @return SymbolCollection
+     * @param string|null $typeString the compact declaration type string
      */
     private function symbolsFromTypeString(?string $typeString): SymbolCollection
     {
@@ -302,9 +284,7 @@ final readonly class MemberGraphDeclarationCallableFlatIndexesBuilder
     /**
      * Creates a minimal parser type node from a compact type string.
      *
-     * @param string|null $typeString The compact declaration type string.
-     *
-     * @return ComplexType|Identifier|Name|null
+     * @param string|null $typeString the compact declaration type string
      */
     private function typeNode(?string $typeString): ComplexType|Identifier|Name|null
     {
@@ -342,9 +322,7 @@ final readonly class MemberGraphDeclarationCallableFlatIndexesBuilder
     /**
      * Creates a simple parser type node from one non-compound type string.
      *
-     * @param string $typeString The compact declaration type string.
-     *
-     * @return Identifier|Name|null
+     * @param string $typeString the compact declaration type string
      */
     private function simpleTypeNode(string $typeString): Identifier|Name|null
     {
@@ -362,9 +340,7 @@ final readonly class MemberGraphDeclarationCallableFlatIndexesBuilder
     /**
      * Indicates whether the type string is a native builtin type.
      *
-     * @param string $typeString The compact declaration type string.
-     *
-     * @return bool
+     * @param string $typeString the compact declaration type string
      */
     private function isBuiltinType(string $typeString): bool
     {
@@ -391,9 +367,7 @@ final readonly class MemberGraphDeclarationCallableFlatIndexesBuilder
     /**
      * Extracts the short name from a qualified name.
      *
-     * @param string $qualifiedName The qualified name.
-     *
-     * @return string
+     * @param string $qualifiedName the qualified name
      */
     private function shortName(string $qualifiedName): string
     {

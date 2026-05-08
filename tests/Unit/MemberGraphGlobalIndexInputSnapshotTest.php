@@ -26,8 +26,6 @@ final class MemberGraphGlobalIndexInputSnapshotTest extends TestCase
 {
     /**
      * Ensures virtual source metadata can be created from a known owner.
-     *
-     * @return void
      */
     public function testVirtualSourceMetadataCanBeCreatedFromKnownOwner(): void
     {
@@ -60,8 +58,6 @@ final class MemberGraphGlobalIndexInputSnapshotTest extends TestCase
 
     /**
      * Ensures virtual source metadata collections are indexed by virtual file path.
-     *
-     * @return void
      */
     public function testVirtualSourceMetadataCollectionIndexesByVirtualFilePath(): void
     {
@@ -80,8 +76,6 @@ final class MemberGraphGlobalIndexInputSnapshotTest extends TestCase
 
     /**
      * Ensures snapshots expose compatibility through schema and builder versions.
-     *
-     * @return void
      */
     public function testSnapshotCompatibilityDependsOnSchemaAndBuilderVersions(): void
     {
@@ -96,8 +90,6 @@ final class MemberGraphGlobalIndexInputSnapshotTest extends TestCase
 
     /**
      * Ensures the snapshot builder extracts owner metadata from loaded virtual files.
-     *
-     * @return void
      */
     public function testSnapshotBuilderExtractsOwnerMetadataFromVirtualFiles(): void
     {
@@ -131,8 +123,6 @@ final class MemberGraphGlobalIndexInputSnapshotTest extends TestCase
 
     /**
      * Ensures the snapshot builder keeps source metadata for virtual files without owners.
-     *
-     * @return void
      */
     public function testSnapshotBuilderKeepsSourceMetadataWithoutOwner(): void
     {

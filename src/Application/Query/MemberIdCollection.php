@@ -4,17 +4,14 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Application\Query;
 
-use Countable;
-use IteratorAggregate;
 use PhpNoobs\MemberGraph\Domain\Graph\MemberId;
-use Traversable;
 
 /**
  * Stores member identifiers without duplicates.
  *
- * @implements IteratorAggregate<int, MemberId>
+ * @implements \IteratorAggregate<int, MemberId>
  */
-final class MemberIdCollection implements Countable, IteratorAggregate
+final class MemberIdCollection implements \Countable, \IteratorAggregate
 {
     /**
      * @var array<string, MemberId>
@@ -24,9 +21,7 @@ final class MemberIdCollection implements Countable, IteratorAggregate
     /**
      * Adds one member identifier.
      *
-     * @param MemberId $memberId The member identifier to add.
-     *
-     * @return void
+     * @param MemberId $memberId the member identifier to add
      */
     public function add(MemberId $memberId): void
     {
@@ -46,9 +41,7 @@ final class MemberIdCollection implements Countable, IteratorAggregate
     /**
      * Indicates whether the collection contains the given member.
      *
-     * @param MemberId $memberId The member identifier to test.
-     *
-     * @return bool
+     * @param MemberId $memberId the member identifier to test
      */
     public function contains(MemberId $memberId): bool
     {
@@ -58,17 +51,15 @@ final class MemberIdCollection implements Countable, IteratorAggregate
     /**
      * Returns an iterator over member identifiers.
      *
-     * @return Traversable<int, MemberId>
+     * @return \Traversable<int, MemberId>
      */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         yield from $this->all();
     }
 
     /**
      * Counts member identifiers.
-     *
-     * @return int
      */
     public function count(): int
     {

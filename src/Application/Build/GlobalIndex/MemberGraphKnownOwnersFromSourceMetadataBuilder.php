@@ -16,9 +16,7 @@ final readonly class MemberGraphKnownOwnersFromSourceMetadataBuilder
     /**
      * Builds the known owner collection.
      *
-     * @param MemberGraphVirtualSourceMetadataCollection $sourceMetadata The source metadata collection.
-     *
-     * @return KnownOwnerCollection
+     * @param MemberGraphVirtualSourceMetadataCollection $sourceMetadata the source metadata collection
      */
     public function build(MemberGraphVirtualSourceMetadataCollection $sourceMetadata): KnownOwnerCollection
     {

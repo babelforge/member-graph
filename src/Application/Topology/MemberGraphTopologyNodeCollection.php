@@ -4,16 +4,12 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Application\Topology;
 
-use Countable;
-use IteratorAggregate;
-use Traversable;
-
 /**
  * Stores topology nodes without duplicates.
  *
- * @implements IteratorAggregate<string, MemberGraphTopologyNode>
+ * @implements \IteratorAggregate<string, MemberGraphTopologyNode>
  */
-final class MemberGraphTopologyNodeCollection implements Countable, IteratorAggregate
+final class MemberGraphTopologyNodeCollection implements \Countable, \IteratorAggregate
 {
     /**
      * @var array<string, MemberGraphTopologyNode>
@@ -23,9 +19,7 @@ final class MemberGraphTopologyNodeCollection implements Countable, IteratorAggr
     /**
      * Adds one topology node, keeping the shortest observed depth.
      *
-     * @param MemberGraphTopologyNode $node The topology node to add.
-     *
-     * @return void
+     * @param MemberGraphTopologyNode $node the topology node to add
      */
     public function add(MemberGraphTopologyNode $node): void
     {
@@ -41,9 +35,7 @@ final class MemberGraphTopologyNodeCollection implements Countable, IteratorAggr
     /**
      * Returns one topology node by identifier.
      *
-     * @param string $id The topology node identifier.
-     *
-     * @return MemberGraphTopologyNode|null
+     * @param string $id the topology node identifier
      */
     public function get(string $id): ?MemberGraphTopologyNode
     {
@@ -53,9 +45,7 @@ final class MemberGraphTopologyNodeCollection implements Countable, IteratorAggr
     /**
      * Indicates whether the collection contains the given topology node identifier.
      *
-     * @param string $id The topology node identifier.
-     *
-     * @return bool
+     * @param string $id the topology node identifier
      */
     public function contains(string $id): bool
     {
@@ -75,17 +65,15 @@ final class MemberGraphTopologyNodeCollection implements Countable, IteratorAggr
     /**
      * Returns an iterator over topology nodes.
      *
-     * @return Traversable<string, MemberGraphTopologyNode>
+     * @return \Traversable<string, MemberGraphTopologyNode>
      */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         yield from $this->nodes;
     }
 
     /**
      * Counts topology nodes.
-     *
-     * @return int
      */
     public function count(): int
     {

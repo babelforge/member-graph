@@ -15,9 +15,9 @@ final readonly class FunctionLikeStructuredReturnResolver
     /**
      * Constructor.
      *
-     * @param MethodStructuredReturnResolver $methodStructuredReturnResolver The method return resolver.
-     * @param FunctionStructuredReturnResolver $functionStructuredReturnResolver The function return resolver.
-     * @param NativeReturnTypePriorityResolver $nativeReturnTypePriorityResolver The native priority resolver.
+     * @param MethodStructuredReturnResolver   $methodStructuredReturnResolver   the method return resolver
+     * @param FunctionStructuredReturnResolver $functionStructuredReturnResolver the function return resolver
+     * @param NativeReturnTypePriorityResolver $nativeReturnTypePriorityResolver the native priority resolver
      */
     public function __construct(
         private MethodStructuredReturnResolver $methodStructuredReturnResolver,
@@ -29,11 +29,9 @@ final readonly class FunctionLikeStructuredReturnResolver
     /**
      * Returns the native return metadata of one function-like element.
      *
-     * @param string|null $owner The owner FQCN for methods, or null for functions.
-     * @param string $methodName The method or function name.
-     * @param bool $isMethodLike Whether the target is method-like.
-     *
-     * @return FunctionLikeReturnType|null
+     * @param string|null $owner        the owner FQCN for methods, or null for functions
+     * @param string      $methodName   the method or function name
+     * @param bool        $isMethodLike whether the target is method-like
      */
     public function resolveReturnTypeDetails(
         ?string $owner,
@@ -50,11 +48,9 @@ final readonly class FunctionLikeStructuredReturnResolver
     /**
      * Returns the structured return type of one function-like element.
      *
-     * @param string|null $owner The owner FQCN for methods, or null for functions.
-     * @param string $methodName The method or function name.
-     * @param bool $isMethodLike Whether the target is method-like.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param string|null $owner        the owner FQCN for methods, or null for functions
+     * @param string      $methodName   the method or function name
+     * @param bool        $isMethodLike whether the target is method-like
      */
     public function resolveStructuredReturnType(
         ?string $owner,
@@ -71,10 +67,8 @@ final readonly class FunctionLikeStructuredReturnResolver
     /**
      * Returns whether the native return type should override the structured PHPDoc return type.
      *
-     * @param FunctionLikeReturnType|null $details The native return metadata.
-     * @param ResolvedPhpDocType $structuredReturnType The structured return type.
-     *
-     * @return bool
+     * @param FunctionLikeReturnType|null $details              the native return metadata
+     * @param ResolvedPhpDocType          $structuredReturnType the structured return type
      */
     public function shouldUseNativeReturnTypeForStructuredResolution(
         ?FunctionLikeReturnType $details,
@@ -89,10 +83,8 @@ final readonly class FunctionLikeStructuredReturnResolver
     /**
      * Returns whether non-template structured returns can be consumed directly by value extraction.
      *
-     * @param FunctionLikeReturnType|null $details The native return metadata.
-     * @param bool $isMethodLike Whether the target is method-like.
-     *
-     * @return bool
+     * @param FunctionLikeReturnType|null $details      the native return metadata
+     * @param bool                        $isMethodLike whether the target is method-like
      */
     public function shouldUseValueExtractionStrategy(
         ?FunctionLikeReturnType $details,

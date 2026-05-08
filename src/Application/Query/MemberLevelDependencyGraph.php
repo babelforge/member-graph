@@ -34,9 +34,7 @@ final class MemberLevelDependencyGraph
     /**
      * Creates a member dependency graph from a member dependency collection.
      *
-     * @param MemberDependencyCollection $dependencies The dependencies to index.
-     *
-     * @return self
+     * @param MemberDependencyCollection $dependencies the dependencies to index
      */
     public static function fromDependencies(MemberDependencyCollection $dependencies): self
     {
@@ -52,9 +50,7 @@ final class MemberLevelDependencyGraph
     /**
      * Adds one dependency to the graph.
      *
-     * @param MemberDependency $dependency The dependency to add.
-     *
-     * @return void
+     * @param MemberDependency $dependency the dependency to add
      */
     public function add(MemberDependency $dependency): void
     {
@@ -66,8 +62,6 @@ final class MemberLevelDependencyGraph
 
     /**
      * Returns all member nodes found in the graph.
-     *
-     * @return MemberIdCollection
      */
     public function nodes(): MemberIdCollection
     {
@@ -83,9 +77,7 @@ final class MemberLevelDependencyGraph
     /**
      * Returns direct outgoing dependencies for one member.
      *
-     * @param MemberId $memberId The source member identifier.
-     *
-     * @return MemberDependencyCollection
+     * @param MemberId $memberId the source member identifier
      */
     public function outgoing(MemberId $memberId): MemberDependencyCollection
     {
@@ -95,9 +87,7 @@ final class MemberLevelDependencyGraph
     /**
      * Returns direct outgoing dependencies for one member.
      *
-     * @param string $memberHash The source member hash.
-     *
-     * @return MemberDependencyCollection
+     * @param string $memberHash the source member hash
      */
     public function outgoingByHash(string $memberHash): MemberDependencyCollection
     {
@@ -107,9 +97,7 @@ final class MemberLevelDependencyGraph
     /**
      * Returns direct incoming dependencies for one member.
      *
-     * @param MemberId $memberId The target member identifier.
-     *
-     * @return MemberDependencyCollection
+     * @param MemberId $memberId the target member identifier
      */
     public function incoming(MemberId $memberId): MemberDependencyCollection
     {
@@ -119,9 +107,7 @@ final class MemberLevelDependencyGraph
     /**
      * Returns direct incoming dependencies for one member.
      *
-     * @param string $memberHash The target member hash.
-     *
-     * @return MemberDependencyCollection
+     * @param string $memberHash the target member hash
      */
     public function incomingByHash(string $memberHash): MemberDependencyCollection
     {
@@ -131,9 +117,7 @@ final class MemberLevelDependencyGraph
     /**
      * Returns transitive outgoing dependencies reachable from one member.
      *
-     * @param MemberId $memberId The source member identifier.
-     *
-     * @return MemberDependencyCollection
+     * @param MemberId $memberId the source member identifier
      */
     public function transitiveOutgoing(MemberId $memberId): MemberDependencyCollection
     {
@@ -143,9 +127,7 @@ final class MemberLevelDependencyGraph
     /**
      * Returns transitive outgoing dependencies reachable from one member.
      *
-     * @param string $memberHash The source member hash.
-     *
-     * @return MemberDependencyCollection
+     * @param string $memberHash the source member hash
      */
     public function transitiveOutgoingByHash(string $memberHash): MemberDependencyCollection
     {
@@ -160,9 +142,7 @@ final class MemberLevelDependencyGraph
     /**
      * Returns transitive incoming dependencies reaching one member.
      *
-     * @param MemberId $memberId The target member identifier.
-     *
-     * @return MemberDependencyCollection
+     * @param MemberId $memberId the target member identifier
      */
     public function transitiveIncoming(MemberId $memberId): MemberDependencyCollection
     {
@@ -172,9 +152,7 @@ final class MemberLevelDependencyGraph
     /**
      * Returns transitive incoming dependencies reaching one member.
      *
-     * @param string $memberHash The target member hash.
-     *
-     * @return MemberDependencyCollection
+     * @param string $memberHash the target member hash
      */
     public function transitiveIncomingByHash(string $memberHash): MemberDependencyCollection
     {
@@ -189,11 +167,9 @@ final class MemberLevelDependencyGraph
     /**
      * Recursively collects outgoing dependencies while preventing member cycles.
      *
-     * @param string $memberHash The member currently being explored.
-     * @param array<string, true> $visitedMembers The already visited members.
-     * @param MemberDependencyCollection $dependencies The dependency accumulator.
-     *
-     * @return void
+     * @param string                     $memberHash     the member currently being explored
+     * @param array<string, true>        $visitedMembers the already visited members
+     * @param MemberDependencyCollection $dependencies   the dependency accumulator
      */
     private function collectTransitiveOutgoing(
         string $memberHash,
@@ -217,11 +193,9 @@ final class MemberLevelDependencyGraph
     /**
      * Recursively collects incoming dependencies while preventing member cycles.
      *
-     * @param string $memberHash The member currently being explored.
-     * @param array<string, true> $visitedMembers The already visited members.
-     * @param MemberDependencyCollection $dependencies The dependency accumulator.
-     *
-     * @return void
+     * @param string                     $memberHash     the member currently being explored
+     * @param array<string, true>        $visitedMembers the already visited members
+     * @param MemberDependencyCollection $dependencies   the dependency accumulator
      */
     private function collectTransitiveIncoming(
         string $memberHash,
@@ -245,9 +219,7 @@ final class MemberLevelDependencyGraph
     /**
      * Returns the outgoing collection for one member hash, creating it when needed.
      *
-     * @param string $memberHash The member hash.
-     *
-     * @return MemberDependencyCollection
+     * @param string $memberHash the member hash
      */
     private function outgoingCollectionFor(string $memberHash): MemberDependencyCollection
     {
@@ -257,9 +229,7 @@ final class MemberLevelDependencyGraph
     /**
      * Returns the incoming collection for one member hash, creating it when needed.
      *
-     * @param string $memberHash The member hash.
-     *
-     * @return MemberDependencyCollection
+     * @param string $memberHash the member hash
      */
     private function incomingCollectionFor(string $memberHash): MemberDependencyCollection
     {
@@ -269,9 +239,7 @@ final class MemberLevelDependencyGraph
     /**
      * Copies dependencies into a detached collection.
      *
-     * @param MemberDependencyCollection $dependencies The dependencies to copy.
-     *
-     * @return MemberDependencyCollection
+     * @param MemberDependencyCollection $dependencies the dependencies to copy
      */
     private function copyDependencies(MemberDependencyCollection $dependencies): MemberDependencyCollection
     {

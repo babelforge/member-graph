@@ -12,9 +12,7 @@ final readonly class MemberGraphCachePayloadMigrator
     /**
      * Migrates one payload when the source schema is supported.
      *
-     * @param MemberGraphCachePayload $payload The payload to migrate.
-     *
-     * @return MemberGraphCachePayloadMigrationResult
+     * @param MemberGraphCachePayload $payload the payload to migrate
      */
     public function migrate(MemberGraphCachePayload $payload): MemberGraphCachePayloadMigrationResult
     {

@@ -17,11 +17,9 @@ final readonly class TemplateSubstitutionMerger
     /**
      * Adds one template substitution, preserving multiple discovered branches as a union.
      *
-     * @param PhpDocTemplateSubstitutionContext $context The mutable substitution context.
-     * @param string $templateName The template name.
-     * @param ResolvedPhpDocType $resolvedType The resolved template type.
-     *
-     * @return void
+     * @param PhpDocTemplateSubstitutionContext $context      the mutable substitution context
+     * @param string                            $templateName the template name
+     * @param ResolvedPhpDocType                $resolvedType the resolved template type
      */
     public function set(
         PhpDocTemplateSubstitutionContext $context,
@@ -56,10 +54,8 @@ final readonly class TemplateSubstitutionMerger
     /**
      * Adds one resolved type or its union branches to a substitution collection.
      *
-     * @param ResolvedPhpDocTypeCollection $target The target collection.
-     * @param ResolvedPhpDocType $type The type to add.
-     *
-     * @return void
+     * @param ResolvedPhpDocTypeCollection $target the target collection
+     * @param ResolvedPhpDocType           $type   the type to add
      */
     private function addBranches(ResolvedPhpDocTypeCollection $target, ResolvedPhpDocType $type): void
     {

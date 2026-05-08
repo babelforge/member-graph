@@ -15,7 +15,7 @@ use PhpParser\Comment\Doc;
 final readonly class EffectivePhpDocRenderer
 {
     /**
-     * @param ResolvedPhpDocNodeRenderer $resolvedPhpDocNodeRenderer The resolved PHPDoc type renderer.
+     * @param ResolvedPhpDocNodeRenderer $resolvedPhpDocNodeRenderer the resolved PHPDoc type renderer
      */
     public function __construct(
         private ResolvedPhpDocNodeRenderer $resolvedPhpDocNodeRenderer = new ResolvedPhpDocNodeRenderer(),
@@ -30,10 +30,8 @@ final readonly class EffectivePhpDocRenderer
      * - local templates with the same name override outer templates
      * - the source doc text is preserved as much as possible
      *
-     * @param Doc|null $baseDoc The base doc.
-     * @param PhpDocTemplateDefinitionCollection $visibleTemplates The visible templates.
-     *
-     * @return Doc|null
+     * @param Doc|null                           $baseDoc          the base doc
+     * @param PhpDocTemplateDefinitionCollection $visibleTemplates the visible templates
      */
     public function mergeTemplatesIntoDoc(
         ?Doc $baseDoc,
@@ -68,7 +66,7 @@ final readonly class EffectivePhpDocRenderer
         $lines = ['/**'];
 
         foreach ($mergedTemplates as $templateLine) {
-            $lines[] = ' * ' . $templateLine;
+            $lines[] = ' * '.$templateLine;
         }
 
         foreach ($baseLines as $line) {
@@ -78,7 +76,7 @@ final readonly class EffectivePhpDocRenderer
                 continue;
             }
 
-            $lines[] = ' * ' . $line;
+            $lines[] = ' * '.$line;
         }
 
         $lines[] = ' */';
@@ -89,7 +87,7 @@ final readonly class EffectivePhpDocRenderer
     /**
      * Extracts the significant lines of one doc comment.
      *
-     * @param Doc $doc The doc comment to normalize.
+     * @param Doc $doc the doc comment to normalize
      *
      * @return string[]
      */
@@ -119,7 +117,7 @@ final readonly class EffectivePhpDocRenderer
     /**
      * Groups raw doc lines by tag kind.
      *
-     * @param string[] $lines The normalized doc lines.
+     * @param string[] $lines the normalized doc lines
      *
      * @return array<string, string[]>
      */
@@ -146,9 +144,7 @@ final readonly class EffectivePhpDocRenderer
     /**
      * Extracts one template name from one rendered template line.
      *
-     * @param string $line The template line.
-     *
-     * @return string|null
+     * @param string $line the template line
      */
     private function extractTemplateName(string $line): ?string
     {
@@ -162,19 +158,17 @@ final readonly class EffectivePhpDocRenderer
     /**
      * Renders one template definition back to one doc line.
      *
-     * @param PhpDocTemplateDefinition $templateDefinition The template definition.
-     *
-     * @return string
+     * @param PhpDocTemplateDefinition $templateDefinition the template definition
      */
     private function renderTemplateDefinition(PhpDocTemplateDefinition $templateDefinition): string
     {
-        $line = '@template ' . $templateDefinition->name;
+        $line = '@template '.$templateDefinition->name;
 
         if ($templateDefinition->bound instanceof ResolvedPhpDocType && $this->isRenderableBound($templateDefinition->bound)) {
             $bound = $this->resolvedPhpDocNodeRenderer->toDocString($templateDefinition->bound);
 
             if ('' !== $bound) {
-                $line .= ' of ' . $bound;
+                $line .= ' of '.$bound;
             }
         }
 
@@ -184,9 +178,7 @@ final readonly class EffectivePhpDocRenderer
     /**
      * Returns whether one template bound can be rendered back to PHPDoc.
      *
-     * @param ResolvedPhpDocType|null $bound The bound to inspect.
-     *
-     * @return bool
+     * @param ResolvedPhpDocType|null $bound the bound to inspect
      */
     private function isRenderableBound(?ResolvedPhpDocType $bound): bool
     {

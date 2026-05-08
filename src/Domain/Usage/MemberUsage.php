@@ -15,11 +15,11 @@ final readonly class MemberUsage
     /**
      * Constructor.
      *
-     * @param string $sourceSymbol The symbol where the usage appears.
-     * @param MemberId $target The targeted member.
-     * @param MemberUsageType $type The usage type.
-     * @param string $file The virtual file path containing the usage.
-     * @param SourceNodeId|null $sourceNodeId The source node identifier when available.
+     * @param string            $sourceSymbol the symbol where the usage appears
+     * @param MemberId          $target       the targeted member
+     * @param MemberUsageType   $type         the usage type
+     * @param string            $file         the virtual file path containing the usage
+     * @param SourceNodeId|null $sourceNodeId the source node identifier when available
      */
     public function __construct(
         public string $sourceSymbol,

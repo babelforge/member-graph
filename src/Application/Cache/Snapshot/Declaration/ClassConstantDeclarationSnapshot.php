@@ -12,14 +12,14 @@ final readonly class ClassConstantDeclarationSnapshot
     /**
      * Constructor.
      *
-     * @param string $ownerFqcn The declaring owner FQCN.
-     * @param string $name The constant name.
-     * @param string $fullFilePath The physical file path.
-     * @param string $virtualFilePath The virtual file path.
-     * @param string|null $nativeType The native constant type.
-     * @param string|null $phpDocType The resolved PHPDoc constant type.
-     * @param int|string|null $scalarValue The supported scalar value.
-     * @param bool $isEnumCase Whether the declaration is an enum case.
+     * @param string          $ownerFqcn       the declaring owner FQCN
+     * @param string          $name            the constant name
+     * @param string          $fullFilePath    the physical file path
+     * @param string          $virtualFilePath the virtual file path
+     * @param string|null     $nativeType      the native constant type
+     * @param string|null     $phpDocType      the resolved PHPDoc constant type
+     * @param int|string|null $scalarValue     the supported scalar value
+     * @param bool            $isEnumCase      whether the declaration is an enum case
      */
     public function __construct(
         public string $ownerFqcn,

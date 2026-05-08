@@ -14,8 +14,8 @@ final readonly class MemberGraphVirtualFileMetadata
     /**
      * Constructor.
      *
-     * @param string $fullFilePath The physical file path.
-     * @param string $virtualFilePath The virtual file path.
+     * @param string $fullFilePath    the physical file path
+     * @param string $virtualFilePath the virtual file path
      */
     public function __construct(
         public string $fullFilePath,
@@ -26,9 +26,7 @@ final readonly class MemberGraphVirtualFileMetadata
     /**
      * Creates metadata from a loaded virtual registry file.
      *
-     * @param VirtualPhpSourceFile $virtualFile The loaded virtual registry file.
-     *
-     * @return self
+     * @param VirtualPhpSourceFile $virtualFile the loaded virtual registry file
      */
     public static function fromVirtualFile(VirtualPhpSourceFile $virtualFile): self
     {

@@ -4,15 +4,12 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Domain\Index\Constant;
 
-use IteratorAggregate;
-use Traversable;
-
 /**
  * Stores class constant owners.
  *
- * @implements IteratorAggregate<string, string>
+ * @implements \IteratorAggregate<string, string>
  */
-final class ClassConstantTypeIndex implements IteratorAggregate
+final class ClassConstantTypeIndex implements \IteratorAggregate
 {
     /**
      * @var array<string, string>
@@ -22,10 +19,8 @@ final class ClassConstantTypeIndex implements IteratorAggregate
     /**
      * Stores one class constant owner.
      *
-     * @param string $owner The declaring owner FQCN.
-     * @param string $constantName The constant name.
-     *
-     * @return void
+     * @param string $owner        the declaring owner FQCN
+     * @param string $constantName the constant name
      */
     public function set(string $owner, string $constantName): void
     {
@@ -42,10 +37,8 @@ final class ClassConstantTypeIndex implements IteratorAggregate
     /**
      * Returns the declaring owner for one class constant.
      *
-     * @param string $owner The starting owner FQCN.
-     * @param string $constantName The constant name.
-     *
-     * @return string|null
+     * @param string $owner        the starting owner FQCN
+     * @param string $constantName the constant name
      */
     public function get(string $owner, string $constantName): ?string
     {
@@ -55,20 +48,15 @@ final class ClassConstantTypeIndex implements IteratorAggregate
     /**
      * Builds the internal key.
      *
-     * @param string $owner The owner FQCN.
-     * @param string $constantName The constant name.
-     *
-     * @return string
+     * @param string $owner        the owner FQCN
+     * @param string $constantName the constant name
      */
     private function buildKey(string $owner, string $constantName): string
     {
-        return $owner . '::' . $constantName;
+        return $owner.'::'.$constantName;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         yield from $this->items;
     }

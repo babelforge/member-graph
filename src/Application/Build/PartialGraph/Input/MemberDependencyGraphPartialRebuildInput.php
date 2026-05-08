@@ -18,12 +18,12 @@ final readonly class MemberDependencyGraphPartialRebuildInput
     /**
      * Constructor.
      *
-     * @param MemberGraphCacheFileCollection $filesToBuild Files that must be rebuilt from source.
-     * @param MemberGraphFragmentCollection $fragmentsToReuse Cached graph fragments that can be reused.
-     * @param MemberGraphGlobalIndexInputSnapshot $globalIndexInputSnapshot The cached global-index input snapshot.
-     * @param MemberGraphVirtualFileReferenceCollection $virtualFileReferences Cached virtual file references.
-     * @param KnownOwnerCollection $knownOwners Cached known owners.
-     * @param MemberGraphCacheFileCollection $filesToDelete Cached files that must be removed from the graph.
+     * @param MemberGraphCacheFileCollection            $filesToBuild             files that must be rebuilt from source
+     * @param MemberGraphFragmentCollection             $fragmentsToReuse         cached graph fragments that can be reused
+     * @param MemberGraphGlobalIndexInputSnapshot       $globalIndexInputSnapshot the cached global-index input snapshot
+     * @param MemberGraphVirtualFileReferenceCollection $virtualFileReferences    cached virtual file references
+     * @param KnownOwnerCollection                      $knownOwners              cached known owners
+     * @param MemberGraphCacheFileCollection            $filesToDelete            cached files that must be removed from the graph
      */
     public function __construct(
         public MemberGraphCacheFileCollection $filesToBuild,

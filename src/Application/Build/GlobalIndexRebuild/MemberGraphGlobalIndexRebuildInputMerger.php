@@ -14,10 +14,8 @@ final readonly class MemberGraphGlobalIndexRebuildInputMerger
     /**
      * Builds the complete source metadata view for a future global-index rebuild.
      *
-     * @param MemberGraphGlobalIndexRebuildInput $rebuildInput The rebuild input.
-     * @param MemberGraphLoadedSourceMetadata $loadedSourceMetadata The metadata loaded from rebuilt files.
-     *
-     * @return MemberGraphVirtualSourceMetadataCollection
+     * @param MemberGraphGlobalIndexRebuildInput $rebuildInput         the rebuild input
+     * @param MemberGraphLoadedSourceMetadata    $loadedSourceMetadata the metadata loaded from rebuilt files
      */
     public function merge(
         MemberGraphGlobalIndexRebuildInput $rebuildInput,

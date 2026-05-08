@@ -4,16 +4,12 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Application\Cache\Snapshot\Declaration;
 
-use Countable;
-use IteratorAggregate;
-use Traversable;
-
 /**
  * Stores class constant declaration snapshots indexed by owner and constant name.
  *
- * @implements IteratorAggregate<string, ClassConstantDeclarationSnapshot>
+ * @implements \IteratorAggregate<string, ClassConstantDeclarationSnapshot>
  */
-final class ClassConstantDeclarationSnapshotCollection implements Countable, IteratorAggregate
+final class ClassConstantDeclarationSnapshotCollection implements \Countable, \IteratorAggregate
 {
     /**
      * @var array<string, ClassConstantDeclarationSnapshot>
@@ -23,26 +19,22 @@ final class ClassConstantDeclarationSnapshotCollection implements Countable, Ite
     /**
      * Adds one class constant declaration snapshot.
      *
-     * @param ClassConstantDeclarationSnapshot $snapshot The snapshot to add.
-     *
-     * @return void
+     * @param ClassConstantDeclarationSnapshot $snapshot the snapshot to add
      */
     public function add(ClassConstantDeclarationSnapshot $snapshot): void
     {
-        $this->byKey[$snapshot->ownerFqcn . '::' . $snapshot->name] = $snapshot;
+        $this->byKey[$snapshot->ownerFqcn.'::'.$snapshot->name] = $snapshot;
     }
 
     /**
      * Returns one class constant declaration snapshot.
      *
-     * @param string $ownerFqcn The declaring owner FQCN.
-     * @param string $name The constant name.
-     *
-     * @return ClassConstantDeclarationSnapshot|null
+     * @param string $ownerFqcn the declaring owner FQCN
+     * @param string $name      the constant name
      */
     public function get(string $ownerFqcn, string $name): ?ClassConstantDeclarationSnapshot
     {
-        return $this->byKey[$ownerFqcn . '::' . $name] ?? null;
+        return $this->byKey[$ownerFqcn.'::'.$name] ?? null;
     }
 
     /**
@@ -58,17 +50,15 @@ final class ClassConstantDeclarationSnapshotCollection implements Countable, Ite
     /**
      * Returns an iterator over class constant declaration snapshots.
      *
-     * @return Traversable<string, ClassConstantDeclarationSnapshot>
+     * @return \Traversable<string, ClassConstantDeclarationSnapshot>
      */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         yield from $this->byKey;
     }
 
     /**
      * Counts class constant declaration snapshots.
-     *
-     * @return int
      */
     public function count(): int
     {

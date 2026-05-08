@@ -53,8 +53,6 @@ final class PhpDocTraversalScope
 
     /**
      * Resets the tracked traversal scope.
-     *
-     * @return void
      */
     public function reset(): void
     {
@@ -67,9 +65,7 @@ final class PhpDocTraversalScope
     /**
      * Enters one namespace scope.
      *
-     * @param Namespace_ $namespaceNode The namespace node.
-     *
-     * @return void
+     * @param Namespace_ $namespaceNode the namespace node
      */
     public function enterNamespace(Namespace_ $namespaceNode): void
     {
@@ -82,8 +78,6 @@ final class PhpDocTraversalScope
 
     /**
      * Leaves the current namespace scope.
-     *
-     * @return void
      */
     public function leaveNamespace(): void
     {
@@ -94,9 +88,7 @@ final class PhpDocTraversalScope
     /**
      * Enters one class-like scope.
      *
-     * @param ClassLike $classLike The class-like node.
-     *
-     * @return void
+     * @param ClassLike $classLike the class-like node
      */
     public function enterClassLike(ClassLike $classLike): void
     {
@@ -108,8 +100,6 @@ final class PhpDocTraversalScope
 
     /**
      * Leaves one class-like scope.
-     *
-     * @return void
      */
     public function leaveClassLike(): void
     {
@@ -125,9 +115,7 @@ final class PhpDocTraversalScope
     /**
      * Registers one regular use statement in the current scope.
      *
-     * @param Use_ $useNode The use statement.
-     *
-     * @return void
+     * @param Use_ $useNode the use statement
      */
     public function registerUseStatement(Use_ $useNode): void
     {
@@ -146,9 +134,7 @@ final class PhpDocTraversalScope
     /**
      * Registers one group use statement in the current scope.
      *
-     * @param GroupUse $groupUseNode The group use statement.
-     *
-     * @return void
+     * @param GroupUse $groupUseNode the group use statement
      */
     public function registerGroupUseStatement(GroupUse $groupUseNode): void
     {
@@ -157,7 +143,7 @@ final class PhpDocTraversalScope
 
         foreach ($groupUseNode->uses as $useUse) {
             $suffix = $useUse->name->toString();
-            $fqcn = $prefix . '\\' . $suffix;
+            $fqcn = $prefix.'\\'.$suffix;
             $alias = null !== $useUse->alias
                 ? $useUse->alias->toString()
                 : $useUse->name->getLast();
@@ -168,8 +154,6 @@ final class PhpDocTraversalScope
 
     /**
      * Checks whether the scope currently points to a named owner.
-     *
-     * @return bool
      */
     public function hasCurrentOwner(): bool
     {
@@ -178,8 +162,6 @@ final class PhpDocTraversalScope
 
     /**
      * Returns the current namespace.
-     *
-     * @return string
      */
     public function currentNamespace(): string
     {
@@ -188,8 +170,6 @@ final class PhpDocTraversalScope
 
     /**
      * Returns the current owner FQCN.
-     *
-     * @return string
      */
     public function currentOwner(): string
     {
@@ -199,11 +179,9 @@ final class PhpDocTraversalScope
     /**
      * Creates a type-index context for the current traversal scope.
      *
-     * @param string $fullFilePath The original full file path.
-     * @param string $virtualFilePath The virtual file path.
-     * @param string $member The current member name.
-     *
-     * @return TypeIndexContext
+     * @param string $fullFilePath    the original full file path
+     * @param string $virtualFilePath the virtual file path
+     * @param string $member          the current member name
      */
     public function createContext(string $fullFilePath, string $virtualFilePath, string $member): TypeIndexContext
     {
@@ -220,8 +198,6 @@ final class PhpDocTraversalScope
 
     /**
      * Returns the current use-import collection.
-     *
-     * @return UsesByAliasCollection
      */
     private function currentUsesByAlias(): UsesByAliasCollection
     {
@@ -240,9 +216,7 @@ final class PhpDocTraversalScope
     /**
      * Clones one use-import collection.
      *
-     * @param UsesByAliasCollection $source The source collection.
-     *
-     * @return UsesByAliasCollection
+     * @param UsesByAliasCollection $source the source collection
      */
     private function cloneUsesByAliasCollection(UsesByAliasCollection $source): UsesByAliasCollection
     {
@@ -258,9 +232,7 @@ final class PhpDocTraversalScope
     /**
      * Resolves the FQCN of one class-like node.
      *
-     * @param ClassLike $classLike The class-like node.
-     *
-     * @return string
+     * @param ClassLike $classLike the class-like node
      */
     private function resolveClassLikeFqcn(ClassLike $classLike): string
     {
@@ -280,6 +252,6 @@ final class PhpDocTraversalScope
             return $name;
         }
 
-        return $this->currentNamespace . '\\' . $name;
+        return $this->currentNamespace.'\\'.$name;
     }
 }

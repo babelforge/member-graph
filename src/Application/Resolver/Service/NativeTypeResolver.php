@@ -20,7 +20,7 @@ final readonly class NativeTypeResolver
     /**
      * Constructor.
      *
-     * @param ClassNameResolver $classNameResolver The class-name resolver.
+     * @param ClassNameResolver $classNameResolver the class-name resolver
      */
     public function __construct(ClassNameResolver $classNameResolver)
     {
@@ -32,11 +32,9 @@ final readonly class NativeTypeResolver
     /**
      * Resolves one native type node to one structured PHPDoc type.
      *
-     * @param Node|null $nativeType The native type node.
-     * @param string $currentClass The current class FQCN.
-     * @param UsesByAliasCollection $usesByAlias The imported symbols indexed by alias.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param Node|null             $nativeType   the native type node
+     * @param string                $currentClass the current class FQCN
+     * @param UsesByAliasCollection $usesByAlias  the imported symbols indexed by alias
      */
     public function resolveStructuredType(
         ?Node $nativeType,
@@ -49,10 +47,8 @@ final readonly class NativeTypeResolver
     /**
      * Tells whether one structured PHPDoc type is more precise than one native type.
      *
-     * @param Node|null $nativeTypeNode The native type node.
-     * @param ResolvedPhpDocType|null $structuredType The structured PHPDoc type.
-     *
-     * @return bool
+     * @param Node|null               $nativeTypeNode the native type node
+     * @param ResolvedPhpDocType|null $structuredType the structured PHPDoc type
      */
     public function isStructuredTypeMorePreciseThanNative(
         ?Node $nativeTypeNode,

@@ -9,13 +9,13 @@ use PhpParser\Node;
 use PhpParser\Node\Param;
 
 /**
- * Class MethodReturnType
+ * Class MethodReturnType.
  */
 final class FunctionParameterType
 {
     public function __construct(
-        public SymbolCollection    $types,
-        public Param               $parameterNode,
+        public SymbolCollection $types,
+        public Param $parameterNode,
         public Node\Stmt\Function_ $functionNode,
     ) {
     }

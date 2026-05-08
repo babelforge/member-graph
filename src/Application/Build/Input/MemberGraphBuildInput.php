@@ -15,11 +15,11 @@ final readonly class MemberGraphBuildInput
     /**
      * Constructor.
      *
-     * @param KnownOwnerCollection $knownOwners The known owners collection.
-     * @param VirtualPhpSourceFileCollection $virtualFiles The virtual files to analyze.
+     * @param KnownOwnerCollection           $knownOwners  the known owners collection
+     * @param VirtualPhpSourceFileCollection $virtualFiles the virtual files to analyze
      */
     public function __construct(
-        public KnownOwnerCollection           $knownOwners,
+        public KnownOwnerCollection $knownOwners,
         public VirtualPhpSourceFileCollection $virtualFiles,
     ) {
     }

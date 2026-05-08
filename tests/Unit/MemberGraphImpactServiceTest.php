@@ -35,8 +35,6 @@ final class MemberGraphImpactServiceTest extends TestCase
 {
     /**
      * Ensures method impact exposes graph facts, virtual files, and physical files.
-     *
-     * @return void
      */
     public function testItReturnsRichImpactForMethodTargets(): void
     {
@@ -106,8 +104,6 @@ final class MemberGraphImpactServiceTest extends TestCase
 
     /**
      * Ensures parameter impact exposes impacted call sites and their source files.
-     *
-     * @return void
      */
     public function testItReturnsRichImpactForParameterTargets(): void
     {
@@ -148,8 +144,6 @@ final class MemberGraphImpactServiceTest extends TestCase
 
     /**
      * Ensures property impact exposes property declarations and property usages.
-     *
-     * @return void
      */
     public function testItReturnsRichImpactForPropertyTargets(): void
     {
@@ -183,8 +177,6 @@ final class MemberGraphImpactServiceTest extends TestCase
 
     /**
      * Ensures class-constant impact exposes constant declarations and constant fetches.
-     *
-     * @return void
      */
     public function testItReturnsRichImpactForClassConstantTargets(): void
     {
@@ -218,8 +210,6 @@ final class MemberGraphImpactServiceTest extends TestCase
 
     /**
      * Ensures function impact exposes function declarations and function calls.
-     *
-     * @return void
      */
     public function testItReturnsRichImpactForFunctionTargets(): void
     {
@@ -255,13 +245,11 @@ final class MemberGraphImpactServiceTest extends TestCase
     /**
      * Creates a member dependency graph for impact service tests.
      *
-     * @param list<MemberDeclaration> $declarations The declarations to add.
-     * @param list<MemberUsage> $memberUsages The member usages to add.
-     * @param list<ParameterUsage> $parameterUsages The parameter usages to add.
-     * @param AvailableMemberCollection|null $availableMembers The available members collection.
-     * @param KnownOwnerCollection|null $knownOwners The known owners collection.
-     *
-     * @return MemberDependencyGraph
+     * @param list<MemberDeclaration>        $declarations     the declarations to add
+     * @param list<MemberUsage>              $memberUsages     the member usages to add
+     * @param list<ParameterUsage>           $parameterUsages  the parameter usages to add
+     * @param AvailableMemberCollection|null $availableMembers the available members collection
+     * @param KnownOwnerCollection|null      $knownOwners      the known owners collection
      */
     private function createGraph(
         array $declarations = [],
@@ -300,10 +288,8 @@ final class MemberGraphImpactServiceTest extends TestCase
     /**
      * Creates one virtual registry file for tests.
      *
-     * @param string $fullFilePath The physical file path.
-     * @param string $virtualFilePath The virtual file path.
-     *
-     * @return VirtualPhpSourceFile
+     * @param string $fullFilePath    the physical file path
+     * @param string $virtualFilePath the virtual file path
      */
     private function createVirtualFile(string $fullFilePath, string $virtualFilePath): VirtualPhpSourceFile
     {

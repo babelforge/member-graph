@@ -12,15 +12,15 @@ final readonly class PropertyDeclarationSnapshot
     /**
      * Constructor.
      *
-     * @param string $ownerFqcn The declaring owner FQCN.
-     * @param string $name The property name.
-     * @param string $fullFilePath The physical file path.
-     * @param string $virtualFilePath The virtual file path.
-     * @param string $visibility The property visibility.
-     * @param bool $isStatic Whether the property is static.
-     * @param bool $isPromoted Whether the property comes from constructor promotion.
-     * @param string|null $nativeType The native property type.
-     * @param string|null $phpDocType The resolved PHPDoc property type.
+     * @param string      $ownerFqcn       the declaring owner FQCN
+     * @param string      $name            the property name
+     * @param string      $fullFilePath    the physical file path
+     * @param string      $virtualFilePath the virtual file path
+     * @param string      $visibility      the property visibility
+     * @param bool        $isStatic        whether the property is static
+     * @param bool        $isPromoted      whether the property comes from constructor promotion
+     * @param string|null $nativeType      the native property type
+     * @param string|null $phpDocType      the resolved PHPDoc property type
      */
     public function __construct(
         public string $ownerFqcn,

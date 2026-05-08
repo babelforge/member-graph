@@ -20,14 +20,14 @@ final readonly class MemberDependencyGraphPartialRebuildSourceViewBuilder
     /**
      * Constructor.
      *
-     * @param MemberGraphPhpSourceRegistryInstance $fileRegistry The member graph file registry.
-     * @param MemberGraphGlobalIndexRebuildInputResolver $globalIndexRebuildInputResolver The reusable source resolver.
-     * @param MemberGraphGlobalIndexRebuildInputMerger $globalIndexRebuildInputMerger The source metadata merger.
+     * @param MemberGraphPhpSourceRegistryInstance       $fileRegistry                    the member graph file registry
+     * @param MemberGraphGlobalIndexRebuildInputResolver $globalIndexRebuildInputResolver the reusable source resolver
+     * @param MemberGraphGlobalIndexRebuildInputMerger   $globalIndexRebuildInputMerger   the source metadata merger
      */
     public function __construct(
-        MemberGraphPhpSourceRegistryInstance               $fileRegistry,
+        MemberGraphPhpSourceRegistryInstance $fileRegistry,
         private MemberGraphGlobalIndexRebuildInputResolver $globalIndexRebuildInputResolver = new MemberGraphGlobalIndexRebuildInputResolver(),
-        private MemberGraphGlobalIndexRebuildInputMerger   $globalIndexRebuildInputMerger = new MemberGraphGlobalIndexRebuildInputMerger(),
+        private MemberGraphGlobalIndexRebuildInputMerger $globalIndexRebuildInputMerger = new MemberGraphGlobalIndexRebuildInputMerger(),
     ) {
         $this->partialRebuildLoader = new MemberDependencyGraphPartialRebuildLoader($fileRegistry);
     }
@@ -35,9 +35,7 @@ final readonly class MemberDependencyGraphPartialRebuildSourceViewBuilder
     /**
      * Builds a partial rebuild source view.
      *
-     * @param MemberDependencyGraphPartialRebuildInput $partialRebuildInput The partial rebuild input.
-     *
-     * @return MemberDependencyGraphPartialRebuildSourceView
+     * @param MemberDependencyGraphPartialRebuildInput $partialRebuildInput the partial rebuild input
      */
     public function build(
         MemberDependencyGraphPartialRebuildInput $partialRebuildInput,

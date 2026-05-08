@@ -17,10 +17,8 @@ final readonly class MemberDependencyGraphPartialRebuildSourceMetadataMerger
     /**
      * Builds the source metadata view that should be persisted after a partial rebuild.
      *
-     * @param MemberDependencyGraphPartialRebuildPreparedInput $preparedInput The prepared partial rebuild input.
-     * @param MemberDependencyGraphPartialRebuildExecutionResult $executionResult The partial rebuild execution result.
-     *
-     * @return MemberGraphVirtualSourceMetadataCollection
+     * @param MemberDependencyGraphPartialRebuildPreparedInput   $preparedInput   the prepared partial rebuild input
+     * @param MemberDependencyGraphPartialRebuildExecutionResult $executionResult the partial rebuild execution result
      */
     public function merge(
         MemberDependencyGraphPartialRebuildPreparedInput $preparedInput,

@@ -7,7 +7,7 @@ namespace PhpNoobs\MemberGraph\Domain\Index\Method;
 use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
 
 /**
- * Class MethodStructuredReturnTypeIndex
+ * Class MethodStructuredReturnTypeIndex.
  */
 final class MethodReturnStructuredTypeIndex
 {
@@ -30,6 +30,6 @@ final class MethodReturnStructuredTypeIndex
 
     private function key(string $owner, string $methodName): string
     {
-        return $owner . '::' . $methodName;
+        return $owner.'::'.$methodName;
     }
 }

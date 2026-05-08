@@ -20,9 +20,9 @@ final readonly class ParameterUsageCollector
     /**
      * Constructor.
      *
-     * @param ParameterUsageCollection $parameterUsages The parameter usages collection.
-     * @param PolymorphicImplementationsIndex $polymorphicImplementationsIndex The polymorphic implementations index.
-     * @param string $virtualFilePath The current virtual file path.
+     * @param ParameterUsageCollection        $parameterUsages                 the parameter usages collection
+     * @param PolymorphicImplementationsIndex $polymorphicImplementationsIndex the polymorphic implementations index
+     * @param string                          $virtualFilePath                 the current virtual file path
      */
     public function __construct(
         private ParameterUsageCollection $parameterUsages,
@@ -34,12 +34,10 @@ final readonly class ParameterUsageCollector
     /**
      * Collects named argument usages for one method-like call and all polymorphic projections.
      *
-     * @param string $sourceSymbol The source symbol.
-     * @param string $owner The resolved owner.
-     * @param string $functionLikeName The method name.
-     * @param array<int, Arg> $args The call arguments.
-     *
-     * @return void
+     * @param string          $sourceSymbol     the source symbol
+     * @param string          $owner            the resolved owner
+     * @param string          $functionLikeName the method name
+     * @param array<int, Arg> $args             the call arguments
      */
     public function collectMethodLikeNamedArgumentsWithPolymorphism(
         string $sourceSymbol,
@@ -67,11 +65,9 @@ final readonly class ParameterUsageCollector
     /**
      * Collects named argument usages for one function call.
      *
-     * @param string $sourceSymbol The source symbol.
-     * @param string $functionName The fully-qualified function name.
-     * @param array<int, Arg> $args The call arguments.
-     *
-     * @return void
+     * @param string          $sourceSymbol the source symbol
+     * @param string          $functionName the fully-qualified function name
+     * @param array<int, Arg> $args         the call arguments
      */
     public function collectFunctionNamedArguments(string $sourceSymbol, string $functionName, array $args): void
     {
@@ -93,13 +89,11 @@ final readonly class ParameterUsageCollector
     /**
      * Adds one named-argument usage to the collection.
      *
-     * @param string $sourceSymbol The source symbol.
-     * @param string $owner The target owner.
-     * @param string $functionLikeName The target method or function name.
-     * @param string $parameterName The parameter name without "$".
-     * @param SourceNodeId|null $sourceNodeId The source node identifier when available.
-     *
-     * @return void
+     * @param string            $sourceSymbol     the source symbol
+     * @param string            $owner            the target owner
+     * @param string            $functionLikeName the target method or function name
+     * @param string            $parameterName    the parameter name without "$"
+     * @param SourceNodeId|null $sourceNodeId     the source node identifier when available
      */
     private function addNamedArgumentUsage(
         string $sourceSymbol,

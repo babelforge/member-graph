@@ -4,15 +4,12 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Domain\Index\Constant;
 
-use IteratorAggregate;
-use Traversable;
-
 /**
  * Stores simple scalar class constant values.
  *
- * @implements IteratorAggregate<string, int|string>
+ * @implements \IteratorAggregate<string, int|string>
  */
-final class ClassConstantValueIndex implements IteratorAggregate
+final class ClassConstantValueIndex implements \IteratorAggregate
 {
     /**
      * @var array<string, int|string>
@@ -22,11 +19,9 @@ final class ClassConstantValueIndex implements IteratorAggregate
     /**
      * Stores one scalar class constant value.
      *
-     * @param string $owner The declaring owner FQCN.
-     * @param string $constantName The constant name.
-     * @param int|string $value The scalar constant value.
-     *
-     * @return void
+     * @param string     $owner        the declaring owner FQCN
+     * @param string     $constantName the constant name
+     * @param int|string $value        the scalar constant value
      */
     public function set(string $owner, string $constantName, int|string $value): void
     {
@@ -36,9 +31,7 @@ final class ClassConstantValueIndex implements IteratorAggregate
     /**
      * Merges another index into this index.
      *
-     * @param self $classConstantValueIndex The source index.
-     *
-     * @return void
+     * @param self $classConstantValueIndex the source index
      */
     public function merge(self $classConstantValueIndex): void
     {
@@ -50,10 +43,8 @@ final class ClassConstantValueIndex implements IteratorAggregate
     /**
      * Returns one stored scalar class constant value.
      *
-     * @param string $owner The declaring owner FQCN.
-     * @param string $constantName The constant name.
-     *
-     * @return int|string|null
+     * @param string $owner        the declaring owner FQCN
+     * @param string $constantName the constant name
      */
     public function get(string $owner, string $constantName): int|string|null
     {
@@ -63,20 +54,15 @@ final class ClassConstantValueIndex implements IteratorAggregate
     /**
      * Builds the internal key.
      *
-     * @param string $owner The owner FQCN.
-     * @param string $constantName The constant name.
-     *
-     * @return string
+     * @param string $owner        the owner FQCN
+     * @param string $constantName the constant name
      */
     private function buildKey(string $owner, string $constantName): string
     {
-        return $owner . '::' . $constantName;
+        return $owner.'::'.$constantName;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         yield from $this->items;
     }

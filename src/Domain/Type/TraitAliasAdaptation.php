@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace PhpNoobs\MemberGraph\Domain\Type;
 
 /**
- * Class TraitAliasAdaptation
+ * Class TraitAliasAdaptation.
  */
 final readonly class TraitAliasAdaptation
 {

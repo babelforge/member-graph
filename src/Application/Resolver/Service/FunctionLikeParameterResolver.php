@@ -22,9 +22,9 @@ final readonly class FunctionLikeParameterResolver
     /**
      * Constructor.
      *
-     * @param MethodParameterStructuredTypeIndex $methodStructuredParameterTypeIndex The method structured parameter type index.
-     * @param FunctionParameterStructuredTypeIndex $functionStructuredParameterTypeIndex The function structured parameter type index.
-     * @param DeclaringMethodResolver $declaringMethodResolver The declaring method resolver.
+     * @param MethodParameterStructuredTypeIndex   $methodStructuredParameterTypeIndex   the method structured parameter type index
+     * @param FunctionParameterStructuredTypeIndex $functionStructuredParameterTypeIndex the function structured parameter type index
+     * @param DeclaringMethodResolver              $declaringMethodResolver              the declaring method resolver
      */
     public function __construct(
         private MethodParameterStructuredTypeIndex $methodStructuredParameterTypeIndex,
@@ -36,12 +36,10 @@ final readonly class FunctionLikeParameterResolver
     /**
      * Resolves the target parameter name for one function-like call argument.
      *
-     * @param Arg|VariadicPlaceholder $arg The call argument.
-     * @param int $position The zero-based argument position.
-     * @param Node $parentNode The declaring function-like node.
-     * @param bool $isMethodLike Whether the target is method-like.
-     *
-     * @return string|null
+     * @param Arg|VariadicPlaceholder $arg          the call argument
+     * @param int                     $position     the zero-based argument position
+     * @param Node                    $parentNode   the declaring function-like node
+     * @param bool                    $isMethodLike whether the target is method-like
      */
     public function resolveCallParameterName(
         Arg|VariadicPlaceholder $arg,
@@ -67,12 +65,10 @@ final readonly class FunctionLikeParameterResolver
     /**
      * Resolves the structured PHPDoc type declared for one function-like parameter.
      *
-     * @param string|null $owner The owner FQCN for methods, or null for functions.
-     * @param string $methodName The method or function name.
-     * @param string $parameterName The parameter name.
-     * @param bool $isMethodLike Whether the target is method-like.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param string|null $owner         the owner FQCN for methods, or null for functions
+     * @param string      $methodName    the method or function name
+     * @param string      $parameterName the parameter name
+     * @param bool        $isMethodLike  whether the target is method-like
      */
     public function resolveStructuredParameterType(
         ?string $owner,
@@ -96,11 +92,9 @@ final readonly class FunctionLikeParameterResolver
     /**
      * Resolves the target parameter name for one method call argument.
      *
-     * @param Arg|VariadicPlaceholder $arg The call argument.
-     * @param int $position The zero-based argument position.
-     * @param ClassMethod $methodNode The declaring method node.
-     *
-     * @return string|null
+     * @param Arg|VariadicPlaceholder $arg        the call argument
+     * @param int                     $position   the zero-based argument position
+     * @param ClassMethod             $methodNode the declaring method node
      */
     private function resolveMethodCallParameterName(
         Arg|VariadicPlaceholder $arg,
@@ -127,11 +121,9 @@ final readonly class FunctionLikeParameterResolver
     /**
      * Resolves the target parameter name for one function call argument.
      *
-     * @param Arg|VariadicPlaceholder $arg The call argument.
-     * @param int $position The zero-based argument position.
-     * @param Function_ $functionNode The declaring function node.
-     *
-     * @return string|null
+     * @param Arg|VariadicPlaceholder $arg          the call argument
+     * @param int                     $position     the zero-based argument position
+     * @param Function_               $functionNode the declaring function node
      */
     private function resolveFunctionCallParameterName(
         Arg|VariadicPlaceholder $arg,

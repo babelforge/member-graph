@@ -21,9 +21,9 @@ final readonly class MemberUsageCollector
     /**
      * Constructor.
      *
-     * @param MemberUsageCollection $usages The member usages collection.
-     * @param PolymorphicImplementationsIndex $polymorphicImplementationsIndex The polymorphic implementations index.
-     * @param string $virtualFilePath The current virtual file path.
+     * @param MemberUsageCollection           $usages                          the member usages collection
+     * @param PolymorphicImplementationsIndex $polymorphicImplementationsIndex the polymorphic implementations index
+     * @param string                          $virtualFilePath                 the current virtual file path
      */
     public function __construct(
         private MemberUsageCollection $usages,
@@ -35,12 +35,10 @@ final readonly class MemberUsageCollector
     /**
      * Collects one class-constant fetch usage for each resolved owner.
      *
-     * @param string $sourceSymbol The source symbol.
-     * @param SymbolCollection $owners The resolved owners.
-     * @param string $constantName The constant name.
-     * @param SourceNodeId|null $sourceNodeId The source node identifier when available.
-     *
-     * @return void
+     * @param string            $sourceSymbol the source symbol
+     * @param SymbolCollection  $owners       the resolved owners
+     * @param string            $constantName the constant name
+     * @param SourceNodeId|null $sourceNodeId the source node identifier when available
      */
     public function collectClassConstantFetch(
         string $sourceSymbol,
@@ -63,12 +61,10 @@ final readonly class MemberUsageCollector
     /**
      * Collects one property fetch usage for each resolved owner.
      *
-     * @param string $sourceSymbol The source symbol.
-     * @param SymbolCollection $owners The resolved owners.
-     * @param string $propertyName The property name.
-     * @param SourceNodeId|null $sourceNodeId The source node identifier when available.
-     *
-     * @return void
+     * @param string            $sourceSymbol the source symbol
+     * @param SymbolCollection  $owners       the resolved owners
+     * @param string            $propertyName the property name
+     * @param SourceNodeId|null $sourceNodeId the source node identifier when available
      */
     public function collectPropertyFetch(
         string $sourceSymbol,
@@ -91,12 +87,10 @@ final readonly class MemberUsageCollector
     /**
      * Collects one static property fetch usage for each resolved owner.
      *
-     * @param string $sourceSymbol The source symbol.
-     * @param SymbolCollection $owners The resolved owners.
-     * @param string $propertyName The property name.
-     * @param SourceNodeId|null $sourceNodeId The source node identifier when available.
-     *
-     * @return void
+     * @param string            $sourceSymbol the source symbol
+     * @param SymbolCollection  $owners       the resolved owners
+     * @param string            $propertyName the property name
+     * @param SourceNodeId|null $sourceNodeId the source node identifier when available
      */
     public function collectStaticPropertyFetch(
         string $sourceSymbol,
@@ -119,13 +113,11 @@ final readonly class MemberUsageCollector
     /**
      * Collects one method usage and all polymorphic projections when relevant.
      *
-     * @param string $sourceSymbol The source symbol.
-     * @param string $owner The resolved owner.
-     * @param string $methodName The method name.
-     * @param MemberUsageType $usageType The usage type.
-     * @param SourceNodeId|null $sourceNodeId The source node identifier when available.
-     *
-     * @return void
+     * @param string            $sourceSymbol the source symbol
+     * @param string            $owner        the resolved owner
+     * @param string            $methodName   the method name
+     * @param MemberUsageType   $usageType    the usage type
+     * @param SourceNodeId|null $sourceNodeId the source node identifier when available
      */
     public function collectMethodWithPolymorphism(
         string $sourceSymbol,
@@ -149,11 +141,9 @@ final readonly class MemberUsageCollector
     /**
      * Collects one function call usage.
      *
-     * @param string $sourceSymbol The source symbol.
-     * @param string $functionName The fully-qualified function name.
-     * @param SourceNodeId|null $sourceNodeId The source node identifier when available.
-     *
-     * @return void
+     * @param string            $sourceSymbol the source symbol
+     * @param string            $functionName the fully-qualified function name
+     * @param SourceNodeId|null $sourceNodeId the source node identifier when available
      */
     public function collectFunctionCall(
         string $sourceSymbol,
@@ -173,14 +163,12 @@ final readonly class MemberUsageCollector
     /**
      * Adds one member usage to the collection.
      *
-     * @param string $sourceSymbol The source symbol.
-     * @param string $owner The target owner.
-     * @param string $name The target member name.
-     * @param MemberType $memberType The target member type.
-     * @param MemberUsageType $usageType The usage type.
-     * @param SourceNodeId|null $sourceNodeId The source node identifier when available.
-     *
-     * @return void
+     * @param string            $sourceSymbol the source symbol
+     * @param string            $owner        the target owner
+     * @param string            $name         the target member name
+     * @param MemberType        $memberType   the target member type
+     * @param MemberUsageType   $usageType    the usage type
+     * @param SourceNodeId|null $sourceNodeId the source node identifier when available
      */
     private function addUsage(
         string $sourceSymbol,

@@ -22,7 +22,7 @@ final readonly class ArrayExpressionResolver implements ExpressionResolverInterf
     /**
      * Constructor.
      *
-     * @param ArrayLiteralStructuredTypeResolver $arrayLiteralStructuredTypeResolver The literal array structured type resolver.
+     * @param ArrayLiteralStructuredTypeResolver $arrayLiteralStructuredTypeResolver the literal array structured type resolver
      */
     public function __construct(private ArrayLiteralStructuredTypeResolver $arrayLiteralStructuredTypeResolver)
     {
@@ -31,9 +31,7 @@ final readonly class ArrayExpressionResolver implements ExpressionResolverInterf
     /**
      * Tells whether this resolver can handle the given node.
      *
-     * @param Node $expression The expression or expression-like node to inspect.
-     *
-     * @return bool
+     * @param Node $expression the expression or expression-like node to inspect
      */
     public function supports(Node $expression): bool
     {
@@ -45,11 +43,9 @@ final readonly class ArrayExpressionResolver implements ExpressionResolverInterf
      *
      * Array expressions currently expose their useful information through structured PHPDoc types.
      *
-     * @param Node $expression The array expression.
-     * @param ExpressionResolutionContext $context The current expression resolution context.
-     * @param ExpressionTypeResolverInterface $fallbackResolver The facade resolver for recursive resolution.
-     *
-     * @return SymbolCollection|null
+     * @param Node                            $expression       the array expression
+     * @param ExpressionResolutionContext     $context          the current expression resolution context
+     * @param ExpressionTypeResolverInterface $fallbackResolver the facade resolver for recursive resolution
      */
     public function resolve(
         Node $expression,
@@ -66,11 +62,9 @@ final readonly class ArrayExpressionResolver implements ExpressionResolverInterf
     /**
      * Resolves the structured PHPDoc type produced by an array expression.
      *
-     * @param Expr $expression The array expression.
-     * @param ExpressionResolutionContext $context The current expression resolution context.
-     * @param ExpressionTypeResolverInterface $fallbackResolver The facade resolver for recursive resolution.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param Expr                            $expression       the array expression
+     * @param ExpressionResolutionContext     $context          the current expression resolution context
+     * @param ExpressionTypeResolverInterface $fallbackResolver the facade resolver for recursive resolution
      */
     public function resolveStructuredPhpDocType(
         Expr $expression,

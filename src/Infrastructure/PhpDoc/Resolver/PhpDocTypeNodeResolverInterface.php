@@ -18,22 +18,20 @@ interface PhpDocTypeNodeResolverInterface
     /**
      * Resolves one PHPDoc type node into a structured resolved type tree.
      *
-     * @param TypeNode $typeNode The PHPDoc type node.
-     * @param string $currentNamespace The current namespace.
-     * @param UsesByAliasCollection $usesByAlias The use imports indexed by alias.
-     * @param PhpDocTemplateDefinitionCollection $templateDefinitions The declared template definitions.
-     * @param TypeIndexContext $context The type index context.
-     * @param PhpDocTagKind $kind The kind of the PHPDoc tag.
-     *
-     * @return ResolvedPhpDocType
+     * @param TypeNode                           $typeNode            the PHPDoc type node
+     * @param string                             $currentNamespace    the current namespace
+     * @param UsesByAliasCollection              $usesByAlias         the use imports indexed by alias
+     * @param PhpDocTemplateDefinitionCollection $templateDefinitions the declared template definitions
+     * @param TypeIndexContext                   $context             the type index context
+     * @param PhpDocTagKind                      $kind                the kind of the PHPDoc tag
      */
     public function resolveStructured(
-        TypeNode                           $typeNode,
-        string                             $currentNamespace,
-        UsesByAliasCollection              $usesByAlias,
+        TypeNode $typeNode,
+        string $currentNamespace,
+        UsesByAliasCollection $usesByAlias,
         PhpDocTemplateDefinitionCollection $templateDefinitions,
-        TypeIndexContext                   $context,
-        PhpDocTagKind                      $kind
+        TypeIndexContext $context,
+        PhpDocTagKind $kind,
     ): ResolvedPhpDocType;
 
     /**
@@ -43,31 +41,26 @@ interface PhpDocTypeNodeResolverInterface
      * - if the type has generic arguments, return the flattened symbols of the generic arguments
      * - otherwise return the direct symbols of the type itself
      *
-     * @param TypeNode $typeNode The PHPDoc type node.
-     * @param string $currentNamespace The current namespace.
-     * @param UsesByAliasCollection $usesByAlias The use imports indexed by alias.
-     * @param PhpDocTemplateDefinitionCollection $templateDefinitions The declared template definitions.
-     * @param TypeIndexContext $context The type index context.
-     * @param PhpDocTagKind $kind The kind of the PHPDoc tag.
-     *
-     * @return SymbolCollection
+     * @param TypeNode                           $typeNode            the PHPDoc type node
+     * @param string                             $currentNamespace    the current namespace
+     * @param UsesByAliasCollection              $usesByAlias         the use imports indexed by alias
+     * @param PhpDocTemplateDefinitionCollection $templateDefinitions the declared template definitions
+     * @param TypeIndexContext                   $context             the type index context
+     * @param PhpDocTagKind                      $kind                the kind of the PHPDoc tag
      */
     public function resolveForValueUsage(
-        TypeNode                           $typeNode,
-        string                             $currentNamespace,
-        UsesByAliasCollection              $usesByAlias,
+        TypeNode $typeNode,
+        string $currentNamespace,
+        UsesByAliasCollection $usesByAlias,
         PhpDocTemplateDefinitionCollection $templateDefinitions,
-        TypeIndexContext                   $context,
-        PhpDocTagKind                      $kind
+        TypeIndexContext $context,
+        PhpDocTagKind $kind,
     ): SymbolCollection;
-
 
     /**
      * Resolves one ResolvedPhpDocType into symbols intended for value usage.
      *
-     * @param ResolvedPhpDocType $resolvedStructured The resolved structured PHPDoc type.
-     *
-     * @return SymbolCollection
+     * @param ResolvedPhpDocType $resolvedStructured the resolved structured PHPDoc type
      */
     public function extractValueUsage(ResolvedPhpDocType $resolvedStructured): SymbolCollection;
 }

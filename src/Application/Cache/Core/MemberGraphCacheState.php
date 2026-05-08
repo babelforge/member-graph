@@ -17,11 +17,11 @@ use PhpNoobs\MemberGraph\Domain\Owner\KnownOwnerCollection;
 final class MemberGraphCacheState
 {
     /**
-     * @param array<string, MemberGraphCacheFilePayload> $filesByPath Cache file payloads indexed by physical file path.
-     * @param MemberGraphVirtualFileReferenceCollection $virtualFileReferences Cached virtual file references.
-     * @param KnownOwnerCollection|null $knownOwners Cached known owners.
-     * @param MemberGraphGlobalIndexInputSnapshot|null $globalIndexInputSnapshot Cached global-index input snapshot.
-     * @param MemberGraphDeclarationSnapshot|null $declarationSnapshot Cached declaration snapshot.
+     * @param array<string, MemberGraphCacheFilePayload> $filesByPath              cache file payloads indexed by physical file path
+     * @param MemberGraphVirtualFileReferenceCollection  $virtualFileReferences    cached virtual file references
+     * @param KnownOwnerCollection|null                  $knownOwners              cached known owners
+     * @param MemberGraphGlobalIndexInputSnapshot|null   $globalIndexInputSnapshot cached global-index input snapshot
+     * @param MemberGraphDeclarationSnapshot|null        $declarationSnapshot      cached declaration snapshot
      */
     public function __construct(
         private array $filesByPath = [],
@@ -35,9 +35,7 @@ final class MemberGraphCacheState
     /**
      * Creates cache state from a serialized payload.
      *
-     * @param MemberGraphCachePayload $payload The cache payload.
-     *
-     * @return self
+     * @param MemberGraphCachePayload $payload the cache payload
      */
     public static function fromPayload(MemberGraphCachePayload $payload): self
     {
@@ -52,8 +50,6 @@ final class MemberGraphCacheState
 
     /**
      * Converts state to a serializable payload.
-     *
-     * @return MemberGraphCachePayload
      */
     public function toPayload(): MemberGraphCachePayload
     {
@@ -69,9 +65,7 @@ final class MemberGraphCacheState
     /**
      * Indicates whether a file payload exists.
      *
-     * @param string $filePath The normalized physical file path.
-     *
-     * @return bool
+     * @param string $filePath the normalized physical file path
      */
     public function hasFilePayload(string $filePath): bool
     {
@@ -81,9 +75,7 @@ final class MemberGraphCacheState
     /**
      * Returns a file payload when available.
      *
-     * @param string $filePath The normalized physical file path.
-     *
-     * @return MemberGraphCacheFilePayload|null
+     * @param string $filePath the normalized physical file path
      */
     public function filePayload(string $filePath): ?MemberGraphCacheFilePayload
     {
@@ -93,10 +85,8 @@ final class MemberGraphCacheState
     /**
      * Stores a file payload.
      *
-     * @param string $filePath The normalized physical file path.
-     * @param MemberGraphCacheFilePayload $payload The file payload.
-     *
-     * @return void
+     * @param string                      $filePath the normalized physical file path
+     * @param MemberGraphCacheFilePayload $payload  the file payload
      */
     public function setFilePayload(string $filePath, MemberGraphCacheFilePayload $payload): void
     {
@@ -106,9 +96,7 @@ final class MemberGraphCacheState
     /**
      * Removes one file payload.
      *
-     * @param string $filePath The normalized physical file path.
-     *
-     * @return void
+     * @param string $filePath the normalized physical file path
      */
     public function removeFilePayload(string $filePath): void
     {
@@ -128,9 +116,7 @@ final class MemberGraphCacheState
     /**
      * Returns the cached graph fragment for one file when available.
      *
-     * @param string $filePath The normalized physical file path.
-     *
-     * @return MemberDependencyGraph|null
+     * @param string $filePath the normalized physical file path
      */
     public function graphFragment(string $filePath): ?MemberDependencyGraph
     {
@@ -140,9 +126,7 @@ final class MemberGraphCacheState
     /**
      * Stores virtual file references.
      *
-     * @param MemberGraphVirtualFileReferenceCollection $virtualFileReferences The references to store.
-     *
-     * @return void
+     * @param MemberGraphVirtualFileReferenceCollection $virtualFileReferences the references to store
      */
     public function setVirtualFileReferences(MemberGraphVirtualFileReferenceCollection $virtualFileReferences): void
     {
@@ -151,8 +135,6 @@ final class MemberGraphCacheState
 
     /**
      * Returns cached virtual file references.
-     *
-     * @return MemberGraphVirtualFileReferenceCollection
      */
     public function virtualFileReferences(): MemberGraphVirtualFileReferenceCollection
     {
@@ -161,8 +143,6 @@ final class MemberGraphCacheState
 
     /**
      * Indicates whether cached virtual file references are available.
-     *
-     * @return bool
      */
     public function hasVirtualFileReferences(): bool
     {
@@ -172,9 +152,7 @@ final class MemberGraphCacheState
     /**
      * Stores known owners.
      *
-     * @param KnownOwnerCollection $knownOwners The known owners to store.
-     *
-     * @return void
+     * @param KnownOwnerCollection $knownOwners the known owners to store
      */
     public function setKnownOwners(KnownOwnerCollection $knownOwners): void
     {
@@ -183,8 +161,6 @@ final class MemberGraphCacheState
 
     /**
      * Returns cached known owners.
-     *
-     * @return KnownOwnerCollection|null
      */
     public function knownOwners(): ?KnownOwnerCollection
     {
@@ -193,8 +169,6 @@ final class MemberGraphCacheState
 
     /**
      * Indicates whether known owners are available.
-     *
-     * @return bool
      */
     public function hasKnownOwners(): bool
     {
@@ -204,9 +178,7 @@ final class MemberGraphCacheState
     /**
      * Stores the global-index input snapshot.
      *
-     * @param MemberGraphGlobalIndexInputSnapshot $snapshot The snapshot to store.
-     *
-     * @return void
+     * @param MemberGraphGlobalIndexInputSnapshot $snapshot the snapshot to store
      */
     public function setGlobalIndexInputSnapshot(MemberGraphGlobalIndexInputSnapshot $snapshot): void
     {
@@ -215,8 +187,6 @@ final class MemberGraphCacheState
 
     /**
      * Returns the cached global-index input snapshot.
-     *
-     * @return MemberGraphGlobalIndexInputSnapshot|null
      */
     public function globalIndexInputSnapshot(): ?MemberGraphGlobalIndexInputSnapshot
     {
@@ -225,8 +195,6 @@ final class MemberGraphCacheState
 
     /**
      * Indicates whether a global-index input snapshot is available.
-     *
-     * @return bool
      */
     public function hasGlobalIndexInputSnapshot(): bool
     {
@@ -235,8 +203,6 @@ final class MemberGraphCacheState
 
     /**
      * Indicates whether a compatible global-index input snapshot is available.
-     *
-     * @return bool
      */
     public function hasCompatibleGlobalIndexInputSnapshot(): bool
     {
@@ -247,9 +213,7 @@ final class MemberGraphCacheState
     /**
      * Stores the declaration snapshot.
      *
-     * @param MemberGraphDeclarationSnapshot $snapshot The declaration snapshot to store.
-     *
-     * @return void
+     * @param MemberGraphDeclarationSnapshot $snapshot the declaration snapshot to store
      */
     public function setDeclarationSnapshot(MemberGraphDeclarationSnapshot $snapshot): void
     {
@@ -258,8 +222,6 @@ final class MemberGraphCacheState
 
     /**
      * Returns the cached declaration snapshot.
-     *
-     * @return MemberGraphDeclarationSnapshot|null
      */
     public function declarationSnapshot(): ?MemberGraphDeclarationSnapshot
     {
@@ -268,8 +230,6 @@ final class MemberGraphCacheState
 
     /**
      * Indicates whether a declaration snapshot is available.
-     *
-     * @return bool
      */
     public function hasDeclarationSnapshot(): bool
     {

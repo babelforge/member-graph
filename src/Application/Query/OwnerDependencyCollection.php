@@ -4,16 +4,12 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Application\Query;
 
-use Countable;
-use IteratorAggregate;
-use Traversable;
-
 /**
  * Stores owner dependencies without duplicates.
  *
- * @implements IteratorAggregate<string, OwnerDependency>
+ * @implements \IteratorAggregate<string, OwnerDependency>
  */
-final class OwnerDependencyCollection implements Countable, IteratorAggregate
+final class OwnerDependencyCollection implements \Countable, \IteratorAggregate
 {
     /**
      * @var array<string, OwnerDependency>
@@ -23,9 +19,7 @@ final class OwnerDependencyCollection implements Countable, IteratorAggregate
     /**
      * Adds one owner dependency.
      *
-     * @param OwnerDependency $dependency The dependency to add.
-     *
-     * @return void
+     * @param OwnerDependency $dependency the dependency to add
      */
     public function add(OwnerDependency $dependency): void
     {
@@ -45,9 +39,7 @@ final class OwnerDependencyCollection implements Countable, IteratorAggregate
     /**
      * Indicates whether the collection contains one dependency.
      *
-     * @param OwnerDependency $dependency The dependency to test.
-     *
-     * @return bool
+     * @param OwnerDependency $dependency the dependency to test
      */
     public function contains(OwnerDependency $dependency): bool
     {
@@ -57,17 +49,15 @@ final class OwnerDependencyCollection implements Countable, IteratorAggregate
     /**
      * Returns an iterator over owner dependencies.
      *
-     * @return Traversable<string, OwnerDependency>
+     * @return \Traversable<string, OwnerDependency>
      */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         yield from $this->items;
     }
 
     /**
      * Counts owner dependencies.
-     *
-     * @return int
      */
     public function count(): int
     {

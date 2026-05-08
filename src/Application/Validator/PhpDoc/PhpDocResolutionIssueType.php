@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace PhpNoobs\MemberGraph\Application\Validator\PhpDoc;
 
 /**
- * Class PhpDocResolutionIssueType
+ * Class PhpDocResolutionIssueType.
  */
 enum PhpDocResolutionIssueType: string
 {

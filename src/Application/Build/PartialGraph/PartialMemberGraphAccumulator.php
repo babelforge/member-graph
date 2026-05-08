@@ -31,9 +31,7 @@ final readonly class PartialMemberGraphAccumulator
     /**
      * Adds one partial member graph to the accumulated collections.
      *
-     * @param MemberDependencyGraph $partialGraph The partial graph to merge.
-     *
-     * @return void
+     * @param MemberDependencyGraph $partialGraph the partial graph to merge
      */
     public function addPartialGraph(MemberDependencyGraph $partialGraph): void
     {
@@ -44,8 +42,6 @@ final readonly class PartialMemberGraphAccumulator
 
     /**
      * Returns the accumulated member declarations.
-     *
-     * @return MemberDeclarationCollection
      */
     public function declarations(): MemberDeclarationCollection
     {
@@ -54,8 +50,6 @@ final readonly class PartialMemberGraphAccumulator
 
     /**
      * Returns the accumulated member usages.
-     *
-     * @return MemberUsageCollection
      */
     public function usages(): MemberUsageCollection
     {
@@ -64,8 +58,6 @@ final readonly class PartialMemberGraphAccumulator
 
     /**
      * Returns the accumulated parameter usages.
-     *
-     * @return ParameterUsageCollection
      */
     public function parameterUsages(): ParameterUsageCollection
     {
@@ -75,9 +67,7 @@ final readonly class PartialMemberGraphAccumulator
     /**
      * Merges declarations from one partial collection.
      *
-     * @param MemberDeclarationCollection $source The source collection.
-     *
-     * @return void
+     * @param MemberDeclarationCollection $source the source collection
      */
     private function mergeDeclarations(MemberDeclarationCollection $source): void
     {
@@ -89,9 +79,7 @@ final readonly class PartialMemberGraphAccumulator
     /**
      * Merges usages from one partial collection.
      *
-     * @param MemberUsageCollection $source The source collection.
-     *
-     * @return void
+     * @param MemberUsageCollection $source the source collection
      */
     private function mergeUsages(MemberUsageCollection $source): void
     {
@@ -105,9 +93,7 @@ final readonly class PartialMemberGraphAccumulator
     /**
      * Merges parameter usages from one partial collection.
      *
-     * @param ParameterUsageCollection $source The source collection.
-     *
-     * @return void
+     * @param ParameterUsageCollection $source the source collection
      */
     private function mergeParameterUsages(ParameterUsageCollection $source): void
     {

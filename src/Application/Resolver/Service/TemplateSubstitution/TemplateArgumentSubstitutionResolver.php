@@ -15,12 +15,12 @@ final readonly class TemplateArgumentSubstitutionResolver
     /**
      * Constructor.
      *
-     * @param TemplateSubstitutionMerger $templateSubstitutionMerger The template substitution merger.
-     * @param TemplateUnionSubstitutionResolver $templateUnionSubstitutionResolver The union substitution resolver.
-     * @param TemplateCollectionShapeSubstitutionResolver $templateCollectionShapeSubstitutionResolver The collection-shape substitution resolver.
-     * @param TemplateGenericSubstitutionResolver $templateGenericSubstitutionResolver The generic substitution resolver.
-     * @param TemplateShapeSubstitutionResolver $templateShapeSubstitutionResolver The shape substitution resolver.
-     * @param TemplateCallableSubstitutionResolver $templateCallableSubstitutionResolver The callable substitution resolver.
+     * @param TemplateSubstitutionMerger                  $templateSubstitutionMerger                  the template substitution merger
+     * @param TemplateUnionSubstitutionResolver           $templateUnionSubstitutionResolver           the union substitution resolver
+     * @param TemplateCollectionShapeSubstitutionResolver $templateCollectionShapeSubstitutionResolver the collection-shape substitution resolver
+     * @param TemplateGenericSubstitutionResolver         $templateGenericSubstitutionResolver         the generic substitution resolver
+     * @param TemplateShapeSubstitutionResolver           $templateShapeSubstitutionResolver           the shape substitution resolver
+     * @param TemplateCallableSubstitutionResolver        $templateCallableSubstitutionResolver        the callable substitution resolver
      */
     public function __construct(
         private TemplateSubstitutionMerger $templateSubstitutionMerger,
@@ -35,11 +35,9 @@ final readonly class TemplateArgumentSubstitutionResolver
     /**
      * Collects substitutions by comparing one declared type against one concrete argument type.
      *
-     * @param ResolvedPhpDocType $parameterType The declared parameter type.
-     * @param ResolvedPhpDocType $argumentType The concrete argument type.
-     * @param PhpDocTemplateSubstitutionContext $context The mutable substitution context.
-     *
-     * @return void
+     * @param ResolvedPhpDocType                $parameterType the declared parameter type
+     * @param ResolvedPhpDocType                $argumentType  the concrete argument type
+     * @param PhpDocTemplateSubstitutionContext $context       the mutable substitution context
      */
     public function collect(
         ResolvedPhpDocType $parameterType,

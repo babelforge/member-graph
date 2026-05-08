@@ -16,7 +16,7 @@ final readonly class MemberGraphTopologyMermaidExporter implements MemberGraphTo
     /**
      * Constructor.
      *
-     * @param MemberGraphTopologyArrayExporter $arrayExporter The canonical array exporter.
+     * @param MemberGraphTopologyArrayExporter $arrayExporter the canonical array exporter
      */
     public function __construct(
         private MemberGraphTopologyArrayExporter $arrayExporter = new MemberGraphTopologyArrayExporter(),
@@ -26,9 +26,7 @@ final readonly class MemberGraphTopologyMermaidExporter implements MemberGraphTo
     /**
      * Exports the given topology to Mermaid flowchart syntax.
      *
-     * @param MemberGraphTopology $topology The topology to export.
-     *
-     * @return string
+     * @param MemberGraphTopology $topology the topology to export
      */
     public function export(MemberGraphTopology $topology): string
     {
@@ -58,7 +56,7 @@ final readonly class MemberGraphTopologyMermaidExporter implements MemberGraphTo
     /**
      * Returns exported nodes from the payload.
      *
-     * @param array<string, mixed> $payload The exported array payload.
+     * @param array<string, mixed> $payload the exported array payload
      *
      * @return list<array<string, mixed>>
      */
@@ -76,7 +74,7 @@ final readonly class MemberGraphTopologyMermaidExporter implements MemberGraphTo
     /**
      * Returns exported edges from the payload.
      *
-     * @param array<string, mixed> $payload The exported array payload.
+     * @param array<string, mixed> $payload the exported array payload
      *
      * @return list<array<string, mixed>>
      */
@@ -94,7 +92,7 @@ final readonly class MemberGraphTopologyMermaidExporter implements MemberGraphTo
     /**
      * Keeps only associative array payload items.
      *
-     * @param array<mixed> $items The raw exported payload items.
+     * @param array<mixed> $items the raw exported payload items
      *
      * @return list<array<string, mixed>>
      */
@@ -126,9 +124,7 @@ final readonly class MemberGraphTopologyMermaidExporter implements MemberGraphTo
     /**
      * Builds a readable Mermaid node label.
      *
-     * @param array<string, mixed> $node The exported node payload.
-     *
-     * @return string
+     * @param array<string, mixed> $node the exported node payload
      */
     private function nodeLabel(array $node): string
     {
@@ -140,10 +136,10 @@ final readonly class MemberGraphTopologyMermaidExporter implements MemberGraphTo
             $type = $this->stringValue($member['type'] ?? '');
 
             if ('FUNCTION_' === $type) {
-                return $name . '()';
+                return $name.'()';
             }
 
-            return $owner . '::' . $name;
+            return $owner.'::'.$name;
         }
 
         $owner = $node['owner'] ?? null;
@@ -164,9 +160,7 @@ final readonly class MemberGraphTopologyMermaidExporter implements MemberGraphTo
     /**
      * Builds a readable Mermaid edge label.
      *
-     * @param array<string, mixed> $edge The exported edge payload.
-     *
-     * @return string
+     * @param array<string, mixed> $edge the exported edge payload
      */
     private function edgeLabel(array $edge): string
     {
@@ -186,7 +180,7 @@ final readonly class MemberGraphTopologyMermaidExporter implements MemberGraphTo
             $usageType = $this->stringValue($dependency['usageType'] ?? '');
 
             if ('' !== $usageType) {
-                return 'uses ' . $usageType;
+                return 'uses '.$usageType;
             }
         }
 
@@ -196,9 +190,7 @@ final readonly class MemberGraphTopologyMermaidExporter implements MemberGraphTo
     /**
      * Builds a Mermaid-safe node id.
      *
-     * @param string $nodeId The source topology node id.
-     *
-     * @return string
+     * @param string $nodeId the source topology node id
      */
     private function mermaidNodeId(string $nodeId): string
     {
@@ -209,18 +201,16 @@ final readonly class MemberGraphTopologyMermaidExporter implements MemberGraphTo
         }
 
         if (1 === preg_match('/^[0-9]/', $safe)) {
-            return 'node_' . $safe;
+            return 'node_'.$safe;
         }
 
-        return 'node_' . $safe;
+        return 'node_'.$safe;
     }
 
     /**
      * Escapes a Mermaid label.
      *
-     * @param string $label The raw label.
-     *
-     * @return string
+     * @param string $label the raw label
      */
     private function escapeLabel(string $label): string
     {
@@ -230,9 +220,7 @@ final readonly class MemberGraphTopologyMermaidExporter implements MemberGraphTo
     /**
      * Converts a scalar-ish value to string.
      *
-     * @param mixed $value The value to convert.
-     *
-     * @return string
+     * @param mixed $value the value to convert
      */
     private function stringValue(mixed $value): string
     {

@@ -26,11 +26,11 @@ final readonly class NewExpressionTypeResolver
     /**
      * Constructor.
      *
-     * @param ClassNameResolver $classNameResolver The class-name resolver.
-     * @param MethodNodeIndex $methodNodeIndex The global method node index.
-     * @param ClassTemplateDefinitionIndex $classTemplateDefinitionIndex The class template definition index.
-     * @param ConstructorTemplateInferenceResolver $constructorTemplateInferenceResolver The constructor template inference resolver.
-     * @param SpecialClassReferenceNormalizer $specialClassReferenceNormalizer The special class reference normalizer.
+     * @param ClassNameResolver                    $classNameResolver                    the class-name resolver
+     * @param MethodNodeIndex                      $methodNodeIndex                      the global method node index
+     * @param ClassTemplateDefinitionIndex         $classTemplateDefinitionIndex         the class template definition index
+     * @param ConstructorTemplateInferenceResolver $constructorTemplateInferenceResolver the constructor template inference resolver
+     * @param SpecialClassReferenceNormalizer      $specialClassReferenceNormalizer      the special class reference normalizer
      */
     public function __construct(
         private ClassNameResolver $classNameResolver,
@@ -44,11 +44,9 @@ final readonly class NewExpressionTypeResolver
     /**
      * Resolves the structured PHPDoc type produced by a new-expression.
      *
-     * @param New_ $expression The new-expression node.
-     * @param ExpressionResolutionContext $context The current expression resolution context.
-     * @param ExpressionTypeResolverInterface $fallbackResolver The facade resolver for recursive resolution.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param New_                            $expression       the new-expression node
+     * @param ExpressionResolutionContext     $context          the current expression resolution context
+     * @param ExpressionTypeResolverInterface $fallbackResolver the facade resolver for recursive resolution
      */
     public function resolve(
         New_ $expression,
@@ -121,10 +119,8 @@ final readonly class NewExpressionTypeResolver
     /**
      * Normalizes one resolved new-expression type when a class context is available.
      *
-     * @param ResolvedPhpDocType $type The resolved type to normalize.
-     * @param string $currentClass The current class FQCN.
-     *
-     * @return ResolvedPhpDocType
+     * @param ResolvedPhpDocType $type         the resolved type to normalize
+     * @param string             $currentClass the current class FQCN
      */
     private function normalize(ResolvedPhpDocType $type, string $currentClass): ResolvedPhpDocType
     {
@@ -138,7 +134,7 @@ final readonly class NewExpressionTypeResolver
     /**
      * Filters parser call arguments to concrete argument nodes.
      *
-     * @param array<array-key, Arg|VariadicPlaceholder> $arguments The parser arguments.
+     * @param array<array-key, Arg|VariadicPlaceholder> $arguments the parser arguments
      *
      * @return list<Arg>
      */

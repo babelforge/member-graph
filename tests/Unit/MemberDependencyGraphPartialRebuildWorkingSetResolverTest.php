@@ -51,8 +51,6 @@ final class MemberDependencyGraphPartialRebuildWorkingSetResolverTest extends Te
 {
     /**
      * Ensures changed files are parsed and rebuilt while reusable fragments stay outside the rebuild set.
-     *
-     * @return void
      */
     public function testItBuildsInitialWorkingSetFromChangedFiles(): void
     {
@@ -85,14 +83,12 @@ final class MemberDependencyGraphPartialRebuildWorkingSetResolverTest extends Te
 
     /**
      * Ensures files impacted by loaded declarations are added to the graph rebuild set.
-     *
-     * @return void
      */
     public function testItExpandsWorkingSetWithImpactedReusableFiles(): void
     {
         $changedFilePath = '/project/src/Changed.php';
         $runnerFilePath = '/project/src/Runner.php';
-        $runnerVirtualFilePath = $runnerFilePath . '.virtual.0';
+        $runnerVirtualFilePath = $runnerFilePath.'.virtual.0';
         $filesToBuild = new MemberGraphCacheFileCollection();
         $fragmentsToReuse = new MemberGraphFragmentCollection();
         $loadedDeclarationSnapshot = new MemberGraphDeclarationSnapshot();
@@ -109,7 +105,7 @@ final class MemberDependencyGraphPartialRebuildWorkingSetResolverTest extends Te
             ownerFqcn: 'App\\Changed',
             name: 'send',
             fullFilePath: $changedFilePath,
-            virtualFilePath: $changedFilePath . '.virtual.0',
+            virtualFilePath: $changedFilePath.'.virtual.0',
         ));
         $allSourceMetadata->add(new MemberGraphVirtualSourceMetadata(
             fullFilePath: $runnerFilePath,
@@ -140,16 +136,14 @@ final class MemberDependencyGraphPartialRebuildWorkingSetResolverTest extends Te
 
     /**
      * Ensures impact expansion continues until newly impacted files no longer reveal more impacted files.
-     *
-     * @return void
      */
     public function testItExpandsWorkingSetUntilImpactsAreClosed(): void
     {
         $changedFilePath = '/project/src/Changed.php';
         $runnerFilePath = '/project/src/Runner.php';
         $workerFilePath = '/project/src/Worker.php';
-        $runnerVirtualFilePath = $runnerFilePath . '.virtual.0';
-        $workerVirtualFilePath = $workerFilePath . '.virtual.0';
+        $runnerVirtualFilePath = $runnerFilePath.'.virtual.0';
+        $workerVirtualFilePath = $workerFilePath.'.virtual.0';
         $filesToBuild = new MemberGraphCacheFileCollection();
         $fragmentsToReuse = new MemberGraphFragmentCollection();
         $loadedDeclarationSnapshot = new MemberGraphDeclarationSnapshot();
@@ -182,7 +176,7 @@ final class MemberDependencyGraphPartialRebuildWorkingSetResolverTest extends Te
             ownerFqcn: 'App\\Changed',
             name: 'send',
             fullFilePath: $changedFilePath,
-            virtualFilePath: $changedFilePath . '.virtual.0',
+            virtualFilePath: $changedFilePath.'.virtual.0',
         ));
         $allSourceMetadata->add(new MemberGraphVirtualSourceMetadata(
             fullFilePath: $runnerFilePath,
@@ -218,16 +212,14 @@ final class MemberDependencyGraphPartialRebuildWorkingSetResolverTest extends Te
 
     /**
      * Ensures unresolved impacted graph file paths trigger an explicit conservative expansion.
-     *
-     * @return void
      */
     public function testItExpandsConservativelyWhenImpactedGraphFileCannotBeMapped(): void
     {
         $changedFilePath = '/project/src/Changed.php';
         $runnerFilePath = '/project/src/Runner.php';
         $workerFilePath = '/project/src/Worker.php';
-        $runnerVirtualFilePath = $runnerFilePath . '.virtual.0';
-        $workerVirtualFilePath = $workerFilePath . '.virtual.0';
+        $runnerVirtualFilePath = $runnerFilePath.'.virtual.0';
+        $workerVirtualFilePath = $workerFilePath.'.virtual.0';
         $filesToBuild = new MemberGraphCacheFileCollection();
         $fragmentsToReuse = new MemberGraphFragmentCollection();
         $loadedDeclarationSnapshot = new MemberGraphDeclarationSnapshot();
@@ -249,7 +241,7 @@ final class MemberDependencyGraphPartialRebuildWorkingSetResolverTest extends Te
             ownerFqcn: 'App\\Changed',
             name: 'send',
             fullFilePath: $changedFilePath,
-            virtualFilePath: $changedFilePath . '.virtual.0',
+            virtualFilePath: $changedFilePath.'.virtual.0',
         ));
 
         $workingSet = new MemberDependencyGraphPartialRebuildWorkingSetResolver()->resolve(
@@ -281,12 +273,10 @@ final class MemberDependencyGraphPartialRebuildWorkingSetResolverTest extends Te
     /**
      * Creates a prepared partial rebuild input.
      *
-     * @param MemberGraphCacheFileCollection $filesToBuild The physical files scheduled for rebuild.
-     * @param MemberGraphFragmentCollection $fragmentsToReuse The cached fragments available for reuse.
-     * @param MemberGraphDeclarationSnapshot|null $loadedDeclarationSnapshot The loaded declaration snapshot.
-     * @param MemberGraphVirtualSourceMetadataCollection|null $allSourceMetadata The complete source metadata view.
-     *
-     * @return MemberDependencyGraphPartialRebuildPreparedInput
+     * @param MemberGraphCacheFileCollection                  $filesToBuild              the physical files scheduled for rebuild
+     * @param MemberGraphFragmentCollection                   $fragmentsToReuse          the cached fragments available for reuse
+     * @param MemberGraphDeclarationSnapshot|null             $loadedDeclarationSnapshot the loaded declaration snapshot
+     * @param MemberGraphVirtualSourceMetadataCollection|null $allSourceMetadata         the complete source metadata view
      */
     private function preparedInput(
         MemberGraphCacheFileCollection $filesToBuild,
@@ -329,8 +319,6 @@ final class MemberDependencyGraphPartialRebuildWorkingSetResolverTest extends Te
 
     /**
      * Creates empty partial-compatible global indexes.
-     *
-     * @return MemberGraphPartialGlobalIndexes
      */
     private function partialGlobalIndexes(): MemberGraphPartialGlobalIndexes
     {
@@ -350,8 +338,6 @@ final class MemberDependencyGraphPartialRebuildWorkingSetResolverTest extends Te
 
     /**
      * Creates an empty member dependency graph.
-     *
-     * @return MemberDependencyGraph
      */
     private function emptyGraph(): MemberDependencyGraph
     {
@@ -369,9 +355,7 @@ final class MemberDependencyGraphPartialRebuildWorkingSetResolverTest extends Te
     /**
      * Creates a graph containing one member usage.
      *
-     * @param MemberUsage $usage The member usage.
-     *
-     * @return MemberDependencyGraph
+     * @param MemberUsage $usage the member usage
      */
     private function graphWithUsage(MemberUsage $usage): MemberDependencyGraph
     {
@@ -381,10 +365,8 @@ final class MemberDependencyGraphPartialRebuildWorkingSetResolverTest extends Te
     /**
      * Creates a graph containing member declarations and usages.
      *
-     * @param list<MemberDeclaration> $declarations The member declarations.
-     * @param list<MemberUsage> $usages The member usages.
-     *
-     * @return MemberDependencyGraph
+     * @param list<MemberDeclaration> $declarations the member declarations
+     * @param list<MemberUsage>       $usages       the member usages
      */
     private function graphWithDeclarationsAndUsages(
         array $declarations = [],

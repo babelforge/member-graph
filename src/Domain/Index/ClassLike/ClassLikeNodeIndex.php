@@ -4,16 +4,14 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Domain\Index\ClassLike;
 
-use IteratorAggregate;
 use PhpParser\Node\Stmt\ClassLike;
-use Traversable;
 
 /**
  * Stores class-like nodes indexed by FQCN.
  *
- * @implements IteratorAggregate<string, ClassLike>
+ * @implements \IteratorAggregate<string, ClassLike>
  */
-final class ClassLikeNodeIndex implements IteratorAggregate
+final class ClassLikeNodeIndex implements \IteratorAggregate
 {
     /**
      * @var array<string, ClassLike>
@@ -23,10 +21,8 @@ final class ClassLikeNodeIndex implements IteratorAggregate
     /**
      * Stores one class-like node.
      *
-     * @param string $owner The class-like FQCN.
-     * @param ClassLike $classLikeNode The class-like node.
-     *
-     * @return void
+     * @param string    $owner         the class-like FQCN
+     * @param ClassLike $classLikeNode the class-like node
      */
     public function set(string $owner, ClassLike $classLikeNode): void
     {
@@ -36,9 +32,7 @@ final class ClassLikeNodeIndex implements IteratorAggregate
     /**
      * Returns one class-like node.
      *
-     * @param string $owner The class-like FQCN.
-     *
-     * @return ClassLike|null
+     * @param string $owner the class-like FQCN
      */
     public function get(string $owner): ?ClassLike
     {
@@ -48,9 +42,7 @@ final class ClassLikeNodeIndex implements IteratorAggregate
     /**
      * Merges another index into the current one.
      *
-     * @param self $other The other index.
-     *
-     * @return void
+     * @param self $other the other index
      */
     public function merge(self $other): void
     {
@@ -62,9 +54,7 @@ final class ClassLikeNodeIndex implements IteratorAggregate
     /**
      * Returns whether one class-like exists.
      *
-     * @param string $owner The class-like FQCN.
-     *
-     * @return bool
+     * @param string $owner the class-like FQCN
      */
     public function has(string $owner): bool
     {
@@ -81,10 +71,7 @@ final class ClassLikeNodeIndex implements IteratorAggregate
         return $this->items;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         yield from $this->items;
     }

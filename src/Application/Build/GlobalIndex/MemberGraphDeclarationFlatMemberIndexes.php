@@ -16,9 +16,9 @@ final readonly class MemberGraphDeclarationFlatMemberIndexes
     /**
      * Constructor.
      *
-     * @param PropertyTypeIndex $propertyTypeIndex The property type index.
-     * @param ClassConstantTypeIndex $classConstantTypeIndex The class constant type index.
-     * @param ClassConstantValueIndex $classConstantValueIndex The scalar class constant value index.
+     * @param PropertyTypeIndex       $propertyTypeIndex       the property type index
+     * @param ClassConstantTypeIndex  $classConstantTypeIndex  the class constant type index
+     * @param ClassConstantValueIndex $classConstantValueIndex the scalar class constant value index
      */
     public function __construct(
         public PropertyTypeIndex $propertyTypeIndex,

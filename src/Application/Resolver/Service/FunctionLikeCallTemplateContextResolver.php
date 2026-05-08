@@ -23,10 +23,10 @@ final readonly class FunctionLikeCallTemplateContextResolver
     /**
      * Constructor.
      *
-     * @param FunctionLikeParameterResolver $parameterResolver The function-like parameter resolver.
-     * @param ArgumentStructuredTypeResolver $argumentStructuredTypeResolver The argument structured type resolver.
-     * @param OwnerTemplateSubstitutionResolver $ownerTemplateSubstitutionResolver The owner template substitution resolver.
-     * @param TemplateSubstitutionCollector $templateSubstitutionCollector The template substitution collector.
+     * @param FunctionLikeParameterResolver     $parameterResolver                 the function-like parameter resolver
+     * @param ArgumentStructuredTypeResolver    $argumentStructuredTypeResolver    the argument structured type resolver
+     * @param OwnerTemplateSubstitutionResolver $ownerTemplateSubstitutionResolver the owner template substitution resolver
+     * @param TemplateSubstitutionCollector     $templateSubstitutionCollector     the template substitution collector
      */
     public function __construct(
         private FunctionLikeParameterResolver $parameterResolver,
@@ -39,16 +39,14 @@ final readonly class FunctionLikeCallTemplateContextResolver
     /**
      * Resolves the substitution context for one function-like call.
      *
-     * @param MethodCall|NullsafeMethodCall|StaticCall|FuncCall $expression The call expression.
-     * @param string|null $owner The method owner, or null for functions.
-     * @param string $methodName The method or function name.
-     * @param bool $isMethodLike Whether the call targets a method-like member.
-     * @param FunctionLikeReturnType|null $functionLikeReturnType The function-like return details.
-     * @param ExpressionResolutionContext $context The expression resolution context.
-     * @param ExpressionTypeResolverInterface $fallbackResolver The fallback expression resolver.
-     * @param ResolvedPhpDocType|null $receiverStructuredType The receiver structured type.
-     *
-     * @return PhpDocTemplateSubstitutionContext
+     * @param MethodCall|NullsafeMethodCall|StaticCall|FuncCall $expression             the call expression
+     * @param string|null                                       $owner                  the method owner, or null for functions
+     * @param string                                            $methodName             the method or function name
+     * @param bool                                              $isMethodLike           whether the call targets a method-like member
+     * @param FunctionLikeReturnType|null                       $functionLikeReturnType the function-like return details
+     * @param ExpressionResolutionContext                       $context                the expression resolution context
+     * @param ExpressionTypeResolverInterface                   $fallbackResolver       the fallback expression resolver
+     * @param ResolvedPhpDocType|null                           $receiverStructuredType the receiver structured type
      */
     public function resolve(
         MethodCall|NullsafeMethodCall|StaticCall|FuncCall $expression,

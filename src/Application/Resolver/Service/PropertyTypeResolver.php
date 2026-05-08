@@ -21,10 +21,10 @@ final readonly class PropertyTypeResolver
     /**
      * Constructor.
      *
-     * @param PropertyTypeIndex $propertyTypeIndex The native property type index.
-     * @param PropertyStructuredTypeIndex $propertyStructuredTypeIndex The structured property type index.
-     * @param KnownOwnerCollection $knownOwners The known owner metadata.
-     * @param StaticOwnerResolver $staticOwnerResolver The static owner resolver.
+     * @param PropertyTypeIndex           $propertyTypeIndex           the native property type index
+     * @param PropertyStructuredTypeIndex $propertyStructuredTypeIndex the structured property type index
+     * @param KnownOwnerCollection        $knownOwners                 the known owner metadata
+     * @param StaticOwnerResolver         $staticOwnerResolver         the static owner resolver
      */
     public function __construct(
         private PropertyTypeIndex $propertyTypeIndex,
@@ -37,10 +37,8 @@ final readonly class PropertyTypeResolver
     /**
      * Resolves one instance property to its declared native property types through inheritance.
      *
-     * @param string $owner The starting owner.
-     * @param string $propertyName The property name.
-     *
-     * @return SymbolCollection
+     * @param string $owner        the starting owner
+     * @param string $propertyName the property name
      */
     public function resolveInstancePropertyTypes(string $owner, string $propertyName): SymbolCollection
     {
@@ -50,10 +48,8 @@ final readonly class PropertyTypeResolver
     /**
      * Resolves one static property to its declared native property types through inheritance.
      *
-     * @param string $owner The starting owner.
-     * @param string $propertyName The property name without "$".
-     *
-     * @return SymbolCollection
+     * @param string $owner        the starting owner
+     * @param string $propertyName the property name without "$"
      */
     public function resolveStaticPropertyTypes(string $owner, string $propertyName): SymbolCollection
     {
@@ -63,10 +59,8 @@ final readonly class PropertyTypeResolver
     /**
      * Resolves one static property expression to its structured PHPDoc type through inheritance.
      *
-     * @param StaticPropertyFetch $expression The static property fetch expression.
-     * @param string $currentClass The current class-like owner.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param StaticPropertyFetch $expression   the static property fetch expression
+     * @param string              $currentClass the current class-like owner
      */
     public function resolveStaticPropertyStructuredType(
         StaticPropertyFetch $expression,
@@ -92,10 +86,8 @@ final readonly class PropertyTypeResolver
     /**
      * Resolves one property to its declared native property types through inheritance.
      *
-     * @param string $owner The starting owner.
-     * @param string $propertyName The property name.
-     *
-     * @return SymbolCollection
+     * @param string $owner        the starting owner
+     * @param string $propertyName the property name
      */
     private function resolvePropertyTypes(string $owner, string $propertyName): SymbolCollection
     {
@@ -121,10 +113,8 @@ final readonly class PropertyTypeResolver
     /**
      * Resolves one property to its structured PHPDoc type through inheritance.
      *
-     * @param string $owner The starting owner.
-     * @param string $propertyName The property name.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param string $owner        the starting owner
+     * @param string $propertyName the property name
      */
     private function resolveStructuredPropertyType(string $owner, string $propertyName): ?ResolvedPhpDocType
     {

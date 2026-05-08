@@ -16,58 +16,56 @@ final class MemberDependencyGraphFactoryStructuredTypePartialRebuildTest extends
 {
     /**
      * Ensures partial builds rebuild chained-call consumers when a factory return type changes.
-     *
-     * @return void
      */
     public function testPartialBuildExpandsMethodReturnTypeChangeToChainedCallConsumer(): void
     {
-        $srcDirectory = $this->workspace . '/src-partial-return-type-chain-impact';
-        $aFilePath = $srcDirectory . '/A.php';
-        $factoryFilePath = $srcDirectory . '/Factory.php';
-        $oldServiceFilePath = $srcDirectory . '/OldService.php';
-        $newServiceFilePath = $srcDirectory . '/NewService.php';
-        $partialCacheFilePath = $this->workspace . '/partial-return-type-chain-impact.cache';
-        $fullCacheFilePath = $this->workspace . '/partial-return-type-chain-impact-full.cache';
+        $srcDirectory = $this->workspace.'/src-partial-return-type-chain-impact';
+        $aFilePath = $srcDirectory.'/A.php';
+        $factoryFilePath = $srcDirectory.'/Factory.php';
+        $oldServiceFilePath = $srcDirectory.'/OldService.php';
+        $newServiceFilePath = $srcDirectory.'/NewService.php';
+        $partialCacheFilePath = $this->workspace.'/partial-return-type-chain-impact.cache';
+        $fullCacheFilePath = $this->workspace.'/partial-return-type-chain-impact-full.cache';
 
-        mkdir($srcDirectory, 0777, true);
+        mkdir($srcDirectory, 0o777, true);
         file_put_contents($aFilePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class A
-{
-    public function run(): void
-    {
-        Factory::make()->send();
-    }
-}
-PHP);
+            final class A
+            {
+                public function run(): void
+                {
+                    Factory::make()->send();
+                }
+            }
+            PHP);
         file_put_contents($factoryFilePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class Factory
-{
-    public static function make(): OldService
-    {
-        return new OldService();
-    }
-}
-PHP);
+            final class Factory
+            {
+                public static function make(): OldService
+                {
+                    return new OldService();
+                }
+            }
+            PHP);
         file_put_contents($oldServiceFilePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class OldService
-{
-    public function send(): void
-    {
-    }
-}
-PHP);
+            final class OldService
+            {
+                public function send(): void
+                {
+                }
+            }
+            PHP);
 
         MemberDependencyGraphFactory::fromDirectory(
             directories: [$srcDirectory],
@@ -76,30 +74,30 @@ PHP);
 
         sleep(1);
         file_put_contents($factoryFilePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class Factory
-{
-    public static function make(): NewService
-    {
-        return new NewService();
-    }
-}
-PHP);
+            final class Factory
+            {
+                public static function make(): NewService
+                {
+                    return new NewService();
+                }
+            }
+            PHP);
         file_put_contents($newServiceFilePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class NewService
-{
-    public function send(): void
-    {
-    }
-}
-PHP);
+            final class NewService
+            {
+                public function send(): void
+                {
+                }
+            }
+            PHP);
 
         $partialBuild = MemberDependencyGraphFactory::fromDirectory(
             directories: [$srcDirectory],
@@ -137,18 +135,16 @@ PHP);
 
     /**
      * Ensures partial builds rebuild property consumers when a native property type changes.
-     *
-     * @return void
      */
     public function testPartialBuildExpandsNativePropertyTypeChangeToConsumer(): void
     {
-        $srcDirectory = $this->workspace . '/src-partial-native-property-type-impact';
-        $aFilePath = $srcDirectory . '/A.php';
-        $holderFilePath = $srcDirectory . '/Holder.php';
-        $oldServiceFilePath = $srcDirectory . '/OldService.php';
-        $newServiceFilePath = $srcDirectory . '/NewService.php';
-        $partialCacheFilePath = $this->workspace . '/partial-native-property-type-impact.cache';
-        $fullCacheFilePath = $this->workspace . '/partial-native-property-type-impact-full.cache';
+        $srcDirectory = $this->workspace.'/src-partial-native-property-type-impact';
+        $aFilePath = $srcDirectory.'/A.php';
+        $holderFilePath = $srcDirectory.'/Holder.php';
+        $oldServiceFilePath = $srcDirectory.'/OldService.php';
+        $newServiceFilePath = $srcDirectory.'/NewService.php';
+        $partialCacheFilePath = $this->workspace.'/partial-native-property-type-impact.cache';
+        $fullCacheFilePath = $this->workspace.'/partial-native-property-type-impact-full.cache';
 
         $this->writePropertyTypeDispatchFiles(
             srcDirectory: $srcDirectory,
@@ -194,18 +190,16 @@ PHP);
 
     /**
      * Ensures partial builds rebuild chained-call consumers when a PHPDoc return type changes.
-     *
-     * @return void
      */
     public function testPartialBuildExpandsPhpDocReturnTypeChangeToChainedCallConsumer(): void
     {
-        $srcDirectory = $this->workspace . '/src-partial-phpdoc-return-type-chain-impact';
-        $aFilePath = $srcDirectory . '/A.php';
-        $factoryFilePath = $srcDirectory . '/Factory.php';
-        $oldServiceFilePath = $srcDirectory . '/OldService.php';
-        $newServiceFilePath = $srcDirectory . '/NewService.php';
-        $partialCacheFilePath = $this->workspace . '/partial-phpdoc-return-type-chain-impact.cache';
-        $fullCacheFilePath = $this->workspace . '/partial-phpdoc-return-type-chain-impact-full.cache';
+        $srcDirectory = $this->workspace.'/src-partial-phpdoc-return-type-chain-impact';
+        $aFilePath = $srcDirectory.'/A.php';
+        $factoryFilePath = $srcDirectory.'/Factory.php';
+        $oldServiceFilePath = $srcDirectory.'/OldService.php';
+        $newServiceFilePath = $srcDirectory.'/NewService.php';
+        $partialCacheFilePath = $this->workspace.'/partial-phpdoc-return-type-chain-impact.cache';
+        $fullCacheFilePath = $this->workspace.'/partial-phpdoc-return-type-chain-impact-full.cache';
 
         $this->writeFactoryReturnDispatchFiles(
             srcDirectory: $srcDirectory,
@@ -255,18 +249,16 @@ PHP);
 
     /**
      * Ensures partial builds rebuild property consumers when a PHPDoc property type changes.
-     *
-     * @return void
      */
     public function testPartialBuildExpandsPhpDocPropertyTypeChangeToConsumer(): void
     {
-        $srcDirectory = $this->workspace . '/src-partial-phpdoc-property-type-impact';
-        $aFilePath = $srcDirectory . '/A.php';
-        $holderFilePath = $srcDirectory . '/Holder.php';
-        $oldServiceFilePath = $srcDirectory . '/OldService.php';
-        $newServiceFilePath = $srcDirectory . '/NewService.php';
-        $partialCacheFilePath = $this->workspace . '/partial-phpdoc-property-type-impact.cache';
-        $fullCacheFilePath = $this->workspace . '/partial-phpdoc-property-type-impact-full.cache';
+        $srcDirectory = $this->workspace.'/src-partial-phpdoc-property-type-impact';
+        $aFilePath = $srcDirectory.'/A.php';
+        $holderFilePath = $srcDirectory.'/Holder.php';
+        $oldServiceFilePath = $srcDirectory.'/OldService.php';
+        $newServiceFilePath = $srcDirectory.'/NewService.php';
+        $partialCacheFilePath = $this->workspace.'/partial-phpdoc-property-type-impact.cache';
+        $fullCacheFilePath = $this->workspace.'/partial-phpdoc-property-type-impact-full.cache';
 
         $this->writePropertyTypeDispatchFiles(
             srcDirectory: $srcDirectory,
@@ -312,18 +304,16 @@ PHP);
 
     /**
      * Ensures partial builds rebuild foreach consumers when a generic PHPDoc list return type changes.
-     *
-     * @return void
      */
     public function testPartialBuildExpandsGenericListReturnTypeChangeToForeachConsumer(): void
     {
-        $srcDirectory = $this->workspace . '/src-partial-generic-list-return-impact';
-        $aFilePath = $srcDirectory . '/A.php';
-        $factoryFilePath = $srcDirectory . '/Factory.php';
-        $oldServiceFilePath = $srcDirectory . '/OldService.php';
-        $newServiceFilePath = $srcDirectory . '/NewService.php';
-        $partialCacheFilePath = $this->workspace . '/partial-generic-list-return-impact.cache';
-        $fullCacheFilePath = $this->workspace . '/partial-generic-list-return-impact-full.cache';
+        $srcDirectory = $this->workspace.'/src-partial-generic-list-return-impact';
+        $aFilePath = $srcDirectory.'/A.php';
+        $factoryFilePath = $srcDirectory.'/Factory.php';
+        $oldServiceFilePath = $srcDirectory.'/OldService.php';
+        $newServiceFilePath = $srcDirectory.'/NewService.php';
+        $partialCacheFilePath = $this->workspace.'/partial-generic-list-return-impact.cache';
+        $fullCacheFilePath = $this->workspace.'/partial-generic-list-return-impact-full.cache';
 
         $this->writeFactoryReturnDispatchFiles(
             srcDirectory: $srcDirectory,
@@ -373,18 +363,16 @@ PHP);
 
     /**
      * Ensures partial builds rebuild nullsafe consumers when a nullable return type changes.
-     *
-     * @return void
      */
     public function testPartialBuildExpandsNullableReturnTypeChangeToNullsafeConsumer(): void
     {
-        $srcDirectory = $this->workspace . '/src-partial-nullable-return-type-impact';
-        $aFilePath = $srcDirectory . '/A.php';
-        $factoryFilePath = $srcDirectory . '/Factory.php';
-        $oldServiceFilePath = $srcDirectory . '/OldService.php';
-        $newServiceFilePath = $srcDirectory . '/NewService.php';
-        $partialCacheFilePath = $this->workspace . '/partial-nullable-return-type-impact.cache';
-        $fullCacheFilePath = $this->workspace . '/partial-nullable-return-type-impact-full.cache';
+        $srcDirectory = $this->workspace.'/src-partial-nullable-return-type-impact';
+        $aFilePath = $srcDirectory.'/A.php';
+        $factoryFilePath = $srcDirectory.'/Factory.php';
+        $oldServiceFilePath = $srcDirectory.'/OldService.php';
+        $newServiceFilePath = $srcDirectory.'/NewService.php';
+        $partialCacheFilePath = $this->workspace.'/partial-nullable-return-type-impact.cache';
+        $fullCacheFilePath = $this->workspace.'/partial-nullable-return-type-impact-full.cache';
 
         $this->writeNullableReturnDispatchFiles(
             srcDirectory: $srcDirectory,
@@ -429,18 +417,16 @@ PHP);
 
     /**
      * Ensures partial builds rebuild array-shape consumers when a PHPDoc return field type changes.
-     *
-     * @return void
      */
     public function testPartialBuildExpandsArrayShapeReturnTypeChangeToConsumer(): void
     {
-        $srcDirectory = $this->workspace . '/src-partial-array-shape-return-impact';
-        $aFilePath = $srcDirectory . '/A.php';
-        $factoryFilePath = $srcDirectory . '/Factory.php';
-        $oldServiceFilePath = $srcDirectory . '/OldService.php';
-        $newServiceFilePath = $srcDirectory . '/NewService.php';
-        $partialCacheFilePath = $this->workspace . '/partial-array-shape-return-impact.cache';
-        $fullCacheFilePath = $this->workspace . '/partial-array-shape-return-impact-full.cache';
+        $srcDirectory = $this->workspace.'/src-partial-array-shape-return-impact';
+        $aFilePath = $srcDirectory.'/A.php';
+        $factoryFilePath = $srcDirectory.'/Factory.php';
+        $oldServiceFilePath = $srcDirectory.'/OldService.php';
+        $newServiceFilePath = $srcDirectory.'/NewService.php';
+        $partialCacheFilePath = $this->workspace.'/partial-array-shape-return-impact.cache';
+        $fullCacheFilePath = $this->workspace.'/partial-array-shape-return-impact-full.cache';
 
         $this->writeArrayShapeReturnDispatchFiles(
             srcDirectory: $srcDirectory,
@@ -485,18 +471,16 @@ PHP);
 
     /**
      * Ensures partial builds rebuild callable consumers when a callable PHPDoc return type changes.
-     *
-     * @return void
      */
     public function testPartialBuildExpandsCallableReturnTypeChangeToInvocationConsumer(): void
     {
-        $srcDirectory = $this->workspace . '/src-partial-callable-return-impact';
-        $aFilePath = $srcDirectory . '/A.php';
-        $factoryFilePath = $srcDirectory . '/Factory.php';
-        $oldServiceFilePath = $srcDirectory . '/OldService.php';
-        $newServiceFilePath = $srcDirectory . '/NewService.php';
-        $partialCacheFilePath = $this->workspace . '/partial-callable-return-impact.cache';
-        $fullCacheFilePath = $this->workspace . '/partial-callable-return-impact-full.cache';
+        $srcDirectory = $this->workspace.'/src-partial-callable-return-impact';
+        $aFilePath = $srcDirectory.'/A.php';
+        $factoryFilePath = $srcDirectory.'/Factory.php';
+        $oldServiceFilePath = $srcDirectory.'/OldService.php';
+        $newServiceFilePath = $srcDirectory.'/NewService.php';
+        $partialCacheFilePath = $this->workspace.'/partial-callable-return-impact.cache';
+        $fullCacheFilePath = $this->workspace.'/partial-callable-return-impact-full.cache';
 
         $this->writeCallableReturnDispatchFiles(
             srcDirectory: $srcDirectory,
@@ -538,5 +522,4 @@ PHP);
             impactedFilePath: $aFilePath,
         );
     }
-
 }

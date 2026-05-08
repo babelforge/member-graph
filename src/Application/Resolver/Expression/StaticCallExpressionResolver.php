@@ -25,8 +25,8 @@ final readonly class StaticCallExpressionResolver implements ExpressionResolverI
     /**
      * Constructor.
      *
-     * @param StaticOwnerResolver $staticOwnerResolver The static owner resolver.
-     * @param FunctionLikeCallResolver $functionLikeCallResolver The function-like call resolver.
+     * @param StaticOwnerResolver      $staticOwnerResolver      the static owner resolver
+     * @param FunctionLikeCallResolver $functionLikeCallResolver the function-like call resolver
      */
     public function __construct(
         private StaticOwnerResolver $staticOwnerResolver,
@@ -37,9 +37,7 @@ final readonly class StaticCallExpressionResolver implements ExpressionResolverI
     /**
      * Tells whether this resolver can handle the given node.
      *
-     * @param Node $expression The expression or expression-like node to inspect.
-     *
-     * @return bool
+     * @param Node $expression the expression or expression-like node to inspect
      */
     public function supports(Node $expression): bool
     {
@@ -49,11 +47,9 @@ final readonly class StaticCallExpressionResolver implements ExpressionResolverI
     /**
      * Resolves symbols produced by a static method call.
      *
-     * @param Node $expression The static-call expression.
-     * @param ExpressionResolutionContext $context The current expression resolution context.
-     * @param ExpressionTypeResolverInterface $fallbackResolver The facade resolver for recursive resolution.
-     *
-     * @return SymbolCollection|null
+     * @param Node                            $expression       the static-call expression
+     * @param ExpressionResolutionContext     $context          the current expression resolution context
+     * @param ExpressionTypeResolverInterface $fallbackResolver the facade resolver for recursive resolution
      */
     public function resolve(
         Node $expression,
@@ -100,11 +96,9 @@ final readonly class StaticCallExpressionResolver implements ExpressionResolverI
     /**
      * Resolves the structured PHPDoc type produced by a static method call.
      *
-     * @param Expr $expression The static-call expression.
-     * @param ExpressionResolutionContext $context The current expression resolution context.
-     * @param ExpressionTypeResolverInterface $fallbackResolver The facade resolver for recursive resolution.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param Expr                            $expression       the static-call expression
+     * @param ExpressionResolutionContext     $context          the current expression resolution context
+     * @param ExpressionTypeResolverInterface $fallbackResolver the facade resolver for recursive resolution
      */
     public function resolveStructuredPhpDocType(
         Expr $expression,

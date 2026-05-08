@@ -15,10 +15,8 @@ final readonly class TemplateShapeSubstitutionResolver
     /**
      * Returns whether two structured types expose comparable shape fields.
      *
-     * @param ResolvedPhpDocType $parameterType The declared parameter type.
-     * @param ResolvedPhpDocType $argumentType The concrete argument type.
-     *
-     * @return bool
+     * @param ResolvedPhpDocType $parameterType the declared parameter type
+     * @param ResolvedPhpDocType $argumentType  the concrete argument type
      */
     public function supportsShapeFields(ResolvedPhpDocType $parameterType, ResolvedPhpDocType $argumentType): bool
     {
@@ -28,12 +26,10 @@ final readonly class TemplateShapeSubstitutionResolver
     /**
      * Collects substitutions from matching generic shape fields.
      *
-     * @param ResolvedPhpDocType $parameterType The declared parameter shape type.
-     * @param ResolvedPhpDocType $argumentType The concrete argument shape type.
-     * @param PhpDocTemplateSubstitutionContext $context The mutable substitution context.
-     * @param TemplateArgumentSubstitutionResolver $argumentSubstitutionResolver The recursive argument substitution resolver.
-     *
-     * @return void
+     * @param ResolvedPhpDocType                   $parameterType                the declared parameter shape type
+     * @param ResolvedPhpDocType                   $argumentType                 the concrete argument shape type
+     * @param PhpDocTemplateSubstitutionContext    $context                      the mutable substitution context
+     * @param TemplateArgumentSubstitutionResolver $argumentSubstitutionResolver the recursive argument substitution resolver
      */
     public function collectShapeFields(
         ResolvedPhpDocType $parameterType,
@@ -55,10 +51,8 @@ final readonly class TemplateShapeSubstitutionResolver
     /**
      * Returns whether two structured types expose comparable non-empty shape fields.
      *
-     * @param ResolvedPhpDocType $parameterType The declared parameter type.
-     * @param ResolvedPhpDocType $argumentType The concrete argument type.
-     *
-     * @return bool
+     * @param ResolvedPhpDocType $parameterType the declared parameter type
+     * @param ResolvedPhpDocType $argumentType  the concrete argument type
      */
     public function supportsNonEmptyShapeFields(ResolvedPhpDocType $parameterType, ResolvedPhpDocType $argumentType): bool
     {
@@ -68,12 +62,10 @@ final readonly class TemplateShapeSubstitutionResolver
     /**
      * Collects substitutions from matching non-empty shape fields.
      *
-     * @param ResolvedPhpDocType $parameterType The declared parameter shape type.
-     * @param ResolvedPhpDocType $argumentType The concrete argument shape type.
-     * @param PhpDocTemplateSubstitutionContext $context The mutable substitution context.
-     * @param TemplateArgumentSubstitutionResolver $argumentSubstitutionResolver The recursive argument substitution resolver.
-     *
-     * @return void
+     * @param ResolvedPhpDocType                   $parameterType                the declared parameter shape type
+     * @param ResolvedPhpDocType                   $argumentType                 the concrete argument shape type
+     * @param PhpDocTemplateSubstitutionContext    $context                      the mutable substitution context
+     * @param TemplateArgumentSubstitutionResolver $argumentSubstitutionResolver the recursive argument substitution resolver
      */
     public function collectNonEmptyShapeFields(
         ResolvedPhpDocType $parameterType,

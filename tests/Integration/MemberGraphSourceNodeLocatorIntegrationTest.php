@@ -36,19 +36,15 @@ final class MemberGraphSourceNodeLocatorIntegrationTest extends TestCase
 
     /**
      * Creates a temporary integration workspace.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
-        $this->workspace = sys_get_temp_dir() . '/member-graph-source-node-locator-' . bin2hex(random_bytes(6));
-        mkdir($this->workspace, 0777, true);
+        $this->workspace = sys_get_temp_dir().'/member-graph-source-node-locator-'.bin2hex(random_bytes(6));
+        mkdir($this->workspace, 0o777, true);
     }
 
     /**
      * Removes the temporary integration workspace.
-     *
-     * @return void
      */
     protected function tearDown(): void
     {
@@ -57,20 +53,18 @@ final class MemberGraphSourceNodeLocatorIntegrationTest extends TestCase
 
     /**
      * Ensures real factory builds attach source-node identifiers used by strict source lookup.
-     *
-     * @return void
      */
     public function testFactoryBuildSourceNodeIdsDriveStrictSourceNodeLookup(): void
     {
-        $srcDirectory = $this->workspace . '/src';
-        $cacheFilePath = $this->workspace . '/member-graph.cache';
-        $mailerFilePath = $srcDirectory . '/Mailer.php';
-        $runnerFilePath = $srcDirectory . '/Runner.php';
+        $srcDirectory = $this->workspace.'/src';
+        $cacheFilePath = $this->workspace.'/member-graph.cache';
+        $mailerFilePath = $srcDirectory.'/Mailer.php';
+        $runnerFilePath = $srcDirectory.'/Runner.php';
         $send = new MemberId('App\\Mailer', 'send', MemberType::METHOD);
         $run = new MemberId('App\\Runner', 'run', MemberType::METHOD);
         $message = new ParameterId('App\\Mailer', 'send', 'message');
 
-        mkdir($srcDirectory, 0777, true);
+        mkdir($srcDirectory, 0o777, true);
         $this->writeMailerFile($mailerFilePath);
         $this->writeRunnerFile($runnerFilePath);
 
@@ -106,17 +100,15 @@ final class MemberGraphSourceNodeLocatorIntegrationTest extends TestCase
 
     /**
      * Ensures real factory builds drive strict property and class-constant source lookup.
-     *
-     * @return void
      */
     public function testFactoryBuildSourceNodeIdsDriveStrictPropertyAndClassConstantLookup(): void
     {
-        $srcDirectory = $this->workspace . '/src';
-        $cacheFilePath = $this->workspace . '/member-graph.cache';
-        $mailerFilePath = $srcDirectory . '/Mailer.php';
-        $runnerFilePath = $srcDirectory . '/Runner.php';
+        $srcDirectory = $this->workspace.'/src';
+        $cacheFilePath = $this->workspace.'/member-graph.cache';
+        $mailerFilePath = $srcDirectory.'/Mailer.php';
+        $runnerFilePath = $srcDirectory.'/Runner.php';
 
-        mkdir($srcDirectory, 0777, true);
+        mkdir($srcDirectory, 0o777, true);
         $this->writeInspectableMailerFile($mailerFilePath);
         $this->writeInspectableRunnerFile($runnerFilePath);
 
@@ -139,16 +131,14 @@ final class MemberGraphSourceNodeLocatorIntegrationTest extends TestCase
 
     /**
      * Ensures real factory builds keep promoted properties as member declarations.
-     *
-     * @return void
      */
     public function testFactoryBuildSourceNodeIdsDriveStrictPromotedPropertyLookup(): void
     {
-        $srcDirectory = $this->workspace . '/src';
-        $cacheFilePath = $this->workspace . '/member-graph.cache';
-        $mailerFilePath = $srcDirectory . '/Mailer.php';
+        $srcDirectory = $this->workspace.'/src';
+        $cacheFilePath = $this->workspace.'/member-graph.cache';
+        $mailerFilePath = $srcDirectory.'/Mailer.php';
 
-        mkdir($srcDirectory, 0777, true);
+        mkdir($srcDirectory, 0o777, true);
         $this->writePromotedPropertyMailerFile($mailerFilePath);
 
         $build = MemberDependencyGraphFactory::fromDirectory(
@@ -168,18 +158,16 @@ final class MemberGraphSourceNodeLocatorIntegrationTest extends TestCase
 
     /**
      * Ensures real factory builds drive strict function, static-call, and nullsafe-call source lookup.
-     *
-     * @return void
      */
     public function testFactoryBuildSourceNodeIdsDriveStrictFunctionStaticCallAndNullsafeCallLookup(): void
     {
-        $srcDirectory = $this->workspace . '/src';
-        $cacheFilePath = $this->workspace . '/member-graph.cache';
-        $mailerFilePath = $srcDirectory . '/Mailer.php';
-        $functionsFilePath = $srcDirectory . '/functions.php';
-        $runnerFilePath = $srcDirectory . '/Runner.php';
+        $srcDirectory = $this->workspace.'/src';
+        $cacheFilePath = $this->workspace.'/member-graph.cache';
+        $mailerFilePath = $srcDirectory.'/Mailer.php';
+        $functionsFilePath = $srcDirectory.'/functions.php';
+        $runnerFilePath = $srcDirectory.'/Runner.php';
 
-        mkdir($srcDirectory, 0777, true);
+        mkdir($srcDirectory, 0o777, true);
         $this->writeCallableMailerFile($mailerFilePath);
         $this->writeFunctionsFile($functionsFilePath);
         $this->writeCallableRunnerFile($runnerFilePath);
@@ -207,17 +195,15 @@ final class MemberGraphSourceNodeLocatorIntegrationTest extends TestCase
 
     /**
      * Ensures real factory builds locate enum-case declarations as class-constant members.
-     *
-     * @return void
      */
     public function testFactoryBuildSourceNodeIdsDriveStrictEnumCaseLookup(): void
     {
-        $srcDirectory = $this->workspace . '/src';
-        $cacheFilePath = $this->workspace . '/member-graph.cache';
-        $transportFilePath = $srcDirectory . '/Transport.php';
-        $runnerFilePath = $srcDirectory . '/Runner.php';
+        $srcDirectory = $this->workspace.'/src';
+        $cacheFilePath = $this->workspace.'/member-graph.cache';
+        $transportFilePath = $srcDirectory.'/Transport.php';
+        $runnerFilePath = $srcDirectory.'/Runner.php';
 
-        mkdir($srcDirectory, 0777, true);
+        mkdir($srcDirectory, 0o777, true);
         $this->writeTransportEnumFile($transportFilePath);
         $this->writeEnumRunnerFile($runnerFilePath);
 
@@ -237,256 +223,234 @@ final class MemberGraphSourceNodeLocatorIntegrationTest extends TestCase
     /**
      * Writes the mailer fixture.
      *
-     * @param string $filePath The file path.
-     *
-     * @return void
+     * @param string $filePath the file path
      */
     private function writeMailerFile(string $filePath): void
     {
         file_put_contents($filePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class Mailer
-{
-    public function send(string $message): void
-    {
-    }
-}
-PHP);
+            final class Mailer
+            {
+                public function send(string $message): void
+                {
+                }
+            }
+            PHP);
     }
 
     /**
      * Writes the runner fixture.
      *
-     * @param string $filePath The file path.
-     *
-     * @return void
+     * @param string $filePath the file path
      */
     private function writeRunnerFile(string $filePath): void
     {
         file_put_contents($filePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class Runner
-{
-    public function run(Mailer $mailer): void
-    {
-        $mailer->send(message: 'hello');
-    }
-}
-PHP);
+            final class Runner
+            {
+                public function run(Mailer $mailer): void
+                {
+                    $mailer->send(message: 'hello');
+                }
+            }
+            PHP);
     }
 
     /**
      * Writes a mailer fixture exposing a normal property and class constant.
      *
-     * @param string $filePath The file path.
-     *
-     * @return void
+     * @param string $filePath the file path
      */
     private function writeInspectableMailerFile(string $filePath): void
     {
         file_put_contents($filePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class Mailer
-{
-    public string $transport = 'smtp';
+            final class Mailer
+            {
+                public string $transport = 'smtp';
 
-    public const DEFAULT_TRANSPORT = 'smtp';
-}
-PHP);
+                public const DEFAULT_TRANSPORT = 'smtp';
+            }
+            PHP);
     }
 
     /**
      * Writes a runner fixture using a normal property and class constant.
      *
-     * @param string $filePath The file path.
-     *
-     * @return void
+     * @param string $filePath the file path
      */
     private function writeInspectableRunnerFile(string $filePath): void
     {
         file_put_contents($filePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class Runner
-{
-    public function run(Mailer $mailer): string
-    {
-        return $mailer->transport . Mailer::DEFAULT_TRANSPORT;
-    }
-}
-PHP);
+            final class Runner
+            {
+                public function run(Mailer $mailer): string
+                {
+                    return $mailer->transport . Mailer::DEFAULT_TRANSPORT;
+                }
+            }
+            PHP);
     }
 
     /**
      * Writes a mailer fixture exposing a promoted property used inside its owner.
      *
-     * @param string $filePath The file path.
-     *
-     * @return void
+     * @param string $filePath the file path
      */
     private function writePromotedPropertyMailerFile(string $filePath): void
     {
         file_put_contents($filePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class Mailer
-{
-    public function __construct(private string $transport)
-    {
-    }
+            final class Mailer
+            {
+                public function __construct(private string $transport)
+                {
+                }
 
-    public function transport(): string
-    {
-        return $this->transport;
-    }
-}
-PHP);
+                public function transport(): string
+                {
+                    return $this->transport;
+                }
+            }
+            PHP);
     }
 
     /**
      * Writes a mailer fixture exposing methods used through static and nullsafe calls.
      *
-     * @param string $filePath The file path.
-     *
-     * @return void
+     * @param string $filePath the file path
      */
     private function writeCallableMailerFile(string $filePath): void
     {
         file_put_contents($filePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class Mailer
-{
-    public function send(string $message): void
-    {
-    }
+            final class Mailer
+            {
+                public function send(string $message): void
+                {
+                }
 
-    public static function sendStatic(string $message): void
-    {
-    }
-}
-PHP);
+                public static function sendStatic(string $message): void
+                {
+                }
+            }
+            PHP);
     }
 
     /**
      * Writes a function fixture.
      *
-     * @param string $filePath The file path.
-     *
-     * @return void
+     * @param string $filePath the file path
      */
     private function writeFunctionsFile(string $filePath): void
     {
         file_put_contents($filePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-function send_mail(string $message): void
-{
-}
-PHP);
+            function send_mail(string $message): void
+            {
+            }
+            PHP);
     }
 
     /**
      * Writes a runner fixture using function, static method, and nullsafe method calls.
      *
-     * @param string $filePath The file path.
-     *
-     * @return void
+     * @param string $filePath the file path
      */
     private function writeCallableRunnerFile(string $filePath): void
     {
         file_put_contents($filePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class Runner
-{
-    public function run(?Mailer $mailer): void
-    {
-        send_mail('hello');
-        Mailer::sendStatic('hello');
-        $mailer?->send('hello');
-    }
-}
-PHP);
+            final class Runner
+            {
+                public function run(?Mailer $mailer): void
+                {
+                    send_mail('hello');
+                    Mailer::sendStatic('hello');
+                    $mailer?->send('hello');
+                }
+            }
+            PHP);
     }
 
     /**
      * Writes an enum fixture exposing enum cases as class-constant members.
      *
-     * @param string $filePath The file path.
-     *
-     * @return void
+     * @param string $filePath the file path
      */
     private function writeTransportEnumFile(string $filePath): void
     {
         file_put_contents($filePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-enum Transport
-{
-    case SMTP;
-}
-PHP);
+            enum Transport
+            {
+                case SMTP;
+            }
+            PHP);
     }
 
     /**
      * Writes a runner fixture using an enum case fetch.
      *
-     * @param string $filePath The file path.
-     *
-     * @return void
+     * @param string $filePath the file path
      */
     private function writeEnumRunnerFile(string $filePath): void
     {
         file_put_contents($filePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class Runner
-{
-    public function run(): Transport
-    {
-        return Transport::SMTP;
-    }
-}
-PHP);
+            final class Runner
+            {
+                public function run(): Transport
+                {
+                    return Transport::SMTP;
+                }
+            }
+            PHP);
     }
 
     /**
      * Counts matches by role and node class.
      *
-     * @param VirtualPhpSourceFileNodeMatchCollection $matches The match collection.
-     * @param VirtualPhpSourceFileNodeMatchRole $role The expected role.
-     * @param class-string<Node> $nodeClass The expected node class.
-     *
-     * @return int
+     * @param VirtualPhpSourceFileNodeMatchCollection $matches   the match collection
+     * @param VirtualPhpSourceFileNodeMatchRole       $role      the expected role
+     * @param class-string<Node>                      $nodeClass the expected node class
      */
     private function countMatches(
         VirtualPhpSourceFileNodeMatchCollection $matches,
-        VirtualPhpSourceFileNodeMatchRole       $role,
-        string                                  $nodeClass,
+        VirtualPhpSourceFileNodeMatchRole $role,
+        string $nodeClass,
     ): int {
         return $matches->byRole($role)->byNodeClass($nodeClass)->count();
     }
@@ -494,9 +458,7 @@ PHP);
     /**
      * Removes a directory recursively.
      *
-     * @param string $directory The directory to remove.
-     *
-     * @return void
+     * @param string $directory the directory to remove
      */
     private function removeDirectory(string $directory): void
     {
@@ -515,7 +477,7 @@ PHP);
                 continue;
             }
 
-            $path = $directory . DIRECTORY_SEPARATOR . $item;
+            $path = $directory.DIRECTORY_SEPARATOR.$item;
 
             if (is_dir($path)) {
                 $this->removeDirectory($path);

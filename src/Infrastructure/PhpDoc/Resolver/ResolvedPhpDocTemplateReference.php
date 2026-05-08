@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver;
 
 /**
- * Class ResolvedPhpDocTemplateReference
+ * Class ResolvedPhpDocTemplateReference.
  */
 final readonly class ResolvedPhpDocTemplateReference
 {

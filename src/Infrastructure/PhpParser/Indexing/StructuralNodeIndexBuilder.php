@@ -25,9 +25,7 @@ final class StructuralNodeIndexBuilder
      * - NameResolver
      * - StructuralNodeIndexBuilderVisitor
      *
-     * @param array<int, Node> $nodes The AST nodes.
-     *
-     * @return StructuralNodeIndexBuildResult
+     * @param array<int, Node> $nodes the AST nodes
      */
     public function build(array $nodes): StructuralNodeIndexBuildResult
     {

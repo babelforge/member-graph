@@ -13,9 +13,9 @@ use PhpNoobs\MemberGraph\Domain\Graph\MemberOriginType;
 final readonly class AvailableMember
 {
     /**
-     * @param MemberId $member The available member as exposed on the owner.
-     * @param MemberOriginType $origin The origin kind.
-     * @param array<string, true> $declaredIns The owners where the member is declared logically.
+     * @param MemberId            $member      the available member as exposed on the owner
+     * @param MemberOriginType    $origin      the origin kind
+     * @param array<string, true> $declaredIns the owners where the member is declared logically
      */
     public function __construct(
         public MemberId $member,
@@ -29,8 +29,6 @@ final readonly class AvailableMember
      * Returns a stable hash for indexing.
      *
      * The hash must stay based on the exposed member identity only.
-     *
-     * @return string
      */
     public function hash(): string
     {
@@ -40,9 +38,7 @@ final readonly class AvailableMember
     /**
      * Indicates whether the member is declared in the given owner.
      *
-     * @param string $fqcn The owner FQCN.
-     *
-     * @return bool
+     * @param string $fqcn the owner FQCN
      */
     public function declaresIn(string $fqcn): bool
     {
@@ -54,9 +50,7 @@ final readonly class AvailableMember
      *
      * The strongest origin wins. When origins are equal, the current origin is kept.
      *
-     * @param self $other The other available member to merge.
-     *
-     * @return self
+     * @param self $other the other available member to merge
      */
     public function merge(self $other): self
     {
@@ -83,9 +77,7 @@ final readonly class AvailableMember
     /**
      * Returns the priority of one origin kind.
      *
-     * @param MemberOriginType $origin The origin to rank.
-     *
-     * @return int
+     * @param MemberOriginType $origin the origin to rank
      */
     private function getPriority(MemberOriginType $origin): int
     {

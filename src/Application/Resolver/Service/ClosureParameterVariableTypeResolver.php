@@ -21,8 +21,8 @@ final readonly class ClosureParameterVariableTypeResolver
     /**
      * Constructor.
      *
-     * @param NativeTypeResolver $nativeTypeResolver The native type resolver.
-     * @param ClosureDocTypeResolver $closureDocTypeResolver The closure-local PHPDoc resolver.
+     * @param NativeTypeResolver     $nativeTypeResolver     the native type resolver
+     * @param ClosureDocTypeResolver $closureDocTypeResolver the closure-local PHPDoc resolver
      */
     public function __construct(
         private NativeTypeResolver $nativeTypeResolver,
@@ -33,12 +33,10 @@ final readonly class ClosureParameterVariableTypeResolver
     /**
      * Collects closure parameter variable types.
      *
-     * @param Closure|ArrowFunction $expression The closure-like expression.
-     * @param ExpressionResolutionContext $context The current expression resolution context.
-     * @param ExpressionTypeResolverInterface $expressionTypeResolver The recursive expression resolver.
-     * @param array<string, VariableTypeInfo> $localVariableTypes The mutable local variable type map.
-     *
-     * @return void
+     * @param Closure|ArrowFunction           $expression             the closure-like expression
+     * @param ExpressionResolutionContext     $context                the current expression resolution context
+     * @param ExpressionTypeResolverInterface $expressionTypeResolver the recursive expression resolver
+     * @param array<string, VariableTypeInfo> $localVariableTypes     the mutable local variable type map
      */
     public function collect(
         Closure|ArrowFunction $expression,

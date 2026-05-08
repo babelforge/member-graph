@@ -19,14 +19,12 @@ final readonly class MemberGraphGlobalIndexInputSnapshotBuilder
     /**
      * Builds a global-index input snapshot.
      *
-     * @param VirtualPhpSourceFileCollection $virtualFiles The loaded virtual files.
-     * @param KnownOwnerCollection $knownOwners The known owners discovered during parsing.
-     *
-     * @return MemberGraphGlobalIndexInputSnapshot
+     * @param VirtualPhpSourceFileCollection $virtualFiles the loaded virtual files
+     * @param KnownOwnerCollection           $knownOwners  the known owners discovered during parsing
      */
     public function build(
         VirtualPhpSourceFileCollection $virtualFiles,
-        KnownOwnerCollection           $knownOwners,
+        KnownOwnerCollection $knownOwners,
     ): MemberGraphGlobalIndexInputSnapshot {
         $sources = new MemberGraphVirtualSourceMetadataCollection();
 
@@ -40,10 +38,8 @@ final readonly class MemberGraphGlobalIndexInputSnapshotBuilder
     /**
      * Builds metadata for one virtual file.
      *
-     * @param VirtualPhpSourceFile $virtualFile The loaded virtual file.
-     * @param KnownOwnerCollection $knownOwners The known owners discovered during parsing.
-     *
-     * @return MemberGraphVirtualSourceMetadata
+     * @param VirtualPhpSourceFile $virtualFile the loaded virtual file
+     * @param KnownOwnerCollection $knownOwners the known owners discovered during parsing
      */
     private function metadataForVirtualFile(
         VirtualPhpSourceFile $virtualFile,
@@ -83,9 +79,7 @@ final readonly class MemberGraphGlobalIndexInputSnapshotBuilder
     /**
      * Resolves the namespace declared by a virtual file.
      *
-     * @param list<Node> $nodes The virtual file nodes.
-     *
-     * @return string|null
+     * @param list<Node> $nodes the virtual file nodes
      */
     private function namespaceForNodes(array $nodes): ?string
     {
@@ -101,10 +95,8 @@ final readonly class MemberGraphGlobalIndexInputSnapshotBuilder
     /**
      * Resolves the first class-like owner declared by a virtual file.
      *
-     * @param list<Node> $nodes The virtual file nodes.
-     * @param string|null $namespace The virtual file namespace.
-     *
-     * @return string|null
+     * @param list<Node>  $nodes     the virtual file nodes
+     * @param string|null $namespace the virtual file namespace
      */
     private function ownerNameForNodes(array $nodes, ?string $namespace): ?string
     {
@@ -123,7 +115,7 @@ final readonly class MemberGraphGlobalIndexInputSnapshotBuilder
                 return $name;
             }
 
-            return $namespace . '\\' . $name;
+            return $namespace.'\\'.$name;
         }
 
         return null;

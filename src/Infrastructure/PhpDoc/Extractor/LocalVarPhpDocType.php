@@ -15,9 +15,9 @@ final readonly class LocalVarPhpDocType
     /**
      * Constructor.
      *
-     * @param string $variableName The variable name without "$".
-     * @param SymbolCollection $types The resolved value-usage symbols.
-     * @param ResolvedPhpDocType $structuredType The resolved structured PHPDoc type.
+     * @param string             $variableName   the variable name without "$"
+     * @param SymbolCollection   $types          the resolved value-usage symbols
+     * @param ResolvedPhpDocType $structuredType the resolved structured PHPDoc type
      */
     public function __construct(
         public string $variableName,

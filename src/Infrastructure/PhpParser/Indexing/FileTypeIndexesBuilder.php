@@ -24,12 +24,12 @@ final readonly class FileTypeIndexesBuilder
     /**
      * Constructor.
      *
-     * @param PhpDocTypeNodeResolver $phpDocTypeNodeResolver The structured PHPDoc type resolver.
-     * @param ParserTypeNodeToSymbolCollectionResolver $typeResolver The parser type resolver.
+     * @param PhpDocTypeNodeResolver                   $phpDocTypeNodeResolver the structured PHPDoc type resolver
+     * @param ParserTypeNodeToSymbolCollectionResolver $typeResolver           the parser type resolver
      */
     public function __construct(
-        MemberGraphPhpSourceRegistryInstance             $fileRegistry,
-        private PhpDocTypeNodeResolver                   $phpDocTypeNodeResolver = new PhpDocTypeNodeResolver(new MemberGraphPhpSourceRegistryInstance()),
+        MemberGraphPhpSourceRegistryInstance $fileRegistry,
+        private PhpDocTypeNodeResolver $phpDocTypeNodeResolver = new PhpDocTypeNodeResolver(new MemberGraphPhpSourceRegistryInstance()),
         private ParserTypeNodeToSymbolCollectionResolver $typeResolver = new ParserTypeNodeToSymbolCollectionResolver(),
     ) {
         $this->returnPhpDocTypeExtractor = new ReturnPhpDocTypeExtractorFactory($fileRegistry)->createExtractor();
@@ -39,11 +39,9 @@ final readonly class FileTypeIndexesBuilder
     /**
      * Builds per-file type indexes.
      *
-     * @param Node[] $nodes The AST nodes.
-     * @param string $fullFilePath The full file path.
-     * @param string $virtualFilePath The virtual file path.
-     *
-     * @return FileTypeIndexes
+     * @param Node[] $nodes           the AST nodes
+     * @param string $fullFilePath    the full file path
+     * @param string $virtualFilePath the virtual file path
      */
     public function build(array $nodes, string $fullFilePath, string $virtualFilePath): FileTypeIndexes
     {

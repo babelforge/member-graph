@@ -23,19 +23,15 @@ final class MemberDependencyGraphFactoryIntegrationTest extends TestCase
 
     /**
      * Creates a temporary integration workspace.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
-        $this->workspace = sys_get_temp_dir() . '/member-graph-factory-integration-' . bin2hex(random_bytes(6));
-        mkdir($this->workspace, 0777, true);
+        $this->workspace = sys_get_temp_dir().'/member-graph-factory-integration-'.bin2hex(random_bytes(6));
+        mkdir($this->workspace, 0o777, true);
     }
 
     /**
      * Removes the temporary integration workspace.
-     *
-     * @return void
      */
     protected function tearDown(): void
     {
@@ -44,35 +40,33 @@ final class MemberDependencyGraphFactoryIntegrationTest extends TestCase
 
     /**
      * Ensures first run, fast path, modification fallback, and exclusions work together.
-     *
-     * @return void
      */
     public function testFactoryDirectoryFlowWithCacheReuseAndFallback(): void
     {
-        $srcDirectory = $this->workspace . '/src';
-        $excludedDirectory = $srcDirectory . '/Excluded';
-        $aFilePath = $srcDirectory . '/A.php';
-        $bFilePath = $srcDirectory . '/B.php';
-        $excludedFilePath = $excludedDirectory . '/Ignored.php';
-        $cacheFilePath = $this->workspace . '/member-graph.cache';
+        $srcDirectory = $this->workspace.'/src';
+        $excludedDirectory = $srcDirectory.'/Excluded';
+        $aFilePath = $srcDirectory.'/A.php';
+        $bFilePath = $srcDirectory.'/B.php';
+        $excludedFilePath = $excludedDirectory.'/Ignored.php';
+        $cacheFilePath = $this->workspace.'/member-graph.cache';
         $aRun = new MemberId('App\\A', 'run', MemberType::METHOD);
         $bSend = new MemberId('App\\B', 'send', MemberType::METHOD);
 
-        mkdir($excludedDirectory, 0777, true);
+        mkdir($excludedDirectory, 0o777, true);
         $this->writeAFile($aFilePath, 'send');
         $this->writeBFile($bFilePath, 'send');
         file_put_contents($excludedFilePath, <<<'PHP'
-<?php
+            <?php
 
-namespace App\Excluded;
+            namespace App\Excluded;
 
-final class Ignored
-{
-    public function run(): void
-    {
-    }
-}
-PHP);
+            final class Ignored
+            {
+                public function run(): void
+                {
+                }
+            }
+            PHP);
 
         $firstRun = MemberDependencyGraphFactory::fromDirectory(
             directories: [$srcDirectory],
@@ -96,7 +90,7 @@ PHP);
                 source: $aRun,
                 target: $bSend,
                 usageType: MemberUsageType::STATIC_METHOD_CALL,
-                file: (realpath($aFilePath) ?: $aFilePath) . '.virtual.0',
+                file: (realpath($aFilePath) ?: $aFilePath).'.virtual.0',
             )));
 
         $secondRun = MemberDependencyGraphFactory::fromDirectory(
@@ -118,7 +112,7 @@ PHP);
                 source: $aRun,
                 target: $bSend,
                 usageType: MemberUsageType::STATIC_METHOD_CALL,
-                file: (realpath($aFilePath) ?: $aFilePath) . '.virtual.0',
+                file: (realpath($aFilePath) ?: $aFilePath).'.virtual.0',
             )));
 
         sleep(1);
@@ -144,65 +138,59 @@ PHP);
                 source: $aRun,
                 target: $bDeliver,
                 usageType: MemberUsageType::STATIC_METHOD_CALL,
-                file: (realpath($aFilePath) ?: $aFilePath) . '.virtual.0',
+                file: (realpath($aFilePath) ?: $aFilePath).'.virtual.0',
             )));
     }
 
     /**
      * Writes class A with a static call to class B.
      *
-     * @param string $filePath The file path.
-     * @param string $methodName The B method name to call.
-     *
-     * @return void
+     * @param string $filePath   the file path
+     * @param string $methodName the B method name to call
      */
     private function writeAFile(string $filePath, string $methodName): void
     {
         file_put_contents($filePath, <<<PHP
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class A
-{
-    public function run(): void
-    {
-        B::$methodName();
-    }
-}
-PHP);
+            final class A
+            {
+                public function run(): void
+                {
+                    B::$methodName();
+                }
+            }
+            PHP);
     }
 
     /**
      * Writes class B with a static method.
      *
-     * @param string $filePath The file path.
-     * @param string $methodName The method name to declare.
-     *
-     * @return void
+     * @param string $filePath   the file path
+     * @param string $methodName the method name to declare
      */
     private function writeBFile(string $filePath, string $methodName): void
     {
         file_put_contents($filePath, <<<PHP
-<?php
+            <?php
 
-namespace App;
+            namespace App;
 
-final class B
-{
-    public static function $methodName(): void
-    {
-    }
-}
-PHP);
+            final class B
+            {
+                public static function $methodName(): void
+                {
+                }
+            }
+            PHP);
     }
 
     /**
      * Removes a directory recursively.
      *
-     * @param string $directory The directory to remove.
-     *
-     * @return void
+     * @param string $directory the directory to remove
      */
     private function removeDirectory(string $directory): void
     {
@@ -221,7 +209,7 @@ PHP);
                 continue;
             }
 
-            $path = $directory . DIRECTORY_SEPARATOR . $item;
+            $path = $directory.DIRECTORY_SEPARATOR.$item;
 
             if (is_dir($path)) {
                 $this->removeDirectory($path);

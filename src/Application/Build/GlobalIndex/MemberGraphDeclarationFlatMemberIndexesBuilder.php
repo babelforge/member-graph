@@ -20,9 +20,7 @@ final readonly class MemberGraphDeclarationFlatMemberIndexesBuilder
     /**
      * Builds flat member indexes.
      *
-     * @param MemberGraphDeclarationSnapshot $declarationSnapshot The declaration snapshot.
-     *
-     * @return MemberGraphDeclarationFlatMemberIndexes
+     * @param MemberGraphDeclarationSnapshot $declarationSnapshot the declaration snapshot
      */
     public function build(MemberGraphDeclarationSnapshot $declarationSnapshot): MemberGraphDeclarationFlatMemberIndexes
     {
@@ -52,10 +50,8 @@ final readonly class MemberGraphDeclarationFlatMemberIndexesBuilder
     /**
      * Registers one property snapshot into the property type index.
      *
-     * @param PropertyDeclarationSnapshot $propertySnapshot The property declaration snapshot.
-     * @param PropertyTypeIndex $propertyTypeIndex The property type index to populate.
-     *
-     * @return void
+     * @param PropertyDeclarationSnapshot $propertySnapshot  the property declaration snapshot
+     * @param PropertyTypeIndex           $propertyTypeIndex the property type index to populate
      */
     private function registerProperty(
         PropertyDeclarationSnapshot $propertySnapshot,
@@ -77,11 +73,9 @@ final readonly class MemberGraphDeclarationFlatMemberIndexesBuilder
     /**
      * Registers one class constant snapshot.
      *
-     * @param ClassConstantDeclarationSnapshot $classConstantSnapshot The class constant declaration snapshot.
-     * @param ClassConstantTypeIndex $classConstantTypeIndex The class constant type index to populate.
-     * @param ClassConstantValueIndex $classConstantValueIndex The class constant value index to populate.
-     *
-     * @return void
+     * @param ClassConstantDeclarationSnapshot $classConstantSnapshot   the class constant declaration snapshot
+     * @param ClassConstantTypeIndex           $classConstantTypeIndex  the class constant type index to populate
+     * @param ClassConstantValueIndex          $classConstantValueIndex the class constant value index to populate
      */
     private function registerClassConstant(
         ClassConstantDeclarationSnapshot $classConstantSnapshot,
@@ -107,9 +101,7 @@ final readonly class MemberGraphDeclarationFlatMemberIndexesBuilder
     /**
      * Converts a compact declaration type string into flat symbols.
      *
-     * @param string|null $typeString The compact declaration type string.
-     *
-     * @return SymbolCollection
+     * @param string|null $typeString the compact declaration type string
      */
     private function symbolsFromTypeString(?string $typeString): SymbolCollection
     {

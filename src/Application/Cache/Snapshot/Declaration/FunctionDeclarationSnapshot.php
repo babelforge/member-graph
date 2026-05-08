@@ -12,14 +12,14 @@ final readonly class FunctionDeclarationSnapshot
     /**
      * Constructor.
      *
-     * @param string $name The function FQCN.
-     * @param string $fullFilePath The physical file path.
-     * @param string $virtualFilePath The virtual file path.
-     * @param string|null $namespace The function namespace.
-     * @param string|null $nativeReturnType The native return type.
-     * @param string|null $phpDocReturnType The resolved PHPDoc return type.
-     * @param ParameterDeclarationSnapshotCollection $parameters The function parameters.
-     * @param TemplateDeclarationSnapshotCollection $templates The function templates.
+     * @param string                                 $name             the function FQCN
+     * @param string                                 $fullFilePath     the physical file path
+     * @param string                                 $virtualFilePath  the virtual file path
+     * @param string|null                            $namespace        the function namespace
+     * @param string|null                            $nativeReturnType the native return type
+     * @param string|null                            $phpDocReturnType the resolved PHPDoc return type
+     * @param ParameterDeclarationSnapshotCollection $parameters       the function parameters
+     * @param TemplateDeclarationSnapshotCollection  $templates        the function templates
      */
     public function __construct(
         public string $name,

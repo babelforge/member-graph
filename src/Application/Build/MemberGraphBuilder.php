@@ -38,7 +38,7 @@ final class MemberGraphBuilder implements MemberGraphBuilderInterface
     private PhpDocTemplateDefinitionExtractor $phpDocTemplateDefinitionExtractor;
 
     public function __construct(
-        MemberGraphPhpSourceRegistryInstance         $fileRegistry,
+        MemberGraphPhpSourceRegistryInstance $fileRegistry,
         private readonly ?MemberGraphIssueCollection $dependencyGraphIssues = null,
     ) {
         $this->localVarPhpDocTypeExtractor = new LocalVarPhpDocTypeExtractorFactory($fileRegistry, $this->dependencyGraphIssues)->createExtractor();
@@ -46,14 +46,11 @@ final class MemberGraphBuilder implements MemberGraphBuilderInterface
         $this->phpDocTemplateDefinitionExtractor = new PhpDocTemplateDefinitionExtractorFactory($fileRegistry, $this->dependencyGraphIssues)->createExtractor();
     }
 
-    /**
-     * @inheritDoc
-     */
     public function build(
-        array                           $ast,
-        string                          $fullFilePath,
-        string                          $virtualFilePath,
-        MemberGraphBuildContext         $context,
+        array $ast,
+        string $fullFilePath,
+        string $virtualFilePath,
+        MemberGraphBuildContext $context,
         ExpressionTypeResolverInterface $expressionTypeResolver,
     ): MemberDependencyGraph {
         $declarations = new MemberDeclarationCollection();

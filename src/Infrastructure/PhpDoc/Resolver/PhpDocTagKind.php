@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver;
 
 /**
- * Enum PhpDocTagKind
+ * Enum PhpDocTagKind.
  */
 enum PhpDocTagKind
 {

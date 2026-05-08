@@ -4,16 +4,14 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Domain\Index\Method;
 
-use IteratorAggregate;
 use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
-use Traversable;
 
 /**
  * Stores inferred structured return types for methods.
  *
- * @implements IteratorAggregate<string, ResolvedPhpDocType>
+ * @implements \IteratorAggregate<string, ResolvedPhpDocType>
  */
-final class MethodReturnInferredStructuredTypeIndex implements IteratorAggregate
+final class MethodReturnInferredStructuredTypeIndex implements \IteratorAggregate
 {
     /**
      * @var array<string, ResolvedPhpDocType>
@@ -23,11 +21,9 @@ final class MethodReturnInferredStructuredTypeIndex implements IteratorAggregate
     /**
      * Stores one inferred structured return type.
      *
-     * @param string $owner The owner FQCN.
-     * @param string $methodName The method name.
-     * @param ResolvedPhpDocType $type The inferred structured return type.
-     *
-     * @return void
+     * @param string             $owner      the owner FQCN
+     * @param string             $methodName the method name
+     * @param ResolvedPhpDocType $type       the inferred structured return type
      */
     public function set(string $owner, string $methodName, ResolvedPhpDocType $type): void
     {
@@ -37,10 +33,8 @@ final class MethodReturnInferredStructuredTypeIndex implements IteratorAggregate
     /**
      * Returns one inferred structured return type.
      *
-     * @param string $owner The owner FQCN.
-     * @param string $methodName The method name.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param string $owner      the owner FQCN
+     * @param string $methodName the method name
      */
     public function get(string $owner, string $methodName): ?ResolvedPhpDocType
     {
@@ -50,10 +44,8 @@ final class MethodReturnInferredStructuredTypeIndex implements IteratorAggregate
     /**
      * Returns whether one inferred structured return type exists.
      *
-     * @param string $owner The owner FQCN.
-     * @param string $methodName The method name.
-     *
-     * @return bool
+     * @param string $owner      the owner FQCN
+     * @param string $methodName the method name
      */
     public function has(string $owner, string $methodName): bool
     {
@@ -63,9 +55,7 @@ final class MethodReturnInferredStructuredTypeIndex implements IteratorAggregate
     /**
      * Merges another index into the current one.
      *
-     * @param self $other The other index.
-     *
-     * @return void
+     * @param self $other the other index
      */
     public function merge(self $other): void
     {
@@ -87,20 +77,15 @@ final class MethodReturnInferredStructuredTypeIndex implements IteratorAggregate
     /**
      * Builds one internal key.
      *
-     * @param string $owner The owner FQCN.
-     * @param string $methodName The method name.
-     *
-     * @return string
+     * @param string $owner      the owner FQCN
+     * @param string $methodName the method name
      */
     private function buildKey(string $owner, string $methodName): string
     {
-        return $owner . '::' . $methodName;
+        return $owner.'::'.$methodName;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         yield from $this->items;
     }

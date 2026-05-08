@@ -19,9 +19,7 @@ final readonly class FallbackPhpDocValueExtractionStrategy implements PhpDocValu
      * - if the node has generic arguments, recurse into them
      * - otherwise, return the node symbols
      *
-     * @param ResolvedPhpDocType $type The resolved PHPDoc type tree.
-     *
-     * @return SymbolCollection
+     * @param ResolvedPhpDocType $type the resolved PHPDoc type tree
      */
     public function extract(ResolvedPhpDocType $type): SymbolCollection
     {

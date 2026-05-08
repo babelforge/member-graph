@@ -15,8 +15,8 @@ final readonly class MemberGraphCachePlanner
     /**
      * Constructor.
      *
-     * @param MemberGraphFileFingerprintResolver $fingerprintResolver The file fingerprint resolver.
-     * @param MemberGraphCachePathNormalizer $pathNormalizer The cache path normalizer.
+     * @param MemberGraphFileFingerprintResolver $fingerprintResolver the file fingerprint resolver
+     * @param MemberGraphCachePathNormalizer     $pathNormalizer      the cache path normalizer
      */
     public function __construct(
         private MemberGraphFileFingerprintResolver $fingerprintResolver = new MemberGraphFileFingerprintResolver(),
@@ -27,10 +27,8 @@ final readonly class MemberGraphCachePlanner
     /**
      * Indicates whether the cache entry for one file can be reused.
      *
-     * @param string $filePath The file path to inspect.
-     * @param MemberGraphCacheState $state The current cache state.
-     *
-     * @return bool
+     * @param string                $filePath the file path to inspect
+     * @param MemberGraphCacheState $state    the current cache state
      */
     public function isFresh(string $filePath, MemberGraphCacheState $state): bool
     {
@@ -48,10 +46,8 @@ final readonly class MemberGraphCachePlanner
     /**
      * Builds a cache plan for the given scanned file paths.
      *
-     * @param list<string> $filePaths The currently scanned physical file paths.
-     * @param MemberGraphCacheState $state The current cache state.
-     *
-     * @return MemberGraphCachePlan
+     * @param list<string>          $filePaths the currently scanned physical file paths
+     * @param MemberGraphCacheState $state     the current cache state
      */
     public function planForFiles(array $filePaths, MemberGraphCacheState $state): MemberGraphCachePlan
     {
@@ -153,5 +149,4 @@ final readonly class MemberGraphCachePlanner
             fastPathBlockers: $fastPathBlockers,
         );
     }
-
 }

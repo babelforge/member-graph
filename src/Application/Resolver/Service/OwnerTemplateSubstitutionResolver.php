@@ -16,7 +16,7 @@ final readonly class OwnerTemplateSubstitutionResolver
     /**
      * Constructor.
      *
-     * @param ClassTemplateDefinitionIndex $classTemplateDefinitionIndex The class template definition index.
+     * @param ClassTemplateDefinitionIndex $classTemplateDefinitionIndex the class template definition index
      */
     public function __construct(
         private ClassTemplateDefinitionIndex $classTemplateDefinitionIndex,
@@ -32,10 +32,8 @@ final readonly class OwnerTemplateSubstitutionResolver
      * - class templates = [T]
      * => T => Mailer
      *
-     * @param string $owner The receiver owner FQCN.
-     * @param ResolvedPhpDocType $receiverStructuredType The receiver structured type.
-     *
-     * @return PhpDocTemplateSubstitutionContext
+     * @param string             $owner                  the receiver owner FQCN
+     * @param ResolvedPhpDocType $receiverStructuredType the receiver structured type
      */
     public function collect(
         string $owner,
@@ -78,10 +76,8 @@ final readonly class OwnerTemplateSubstitutionResolver
      *
      * Existing target entries are preserved.
      *
-     * @param PhpDocTemplateSubstitutionContext $target The mutable target context.
-     * @param PhpDocTemplateSubstitutionContext $source The source context.
-     *
-     * @return void
+     * @param PhpDocTemplateSubstitutionContext $target the mutable target context
+     * @param PhpDocTemplateSubstitutionContext $source the source context
      */
     public function mergeInto(
         PhpDocTemplateSubstitutionContext $target,

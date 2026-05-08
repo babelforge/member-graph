@@ -4,16 +4,12 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver;
 
-use Countable;
-use IteratorAggregate;
-use Traversable;
-
 /**
- * Class ResolvedPhpDocTypeCollection
+ * Class ResolvedPhpDocTypeCollection.
  *
- * @implements IteratorAggregate<int, ResolvedPhpDocType>
+ * @implements \IteratorAggregate<int, ResolvedPhpDocType>
  */
-final class ResolvedPhpDocTypeCollection implements Countable, IteratorAggregate
+final class ResolvedPhpDocTypeCollection implements \Countable, \IteratorAggregate
 {
     /** @var ResolvedPhpDocType[] */
     private array $types = [];
@@ -51,17 +47,11 @@ final class ResolvedPhpDocTypeCollection implements Countable, IteratorAggregate
         $this->types = array_merge($this->types, $collection->types);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         yield from $this->types;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function count(): int
     {
         return count($this->types);

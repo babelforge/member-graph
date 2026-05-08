@@ -33,8 +33,6 @@ final class MemberGraphTopologyFilterServiceTest extends TestCase
 {
     /**
      * Ensures filtering by owner prefix preserves root and removes orphan edges.
-     *
-     * @return void
      */
     public function testItFiltersTopologyByOwnerPrefix(): void
     {
@@ -63,8 +61,6 @@ final class MemberGraphTopologyFilterServiceTest extends TestCase
 
     /**
      * Ensures filtering by node and edge kinds keeps only requested graph layers.
-     *
-     * @return void
      */
     public function testItFiltersTopologyByNodeAndEdgeKinds(): void
     {
@@ -101,8 +97,6 @@ final class MemberGraphTopologyFilterServiceTest extends TestCase
 
     /**
      * Ensures filtering by member type keeps only matching member nodes.
-     *
-     * @return void
      */
     public function testItFiltersTopologyByMemberType(): void
     {
@@ -127,8 +121,6 @@ final class MemberGraphTopologyFilterServiceTest extends TestCase
 
     /**
      * Ensures filtering by file keeps nodes and edges related to matching files.
-     *
-     * @return void
      */
     public function testItFiltersTopologyByFile(): void
     {
@@ -160,11 +152,9 @@ final class MemberGraphTopologyFilterServiceTest extends TestCase
     /**
      * Creates a member dependency graph for filter tests.
      *
-     * @param MemberId $appRun The first application member.
-     * @param MemberId $appHandle The second application member.
-     * @param MemberId $vendorRun The vendor member.
-     *
-     * @return MemberDependencyGraph
+     * @param MemberId $appRun    the first application member
+     * @param MemberId $appHandle the second application member
+     * @param MemberId $vendorRun the vendor member
      */
     private function createGraph(
         MemberId $appRun,

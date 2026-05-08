@@ -16,8 +16,8 @@ final readonly class MemberImpactTarget
     /**
      * Constructor.
      *
-     * @param MemberId|null $memberId The targeted member identifier.
-     * @param ParameterId|null $parameterId The targeted parameter identifier.
+     * @param MemberId|null    $memberId    the targeted member identifier
+     * @param ParameterId|null $parameterId the targeted parameter identifier
      */
     private function __construct(
         public ?MemberId $memberId,
@@ -28,10 +28,8 @@ final readonly class MemberImpactTarget
     /**
      * Creates a method impact target.
      *
-     * @param string $owner The method owner FQCN.
-     * @param string $name The method name.
-     *
-     * @return self
+     * @param string $owner the method owner FQCN
+     * @param string $name  the method name
      */
     public static function method(string $owner, string $name): self
     {
@@ -41,10 +39,8 @@ final readonly class MemberImpactTarget
     /**
      * Creates a property impact target.
      *
-     * @param string $owner The property owner FQCN.
-     * @param string $name The property name.
-     *
-     * @return self
+     * @param string $owner the property owner FQCN
+     * @param string $name  the property name
      */
     public static function property(string $owner, string $name): self
     {
@@ -54,10 +50,8 @@ final readonly class MemberImpactTarget
     /**
      * Creates a class-constant impact target.
      *
-     * @param string $owner The class-constant owner FQCN.
-     * @param string $name The class-constant name.
-     *
-     * @return self
+     * @param string $owner the class-constant owner FQCN
+     * @param string $name  the class-constant name
      */
     public static function classConstant(string $owner, string $name): self
     {
@@ -67,9 +61,7 @@ final readonly class MemberImpactTarget
     /**
      * Creates a function impact target.
      *
-     * @param string $name The fully-qualified function name.
-     *
-     * @return self
+     * @param string $name the fully-qualified function name
      */
     public static function forFunction(string $name): self
     {
@@ -79,11 +71,9 @@ final readonly class MemberImpactTarget
     /**
      * Creates a parameter impact target.
      *
-     * @param string $owner The owner FQCN, or an empty string for functions.
-     * @param string $functionLikeName The method name or fully-qualified function name.
-     * @param string $parameterName The parameter name without "$".
-     *
-     * @return self
+     * @param string $owner            the owner FQCN, or an empty string for functions
+     * @param string $functionLikeName the method name or fully-qualified function name
+     * @param string $parameterName    the parameter name without "$"
      */
     public static function parameter(string $owner, string $functionLikeName, string $parameterName): self
     {
@@ -96,11 +86,9 @@ final readonly class MemberImpactTarget
     /**
      * Creates a member impact target.
      *
-     * @param string $owner The member owner FQCN.
-     * @param string $name The member name.
-     * @param MemberType $type The member type.
-     *
-     * @return self
+     * @param string     $owner the member owner FQCN
+     * @param string     $name  the member name
+     * @param MemberType $type  the member type
      */
     private static function member(string $owner, string $name, MemberType $type): self
     {

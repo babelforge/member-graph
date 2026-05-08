@@ -14,12 +14,12 @@ final readonly class MemberGraphTopologyNode
     /**
      * Constructor.
      *
-     * @param string $id The stable topology node identifier.
-     * @param MemberGraphTopologyNodeKind $kind The node kind.
-     * @param int $depth The shortest observed depth from the topology root.
-     * @param MemberId|null $memberId The member identifier when the node represents a member.
-     * @param string|null $owner The owner FQCN when the node represents an owner.
-     * @param string|null $label The display label when the node has no domain identifier.
+     * @param string                      $id       the stable topology node identifier
+     * @param MemberGraphTopologyNodeKind $kind     the node kind
+     * @param int                         $depth    the shortest observed depth from the topology root
+     * @param MemberId|null               $memberId the member identifier when the node represents a member
+     * @param string|null                 $owner    the owner FQCN when the node represents an owner
+     * @param string|null                 $label    the display label when the node has no domain identifier
      */
     public function __construct(
         public string $id,
@@ -33,8 +33,6 @@ final readonly class MemberGraphTopologyNode
 
     /**
      * Creates the root codebase topology node.
-     *
-     * @return self
      */
     public static function codebase(): self
     {
@@ -49,10 +47,8 @@ final readonly class MemberGraphTopologyNode
     /**
      * Creates a topology node from an owner FQCN.
      *
-     * @param string $owner The owner FQCN.
-     * @param int $depth The shortest observed depth from the topology root.
-     *
-     * @return self
+     * @param string $owner the owner FQCN
+     * @param int    $depth the shortest observed depth from the topology root
      */
     public static function owner(string $owner, int $depth): self
     {
@@ -67,10 +63,8 @@ final readonly class MemberGraphTopologyNode
     /**
      * Creates a topology node from a member identifier.
      *
-     * @param MemberId $memberId The member identifier.
-     * @param int $depth The shortest observed depth from the topology root.
-     *
-     * @return self
+     * @param MemberId $memberId the member identifier
+     * @param int      $depth    the shortest observed depth from the topology root
      */
     public static function member(MemberId $memberId, int $depth): self
     {
@@ -85,19 +79,15 @@ final readonly class MemberGraphTopologyNode
     /**
      * Builds the stable topology node identifier for an owner.
      *
-     * @param string $owner The owner FQCN.
-     *
-     * @return string
+     * @param string $owner the owner FQCN
      */
     public static function ownerId(string $owner): string
     {
-        return 'owner:' . $owner;
+        return 'owner:'.$owner;
     }
 
     /**
      * Builds the stable topology node identifier for the codebase root.
-     *
-     * @return string
      */
     public static function codebaseId(): string
     {

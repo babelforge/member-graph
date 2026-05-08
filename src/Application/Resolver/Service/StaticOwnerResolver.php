@@ -16,7 +16,7 @@ final readonly class StaticOwnerResolver
     /**
      * Constructor.
      *
-     * @param KnownOwnerCollection $knownOwners The known class-like owner metadata.
+     * @param KnownOwnerCollection $knownOwners the known class-like owner metadata
      */
     public function __construct(
         private KnownOwnerCollection $knownOwners,
@@ -26,10 +26,8 @@ final readonly class StaticOwnerResolver
     /**
      * Resolves the effective owners for one static access class node.
      *
-     * @param Name $class The static access class node.
-     * @param string $currentClass The current class-like owner FQCN.
-     *
-     * @return SymbolCollection
+     * @param Name   $class        the static access class node
+     * @param string $currentClass the current class-like owner FQCN
      */
     public function resolve(Name $class, string $currentClass): SymbolCollection
     {
@@ -68,9 +66,7 @@ final readonly class StaticOwnerResolver
     /**
      * Resolves the parent class name for one current class-like owner.
      *
-     * @param string $currentClass The current class-like owner FQCN.
-     *
-     * @return string
+     * @param string $currentClass the current class-like owner FQCN
      */
     public function resolveParentClassName(string $currentClass): string
     {

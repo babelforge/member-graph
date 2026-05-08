@@ -17,8 +17,8 @@ final readonly class ClassConstantOwnerResolver
     /**
      * Constructor.
      *
-     * @param ClassConstantTypeIndex $classConstantTypeIndex The class constant type index.
-     * @param KnownOwnerCollection $knownOwners The known owners collection.
+     * @param ClassConstantTypeIndex $classConstantTypeIndex the class constant type index
+     * @param KnownOwnerCollection   $knownOwners            the known owners collection
      */
     public function __construct(
         private ClassConstantTypeIndex $classConstantTypeIndex,
@@ -29,10 +29,8 @@ final readonly class ClassConstantOwnerResolver
     /**
      * Resolves the class constant declared type through inheritance.
      *
-     * @param string $owner The starting owner.
-     * @param string $constantName The constant name.
-     *
-     * @return SymbolCollection
+     * @param string $owner        the starting owner
+     * @param string $constantName the constant name
      */
     public function resolve(string $owner, string $constantName): SymbolCollection
     {
@@ -42,11 +40,9 @@ final readonly class ClassConstantOwnerResolver
     /**
      * Resolves one class constant owner through classes, interfaces, and traits.
      *
-     * @param string $owner The current owner to inspect.
-     * @param string $constantName The constant name.
-     * @param array<string, bool> $visited The visited owners.
-     *
-     * @return SymbolCollection
+     * @param string              $owner        the current owner to inspect
+     * @param string              $constantName the constant name
+     * @param array<string, bool> $visited      the visited owners
      */
     private function resolveRecursive(
         string $owner,
@@ -91,11 +87,9 @@ final readonly class ClassConstantOwnerResolver
     /**
      * Resolves parent class owners.
      *
-     * @param KnownOwner $knownOwner The owner metadata.
-     * @param string $constantName The constant name.
-     * @param array<string, bool> $visited The visited owners.
-     *
-     * @return SymbolCollection
+     * @param KnownOwner          $knownOwner   the owner metadata
+     * @param string              $constantName the constant name
+     * @param array<string, bool> $visited      the visited owners
      */
     private function resolveParentOwners(
         KnownOwner $knownOwner,
@@ -112,11 +106,9 @@ final readonly class ClassConstantOwnerResolver
     /**
      * Resolves interface owners.
      *
-     * @param KnownOwner $knownOwner The owner metadata.
-     * @param string $constantName The constant name.
-     * @param array<string, bool> $visited The visited owners.
-     *
-     * @return SymbolCollection
+     * @param KnownOwner          $knownOwner   the owner metadata
+     * @param string              $constantName the constant name
+     * @param array<string, bool> $visited      the visited owners
      */
     private function resolveInterfaceOwners(
         KnownOwner $knownOwner,
@@ -145,11 +137,9 @@ final readonly class ClassConstantOwnerResolver
     /**
      * Resolves trait owners.
      *
-     * @param KnownOwner $knownOwner The owner metadata.
-     * @param string $constantName The constant name.
-     * @param array<string, bool> $visited The visited owners.
-     *
-     * @return SymbolCollection
+     * @param KnownOwner          $knownOwner   the owner metadata
+     * @param string              $constantName the constant name
+     * @param array<string, bool> $visited      the visited owners
      */
     private function resolveTraitOwners(
         KnownOwner $knownOwner,

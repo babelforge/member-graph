@@ -20,7 +20,7 @@ final readonly class ArrayLiteralStructuredTypeResolver
     /**
      * Constructor.
      *
-     * @param LiteralValueResolver $literalValueResolver The literal value resolver.
+     * @param LiteralValueResolver $literalValueResolver the literal value resolver
      */
     public function __construct(
         private LiteralValueResolver $literalValueResolver,
@@ -30,11 +30,9 @@ final readonly class ArrayLiteralStructuredTypeResolver
     /**
      * Resolves one array expression to a structured PHPDoc type.
      *
-     * @param Array_ $expression The array expression.
-     * @param ExpressionResolutionContext $context The expression resolution context.
-     * @param ExpressionTypeResolverInterface $expressionTypeResolver The recursive expression resolver.
-     *
-     * @return ResolvedPhpDocType
+     * @param Array_                          $expression             the array expression
+     * @param ExpressionResolutionContext     $context                the expression resolution context
+     * @param ExpressionTypeResolverInterface $expressionTypeResolver the recursive expression resolver
      */
     public function resolve(
         Array_ $expression,
@@ -95,8 +93,6 @@ final readonly class ArrayLiteralStructuredTypeResolver
 
     /**
      * Builds one regular array structured type.
-     *
-     * @return ResolvedPhpDocType
      */
     private function buildRegularArrayStructuredType(): ResolvedPhpDocType
     {
@@ -109,9 +105,7 @@ final readonly class ArrayLiteralStructuredTypeResolver
     /**
      * Builds one list structured type from literal array value types.
      *
-     * @param ResolvedPhpDocTypeCollection $valueTypes The inferred list value types.
-     *
-     * @return ResolvedPhpDocType
+     * @param ResolvedPhpDocTypeCollection $valueTypes the inferred list value types
      */
     private function buildListStructuredType(ResolvedPhpDocTypeCollection $valueTypes): ResolvedPhpDocType
     {

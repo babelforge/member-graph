@@ -18,8 +18,6 @@ final class MemberDependencyGraphFactoryRebuildPlanTest extends TestCase
 {
     /**
      * Ensures a reusable cache plan selects the fast path.
-     *
-     * @return void
      */
     public function testItSelectsFastPathWhenTheCachePlanCanUseFastPath(): void
     {
@@ -44,8 +42,6 @@ final class MemberDependencyGraphFactoryRebuildPlanTest extends TestCase
 
     /**
      * Ensures a mixed fresh and changed cache plan is marked as a future partial rebuild candidate.
-     *
-     * @return void
      */
     public function testItSelectsPartialBuildCandidateWhenReusableFragmentsAndGlobalInputsAreAvailable(): void
     {
@@ -71,8 +67,6 @@ final class MemberDependencyGraphFactoryRebuildPlanTest extends TestCase
 
     /**
      * Ensures incomplete global cache metadata keeps the rebuild plan on full build.
-     *
-     * @return void
      */
     public function testItSelectsFullBuildWhenGlobalInputsAreIncomplete(): void
     {
@@ -94,8 +88,6 @@ final class MemberDependencyGraphFactoryRebuildPlanTest extends TestCase
 
     /**
      * Ensures missing declaration snapshots keep the rebuild plan on full build.
-     *
-     * @return void
      */
     public function testItSelectsFullBuildWhenDeclarationSnapshotIsMissing(): void
     {
@@ -117,8 +109,6 @@ final class MemberDependencyGraphFactoryRebuildPlanTest extends TestCase
 
     /**
      * Ensures a cache plan without reusable fragments can still be a partial rebuild candidate.
-     *
-     * @return void
      */
     public function testItSelectsPartialBuildCandidateWhenNoFragmentsCanBeReused(): void
     {
@@ -142,8 +132,6 @@ final class MemberDependencyGraphFactoryRebuildPlanTest extends TestCase
      * Creates a cache file collection.
      *
      * @param string ...$filePaths The file paths.
-     *
-     * @return MemberGraphCacheFileCollection
      */
     private function files(string ...$filePaths): MemberGraphCacheFileCollection
     {

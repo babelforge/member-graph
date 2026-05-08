@@ -27,7 +27,7 @@ final readonly class AvailableMemberProjector
     /**
      * Constructor.
      *
-     * @param CompatibilityValidatorInterface|null $compatibilityValidator The optional compatibility validator.
+     * @param CompatibilityValidatorInterface|null $compatibilityValidator the optional compatibility validator
      */
     public function __construct(
         private ?CompatibilityValidatorInterface $compatibilityValidator = null,
@@ -37,14 +37,12 @@ final readonly class AvailableMemberProjector
     /**
      * Builds the final available member collection.
      *
-     * @param MemberDeclarationCollection $declarations The merged declarations.
-     * @param KnownOwnerCollection $knownOwners The merged known owners.
-     *
-     * @return AvailableMemberCollection
+     * @param MemberDeclarationCollection $declarations the merged declarations
+     * @param KnownOwnerCollection        $knownOwners  the merged known owners
      */
     public function project(
         MemberDeclarationCollection $declarations,
-        KnownOwnerCollection        $knownOwners,
+        KnownOwnerCollection $knownOwners,
     ): AvailableMemberCollection {
         $availableMembers = new AvailableMemberCollection();
 
@@ -76,14 +74,14 @@ final readonly class AvailableMemberProjector
     /**
      * Projects trait members on one owner.
      *
-     * @param AvailableMemberCollection $availableMembers The target collection.
-     * @param KnownOwner $knownOwner The owner being projected.
+     * @param AvailableMemberCollection $availableMembers the target collection
+     * @param KnownOwner                $knownOwner       the owner being projected
      *
-     * @return bool True when at least one new available member was added or replaced.
+     * @return bool true when at least one new available member was added or replaced
      */
     private function projectTraits(
         AvailableMemberCollection $availableMembers,
-        KnownOwner                $knownOwner,
+        KnownOwner $knownOwner,
     ): bool {
         $this->validateTraitMembersCompatibility($availableMembers, $knownOwner);
 
@@ -142,18 +140,18 @@ final readonly class AvailableMemberProjector
     /**
      * Projects trait alias adaptations for one trait member.
      *
-     * @param AvailableMemberCollection $availableMembers The target collection.
-     * @param KnownOwner $knownOwner The owner being projected.
-     * @param string $traitFqcn The trait FQCN.
-     * @param AvailableMember $traitAvailableMember The trait available member.
+     * @param AvailableMemberCollection $availableMembers     the target collection
+     * @param KnownOwner                $knownOwner           the owner being projected
+     * @param string                    $traitFqcn            the trait FQCN
+     * @param AvailableMember           $traitAvailableMember the trait available member
      *
-     * @return bool True when at least one alias member was added or changed.
+     * @return bool true when at least one alias member was added or changed
      */
     private function projectTraitAliasAdaptations(
         AvailableMemberCollection $availableMembers,
-        KnownOwner                $knownOwner,
-        string                    $traitFqcn,
-        AvailableMember           $traitAvailableMember,
+        KnownOwner $knownOwner,
+        string $traitFqcn,
+        AvailableMember $traitAvailableMember,
     ): bool {
         $changed = false;
 
@@ -183,11 +181,9 @@ final readonly class AvailableMemberProjector
     /**
      * Indicates whether a trait member is excluded by an instead-of adaptation.
      *
-     * @param KnownOwner $knownOwner The owner being projected.
-     * @param string $traitFqcn The trait FQCN.
-     * @param string $methodName The method name.
-     *
-     * @return bool
+     * @param KnownOwner $knownOwner the owner being projected
+     * @param string     $traitFqcn  the trait FQCN
+     * @param string     $methodName the method name
      */
     private function isTraitMemberExcludedByInsteadOf(
         KnownOwner $knownOwner,
@@ -212,14 +208,14 @@ final readonly class AvailableMemberProjector
     /**
      * Projects inherited members on one owner.
      *
-     * @param AvailableMemberCollection $availableMembers The target collection.
-     * @param KnownOwner $knownOwner The owner being projected.
+     * @param AvailableMemberCollection $availableMembers the target collection
+     * @param KnownOwner                $knownOwner       the owner being projected
      *
-     * @return bool True when at least one new available member was added or replaced.
+     * @return bool true when at least one new available member was added or replaced
      */
     private function projectInheritance(
         AvailableMemberCollection $availableMembers,
-        KnownOwner                $knownOwner,
+        KnownOwner $knownOwner,
     ): bool {
         if (null === $knownOwner->parentFqcn || '' === $knownOwner->parentFqcn) {
             return false;
@@ -246,14 +242,14 @@ final readonly class AvailableMemberProjector
     /**
      * Projects interface extends members on one owner.
      *
-     * @param AvailableMemberCollection $availableMembers The target collection.
-     * @param KnownOwner $knownOwner The owner being projected.
+     * @param AvailableMemberCollection $availableMembers the target collection
+     * @param KnownOwner                $knownOwner       the owner being projected
      *
-     * @return bool True when at least one new available member was added or replaced.
+     * @return bool true when at least one new available member was added or replaced
      */
     private function projectInterfaceInheritance(
         AvailableMemberCollection $availableMembers,
-        KnownOwner                $knownOwner,
+        KnownOwner $knownOwner,
     ): bool {
         $changed = false;
 
@@ -280,14 +276,14 @@ final readonly class AvailableMemberProjector
     /**
      * Projects interface members on one owner.
      *
-     * @param AvailableMemberCollection $availableMembers The target collection.
-     * @param KnownOwner $knownOwner The owner being projected.
+     * @param AvailableMemberCollection $availableMembers the target collection
+     * @param KnownOwner                $knownOwner       the owner being projected
      *
-     * @return bool True when at least one new available member was added or replaced.
+     * @return bool true when at least one new available member was added or replaced
      */
     private function projectInterfaces(
         AvailableMemberCollection $availableMembers,
-        KnownOwner                $knownOwner,
+        KnownOwner $knownOwner,
     ): bool {
         $changed = false;
         foreach ($knownOwner->interfaces as $interfaceFqcn) {
@@ -313,12 +309,12 @@ final readonly class AvailableMemberProjector
     /**
      * Projects one available member onto another owner.
      *
-     * @param AvailableMemberCollection $availableMembers The target collection.
-     * @param string $owner The projected owner FQCN.
-     * @param AvailableMember $source The source available member.
-     * @param MemberOriginType $origin The projected origin.
+     * @param AvailableMemberCollection $availableMembers the target collection
+     * @param string                    $owner            the projected owner FQCN
+     * @param AvailableMember           $source           the source available member
+     * @param MemberOriginType          $origin           the projected origin
      *
-     * @return bool True when the projected member changed the collection.
+     * @return bool true when the projected member changed the collection
      */
     private function projectAvailableMember(
         AvailableMemberCollection $availableMembers,
@@ -343,13 +339,13 @@ final readonly class AvailableMemberProjector
     /**
      * Adds one projected available member to the collection.
      *
-     * @param AvailableMemberCollection $availableMembers The target collection.
-     * @param MemberId $projectedMember The projected member id.
-     * @param AvailableMember $source The source available member.
-     * @param MemberOriginType $origin The projected origin.
-     * @param int|null $visibility The projected visibility override.
+     * @param AvailableMemberCollection $availableMembers the target collection
+     * @param MemberId                  $projectedMember  the projected member id
+     * @param AvailableMember           $source           the source available member
+     * @param MemberOriginType          $origin           the projected origin
+     * @param int|null                  $visibility       the projected visibility override
      *
-     * @return bool True when the projected member changed the collection.
+     * @return bool true when the projected member changed the collection
      */
     private function addProjectedAvailableMember(
         AvailableMemberCollection $availableMembers,
@@ -375,14 +371,12 @@ final readonly class AvailableMemberProjector
     /**
      * Validates trait member compatibility for one owner.
      *
-     * @param AvailableMemberCollection $availableMembers The available member collection.
-     * @param KnownOwner $knownOwner The owner being projected.
-     *
-     * @return void
+     * @param AvailableMemberCollection $availableMembers the available member collection
+     * @param KnownOwner                $knownOwner       the owner being projected
      */
     private function validateTraitMembersCompatibility(
         AvailableMemberCollection $availableMembers,
-        KnownOwner                $knownOwner,
+        KnownOwner $knownOwner,
     ): void {
         if (null === $this->compatibilityValidator) {
             return;
@@ -406,14 +400,12 @@ final readonly class AvailableMemberProjector
     /**
      * Validates inherited members compatibility for one owner.
      *
-     * @param AvailableMemberCollection $availableMembers The available member collection.
-     * @param KnownOwner $knownOwner The owner being projected.
-     *
-     * @return void
+     * @param AvailableMemberCollection $availableMembers the available member collection
+     * @param KnownOwner                $knownOwner       the owner being projected
      */
     private function validateInheritanceMembersCompatibility(
         AvailableMemberCollection $availableMembers,
-        KnownOwner                $knownOwner,
+        KnownOwner $knownOwner,
     ): void {
         if (null === $this->compatibilityValidator) {
             return;
@@ -435,10 +427,8 @@ final readonly class AvailableMemberProjector
     /**
      * Indicates whether one available member changed semantically.
      *
-     * @param AvailableMember|null $before The previous available member.
-     * @param AvailableMember|null $after The resulting available member.
-     *
-     * @return bool
+     * @param AvailableMember|null $before the previous available member
+     * @param AvailableMember|null $after  the resulting available member
      */
     private function hasChanged(?AvailableMember $before, ?AvailableMember $after): bool
     {

@@ -15,15 +15,16 @@ use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Template\PhpDocTemplateDefinition
 use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Template\PhpDocVisibleTemplateResolver;
 
 /**
- * Class EffectivePhpDocBuilderFactory
+ * Class EffectivePhpDocBuilderFactory.
  */
 final class EffectivePhpDocBuilderFactory
 {
     public function __construct(
         private MemberGraphPhpSourceRegistryInstance $fileRegistry,
-        private ?MemberGraphIssueCollection $issues = null
+        private ?MemberGraphIssueCollection $issues = null,
     ) {
     }
+
     public function create(
         ParamPhpDocTypeExtractor $paramPhpDocTypeExtractor,
         ReturnPhpDocTypeExtractor $returnPhpDocTypeExtractor,

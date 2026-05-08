@@ -15,8 +15,8 @@ final readonly class DeclaringMethodResolver
     /**
      * Constructor.
      *
-     * @param MethodNodeIndex $methodNodeIndex The global method node index.
-     * @param KnownOwnerCollection $knownOwners The known class-like owner metadata.
+     * @param MethodNodeIndex      $methodNodeIndex the global method node index
+     * @param KnownOwnerCollection $knownOwners     the known class-like owner metadata
      */
     public function __construct(
         private MethodNodeIndex $methodNodeIndex,
@@ -27,10 +27,8 @@ final readonly class DeclaringMethodResolver
     /**
      * Resolves the owner that declares a method when starting from one candidate owner.
      *
-     * @param string $owner The starting owner FQCN.
-     * @param string $methodName The method name.
-     *
-     * @return string|null
+     * @param string $owner      the starting owner FQCN
+     * @param string $methodName the method name
      */
     public function resolve(string $owner, string $methodName): ?string
     {

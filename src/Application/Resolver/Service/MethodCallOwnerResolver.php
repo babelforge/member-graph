@@ -20,8 +20,8 @@ final readonly class MethodCallOwnerResolver
     /**
      * Constructor.
      *
-     * @param StructuredPhpDocTypeInspector $structuredPhpDocTypeInspector The structured PHPDoc inspector.
-     * @param ArgumentStructuredTypeResolver $argumentStructuredTypeResolver The argument structured type resolver.
+     * @param StructuredPhpDocTypeInspector  $structuredPhpDocTypeInspector  the structured PHPDoc inspector
+     * @param ArgumentStructuredTypeResolver $argumentStructuredTypeResolver the argument structured type resolver
      */
     public function __construct(
         private StructuredPhpDocTypeInspector $structuredPhpDocTypeInspector,
@@ -32,11 +32,9 @@ final readonly class MethodCallOwnerResolver
     /**
      * Resolves method-call owners, preferring structured root symbols that declare the target method.
      *
-     * @param MethodCall|NullsafeMethodCall $expression The method-call expression.
-     * @param ExpressionResolutionContext $context The expression resolution context.
-     * @param ExpressionTypeResolverInterface $fallbackResolver The fallback expression resolver.
-     *
-     * @return SymbolCollection
+     * @param MethodCall|NullsafeMethodCall   $expression       the method-call expression
+     * @param ExpressionResolutionContext     $context          the expression resolution context
+     * @param ExpressionTypeResolverInterface $fallbackResolver the fallback expression resolver
      */
     public function resolve(
         MethodCall|NullsafeMethodCall $expression,

@@ -14,7 +14,7 @@ final readonly class MemberGraphLoadedSourceMetadata
     /**
      * Constructor.
      *
-     * @param MemberGraphVirtualSourceMetadataCollection $sources Source metadata loaded from rebuilt files.
+     * @param MemberGraphVirtualSourceMetadataCollection $sources source metadata loaded from rebuilt files
      */
     public function __construct(
         public MemberGraphVirtualSourceMetadataCollection $sources = new MemberGraphVirtualSourceMetadataCollection(),

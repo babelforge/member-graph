@@ -4,16 +4,12 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Application\Cache\Snapshot\Declaration;
 
-use Countable;
-use IteratorAggregate;
-use Traversable;
-
 /**
  * Stores parameter declaration snapshots indexed by callable and parameter name.
  *
- * @implements IteratorAggregate<string, ParameterDeclarationSnapshot>
+ * @implements \IteratorAggregate<string, ParameterDeclarationSnapshot>
  */
-final class ParameterDeclarationSnapshotCollection implements Countable, IteratorAggregate
+final class ParameterDeclarationSnapshotCollection implements \Countable, \IteratorAggregate
 {
     /**
      * @var array<string, ParameterDeclarationSnapshot>
@@ -23,26 +19,22 @@ final class ParameterDeclarationSnapshotCollection implements Countable, Iterato
     /**
      * Adds one parameter declaration snapshot.
      *
-     * @param ParameterDeclarationSnapshot $snapshot The snapshot to add.
-     *
-     * @return void
+     * @param ParameterDeclarationSnapshot $snapshot the snapshot to add
      */
     public function add(ParameterDeclarationSnapshot $snapshot): void
     {
-        $this->byKey[$snapshot->callableId . '::$' . $snapshot->name] = $snapshot;
+        $this->byKey[$snapshot->callableId.'::$'.$snapshot->name] = $snapshot;
     }
 
     /**
      * Returns one parameter declaration snapshot.
      *
-     * @param string $callableId The callable identifier.
-     * @param string $name The parameter name.
-     *
-     * @return ParameterDeclarationSnapshot|null
+     * @param string $callableId the callable identifier
+     * @param string $name       the parameter name
      */
     public function get(string $callableId, string $name): ?ParameterDeclarationSnapshot
     {
-        return $this->byKey[$callableId . '::$' . $name] ?? null;
+        return $this->byKey[$callableId.'::$'.$name] ?? null;
     }
 
     /**
@@ -58,17 +50,15 @@ final class ParameterDeclarationSnapshotCollection implements Countable, Iterato
     /**
      * Returns an iterator over parameter declaration snapshots.
      *
-     * @return Traversable<string, ParameterDeclarationSnapshot>
+     * @return \Traversable<string, ParameterDeclarationSnapshot>
      */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         yield from $this->byKey;
     }
 
     /**
      * Counts parameter declaration snapshots.
-     *
-     * @return int
      */
     public function count(): int
     {

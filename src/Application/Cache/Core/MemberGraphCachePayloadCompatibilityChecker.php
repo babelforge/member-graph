@@ -12,7 +12,7 @@ final readonly class MemberGraphCachePayloadCompatibilityChecker
     /**
      * Constructor.
      *
-     * @param MemberGraphCachePayloadMigrator $migrator The cache payload migrator.
+     * @param MemberGraphCachePayloadMigrator $migrator the cache payload migrator
      */
     public function __construct(
         private MemberGraphCachePayloadMigrator $migrator = new MemberGraphCachePayloadMigrator(),
@@ -22,9 +22,7 @@ final readonly class MemberGraphCachePayloadCompatibilityChecker
     /**
      * Checks one raw unserialized payload.
      *
-     * @param mixed $payload The raw unserialized payload.
-     *
-     * @return MemberGraphCacheLoadResult
+     * @param mixed $payload the raw unserialized payload
      */
     public function check(mixed $payload): MemberGraphCacheLoadResult
     {

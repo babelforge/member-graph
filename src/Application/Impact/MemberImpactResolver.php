@@ -19,10 +19,8 @@ final readonly class MemberImpactResolver
     /**
      * Resolves impact information for the given target.
      *
-     * @param MemberDependencyGraph $graph The member dependency graph.
-     * @param MemberImpactTarget $target The impact query target.
-     *
-     * @return MemberImpact
+     * @param MemberDependencyGraph $graph  the member dependency graph
+     * @param MemberImpactTarget    $target the impact query target
      */
     public function resolve(MemberDependencyGraph $graph, MemberImpactTarget $target): MemberImpact
     {
@@ -67,11 +65,9 @@ final readonly class MemberImpactResolver
     /**
      * Adds impact information carried by one member usage.
      *
-     * @param MemberUsage $usage The member usage.
-     * @param ImpactedOwnerCollection $impactedOwners The impacted owners.
-     * @param ImpactedFileCollection $impactedFiles The impacted files.
-     *
-     * @return void
+     * @param MemberUsage             $usage          the member usage
+     * @param ImpactedOwnerCollection $impactedOwners the impacted owners
+     * @param ImpactedFileCollection  $impactedFiles  the impacted files
      */
     private function addUsageImpact(
         MemberUsage $usage,
@@ -86,11 +82,9 @@ final readonly class MemberImpactResolver
     /**
      * Adds impact information carried by one parameter usage.
      *
-     * @param ParameterUsage $usage The parameter usage.
-     * @param ImpactedOwnerCollection $impactedOwners The impacted owners.
-     * @param ImpactedFileCollection $impactedFiles The impacted files.
-     *
-     * @return void
+     * @param ParameterUsage          $usage          the parameter usage
+     * @param ImpactedOwnerCollection $impactedOwners the impacted owners
+     * @param ImpactedFileCollection  $impactedFiles  the impacted files
      */
     private function addParameterUsageImpact(
         ParameterUsage $usage,
@@ -105,9 +99,7 @@ final readonly class MemberImpactResolver
     /**
      * Extracts an owner FQCN from a member source symbol.
      *
-     * @param string $sourceSymbol The source symbol.
-     *
-     * @return string
+     * @param string $sourceSymbol the source symbol
      */
     private function ownerFromSourceSymbol(string $sourceSymbol): string
     {

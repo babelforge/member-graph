@@ -23,9 +23,7 @@ final readonly class MemberDependencyGraphPartialRebuildLoader
     /**
      * Loads source data for files scheduled for rebuild.
      *
-     * @param MemberDependencyGraphPartialRebuildInput $partialRebuildInput The partial rebuild input.
-     *
-     * @return MemberDependencyGraphPartialRebuildLoadedInput
+     * @param MemberDependencyGraphPartialRebuildInput $partialRebuildInput the partial rebuild input
      */
     public function load(MemberDependencyGraphPartialRebuildInput $partialRebuildInput): MemberDependencyGraphPartialRebuildLoadedInput
     {

@@ -7,18 +7,17 @@ namespace PhpNoobs\MemberGraph\Application\Validator\PhpDoc;
 use PhpNoobs\MemberGraph\Application\Issue\MemberGraphIssueCollection;
 
 /**
- * Class PhpDodIssueCollection
+ * Class PhpDodIssueCollection.
  */
 final class PhpDocIssueCollection
 {
     public static function add(
         ?MemberGraphIssueCollection $issues,
-        PhpDocResolutionIssueType   $newIssueType,
-        string                      $fullFilePath,
-        string                      $owner,
-        string                      $member,
+        PhpDocResolutionIssueType $newIssueType,
+        string $fullFilePath,
+        string $owner,
+        string $member,
     ): void {
-
         if (null === $issues) {
             return;
         }

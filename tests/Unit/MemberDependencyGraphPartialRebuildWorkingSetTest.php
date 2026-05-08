@@ -17,8 +17,6 @@ final class MemberDependencyGraphPartialRebuildWorkingSetTest extends TestCase
 {
     /**
      * Ensures working set files, fragments, diagnostics, and iterations are tracked.
-     *
-     * @return void
      */
     public function testItTracksWorkingSetState(): void
     {

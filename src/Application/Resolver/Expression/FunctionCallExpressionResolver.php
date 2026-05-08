@@ -25,9 +25,9 @@ final readonly class FunctionCallExpressionResolver implements ExpressionResolve
     /**
      * Constructor.
      *
-     * @param CallableInvocationStructuredTypeResolver $callableInvocationStructuredTypeResolver The callable invocation resolver.
-     * @param FunctionNameResolver $functionNameResolver The function name resolver.
-     * @param FunctionLikeCallResolver $functionLikeCallResolver The function-like call resolver.
+     * @param CallableInvocationStructuredTypeResolver $callableInvocationStructuredTypeResolver the callable invocation resolver
+     * @param FunctionNameResolver                     $functionNameResolver                     the function name resolver
+     * @param FunctionLikeCallResolver                 $functionLikeCallResolver                 the function-like call resolver
      */
     public function __construct(
         private CallableInvocationStructuredTypeResolver $callableInvocationStructuredTypeResolver,
@@ -39,9 +39,7 @@ final readonly class FunctionCallExpressionResolver implements ExpressionResolve
     /**
      * Tells whether this resolver can handle the given node.
      *
-     * @param Node $expression The expression or expression-like node to inspect.
-     *
-     * @return bool
+     * @param Node $expression the expression or expression-like node to inspect
      */
     public function supports(Node $expression): bool
     {
@@ -51,11 +49,9 @@ final readonly class FunctionCallExpressionResolver implements ExpressionResolve
     /**
      * Resolves symbols produced by one function call.
      *
-     * @param Node $expression The function-call expression.
-     * @param ExpressionResolutionContext $context The current expression resolution context.
-     * @param ExpressionTypeResolverInterface $fallbackResolver The facade resolver for recursive resolution.
-     *
-     * @return SymbolCollection|null
+     * @param Node                            $expression       the function-call expression
+     * @param ExpressionResolutionContext     $context          the current expression resolution context
+     * @param ExpressionTypeResolverInterface $fallbackResolver the facade resolver for recursive resolution
      */
     public function resolve(
         Node $expression,
@@ -110,11 +106,9 @@ final readonly class FunctionCallExpressionResolver implements ExpressionResolve
     /**
      * Resolves the structured PHPDoc type produced by one function call.
      *
-     * @param Expr $expression The function-call expression.
-     * @param ExpressionResolutionContext $context The current expression resolution context.
-     * @param ExpressionTypeResolverInterface $fallbackResolver The facade resolver for recursive resolution.
-     *
-     * @return ResolvedPhpDocType|null
+     * @param Expr                            $expression       the function-call expression
+     * @param ExpressionResolutionContext     $context          the current expression resolution context
+     * @param ExpressionTypeResolverInterface $fallbackResolver the facade resolver for recursive resolution
      */
     public function resolveStructuredPhpDocType(
         Expr $expression,

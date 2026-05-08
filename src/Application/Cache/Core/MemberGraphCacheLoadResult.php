@@ -12,11 +12,11 @@ final readonly class MemberGraphCacheLoadResult
     /**
      * Constructor.
      *
-     * @param MemberGraphCacheLoadStatus $status The load status.
-     * @param MemberGraphCachePayload|null $payload The loaded payload when available.
-     * @param int|null $expectedSchemaVersion The expected cache schema version.
-     * @param int|null $actualSchemaVersion The actual cache schema version when it is known.
-     * @param MemberGraphCachePayloadMigrationStatus|null $migrationStatus The migration status when compatibility was checked.
+     * @param MemberGraphCacheLoadStatus                  $status                the load status
+     * @param MemberGraphCachePayload|null                $payload               the loaded payload when available
+     * @param int|null                                    $expectedSchemaVersion the expected cache schema version
+     * @param int|null                                    $actualSchemaVersion   the actual cache schema version when it is known
+     * @param MemberGraphCachePayloadMigrationStatus|null $migrationStatus       the migration status when compatibility was checked
      */
     public function __construct(
         public MemberGraphCacheLoadStatus $status,
@@ -30,9 +30,7 @@ final readonly class MemberGraphCacheLoadResult
     /**
      * Creates a loaded result.
      *
-     * @param MemberGraphCachePayload $payload The loaded payload.
-     *
-     * @return self
+     * @param MemberGraphCachePayload $payload the loaded payload
      */
     public static function loaded(MemberGraphCachePayload $payload): self
     {
@@ -48,9 +46,7 @@ final readonly class MemberGraphCacheLoadResult
     /**
      * Creates a loaded result from a migration result.
      *
-     * @param MemberGraphCachePayloadMigrationResult $migrationResult The migration result.
-     *
-     * @return self
+     * @param MemberGraphCachePayloadMigrationResult $migrationResult the migration result
      */
     public static function loadedFromMigration(MemberGraphCachePayloadMigrationResult $migrationResult): self
     {
@@ -66,10 +62,8 @@ final readonly class MemberGraphCacheLoadResult
     /**
      * Creates a non-loaded result.
      *
-     * @param MemberGraphCacheLoadStatus $status The load status.
-     * @param int|null $actualSchemaVersion The actual cache schema version when it is known.
-     *
-     * @return self
+     * @param MemberGraphCacheLoadStatus $status              the load status
+     * @param int|null                   $actualSchemaVersion the actual cache schema version when it is known
      */
     public static function notLoaded(
         MemberGraphCacheLoadStatus $status,
@@ -86,8 +80,6 @@ final readonly class MemberGraphCacheLoadResult
 
     /**
      * Indicates whether a payload was loaded.
-     *
-     * @return bool
      */
     public function isLoaded(): bool
     {

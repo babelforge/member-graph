@@ -12,10 +12,10 @@ final readonly class MemberGraphCacheWriteResult
     /**
      * Constructor.
      *
-     * @param MemberGraphCacheWriteStatus $status The write status.
-     * @param string $cacheFilePath The final cache file path.
-     * @param string|null $tempFilePath The temporary file path used during the write.
-     * @param int|null $bytesWritten The number of bytes written to the temporary file.
+     * @param MemberGraphCacheWriteStatus $status        the write status
+     * @param string                      $cacheFilePath the final cache file path
+     * @param string|null                 $tempFilePath  the temporary file path used during the write
+     * @param int|null                    $bytesWritten  the number of bytes written to the temporary file
      */
     private function __construct(
         public MemberGraphCacheWriteStatus $status,
@@ -28,9 +28,7 @@ final readonly class MemberGraphCacheWriteResult
     /**
      * Creates a result for builds that did not attempt a cache write.
      *
-     * @param string $cacheFilePath The final cache file path.
-     *
-     * @return self
+     * @param string $cacheFilePath the final cache file path
      */
     public static function notWritten(string $cacheFilePath): self
     {
@@ -43,11 +41,9 @@ final readonly class MemberGraphCacheWriteResult
     /**
      * Creates a successful write result.
      *
-     * @param string $cacheFilePath The final cache file path.
-     * @param string $tempFilePath The temporary file path used during the write.
-     * @param int $bytesWritten The number of bytes written to the temporary file.
-     *
-     * @return self
+     * @param string $cacheFilePath the final cache file path
+     * @param string $tempFilePath  the temporary file path used during the write
+     * @param int    $bytesWritten  the number of bytes written to the temporary file
      */
     public static function written(string $cacheFilePath, string $tempFilePath, int $bytesWritten): self
     {
@@ -62,11 +58,9 @@ final readonly class MemberGraphCacheWriteResult
     /**
      * Creates a failed write result.
      *
-     * @param MemberGraphCacheWriteStatus $status The write failure status.
-     * @param string $cacheFilePath The final cache file path.
-     * @param string|null $tempFilePath The temporary file path used during the write.
-     *
-     * @return self
+     * @param MemberGraphCacheWriteStatus $status        the write failure status
+     * @param string                      $cacheFilePath the final cache file path
+     * @param string|null                 $tempFilePath  the temporary file path used during the write
      */
     public static function failed(
         MemberGraphCacheWriteStatus $status,
@@ -82,8 +76,6 @@ final readonly class MemberGraphCacheWriteResult
 
     /**
      * Checks whether the cache payload was written.
-     *
-     * @return bool
      */
     public function isWritten(): bool
     {

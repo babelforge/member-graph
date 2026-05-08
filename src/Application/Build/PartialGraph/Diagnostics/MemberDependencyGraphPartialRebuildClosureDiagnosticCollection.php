@@ -4,16 +4,12 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Application\Build\PartialGraph\Diagnostics;
 
-use Countable;
-use IteratorAggregate;
-use Traversable;
-
 /**
  * Stores partial rebuild working set closure diagnostics.
  *
- * @implements IteratorAggregate<int, MemberDependencyGraphPartialRebuildClosureDiagnostic>
+ * @implements \IteratorAggregate<int, MemberDependencyGraphPartialRebuildClosureDiagnostic>
  */
-final class MemberDependencyGraphPartialRebuildClosureDiagnosticCollection implements Countable, IteratorAggregate
+final class MemberDependencyGraphPartialRebuildClosureDiagnosticCollection implements \Countable, \IteratorAggregate
 {
     /**
      * @var list<MemberDependencyGraphPartialRebuildClosureDiagnostic>
@@ -23,9 +19,7 @@ final class MemberDependencyGraphPartialRebuildClosureDiagnosticCollection imple
     /**
      * Adds one diagnostic.
      *
-     * @param MemberDependencyGraphPartialRebuildClosureDiagnostic $diagnostic The diagnostic to add.
-     *
-     * @return void
+     * @param MemberDependencyGraphPartialRebuildClosureDiagnostic $diagnostic the diagnostic to add
      */
     public function add(MemberDependencyGraphPartialRebuildClosureDiagnostic $diagnostic): void
     {
@@ -44,8 +38,6 @@ final class MemberDependencyGraphPartialRebuildClosureDiagnosticCollection imple
 
     /**
      * Indicates whether diagnostics are present.
-     *
-     * @return bool
      */
     public function isEmpty(): bool
     {
@@ -55,17 +47,15 @@ final class MemberDependencyGraphPartialRebuildClosureDiagnosticCollection imple
     /**
      * Returns an iterator over diagnostics.
      *
-     * @return Traversable<int, MemberDependencyGraphPartialRebuildClosureDiagnostic>
+     * @return \Traversable<int, MemberDependencyGraphPartialRebuildClosureDiagnostic>
      */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         yield from $this->items;
     }
 
     /**
      * Counts diagnostics.
-     *
-     * @return int
      */
     public function count(): int
     {

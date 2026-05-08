@@ -13,7 +13,7 @@ use PhpNoobs\PhpSource\VirtualPhpSourceFileCollection;
 use Psr\Log\LoggerInterface;
 
 /**
- * Class MemberGraphPhpSourceRegistryInstance
+ * Class MemberGraphPhpSourceRegistryInstance.
  */
 final class MemberGraphPhpSourceRegistryInstance extends PhpSourceRegistryInstance
 {
@@ -37,7 +37,7 @@ final class MemberGraphPhpSourceRegistryInstance extends PhpSourceRegistryInstan
 
     public function fqcnExists(string $fqcn): bool
     {
-        return $this->knownOwners->get($fqcn) !== null;
+        return null !== $this->knownOwners->get($fqcn);
     }
 
     protected function addVirtualFiles(string $filePath, VirtualPhpSourceFileCollection $virtualFiles): PhpSourceFile
@@ -45,6 +45,7 @@ final class MemberGraphPhpSourceRegistryInstance extends PhpSourceRegistryInstan
         foreach ($virtualFiles as $virtualFile) {
             $this->knownOwnersCollectionBuilder->build($virtualFile->nodes, $this->knownOwners);
         }
+
         return parent::addVirtualFiles($filePath, $virtualFiles);
     }
 }

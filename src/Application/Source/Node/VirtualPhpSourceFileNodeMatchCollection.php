@@ -4,18 +4,15 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Application\Source\Node;
 
-use Countable;
-use IteratorAggregate;
 use PhpNoobs\PhpSource\VirtualPhpSourceFileCollection;
 use PhpParser\Node;
-use Traversable;
 
 /**
  * Collects source node matches found in virtual registry files.
  *
- * @implements IteratorAggregate<VirtualPhpSourceFileNodeMatch>
+ * @implements \IteratorAggregate<VirtualPhpSourceFileNodeMatch>
  */
-final class VirtualPhpSourceFileNodeMatchCollection implements Countable, IteratorAggregate
+final class VirtualPhpSourceFileNodeMatchCollection implements \Countable, \IteratorAggregate
 {
     /**
      * @var list<VirtualPhpSourceFileNodeMatch>
@@ -25,9 +22,7 @@ final class VirtualPhpSourceFileNodeMatchCollection implements Countable, Iterat
     /**
      * Adds one source node match.
      *
-     * @param VirtualPhpSourceFileNodeMatch $match The match to add.
-     *
-     * @return self
+     * @param VirtualPhpSourceFileNodeMatch $match the match to add
      */
     public function add(VirtualPhpSourceFileNodeMatch $match): self
     {
@@ -49,9 +44,7 @@ final class VirtualPhpSourceFileNodeMatchCollection implements Countable, Iterat
     /**
      * Returns matches using the given role.
      *
-     * @param VirtualPhpSourceFileNodeMatchRole $role The role to keep.
-     *
-     * @return self
+     * @param VirtualPhpSourceFileNodeMatchRole $role the role to keep
      */
     public function byRole(VirtualPhpSourceFileNodeMatchRole $role): self
     {
@@ -68,8 +61,6 @@ final class VirtualPhpSourceFileNodeMatchCollection implements Countable, Iterat
 
     /**
      * Returns matches declaring graph members.
-     *
-     * @return self
      */
     public function memberDeclarations(): self
     {
@@ -78,8 +69,6 @@ final class VirtualPhpSourceFileNodeMatchCollection implements Countable, Iterat
 
     /**
      * Returns matches using graph members.
-     *
-     * @return self
      */
     public function memberUsages(): self
     {
@@ -88,8 +77,6 @@ final class VirtualPhpSourceFileNodeMatchCollection implements Countable, Iterat
 
     /**
      * Returns matches declaring function-like parameters.
-     *
-     * @return self
      */
     public function parameterDeclarations(): self
     {
@@ -98,8 +85,6 @@ final class VirtualPhpSourceFileNodeMatchCollection implements Countable, Iterat
 
     /**
      * Returns matches using function-like parameters.
-     *
-     * @return self
      */
     public function parameterUsages(): self
     {
@@ -109,9 +94,7 @@ final class VirtualPhpSourceFileNodeMatchCollection implements Countable, Iterat
     /**
      * Returns matches contained in one virtual file.
      *
-     * @param string $virtualFilePath The virtual file path to keep.
-     *
-     * @return self
+     * @param string $virtualFilePath the virtual file path to keep
      */
     public function byVirtualFilePath(string $virtualFilePath): self
     {
@@ -129,9 +112,7 @@ final class VirtualPhpSourceFileNodeMatchCollection implements Countable, Iterat
     /**
      * Returns matches whose node is an instance of the given PHPParser node class.
      *
-     * @param class-string<Node> $nodeClass The PHPParser node class to keep.
-     *
-     * @return self
+     * @param class-string<Node> $nodeClass the PHPParser node class to keep
      */
     public function byNodeClass(string $nodeClass): self
     {
@@ -148,8 +129,6 @@ final class VirtualPhpSourceFileNodeMatchCollection implements Countable, Iterat
 
     /**
      * Returns unique virtual files containing at least one match.
-     *
-     * @return VirtualPhpSourceFileCollection
      */
     public function virtualFiles(): VirtualPhpSourceFileCollection
     {
@@ -186,8 +165,6 @@ final class VirtualPhpSourceFileNodeMatchCollection implements Countable, Iterat
 
     /**
      * Indicates whether the collection contains no match.
-     *
-     * @return bool
      */
     public function isEmpty(): bool
     {
@@ -197,17 +174,15 @@ final class VirtualPhpSourceFileNodeMatchCollection implements Countable, Iterat
     /**
      * Returns an iterator over source node matches.
      *
-     * @return Traversable<VirtualPhpSourceFileNodeMatch>
+     * @return \Traversable<VirtualPhpSourceFileNodeMatch>
      */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         yield from $this->matches;
     }
 
     /**
      * Returns the match count.
-     *
-     * @return int
      */
     public function count(): int
     {

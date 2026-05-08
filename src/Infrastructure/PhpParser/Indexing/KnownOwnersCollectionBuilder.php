@@ -9,7 +9,7 @@ use PhpParser\Node;
 use PhpParser\NodeTraverser;
 
 /**
- * Class KnownOwnersIndexBuilder
+ * Class KnownOwnersIndexBuilder.
  */
 final class KnownOwnersCollectionBuilder
 {
@@ -26,5 +26,4 @@ final class KnownOwnersCollectionBuilder
         $traverser->addVisitor($collectorVisitor);
         $traverser->traverse($ast);
     }
-
 }

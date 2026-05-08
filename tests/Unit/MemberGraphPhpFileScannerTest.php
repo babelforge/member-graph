@@ -16,19 +16,15 @@ final class MemberGraphPhpFileScannerTest extends TestCase
 
     /**
      * Prepares an isolated filesystem workspace.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
-        $this->workspace = sys_get_temp_dir() . '/member-graph-file-scanner-' . bin2hex(random_bytes(6));
-        mkdir($this->workspace, 0777, true);
+        $this->workspace = sys_get_temp_dir().'/member-graph-file-scanner-'.bin2hex(random_bytes(6));
+        mkdir($this->workspace, 0o777, true);
     }
 
     /**
      * Removes the isolated filesystem workspace.
-     *
-     * @return void
      */
     protected function tearDown(): void
     {
@@ -37,43 +33,39 @@ final class MemberGraphPhpFileScannerTest extends TestCase
 
     /**
      * Ensures PHP file scanning is recursive, sorted, and exclusion-aware.
-     *
-     * @return void
      */
     public function testItScansPhpFilesWithExclusions(): void
     {
-        $srcDirectory = $this->workspace . '/src';
-        $nestedDirectory = $srcDirectory . '/Nested';
-        $excludedDirectory = $srcDirectory . '/Excluded';
+        $srcDirectory = $this->workspace.'/src';
+        $nestedDirectory = $srcDirectory.'/Nested';
+        $excludedDirectory = $srcDirectory.'/Excluded';
         $scanner = new MemberGraphPhpFileScanner();
 
-        mkdir($nestedDirectory, 0777, true);
-        mkdir($excludedDirectory, 0777, true);
-        file_put_contents($srcDirectory . '/B.php', '<?php class B {}');
-        file_put_contents($nestedDirectory . '/A.php', '<?php class A {}');
-        file_put_contents($excludedDirectory . '/Skipped.php', '<?php class Skipped {}');
-        file_put_contents($srcDirectory . '/notes.txt', 'ignored');
+        mkdir($nestedDirectory, 0o777, true);
+        mkdir($excludedDirectory, 0o777, true);
+        file_put_contents($srcDirectory.'/B.php', '<?php class B {}');
+        file_put_contents($nestedDirectory.'/A.php', '<?php class A {}');
+        file_put_contents($excludedDirectory.'/Skipped.php', '<?php class Skipped {}');
+        file_put_contents($srcDirectory.'/notes.txt', 'ignored');
 
         self::assertSame([
-            realpath($srcDirectory . '/B.php') ?: $srcDirectory . '/B.php',
-            realpath($nestedDirectory . '/A.php') ?: $nestedDirectory . '/A.php',
-        ], $scanner->scan([$srcDirectory . DIRECTORY_SEPARATOR], [$excludedDirectory . DIRECTORY_SEPARATOR]));
+            realpath($srcDirectory.'/B.php') ?: $srcDirectory.'/B.php',
+            realpath($nestedDirectory.'/A.php') ?: $nestedDirectory.'/A.php',
+        ], $scanner->scan([$srcDirectory.DIRECTORY_SEPARATOR], [$excludedDirectory.DIRECTORY_SEPARATOR]));
     }
 
     /**
      * Ensures directory normalization removes trailing directory separators.
-     *
-     * @return void
      */
     public function testItNormalizesDirectoryPaths(): void
     {
         $scanner = new MemberGraphPhpFileScanner();
 
         self::assertSame(
-            [$this->workspace . '/src', $this->workspace . '/generated'],
+            [$this->workspace.'/src', $this->workspace.'/generated'],
             $scanner->normalizeDirectories([
-                $this->workspace . '/src/',
-                $this->workspace . '/generated/',
+                $this->workspace.'/src/',
+                $this->workspace.'/generated/',
             ]),
         );
     }
@@ -81,9 +73,7 @@ final class MemberGraphPhpFileScannerTest extends TestCase
     /**
      * Removes a directory recursively.
      *
-     * @param string $directory The directory to remove.
-     *
-     * @return void
+     * @param string $directory the directory to remove
      */
     private function removeDirectory(string $directory): void
     {
@@ -102,7 +92,7 @@ final class MemberGraphPhpFileScannerTest extends TestCase
                 continue;
             }
 
-            $path = $directory . DIRECTORY_SEPARATOR . $item;
+            $path = $directory.DIRECTORY_SEPARATOR.$item;
 
             if (is_dir($path)) {
                 $this->removeDirectory($path);

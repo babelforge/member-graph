@@ -15,16 +15,16 @@ final readonly class MemberGraphVirtualSourceMetadata
     /**
      * Constructor.
      *
-     * @param string $fullFilePath The physical file path.
-     * @param string $virtualFilePath The virtual file path.
-     * @param string|null $namespace The declared namespace.
-     * @param string|null $ownerName The class-like owner FQCN, when the virtual source declares one.
-     * @param OwnerKind|null $ownerKind The owner kind.
-     * @param string|null $parentFqcn The direct parent class FQCN.
-     * @param bool $isAbstract Whether the owner is abstract.
-     * @param list<string> $traits The directly used traits.
-     * @param list<string> $interfaces The directly implemented interfaces.
-     * @param list<string> $extendsInterfaces The directly extended interfaces.
+     * @param string         $fullFilePath      the physical file path
+     * @param string         $virtualFilePath   the virtual file path
+     * @param string|null    $namespace         the declared namespace
+     * @param string|null    $ownerName         the class-like owner FQCN, when the virtual source declares one
+     * @param OwnerKind|null $ownerKind         the owner kind
+     * @param string|null    $parentFqcn        the direct parent class FQCN
+     * @param bool           $isAbstract        whether the owner is abstract
+     * @param list<string>   $traits            the directly used traits
+     * @param list<string>   $interfaces        the directly implemented interfaces
+     * @param list<string>   $extendsInterfaces the directly extended interfaces
      */
     public function __construct(
         public string $fullFilePath,
@@ -43,12 +43,10 @@ final readonly class MemberGraphVirtualSourceMetadata
     /**
      * Creates source metadata from a known owner.
      *
-     * @param string $fullFilePath The physical file path.
-     * @param string $virtualFilePath The virtual file path.
-     * @param KnownOwner $knownOwner The known owner.
-     * @param string|null $namespace The declared namespace.
-     *
-     * @return self
+     * @param string      $fullFilePath    the physical file path
+     * @param string      $virtualFilePath the virtual file path
+     * @param KnownOwner  $knownOwner      the known owner
+     * @param string|null $namespace       the declared namespace
      */
     public static function fromKnownOwner(
         string $fullFilePath,
@@ -72,8 +70,6 @@ final readonly class MemberGraphVirtualSourceMetadata
 
     /**
      * Indicates whether this virtual source declares a class-like owner.
-     *
-     * @return bool
      */
     public function hasOwner(): bool
     {

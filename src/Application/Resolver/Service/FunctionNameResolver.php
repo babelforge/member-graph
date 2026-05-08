@@ -14,9 +14,7 @@ final readonly class FunctionNameResolver
     /**
      * Resolves one function name using NameResolver attributes when available.
      *
-     * @param Name $name The function name node.
-     *
-     * @return string
+     * @param Name $name the function name node
      */
     public function resolve(Name $name): string
     {

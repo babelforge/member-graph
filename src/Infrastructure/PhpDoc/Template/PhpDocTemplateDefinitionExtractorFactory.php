@@ -11,19 +11,18 @@ use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Parser\PhpDocParserFactory;
 use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\PhpDocTypeNodeResolver;
 
 /**
- * Class PhpDocTemplateDefinitionExtractorFactory
+ * Class PhpDocTemplateDefinitionExtractorFactory.
  */
 final class PhpDocTemplateDefinitionExtractorFactory
 {
     public function __construct(
         private MemberGraphPhpSourceRegistryInstance $fileRegistry,
-        private ?MemberGraphIssueCollection          $issues = null,
+        private ?MemberGraphIssueCollection $issues = null,
     ) {
     }
+
     /**
      * Creates the PHPDoc parser.
-     *
-     * @return PhpDocTemplateDefinitionExtractor
      */
     public function createExtractor(): PhpDocTemplateDefinitionExtractor
     {
@@ -32,7 +31,7 @@ final class PhpDocTemplateDefinitionExtractorFactory
         return new PhpDocTemplateDefinitionExtractor(
             $phpDocParserFactory->createLexer(),
             $phpDocParserFactory->createParser(),
-            new PhpDocTypeNodeResolver(fileRegistry: $this->fileRegistry, issues:$this->issues)
+            new PhpDocTypeNodeResolver(fileRegistry: $this->fileRegistry, issues: $this->issues)
         );
     }
 }

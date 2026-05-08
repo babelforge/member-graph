@@ -22,18 +22,16 @@ final readonly class MemberDependencyGraphFactoryBuildReportFactory
     /**
      * Creates a member dependency graph factory build report.
      *
-     * @param MemberDependencyGraphFactoryBuildMode $buildMode The build mode.
-     * @param list<string> $files The scanned physical files.
-     * @param MemberGraphCache $cache The member graph cache.
-     * @param MemberGraphCacheWriteResult $cacheWriteResult The cache payload write result.
-     * @param MemberGraphCachePlan $cachePlan The cache plan used for the scanned files.
-     * @param MemberDependencyGraphFactoryRebuildPlan $rebuildPlan The selected rebuild strategy.
-     * @param int $loadedVirtualFileCount The number of virtual files loaded during this run.
-     * @param int $virtualFileReferenceCount The number of virtual file references exposed by the result.
-     * @param MemberDependencyGraphPartialRebuildInput|null $partialRebuildInput The prepared partial rebuild input when available.
-     * @param MemberDependencyGraphPartialRebuildWorkingSet|null $partialRebuildWorkingSet The resolved partial rebuild working set when available.
-     *
-     * @return MemberDependencyGraphFactoryBuildReport
+     * @param MemberDependencyGraphFactoryBuildMode              $buildMode                 the build mode
+     * @param list<string>                                       $files                     the scanned physical files
+     * @param MemberGraphCache                                   $cache                     the member graph cache
+     * @param MemberGraphCacheWriteResult                        $cacheWriteResult          the cache payload write result
+     * @param MemberGraphCachePlan                               $cachePlan                 the cache plan used for the scanned files
+     * @param MemberDependencyGraphFactoryRebuildPlan            $rebuildPlan               the selected rebuild strategy
+     * @param int                                                $loadedVirtualFileCount    the number of virtual files loaded during this run
+     * @param int                                                $virtualFileReferenceCount the number of virtual file references exposed by the result
+     * @param MemberDependencyGraphPartialRebuildInput|null      $partialRebuildInput       the prepared partial rebuild input when available
+     * @param MemberDependencyGraphPartialRebuildWorkingSet|null $partialRebuildWorkingSet  the resolved partial rebuild working set when available
      */
     public function create(
         MemberDependencyGraphFactoryBuildMode $buildMode,

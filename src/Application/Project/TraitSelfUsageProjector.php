@@ -30,11 +30,9 @@ final readonly class TraitSelfUsageProjector
     /**
      * Projects raw trait self-usages into consuming-class usages.
      *
-     * @param MemberUsageCollection $usages The merged member usages.
-     * @param ParameterUsageCollection $parameterUsages The merged parameter usages.
-     * @param KnownOwnerCollection $knownOwners The merged known owners.
-     *
-     * @return void
+     * @param MemberUsageCollection    $usages          the merged member usages
+     * @param ParameterUsageCollection $parameterUsages the merged parameter usages
+     * @param KnownOwnerCollection     $knownOwners     the merged known owners
      */
     public function project(
         MemberUsageCollection $usages,
@@ -61,11 +59,9 @@ final readonly class TraitSelfUsageProjector
     /**
      * Projects trait member usages for one consuming owner.
      *
-     * @param MemberUsageCollection $usages The merged member usages.
-     * @param KnownOwner $knownOwner The consuming owner.
-     * @param string $traitFqcn The trait FQCN.
-     *
-     * @return void
+     * @param MemberUsageCollection $usages     the merged member usages
+     * @param KnownOwner            $knownOwner the consuming owner
+     * @param string                $traitFqcn  the trait FQCN
      */
     private function projectTraitMemberUsagesForOwner(
         MemberUsageCollection $usages,
@@ -112,11 +108,9 @@ final readonly class TraitSelfUsageProjector
     /**
      * Projects trait parameter usages for one consuming owner.
      *
-     * @param ParameterUsageCollection $parameterUsages The merged parameter usages.
-     * @param KnownOwner $knownOwner The consuming owner.
-     * @param string $traitFqcn The trait FQCN.
-     *
-     * @return void
+     * @param ParameterUsageCollection $parameterUsages the merged parameter usages
+     * @param KnownOwner               $knownOwner      the consuming owner
+     * @param string                   $traitFqcn       the trait FQCN
      */
     private function projectTraitParameterUsagesForOwner(
         ParameterUsageCollection $parameterUsages,
@@ -163,23 +157,19 @@ final readonly class TraitSelfUsageProjector
     /**
      * Indicates whether one source symbol belongs to the given trait.
      *
-     * @param string $sourceSymbol The source symbol to inspect.
-     * @param string $traitFqcn The trait FQCN.
-     *
-     * @return bool
+     * @param string $sourceSymbol the source symbol to inspect
+     * @param string $traitFqcn    the trait FQCN
      */
     private function isTraitSourceSymbol(string $sourceSymbol, string $traitFqcn): bool
     {
-        return str_starts_with($sourceSymbol, $traitFqcn . '::');
+        return str_starts_with($sourceSymbol, $traitFqcn.'::');
     }
 
     /**
      * Indicates whether the given member usage is a trait self-usage.
      *
-     * @param MemberUsage $usage The usage to inspect.
-     * @param string $traitFqcn The trait FQCN.
-     *
-     * @return bool
+     * @param MemberUsage $usage     the usage to inspect
+     * @param string      $traitFqcn the trait FQCN
      */
     private function isTraitSelfUsage(MemberUsage $usage, string $traitFqcn): bool
     {
@@ -193,10 +183,8 @@ final readonly class TraitSelfUsageProjector
     /**
      * Indicates whether the given parameter usage is a trait self-parameter usage.
      *
-     * @param ParameterUsage $parameterUsage The parameter usage to inspect.
-     * @param string $traitFqcn The trait FQCN.
-     *
-     * @return bool
+     * @param ParameterUsage $parameterUsage the parameter usage to inspect
+     * @param string         $traitFqcn      the trait FQCN
      */
     private function isTraitSelfParameterUsage(ParameterUsage $parameterUsage, string $traitFqcn): bool
     {
@@ -210,11 +198,9 @@ final readonly class TraitSelfUsageProjector
     /**
      * Projects a trait source symbol onto one consuming owner.
      *
-     * @param string $sourceSymbol The source symbol.
-     * @param string $traitFqcn The trait FQCN.
-     * @param string $ownerFqcn The consuming owner FQCN.
-     *
-     * @return string|null
+     * @param string $sourceSymbol the source symbol
+     * @param string $traitFqcn    the trait FQCN
+     * @param string $ownerFqcn    the consuming owner FQCN
      */
     private function projectedSourceSymbol(string $sourceSymbol, string $traitFqcn, string $ownerFqcn): ?string
     {
@@ -228,21 +214,19 @@ final readonly class TraitSelfUsageProjector
             return null;
         }
 
-        return $ownerFqcn . '::' . $sourceMethod;
+        return $ownerFqcn.'::'.$sourceMethod;
     }
 
     /**
      * Extracts the source method name from a source symbol.
      *
-     * @param string $sourceSymbol The source symbol.
-     *
-     * @return string|null
+     * @param string $sourceSymbol the source symbol
      */
     private function extractSourceMethodName(string $sourceSymbol): ?string
     {
         $parts = explode('::', $sourceSymbol, 2);
 
-        if (count($parts) !== 2 || '' === $parts[1]) {
+        if (2 !== count($parts) || '' === $parts[1]) {
             return null;
         }
 

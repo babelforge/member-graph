@@ -20,7 +20,6 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\TemplateTagValueNode;
 use PHPStan\PhpDocParser\Lexer\Lexer;
 use PHPStan\PhpDocParser\Parser\PhpDocParser;
 use PHPStan\PhpDocParser\Parser\TokenIterator;
-use Throwable;
 
 /**
  * Extracts PHPDoc template definitions from one node docblock.
@@ -28,13 +27,13 @@ use Throwable;
 final readonly class PhpDocTemplateDefinitionExtractor
 {
     /**
-     * @param Lexer $lexer The PHPDoc lexer.
-     * @param PhpDocParser $phpDocParser The PHPDoc parser.
-     * @param PhpDocTypeNodeResolverInterface $phpDocTypeNodeResolver The PHPDoc type resolver.
+     * @param Lexer                           $lexer                  the PHPDoc lexer
+     * @param PhpDocParser                    $phpDocParser           the PHPDoc parser
+     * @param PhpDocTypeNodeResolverInterface $phpDocTypeNodeResolver the PHPDoc type resolver
      */
     public function __construct(
-        private Lexer                           $lexer,
-        private PhpDocParser                    $phpDocParser,
+        private Lexer $lexer,
+        private PhpDocParser $phpDocParser,
         private PhpDocTypeNodeResolverInterface $phpDocTypeNodeResolver,
     ) {
     }
@@ -45,22 +44,20 @@ final readonly class PhpDocTemplateDefinitionExtractor
      * The returned collection is merged on top of the visible parent definitions.
      * Local definitions override parent ones with the same name.
      *
-     * @param Node $node The node carrying the docblock.
-     * @param string $currentNamespace The current namespace.
-     * @param UsesByAliasCollection $usesByAlias The current use imports map.
-     * @param PhpDocTemplateDefinitionCollection $visibleTemplateDefinitions The template definitions visible before entering this node.
-     * @param TypeIndexContext $context The type index context.
-     * @param PhpDocTagKind $phpDocTagKind The kind of the PHPDoc tag.
-     *
-     * @return PhpDocTemplateDefinitionCollection
+     * @param Node                               $node                       the node carrying the docblock
+     * @param string                             $currentNamespace           the current namespace
+     * @param UsesByAliasCollection              $usesByAlias                the current use imports map
+     * @param PhpDocTemplateDefinitionCollection $visibleTemplateDefinitions the template definitions visible before entering this node
+     * @param TypeIndexContext                   $context                    the type index context
+     * @param PhpDocTagKind                      $phpDocTagKind              the kind of the PHPDoc tag
      */
     public function extract(
-        Node                               $node,
-        string                             $currentNamespace,
-        UsesByAliasCollection              $usesByAlias,
+        Node $node,
+        string $currentNamespace,
+        UsesByAliasCollection $usesByAlias,
         PhpDocTemplateDefinitionCollection $visibleTemplateDefinitions,
-        TypeIndexContext                   $context,
-        PhpDocTagKind                      $phpDocTagKind
+        TypeIndexContext $context,
+        PhpDocTagKind $phpDocTagKind,
     ): PhpDocTemplateDefinitionCollection {
         $docComment = PhpDocInheritDocResolver::getEffectiveDocComment($node);
 
@@ -95,9 +92,7 @@ final readonly class PhpDocTemplateDefinitionExtractor
     /**
      * Parses one doc comment into one PhpDocNode.
      *
-     * @param Doc $docComment The doc comment to parse.
-     *
-     * @return PhpDocNode|null
+     * @param Doc $docComment the doc comment to parse
      */
     private function parsePhpDocNode(Doc $docComment): ?PhpDocNode
     {
@@ -105,7 +100,7 @@ final readonly class PhpDocTemplateDefinitionExtractor
             $tokens = new TokenIterator($this->lexer->tokenize($docComment->getText()));
 
             return $this->phpDocParser->parse($tokens);
-        } catch (Throwable) {
+        } catch (\Throwable) {
             return null;
         }
     }
@@ -113,22 +108,20 @@ final readonly class PhpDocTemplateDefinitionExtractor
     /**
      * Extracts one template definition from one parsed @template tag.
      *
-     * @param TemplateTagValueNode $templateTagValue The parsed template tag value.
-     * @param string $currentNamespace The current namespace.
-     * @param UsesByAliasCollection $usesByAlias The current use imports map.
-     * @param PhpDocTemplateDefinitionCollection $visibleTemplateDefinitions The currently visible template definitions.
-     * @param TypeIndexContext $context The type index context.
-     * @param PhpDocTagKind $kind The kind of the PHPDoc tag.
-     *
-     * @return PhpDocTemplateDefinition
+     * @param TemplateTagValueNode               $templateTagValue           the parsed template tag value
+     * @param string                             $currentNamespace           the current namespace
+     * @param UsesByAliasCollection              $usesByAlias                the current use imports map
+     * @param PhpDocTemplateDefinitionCollection $visibleTemplateDefinitions the currently visible template definitions
+     * @param TypeIndexContext                   $context                    the type index context
+     * @param PhpDocTagKind                      $kind                       the kind of the PHPDoc tag
      */
     private function extractDefinitionFromTemplateTagValue(
-        TemplateTagValueNode               $templateTagValue,
-        string                             $currentNamespace,
-        UsesByAliasCollection              $usesByAlias,
+        TemplateTagValueNode $templateTagValue,
+        string $currentNamespace,
+        UsesByAliasCollection $usesByAlias,
         PhpDocTemplateDefinitionCollection $visibleTemplateDefinitions,
-        TypeIndexContext                   $context,
-        PhpDocTagKind                      $kind
+        TypeIndexContext $context,
+        PhpDocTagKind $kind,
     ): PhpDocTemplateDefinition {
         $bound = $this->resolveTemplateBound(
             $templateTagValue,
@@ -148,22 +141,20 @@ final readonly class PhpDocTemplateDefinitionExtractor
     /**
      * Resolves the bound of one template definition when present.
      *
-     * @param TemplateTagValueNode $templateTagValue The parsed template tag value.
-     * @param string $currentNamespace The current namespace.
-     * @param UsesByAliasCollection $usesByAlias The current use imports map.
-     * @param PhpDocTemplateDefinitionCollection $visibleTemplateDefinitions The currently visible template definitions.
-     * @param TypeIndexContext $context The type index context.
-     * @param PhpDocTagKind $kind The kind of the PHPDoc tag.
-     *
-     * @return ResolvedPhpDocType
+     * @param TemplateTagValueNode               $templateTagValue           the parsed template tag value
+     * @param string                             $currentNamespace           the current namespace
+     * @param UsesByAliasCollection              $usesByAlias                the current use imports map
+     * @param PhpDocTemplateDefinitionCollection $visibleTemplateDefinitions the currently visible template definitions
+     * @param TypeIndexContext                   $context                    the type index context
+     * @param PhpDocTagKind                      $kind                       the kind of the PHPDoc tag
      */
     private function resolveTemplateBound(
-        TemplateTagValueNode               $templateTagValue,
-        string                             $currentNamespace,
-        UsesByAliasCollection              $usesByAlias,
+        TemplateTagValueNode $templateTagValue,
+        string $currentNamespace,
+        UsesByAliasCollection $usesByAlias,
         PhpDocTemplateDefinitionCollection $visibleTemplateDefinitions,
-        TypeIndexContext                   $context,
-        PhpDocTagKind                      $kind
+        TypeIndexContext $context,
+        PhpDocTagKind $kind,
     ): ResolvedPhpDocType {
         /**
          * PHPStan PhpDocParser versions may expose different optional properties
@@ -188,9 +179,7 @@ final readonly class PhpDocTemplateDefinitionExtractor
     /**
      * Creates one shallow copy of the given template definition collection.
      *
-     * @param PhpDocTemplateDefinitionCollection $definitions The definitions to copy.
-     *
-     * @return PhpDocTemplateDefinitionCollection
+     * @param PhpDocTemplateDefinitionCollection $definitions the definitions to copy
      */
     private function copyDefinitions(
         PhpDocTemplateDefinitionCollection $definitions,

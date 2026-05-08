@@ -17,8 +17,6 @@ final class MemberGraphSourceMetadataGlobalOwnerIndexesBuilderTest extends TestC
 {
     /**
      * Ensures source metadata can rebuild known owners and polymorphic implementations.
-     *
-     * @return void
      */
     public function testItBuildsGlobalOwnerIndexesFromSourceMetadata(): void
     {
