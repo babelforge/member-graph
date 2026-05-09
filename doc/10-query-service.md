@@ -45,6 +45,10 @@ $query->allMemberUsages();
 $query->usagesOfMember($memberId);
 $query->allParameterUsages();
 $query->parameterUsagesOf($parameterId);
+$query->ownerDeclaration('App\\Mailer');
+$query->allOwnerDeclarations();
+$query->usagesOfOwner('App\\Mailer');
+$query->allOwnerUsages();
 $query->allAvailableMembers();
 $query->availableMembersOf('App\\Mailer');
 $query->allOwners();
@@ -56,6 +60,8 @@ $query->functions();
 $query->hasDeclaration($memberId);
 $query->hasUsage($memberId);
 $query->hasParameterUsage($parameterId);
+$query->hasOwnerDeclaration('App\\Mailer');
+$query->hasOwnerUsage('App\\Mailer');
 $query->dependenciesOfOwner('App\\Runner');
 $query->reverseDependenciesOfOwner('App\\Mailer');
 $query->ownerDependencyGraph();
@@ -103,6 +109,8 @@ It keeps `MemberDependencyGraph` independent from `VirtualPhpSourceFile`, while 
 - `MemberDeclaration::file`;
 - `MemberUsage::file`;
 - `ParameterUsage::file`;
+- `OwnerDeclaration::file`;
+- `OwnerUsage::file`;
 - `sourceSymbol` owner extraction.
 
 ## Owner Dependencies

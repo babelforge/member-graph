@@ -16,6 +16,9 @@ use PhpNoobs\MemberGraph\Domain\Graph\MemberDependencyGraph;
 use PhpNoobs\MemberGraph\Domain\Graph\MemberId;
 use PhpNoobs\MemberGraph\Domain\Graph\MemberType;
 use PhpNoobs\MemberGraph\Domain\Owner\KnownOwnerCollection;
+use PhpNoobs\MemberGraph\Domain\Owner\OwnerDeclaration;
+use PhpNoobs\MemberGraph\Domain\Owner\OwnerDeclarationCollection;
+use PhpNoobs\MemberGraph\Domain\Owner\OwnerUsageCollection;
 use PhpNoobs\MemberGraph\Domain\Parameter\ParameterId;
 use PhpNoobs\MemberGraph\Domain\Parameter\ParameterUsageCollection;
 use PhpNoobs\MemberGraph\Domain\Usage\MemberUsage;
@@ -210,6 +213,62 @@ final readonly class MemberGraphQueryService
     }
 
     /**
+     * Returns one owner declaration.
+     *
+     * @param string $owner the owner FQCN
+     */
+    public function ownerDeclaration(string $owner): ?OwnerDeclaration
+    {
+        return $this->graph->ownerDeclarations->get($owner);
+    }
+
+    /**
+     * Returns all owner declarations.
+     */
+    public function allOwnerDeclarations(): OwnerDeclarationCollection
+    {
+        $declarations = new OwnerDeclarationCollection();
+
+        foreach ($this->graph->ownerDeclarations->all() as $declaration) {
+            $declarations->add($declaration);
+        }
+
+        return $declarations;
+    }
+
+    /**
+     * Returns usages targeting one owner.
+     *
+     * @param string $owner the owner FQCN
+     */
+    public function usagesOfOwner(string $owner): OwnerUsageCollection
+    {
+        $usages = new OwnerUsageCollection();
+
+        foreach ($this->graph->ownerUsages->getByTarget($owner) as $usage) {
+            $usages->add($usage);
+        }
+
+        return $usages;
+    }
+
+    /**
+     * Returns all owner usages.
+     */
+    public function allOwnerUsages(): OwnerUsageCollection
+    {
+        $usages = new OwnerUsageCollection();
+
+        foreach ($this->graph->ownerUsages->all() as $usagesByTarget) {
+            foreach ($usagesByTarget as $usage) {
+                $usages->add($usage);
+            }
+        }
+
+        return $usages;
+    }
+
+    /**
      * Returns all members declared by the given owner.
      *
      * @param string $owner the owner FQCN
@@ -301,6 +360,26 @@ final readonly class MemberGraphQueryService
     public function hasParameterUsage(ParameterId $parameterId): bool
     {
         return [] !== $this->graph->parameterUsages->getByTarget($parameterId);
+    }
+
+    /**
+     * Indicates whether the given owner is declared.
+     *
+     * @param string $owner the owner FQCN
+     */
+    public function hasOwnerDeclaration(string $owner): bool
+    {
+        return null !== $this->graph->ownerDeclarations->get($owner);
+    }
+
+    /**
+     * Indicates whether the given owner has at least one usage.
+     *
+     * @param string $owner the owner FQCN
+     */
+    public function hasOwnerUsage(string $owner): bool
+    {
+        return [] !== $this->graph->ownerUsages->getByTarget($owner);
     }
 
     /**

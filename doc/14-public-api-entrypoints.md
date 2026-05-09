@@ -42,9 +42,10 @@ Use `MemberGraphImpactService` for application-level impact views:
 $impactService = MemberGraphImpactService::fromBuild($build);
 
 $impact = $impactService->method('App\\Service\\UserService', 'send');
+$ownerImpact = $impactService->owner('App\\Service\\UserService');
 ```
 
-Use this entry point when the caller needs declarations, usages, parameter usages, impacted owners, impacted files, virtual files, and available members for one target.
+Use this entry point when the caller needs owner declarations, owner usages, member declarations, member usages, parameter usages, impacted owners, impacted files, virtual files, and available members for one target.
 
 ## Source Nodes
 
@@ -54,9 +55,10 @@ Use `MemberGraphSourceNodeLocator` to locate exact PHPParser nodes inside impact
 $locator = MemberGraphSourceNodeLocator::fromBuild($build);
 
 $matches = $locator->method('App\\Service\\UserService', 'send');
+$ownerMatches = $locator->owner('App\\Service\\UserService');
 ```
 
-Use this entry point when the caller needs AST nodes for declarations, member usages, parameter declarations, or named-argument usages.
+Use this entry point when the caller needs AST nodes for owner declarations, owner usages, member declarations, member usages, parameter declarations, or named-argument usages.
 The locator is strict by default and uses `SourceNodeId` when graph facts carry parser-position metadata.
 
 ## Topology

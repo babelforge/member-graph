@@ -14,6 +14,16 @@ namespace PhpNoobs\MemberGraph\Application\Source\Node;
 enum VirtualPhpSourceFileNodeMatchRole
 {
     /**
+     * The node declares a class-like owner, including classes, interfaces, traits, and enums.
+     */
+    case OWNER_DECLARATION;
+
+    /**
+     * The node uses a class-like owner through a native PHP class-name reference.
+     */
+    case OWNER_USAGE;
+
+    /**
      * The node declares a graph member, including promoted-property parameters when they declare a property member.
      */
     case MEMBER_DECLARATION;

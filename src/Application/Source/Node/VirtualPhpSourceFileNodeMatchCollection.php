@@ -60,6 +60,22 @@ final class VirtualPhpSourceFileNodeMatchCollection implements \Countable, \Iter
     }
 
     /**
+     * Returns matches declaring class-like owners.
+     */
+    public function ownerDeclarations(): self
+    {
+        return $this->byRole(VirtualPhpSourceFileNodeMatchRole::OWNER_DECLARATION);
+    }
+
+    /**
+     * Returns matches using class-like owners.
+     */
+    public function ownerUsages(): self
+    {
+        return $this->byRole(VirtualPhpSourceFileNodeMatchRole::OWNER_USAGE);
+    }
+
+    /**
      * Returns matches declaring graph members.
      */
     public function memberDeclarations(): self

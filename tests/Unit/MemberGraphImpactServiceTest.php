@@ -16,7 +16,12 @@ use PhpNoobs\MemberGraph\Domain\Graph\MemberType;
 use PhpNoobs\MemberGraph\Domain\Index\Polymorphism\PolymorphicImplementationsIndex;
 use PhpNoobs\MemberGraph\Domain\Owner\KnownOwner;
 use PhpNoobs\MemberGraph\Domain\Owner\KnownOwnerCollection;
+use PhpNoobs\MemberGraph\Domain\Owner\OwnerDeclaration;
+use PhpNoobs\MemberGraph\Domain\Owner\OwnerDeclarationCollection;
 use PhpNoobs\MemberGraph\Domain\Owner\OwnerKind;
+use PhpNoobs\MemberGraph\Domain\Owner\OwnerUsage;
+use PhpNoobs\MemberGraph\Domain\Owner\OwnerUsageCollection;
+use PhpNoobs\MemberGraph\Domain\Owner\OwnerUsageType;
 use PhpNoobs\MemberGraph\Domain\Parameter\ParameterId;
 use PhpNoobs\MemberGraph\Domain\Parameter\ParameterUsage;
 use PhpNoobs\MemberGraph\Domain\Parameter\ParameterUsageCollection;
@@ -100,6 +105,45 @@ final class MemberGraphImpactServiceTest extends TestCase
         self::assertCount(1, $impact->parameterUsages);
         self::assertCount(2, $impact->availableMembers);
         self::assertSame($impact->memberImpact->target, $impact->target);
+    }
+
+    /**
+     * Ensures owner impact exposes owner declarations and owner usages.
+     */
+    public function testItReturnsRichImpactForOwnerTargets(): void
+    {
+        $knownOwners = new KnownOwnerCollection();
+        $knownOwners->add(new KnownOwner('App\\Mailer', null, OwnerKind::CLASS_));
+        $knownOwners->add(new KnownOwner('App\\Runner', null, OwnerKind::CLASS_));
+        $graph = $this->createGraph(
+            ownerDeclarations: [
+                new OwnerDeclaration('App\\Mailer', OwnerKind::CLASS_, 'src/Mailer.php'),
+                new OwnerDeclaration('App\\Runner', OwnerKind::CLASS_, 'src/Runner.php'),
+            ],
+            ownerUsages: [
+                new OwnerUsage('App\\Runner::run', 'App\\Mailer', OwnerUsageType::NEW, 'src/Runner.php'),
+            ],
+            knownOwners: $knownOwners,
+        );
+        $impactService = MemberGraphImpactService::fromGraphAndVirtualFiles(
+            graph: $graph,
+            virtualFiles: new VirtualPhpSourceFileCollection()
+                ->add($this->createVirtualFile('/project/src/Mailer.php', 'src/Mailer.php'))
+                ->add($this->createVirtualFile('/project/src/Runner.php', 'src/Runner.php')),
+        );
+
+        $impact = $impactService->owner('App\\Mailer');
+
+        self::assertTrue($impact->graphFiles->contains('src/Mailer.php'));
+        self::assertTrue($impact->graphFiles->contains('src/Runner.php'));
+        self::assertTrue($impact->physicalFiles->contains('/project/src/Mailer.php'));
+        self::assertTrue($impact->physicalFiles->contains('/project/src/Runner.php'));
+        self::assertTrue($impact->impactedOwners->contains('App\\Mailer'));
+        self::assertTrue($impact->impactedOwners->contains('App\\Runner'));
+        self::assertNotNull($impact->memberImpact->ownerDeclarations->get('App\\Mailer'));
+        self::assertCount(1, $impact->memberImpact->ownerUsages);
+        self::assertCount(2, $impact->ownerDeclarations);
+        self::assertCount(1, $impact->ownerUsages);
     }
 
     /**
@@ -245,22 +289,28 @@ final class MemberGraphImpactServiceTest extends TestCase
     /**
      * Creates a member dependency graph for impact service tests.
      *
-     * @param list<MemberDeclaration>        $declarations     the declarations to add
-     * @param list<MemberUsage>              $memberUsages     the member usages to add
-     * @param list<ParameterUsage>           $parameterUsages  the parameter usages to add
-     * @param AvailableMemberCollection|null $availableMembers the available members collection
-     * @param KnownOwnerCollection|null      $knownOwners      the known owners collection
+     * @param list<MemberDeclaration>        $declarations      the declarations to add
+     * @param list<MemberUsage>              $memberUsages      the member usages to add
+     * @param list<ParameterUsage>           $parameterUsages   the parameter usages to add
+     * @param list<OwnerDeclaration>         $ownerDeclarations the owner declarations to add
+     * @param list<OwnerUsage>               $ownerUsages       the owner usages to add
+     * @param AvailableMemberCollection|null $availableMembers  the available members collection
+     * @param KnownOwnerCollection|null      $knownOwners       the known owners collection
      */
     private function createGraph(
         array $declarations = [],
         array $memberUsages = [],
         array $parameterUsages = [],
+        array $ownerDeclarations = [],
+        array $ownerUsages = [],
         ?AvailableMemberCollection $availableMembers = null,
         ?KnownOwnerCollection $knownOwners = null,
     ): MemberDependencyGraph {
         $declarationCollection = new MemberDeclarationCollection();
         $memberUsageCollection = new MemberUsageCollection();
         $parameterUsageCollection = new ParameterUsageCollection();
+        $ownerDeclarationCollection = new OwnerDeclarationCollection();
+        $ownerUsageCollection = new OwnerUsageCollection();
 
         foreach ($declarations as $declaration) {
             $declarationCollection->add($declaration);
@@ -274,6 +324,14 @@ final class MemberGraphImpactServiceTest extends TestCase
             $parameterUsageCollection->add($parameterUsage);
         }
 
+        foreach ($ownerDeclarations as $ownerDeclaration) {
+            $ownerDeclarationCollection->add($ownerDeclaration);
+        }
+
+        foreach ($ownerUsages as $ownerUsage) {
+            $ownerUsageCollection->add($ownerUsage);
+        }
+
         return new MemberDependencyGraph(
             declarations: $declarationCollection,
             usages: $memberUsageCollection,
@@ -282,6 +340,8 @@ final class MemberGraphImpactServiceTest extends TestCase
             knownOwners: $knownOwners ?? new KnownOwnerCollection(),
             interfaceImplementationsIndex: new PolymorphicImplementationsIndex(),
             dependencyGraphIssues: null,
+            ownerDeclarations: $ownerDeclarationCollection,
+            ownerUsages: $ownerUsageCollection,
         );
     }
 

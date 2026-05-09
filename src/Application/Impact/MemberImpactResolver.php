@@ -6,6 +6,9 @@ namespace PhpNoobs\MemberGraph\Application\Impact;
 
 use PhpNoobs\MemberGraph\Domain\Declaration\MemberDeclarationCollection;
 use PhpNoobs\MemberGraph\Domain\Graph\MemberDependencyGraph;
+use PhpNoobs\MemberGraph\Domain\Owner\OwnerDeclarationCollection;
+use PhpNoobs\MemberGraph\Domain\Owner\OwnerUsage;
+use PhpNoobs\MemberGraph\Domain\Owner\OwnerUsageCollection;
 use PhpNoobs\MemberGraph\Domain\Parameter\ParameterUsage;
 use PhpNoobs\MemberGraph\Domain\Parameter\ParameterUsageCollection;
 use PhpNoobs\MemberGraph\Domain\Usage\MemberUsage;
@@ -27,6 +30,8 @@ final readonly class MemberImpactResolver
         $declarations = new MemberDeclarationCollection();
         $memberUsages = new MemberUsageCollection();
         $parameterUsages = new ParameterUsageCollection();
+        $ownerDeclarations = new OwnerDeclarationCollection();
+        $ownerUsages = new OwnerUsageCollection();
         $impactedOwners = new ImpactedOwnerCollection();
         $impactedFiles = new ImpactedFileCollection();
 
@@ -52,6 +57,21 @@ final readonly class MemberImpactResolver
             }
         }
 
+        if (null !== $target->owner) {
+            $declaration = $graph->ownerDeclarations->get($target->owner);
+
+            if (null !== $declaration) {
+                $ownerDeclarations->add($declaration);
+                $impactedOwners->add($declaration->fqcn);
+                $impactedFiles->add($declaration->file);
+            }
+
+            foreach ($graph->ownerUsages->getByTarget($target->owner) as $usage) {
+                $ownerUsages->add($usage);
+                $this->addOwnerUsageImpact($usage, $impactedOwners, $impactedFiles);
+            }
+        }
+
         return new MemberImpact(
             target: $target,
             declarations: $declarations,
@@ -59,6 +79,8 @@ final readonly class MemberImpactResolver
             parameterUsages: $parameterUsages,
             impactedOwners: $impactedOwners,
             impactedFiles: $impactedFiles,
+            ownerDeclarations: $ownerDeclarations,
+            ownerUsages: $ownerUsages,
         );
     }
 
@@ -92,6 +114,23 @@ final readonly class MemberImpactResolver
         ImpactedFileCollection $impactedFiles,
     ): void {
         $impactedOwners->add($usage->target->owner);
+        $impactedOwners->add($this->ownerFromSourceSymbol($usage->sourceSymbol));
+        $impactedFiles->add($usage->file);
+    }
+
+    /**
+     * Adds impact information carried by one owner usage.
+     *
+     * @param OwnerUsage              $usage          the owner usage
+     * @param ImpactedOwnerCollection $impactedOwners the impacted owners
+     * @param ImpactedFileCollection  $impactedFiles  the impacted files
+     */
+    private function addOwnerUsageImpact(
+        OwnerUsage $usage,
+        ImpactedOwnerCollection $impactedOwners,
+        ImpactedFileCollection $impactedFiles,
+    ): void {
+        $impactedOwners->add($usage->target);
         $impactedOwners->add($this->ownerFromSourceSymbol($usage->sourceSymbol));
         $impactedFiles->add($usage->file);
     }

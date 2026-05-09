@@ -6,6 +6,8 @@ namespace PhpNoobs\MemberGraph\Application\Build\PartialGraph;
 
 use PhpNoobs\MemberGraph\Domain\Declaration\MemberDeclarationCollection;
 use PhpNoobs\MemberGraph\Domain\Graph\MemberDependencyGraph;
+use PhpNoobs\MemberGraph\Domain\Owner\OwnerDeclarationCollection;
+use PhpNoobs\MemberGraph\Domain\Owner\OwnerUsageCollection;
 use PhpNoobs\MemberGraph\Domain\Parameter\ParameterUsageCollection;
 use PhpNoobs\MemberGraph\Domain\Usage\MemberUsageCollection;
 
@@ -17,6 +19,8 @@ final readonly class PartialMemberGraphAccumulator
     private MemberDeclarationCollection $declarations;
     private MemberUsageCollection $usages;
     private ParameterUsageCollection $parameterUsages;
+    private OwnerDeclarationCollection $ownerDeclarations;
+    private OwnerUsageCollection $ownerUsages;
 
     /**
      * Constructor.
@@ -26,6 +30,8 @@ final readonly class PartialMemberGraphAccumulator
         $this->declarations = new MemberDeclarationCollection();
         $this->usages = new MemberUsageCollection();
         $this->parameterUsages = new ParameterUsageCollection();
+        $this->ownerDeclarations = new OwnerDeclarationCollection();
+        $this->ownerUsages = new OwnerUsageCollection();
     }
 
     /**
@@ -38,6 +44,8 @@ final readonly class PartialMemberGraphAccumulator
         $this->mergeDeclarations($partialGraph->declarations);
         $this->mergeUsages($partialGraph->usages);
         $this->mergeParameterUsages($partialGraph->parameterUsages);
+        $this->mergeOwnerDeclarations($partialGraph->ownerDeclarations);
+        $this->mergeOwnerUsages($partialGraph->ownerUsages);
     }
 
     /**
@@ -62,6 +70,22 @@ final readonly class PartialMemberGraphAccumulator
     public function parameterUsages(): ParameterUsageCollection
     {
         return $this->parameterUsages;
+    }
+
+    /**
+     * Returns the accumulated owner declarations.
+     */
+    public function ownerDeclarations(): OwnerDeclarationCollection
+    {
+        return $this->ownerDeclarations;
+    }
+
+    /**
+     * Returns the accumulated owner usages.
+     */
+    public function ownerUsages(): OwnerUsageCollection
+    {
+        return $this->ownerUsages;
     }
 
     /**
@@ -100,6 +124,32 @@ final readonly class PartialMemberGraphAccumulator
         foreach ($source->all() as $parameterUsagesByTarget) {
             foreach ($parameterUsagesByTarget as $parameterUsage) {
                 $this->parameterUsages->add($parameterUsage);
+            }
+        }
+    }
+
+    /**
+     * Merges owner declarations from one partial collection.
+     *
+     * @param OwnerDeclarationCollection $source the source collection
+     */
+    private function mergeOwnerDeclarations(OwnerDeclarationCollection $source): void
+    {
+        foreach ($source->all() as $declaration) {
+            $this->ownerDeclarations->add($declaration);
+        }
+    }
+
+    /**
+     * Merges owner usages from one partial collection.
+     *
+     * @param OwnerUsageCollection $source the source collection
+     */
+    private function mergeOwnerUsages(OwnerUsageCollection $source): void
+    {
+        foreach ($source->all() as $ownerUsagesByTarget) {
+            foreach ($ownerUsagesByTarget as $ownerUsage) {
+                $this->ownerUsages->add($ownerUsage);
             }
         }
     }

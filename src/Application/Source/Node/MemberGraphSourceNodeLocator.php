@@ -97,6 +97,16 @@ final readonly class MemberGraphSourceNodeLocator
     }
 
     /**
+     * Locates source nodes for one class-like owner target.
+     *
+     * @param string $owner the class-like owner FQCN
+     */
+    public function owner(string $owner): VirtualPhpSourceFileNodeMatchCollection
+    {
+        return $this->target(MemberImpactTarget::owner($owner));
+    }
+
+    /**
      * Locates source nodes for one property target.
      *
      * @param string $owner the property owner FQCN
@@ -342,6 +352,10 @@ final readonly class MemberGraphSourceNodeLocator
             return;
         }
 
+        if (null !== $target->owner) {
+            $this->matchOwnerNode($node, $virtualFile, $target, $impact, $target->owner, $matches, $currentOwner);
+        }
+
         if (null !== $target->memberId) {
             $this->matchMemberNode($node, $virtualFile, $target, $impact, $target->memberId, $matches, $currentOwner);
         }
@@ -384,12 +398,34 @@ final readonly class MemberGraphSourceNodeLocator
             return true;
         }
 
+        if ($this->matchesOwnerDeclarationSourceNodeId($sourceNodeId, $impact)) {
+            $matches->add(new VirtualPhpSourceFileNodeMatch(
+                virtualFile: $virtualFile,
+                node: $node,
+                target: $target,
+                role: VirtualPhpSourceFileNodeMatchRole::OWNER_DECLARATION,
+            ));
+
+            return true;
+        }
+
         if ($this->matchesMemberUsageSourceNodeId($sourceNodeId, $impact)) {
             $matches->add(new VirtualPhpSourceFileNodeMatch(
                 virtualFile: $virtualFile,
                 node: $node,
                 target: $target,
                 role: VirtualPhpSourceFileNodeMatchRole::MEMBER_USAGE,
+            ));
+
+            return true;
+        }
+
+        if ($this->matchesOwnerUsageSourceNodeId($sourceNodeId, $impact)) {
+            $matches->add(new VirtualPhpSourceFileNodeMatch(
+                virtualFile: $virtualFile,
+                node: $node,
+                target: $target,
+                role: VirtualPhpSourceFileNodeMatchRole::OWNER_USAGE,
             ));
 
             return true;
@@ -404,6 +440,23 @@ final readonly class MemberGraphSourceNodeLocator
             ));
 
             return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Indicates whether one source node id matches an impacted owner declaration.
+     *
+     * @param SourceNodeId      $sourceNodeId the source node identifier
+     * @param MemberGraphImpact $impact       the graph impact
+     */
+    private function matchesOwnerDeclarationSourceNodeId(SourceNodeId $sourceNodeId, MemberGraphImpact $impact): bool
+    {
+        foreach ($impact->memberImpact->ownerDeclarations->all() as $declaration) {
+            if ($declaration->sourceNodeId?->equals($sourceNodeId)) {
+                return true;
+            }
         }
 
         return false;
@@ -435,6 +488,25 @@ final readonly class MemberGraphSourceNodeLocator
     private function matchesMemberUsageSourceNodeId(SourceNodeId $sourceNodeId, MemberGraphImpact $impact): bool
     {
         foreach ($impact->memberImpact->memberUsages as $usagesByTarget) {
+            foreach ($usagesByTarget as $usage) {
+                if ($usage->sourceNodeId?->equals($sourceNodeId)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Indicates whether one source node id matches an impacted owner usage.
+     *
+     * @param SourceNodeId      $sourceNodeId the source node identifier
+     * @param MemberGraphImpact $impact       the graph impact
+     */
+    private function matchesOwnerUsageSourceNodeId(SourceNodeId $sourceNodeId, MemberGraphImpact $impact): bool
+    {
+        foreach ($impact->memberImpact->ownerUsages as $usagesByTarget) {
             foreach ($usagesByTarget as $usage) {
                 if ($usage->sourceNodeId?->equals($sourceNodeId)) {
                     return true;
@@ -502,6 +574,45 @@ final readonly class MemberGraphSourceNodeLocator
                 node: $node,
                 target: $target,
                 role: VirtualPhpSourceFileNodeMatchRole::MEMBER_USAGE,
+            ));
+        }
+    }
+
+    /**
+     * Matches one node against an owner target.
+     *
+     * @param Node                                    $node         the node to match
+     * @param VirtualPhpSourceFile                    $virtualFile  the virtual file containing the node
+     * @param MemberImpactTarget                      $target       the original impact target
+     * @param MemberGraphImpact                       $impact       the precomputed graph impact
+     * @param string                                  $owner        the owner FQCN
+     * @param VirtualPhpSourceFileNodeMatchCollection $matches      the output match collection
+     * @param string                                  $currentOwner the current class-like owner FQCN
+     */
+    private function matchOwnerNode(
+        Node $node,
+        VirtualPhpSourceFile $virtualFile,
+        MemberImpactTarget $target,
+        MemberGraphImpact $impact,
+        string $owner,
+        VirtualPhpSourceFileNodeMatchCollection $matches,
+        string $currentOwner,
+    ): void {
+        if (!$this->hasOwnerDeclarationSourceNodeIds($impact) && $this->isOwnerDeclarationNode($node, $owner, $currentOwner)) {
+            $matches->add(new VirtualPhpSourceFileNodeMatch(
+                virtualFile: $virtualFile,
+                node: $node,
+                target: $target,
+                role: VirtualPhpSourceFileNodeMatchRole::OWNER_DECLARATION,
+            ));
+        }
+
+        if (!$this->hasOwnerUsageSourceNodeIds($impact) && $this->isOwnerUsageNode($node, $owner)) {
+            $matches->add(new VirtualPhpSourceFileNodeMatch(
+                virtualFile: $virtualFile,
+                node: $node,
+                target: $target,
+                role: VirtualPhpSourceFileNodeMatchRole::OWNER_USAGE,
             ));
         }
     }
@@ -608,6 +719,40 @@ final readonly class MemberGraphSourceNodeLocator
     }
 
     /**
+     * Indicates whether impacted owner declarations carry source-node identifiers.
+     *
+     * @param MemberGraphImpact $impact the graph impact
+     */
+    private function hasOwnerDeclarationSourceNodeIds(MemberGraphImpact $impact): bool
+    {
+        foreach ($impact->memberImpact->ownerDeclarations->all() as $declaration) {
+            if (null !== $declaration->sourceNodeId) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Indicates whether impacted owner usages carry source-node identifiers.
+     *
+     * @param MemberGraphImpact $impact the graph impact
+     */
+    private function hasOwnerUsageSourceNodeIds(MemberGraphImpact $impact): bool
+    {
+        foreach ($impact->memberImpact->ownerUsages as $usagesByTarget) {
+            foreach ($usagesByTarget as $usage) {
+                if (null !== $usage->sourceNodeId) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Indicates whether impacted parameter usages carry source-node identifiers.
      *
      * @param MemberGraphImpact $impact the graph impact
@@ -662,6 +807,19 @@ final readonly class MemberGraphSourceNodeLocator
         }
 
         return false;
+    }
+
+    /**
+     * Indicates whether a node declares the target owner.
+     *
+     * @param Node   $node         the node to inspect
+     * @param string $owner        the owner FQCN
+     * @param string $currentOwner the current class-like owner FQCN
+     */
+    private function isOwnerDeclarationNode(Node $node, string $owner, string $currentOwner): bool
+    {
+        return $owner === $currentOwner
+            && ($node instanceof Class_ || $node instanceof Interface_ || $node instanceof Trait_ || $node instanceof Enum_);
     }
 
     /**
@@ -749,6 +907,17 @@ final readonly class MemberGraphSourceNodeLocator
         }
 
         return false;
+    }
+
+    /**
+     * Indicates whether a node uses the target owner.
+     *
+     * @param Node   $node  the node to inspect
+     * @param string $owner the owner FQCN
+     */
+    private function isOwnerUsageNode(Node $node, string $owner): bool
+    {
+        return $node instanceof Name && $this->ownerNameMatches($this->resolvedName($node), $owner);
     }
 
     /**
@@ -858,6 +1027,17 @@ final readonly class MemberGraphSourceNodeLocator
      * @param string $targetName the target function name
      */
     private function functionNameMatches(string $actualName, string $targetName): bool
+    {
+        return ltrim($actualName, '\\') === ltrim($targetName, '\\');
+    }
+
+    /**
+     * Indicates whether two owner names designate the same target.
+     *
+     * @param string $actualName the actual owner name
+     * @param string $targetName the target owner name
+     */
+    private function ownerNameMatches(string $actualName, string $targetName): bool
     {
         return ltrim($actualName, '\\') === ltrim($targetName, '\\');
     }

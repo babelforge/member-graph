@@ -4,7 +4,7 @@ Navigation: [Back to README](README.md) | [Previous: Maintenance Guide](08-maint
 
 Impact queries provide a focused API above `MemberDependencyGraph`.
 
-They answer: "if this member or parameter changes, which declarations, usages, owners, and files are impacted?"
+They answer: "if this owner, member, or parameter changes, which declarations, usages, owners, and files are impacted?"
 
 ## Graph-Level Resolver
 
@@ -58,6 +58,7 @@ $impactService->property('App\\Config', 'mailer');
 $impactService->classConstant('App\\Config', 'DEFAULT_MAILER');
 $impactService->function('App\\send_mail');
 $impactService->parameter('App\\Mailer', 'send', 'message');
+$impactService->owner('App\\Mailer');
 ```
 
 ## Targets
@@ -70,6 +71,7 @@ MemberImpactTarget::property('App\\Config', 'mailer');
 MemberImpactTarget::classConstant('App\\Config', 'DEFAULT_MAILER');
 MemberImpactTarget::forFunction('App\\send_mail');
 MemberImpactTarget::parameter('App\\Mailer', 'send', 'message');
+MemberImpactTarget::owner('App\\Mailer');
 ```
 
 Function targets use an empty member owner internally, matching how function declarations and usages are represented by the graph.
@@ -82,6 +84,8 @@ Function targets use an empty member owner internally, matching how function dec
 - `declarations`: declarations directly matching the target;
 - `memberUsages`: member usages directly matching the target;
 - `parameterUsages`: parameter usages directly matching the target;
+- `ownerDeclarations`: owner declarations directly matching the target;
+- `ownerUsages`: owner usages directly matching the target;
 - `impactedOwners`: target and source owners inferred from declarations and usages;
 - `impactedFiles`: files inferred from declarations and usages.
 
@@ -97,6 +101,8 @@ Function targets use an empty member owner internally, matching how function dec
 - `declarations`: declarations located in impacted graph files;
 - `usages`: member usages located in impacted graph files;
 - `parameterUsages`: parameter usages located in impacted graph files;
+- `ownerDeclarations`: owner declarations located in impacted graph files;
+- `ownerUsages`: owner usages located in impacted graph files;
 - `availableMembers`: available members exposed by impacted owners.
 
 This richer DTO is read-only. It does not mutate or reassemble source files.
@@ -139,6 +145,7 @@ $locator->property('App\\Config', 'mailer');
 $locator->classConstant('App\\Config', 'DEFAULT_MAILER');
 $locator->function('App\\send_mail');
 $locator->parameter('App\\Mailer', 'send', 'message');
+$locator->owner('App\\Mailer');
 ```
 
 The locator returns a `VirtualPhpSourceFileNodeMatchCollection`.
@@ -157,16 +164,21 @@ $matches = $locator->method('App\\Service\\UserService', 'send');
 
 $declarations = $matches->memberDeclarations();
 $usages = $matches->memberUsages();
+$ownerDeclarations = $matches->ownerDeclarations();
+$ownerUsages = $matches->ownerUsages();
 $sourceFiles = $matches->virtualFiles();
 $nodes = $matches->nodes();
 ```
 
-Available filters are `byRole()`, `memberDeclarations()`, `memberUsages()`, `parameterDeclarations()`, `parameterUsages()`, `byVirtualFilePath()`, and `byNodeClass()`.
+Available filters are `byRole()`, `ownerDeclarations()`, `ownerUsages()`, `memberDeclarations()`, `memberUsages()`, `parameterDeclarations()`, `parameterUsages()`, `byVirtualFilePath()`, and `byNodeClass()`.
 
-Match roles are intentionally split between members and parameters.
+Match roles are intentionally split between owners, members, and parameters.
+Owners are class-like symbols such as classes, interfaces, traits, and enums.
 Members are graph-level symbols such as methods, properties, class constants, enum cases, and functions.
 Parameters are the named inputs of a method, closure, or function and are tracked as their own target family.
 
+- `OWNER_DECLARATION`: the node declares a class-like owner, such as a class, interface, trait, or enum;
+- `OWNER_USAGE`: the node uses a class-like owner through a native PHP class-name reference;
 - `MEMBER_DECLARATION`: the node declares a graph member, such as a method, property, class constant, enum case, or function. A promoted-property `Param` is a member declaration when it declares the property member;
 - `MEMBER_USAGE`: the node uses a graph member, such as a method call, property fetch, class-constant fetch, or function call;
 - `PARAMETER_DECLARATION`: the `Param` node declares the target parameter on a method, closure, or function;
@@ -184,7 +196,7 @@ Parameter usage nodes are matched by `SourceNodeId`; parameter declaration nodes
 This API does not mutate code.
 It only provides source-level facts a higher-level tool may inspect.
 
-`SourceNodeId` is stored on member declarations, member usages, and parameter usages when parser position attributes are available.
+`SourceNodeId` is stored on owner declarations, owner usages, member declarations, member usages, and parameter usages when parser position attributes are available.
 It uses the virtual file path, node type, file offsets, and line range as a deterministic source identifier.
 
 ## Read-Only Analysis Workflow
@@ -208,6 +220,8 @@ Use `MemberGraphImpactService` when the caller needs graph-level impact:
 - impacted declarations;
 - impacted member usages;
 - impacted parameter usages;
+- impacted owner declarations;
+- impacted owner usages;
 - impacted owners;
 - impacted physical and virtual files;
 - available members exposed by impacted owners.
@@ -216,10 +230,12 @@ Use `MemberGraphSourceNodeLocator` when the caller needs exact PHPParser nodes i
 
 - declaration nodes;
 - usage nodes;
+- owner declaration nodes;
+- owner usage nodes;
 - parameter declaration nodes;
 - named-argument usage nodes.
 
-Both APIs share the same target families: methods, properties, class constants, functions, and parameters.
+Both APIs share the same target families: owners, methods, properties, class constants, functions, and parameters.
 They are separate on purpose: impact queries stay graph-level, while source-node location stays AST-level.
 
 ## Owner Resolution Policy

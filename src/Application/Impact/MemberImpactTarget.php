@@ -18,11 +18,27 @@ final readonly class MemberImpactTarget
      *
      * @param MemberId|null    $memberId    the targeted member identifier
      * @param ParameterId|null $parameterId the targeted parameter identifier
+     * @param string|null      $owner       the targeted class-like owner FQCN
      */
     private function __construct(
         public ?MemberId $memberId,
         public ?ParameterId $parameterId,
+        public ?string $owner,
     ) {
+    }
+
+    /**
+     * Creates an owner impact target.
+     *
+     * @param string $owner the class-like owner FQCN
+     */
+    public static function owner(string $owner): self
+    {
+        return new self(
+            memberId: null,
+            parameterId: null,
+            owner: $owner,
+        );
     }
 
     /**
@@ -80,6 +96,7 @@ final readonly class MemberImpactTarget
         return new self(
             memberId: null,
             parameterId: new ParameterId($owner, $functionLikeName, $parameterName),
+            owner: null,
         );
     }
 
@@ -95,6 +112,7 @@ final readonly class MemberImpactTarget
         return new self(
             memberId: new MemberId($owner, $name, $type),
             parameterId: null,
+            owner: null,
         );
     }
 }

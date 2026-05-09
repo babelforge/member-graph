@@ -12,6 +12,8 @@ use PhpNoobs\MemberGraph\Application\Traverse\MemberGraphBuilderVisitor;
 use PhpNoobs\MemberGraph\Domain\Availability\AvailableMemberCollection;
 use PhpNoobs\MemberGraph\Domain\Declaration\MemberDeclarationCollection;
 use PhpNoobs\MemberGraph\Domain\Graph\MemberDependencyGraph;
+use PhpNoobs\MemberGraph\Domain\Owner\OwnerDeclarationCollection;
+use PhpNoobs\MemberGraph\Domain\Owner\OwnerUsageCollection;
 use PhpNoobs\MemberGraph\Domain\Parameter\ParameterUsageCollection;
 use PhpNoobs\MemberGraph\Domain\Usage\MemberUsageCollection;
 use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Extractor\LocalVarPhpDocTypeExtractor;
@@ -56,6 +58,8 @@ final class MemberGraphBuilder implements MemberGraphBuilderInterface
         $declarations = new MemberDeclarationCollection();
         $usages = new MemberUsageCollection();
         $parameterUsages = new ParameterUsageCollection();
+        $ownerDeclarations = new OwnerDeclarationCollection();
+        $ownerUsages = new OwnerUsageCollection();
         $usesByAlias = new UseStatementsMapBuilder()->build(array_values($ast));
 
         $collectorVisitor = new MemberGraphBuilderVisitor(
@@ -64,6 +68,8 @@ final class MemberGraphBuilder implements MemberGraphBuilderInterface
             $declarations,
             $usages,
             $parameterUsages,
+            $ownerDeclarations,
+            $ownerUsages,
             $expressionTypeResolver,
             $this->localVarPhpDocTypeExtractor,
             $this->paramPhpDocTypeExtractor,
@@ -83,7 +89,9 @@ final class MemberGraphBuilder implements MemberGraphBuilderInterface
             availableMembers: new AvailableMemberCollection(),
             knownOwners: $context->knownOwners,
             interfaceImplementationsIndex: $context->polymorphicImplementationsIndex,
-            dependencyGraphIssues: $this->dependencyGraphIssues
+            dependencyGraphIssues: $this->dependencyGraphIssues,
+            ownerDeclarations: $ownerDeclarations,
+            ownerUsages: $ownerUsages,
         );
     }
 }

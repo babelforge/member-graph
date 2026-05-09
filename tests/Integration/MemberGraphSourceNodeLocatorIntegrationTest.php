@@ -20,7 +20,9 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\NullsafeMethodCall;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Name;
 use PhpParser\Node\Param;
+use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\EnumCase;
 use PhpParser\Node\Stmt\Function_;
@@ -96,6 +98,43 @@ final class MemberGraphSourceNodeLocatorIntegrationTest extends TestCase
         self::assertCount(2, $parameterMatches);
         self::assertSame(1, $this->countMatches($parameterMatches, VirtualPhpSourceFileNodeMatchRole::PARAMETER_DECLARATION, Param::class));
         self::assertSame(1, $this->countMatches($parameterMatches, VirtualPhpSourceFileNodeMatchRole::PARAMETER_USAGE, Arg::class));
+    }
+
+    /**
+     * Ensures real factory builds expose class-like owner declarations and usages.
+     */
+    public function testFactoryBuildSourceNodeIdsDriveStrictOwnerLookup(): void
+    {
+        $srcDirectory = $this->workspace.'/src';
+        $cacheFilePath = $this->workspace.'/member-graph.cache';
+        $mailerFilePath = $srcDirectory.'/Mailer.php';
+        $runnerFilePath = $srcDirectory.'/Runner.php';
+
+        mkdir($srcDirectory, 0o777, true);
+        $this->writeMailerFile($mailerFilePath);
+        $this->writeOwnerUsageRunnerFile($runnerFilePath);
+
+        $build = MemberDependencyGraphFactory::fromDirectory(
+            directories: [$srcDirectory],
+            cacheFilePath: $cacheFilePath,
+        );
+        $declaration = $build->memberDependencyGraph->ownerDeclarations->get('App\\Mailer');
+        $usages = $build->memberDependencyGraph->ownerUsages->getByTarget('App\\Mailer');
+        $locator = MemberGraphSourceNodeLocator::fromBuild($build);
+
+        self::assertNotNull($declaration);
+        self::assertNotNull($declaration->sourceNodeId);
+        self::assertCount(4, $usages);
+        self::assertNotNull($usages[0]->sourceNodeId);
+
+        $matches = $locator->owner('App\\Mailer');
+
+        self::assertCount(5, $matches);
+        self::assertSame(1, $this->countMatches($matches, VirtualPhpSourceFileNodeMatchRole::OWNER_DECLARATION, Class_::class));
+        self::assertSame(4, $this->countMatches($matches, VirtualPhpSourceFileNodeMatchRole::OWNER_USAGE, Name::class));
+        self::assertCount(1, $matches->ownerDeclarations());
+        self::assertCount(4, $matches->ownerUsages());
+        self::assertCount(2, $matches->virtualFiles());
     }
 
     /**
@@ -258,6 +297,31 @@ final class MemberGraphSourceNodeLocatorIntegrationTest extends TestCase
                 public function run(Mailer $mailer): void
                 {
                     $mailer->send(message: 'hello');
+                }
+            }
+            PHP);
+    }
+
+    /**
+     * Writes a runner fixture using an owner through native class references.
+     *
+     * @param string $filePath the file path
+     */
+    private function writeOwnerUsageRunnerFile(string $filePath): void
+    {
+        file_put_contents($filePath, <<<'PHP'
+            <?php
+
+            namespace App;
+
+            final class Runner
+            {
+                public function run(Mailer $mailer): Mailer
+                {
+                    new Mailer();
+                    Mailer::class;
+
+                    return $mailer;
                 }
             }
             PHP);

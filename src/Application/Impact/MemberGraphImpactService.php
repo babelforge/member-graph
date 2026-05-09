@@ -11,6 +11,8 @@ use PhpNoobs\MemberGraph\Domain\Availability\AvailableMemberCollection;
 use PhpNoobs\MemberGraph\Domain\Declaration\MemberDeclarationCollection;
 use PhpNoobs\MemberGraph\Domain\Graph\MemberDependencyGraph;
 use PhpNoobs\MemberGraph\Domain\Owner\KnownOwnerCollection;
+use PhpNoobs\MemberGraph\Domain\Owner\OwnerDeclarationCollection;
+use PhpNoobs\MemberGraph\Domain\Owner\OwnerUsageCollection;
 use PhpNoobs\MemberGraph\Domain\Parameter\ParameterUsageCollection;
 use PhpNoobs\MemberGraph\Domain\Usage\MemberUsageCollection;
 use PhpNoobs\PhpSource\VirtualPhpSourceFileCollection;
@@ -88,6 +90,16 @@ final readonly class MemberGraphImpactService
     }
 
     /**
+     * Resolves impact information for one class-like owner.
+     *
+     * @param string $owner the class-like owner FQCN
+     */
+    public function owner(string $owner): MemberGraphImpact
+    {
+        return $this->target(MemberImpactTarget::owner($owner));
+    }
+
+    /**
      * Resolves impact information for one property.
      *
      * @param string $owner the property owner FQCN
@@ -156,6 +168,8 @@ final readonly class MemberGraphImpactService
             usages: $this->memberUsagesInFiles($graphFiles),
             parameterUsages: $this->parameterUsagesInFiles($graphFiles),
             availableMembers: $this->availableMembersFor($impactedOwners),
+            ownerDeclarations: $this->ownerDeclarationsInFiles($graphFiles),
+            ownerUsages: $this->ownerUsagesInFiles($graphFiles),
         );
     }
 
@@ -280,6 +294,44 @@ final readonly class MemberGraphImpactService
         $usages = new ParameterUsageCollection();
 
         foreach ($this->graphQuery->allParameterUsages()->all() as $usagesByTarget) {
+            foreach ($usagesByTarget as $usage) {
+                if ($graphFiles->contains($usage->file)) {
+                    $usages->add($usage);
+                }
+            }
+        }
+
+        return $usages;
+    }
+
+    /**
+     * Returns owner declarations located in impacted graph files.
+     *
+     * @param ImpactedFileCollection $graphFiles the impacted graph files
+     */
+    private function ownerDeclarationsInFiles(ImpactedFileCollection $graphFiles): OwnerDeclarationCollection
+    {
+        $declarations = new OwnerDeclarationCollection();
+
+        foreach ($this->graphQuery->allOwnerDeclarations()->all() as $declaration) {
+            if ($graphFiles->contains($declaration->file)) {
+                $declarations->add($declaration);
+            }
+        }
+
+        return $declarations;
+    }
+
+    /**
+     * Returns owner usages located in impacted graph files.
+     *
+     * @param ImpactedFileCollection $graphFiles the impacted graph files
+     */
+    private function ownerUsagesInFiles(ImpactedFileCollection $graphFiles): OwnerUsageCollection
+    {
+        $usages = new OwnerUsageCollection();
+
+        foreach ($this->graphQuery->allOwnerUsages()->all() as $usagesByTarget) {
             foreach ($usagesByTarget as $usage) {
                 if ($graphFiles->contains($usage->file)) {
                     $usages->add($usage);

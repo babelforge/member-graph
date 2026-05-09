@@ -9,10 +9,15 @@ use PhpNoobs\MemberGraph\Application\Collect\InferredStructuredReturnCollector;
 use PhpNoobs\MemberGraph\Application\Collect\LocalVariableTypeCollector;
 use PhpNoobs\MemberGraph\Application\Collect\MemberDeclarationCollector;
 use PhpNoobs\MemberGraph\Application\Collect\MemberUsageCollector;
+use PhpNoobs\MemberGraph\Application\Collect\OwnerDeclarationCollector;
+use PhpNoobs\MemberGraph\Application\Collect\OwnerUsageCollector;
 use PhpNoobs\MemberGraph\Application\Collect\ParameterUsageCollector;
 use PhpNoobs\MemberGraph\Application\Collect\VariableTypePropagationResolver;
 use PhpNoobs\MemberGraph\Application\Resolver\Contracts\ExpressionTypeResolverInterface;
 use PhpNoobs\MemberGraph\Domain\Declaration\MemberDeclarationCollection;
+use PhpNoobs\MemberGraph\Domain\Owner\OwnerDeclarationCollection;
+use PhpNoobs\MemberGraph\Domain\Owner\OwnerUsageCollection;
+use PhpNoobs\MemberGraph\Domain\Owner\OwnerUsageType;
 use PhpNoobs\MemberGraph\Domain\Parameter\ParameterUsageCollection;
 use PhpNoobs\MemberGraph\Domain\Source\SourceNodeId;
 use PhpNoobs\MemberGraph\Domain\Symbol\SymbolCollection;
@@ -26,18 +31,24 @@ use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\StructuredPhpDocTypeSele
 use PhpNoobs\MemberGraph\Infrastructure\UseStatements\UsesByAliasCollection;
 use PhpParser\Node;
 use PhpParser\Node\Arg;
+use PhpParser\Node\Attribute;
+use PhpParser\Node\ComplexType;
 use PhpParser\Node\Expr\ArrowFunction;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\Closure;
 use PhpParser\Node\Expr\FuncCall;
+use PhpParser\Node\Expr\Instanceof_;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Expr\NullsafeMethodCall;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Expr\StaticPropertyFetch;
 use PhpParser\Node\Identifier;
+use PhpParser\Node\IntersectionType;
 use PhpParser\Node\Name;
+use PhpParser\Node\NullableType;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassMethod;
@@ -50,6 +61,8 @@ use PhpParser\Node\Stmt\Namespace_;
 use PhpParser\Node\Stmt\Property;
 use PhpParser\Node\Stmt\Return_;
 use PhpParser\Node\Stmt\Trait_;
+use PhpParser\Node\Stmt\TraitUse;
+use PhpParser\Node\UnionType;
 use PhpParser\Node\VariadicPlaceholder;
 use PhpParser\Node\VarLikeIdentifier;
 use PhpParser\NodeVisitorAbstract;
@@ -65,6 +78,10 @@ final class MemberGraphBuilderVisitor extends NodeVisitorAbstract
 
     private MemberUsageCollector $memberUsageCollector;
 
+    private OwnerDeclarationCollector $ownerDeclarationCollector;
+
+    private OwnerUsageCollector $ownerUsageCollector;
+
     private ParameterUsageCollector $parameterUsageCollector;
 
     private InferredStructuredReturnCollector $inferredStructuredReturnCollector;
@@ -79,6 +96,8 @@ final class MemberGraphBuilderVisitor extends NodeVisitorAbstract
      * @param MemberDeclarationCollection       $declarations                      the declarations collection
      * @param MemberUsageCollection             $usages                            the usages collection
      * @param ParameterUsageCollection          $parameterUsages                   the parameter usages collection
+     * @param OwnerDeclarationCollection        $ownerDeclarations                 the owner declarations collection
+     * @param OwnerUsageCollection              $ownerUsages                       the owner usages collection
      * @param ExpressionTypeResolverInterface   $expressionTypeResolver            the expression type resolver
      * @param LocalVarPhpDocTypeExtractor       $localVarPhpDocTypeExtractor       the local variable type extractor
      * @param ParamPhpDocTypeExtractor          $paramPhpDocTypeExtractor          the parameter type extractor
@@ -92,6 +111,8 @@ final class MemberGraphBuilderVisitor extends NodeVisitorAbstract
         MemberDeclarationCollection $declarations,
         MemberUsageCollection $usages,
         ParameterUsageCollection $parameterUsages,
+        OwnerDeclarationCollection $ownerDeclarations,
+        OwnerUsageCollection $ownerUsages,
         private readonly ExpressionTypeResolverInterface $expressionTypeResolver,
         LocalVarPhpDocTypeExtractor $localVarPhpDocTypeExtractor,
         ParamPhpDocTypeExtractor $paramPhpDocTypeExtractor,
@@ -102,6 +123,8 @@ final class MemberGraphBuilderVisitor extends NodeVisitorAbstract
         $this->context = $context;
         $this->state = new MemberGraphTraversalState($fullFilePath, $virtualFilePath);
         $this->memberDeclarationCollector = new MemberDeclarationCollector($declarations, $virtualFilePath);
+        $this->ownerDeclarationCollector = new OwnerDeclarationCollector($ownerDeclarations, $virtualFilePath);
+        $this->ownerUsageCollector = new OwnerUsageCollector($ownerUsages, $virtualFilePath);
         $this->memberUsageCollector = new MemberUsageCollector(
             $usages,
             $this->context->polymorphicImplementationsIndex,
@@ -188,7 +211,34 @@ final class MemberGraphBuilderVisitor extends NodeVisitorAbstract
         }
 
         if ($node instanceof Property) {
+            $this->collectTypeReferenceUsages($node->type);
             $this->memberDeclarationCollector->collectProperties($node, $this->state->currentClass());
+
+            return null;
+        }
+
+        if ($node instanceof New_ && $node->class instanceof Name) {
+            $this->collectOwnerUsageFromName($node->class, OwnerUsageType::NEW);
+
+            return null;
+        }
+
+        if ($node instanceof Instanceof_ && $node->class instanceof Name) {
+            $this->collectOwnerUsageFromName($node->class, OwnerUsageType::INSTANCEOF);
+
+            return null;
+        }
+
+        if ($node instanceof TraitUse) {
+            foreach ($node->traits as $trait) {
+                $this->collectOwnerUsageFromName($trait, OwnerUsageType::TRAIT_USE);
+            }
+
+            return null;
+        }
+
+        if ($node instanceof Attribute) {
+            $this->collectOwnerUsageFromName($node->name, OwnerUsageType::ATTRIBUTE);
 
             return null;
         }
@@ -206,6 +256,7 @@ final class MemberGraphBuilderVisitor extends NodeVisitorAbstract
         }
 
         if ($node instanceof ClassConstFetch && $node->class instanceof Name && $node->name instanceof Identifier) {
+            $this->collectOwnerUsageFromName($node->class, OwnerUsageType::CLASS_CONSTANT_FETCH);
             $this->collectClassConstantFetchUsage($node);
 
             return null;
@@ -218,6 +269,7 @@ final class MemberGraphBuilderVisitor extends NodeVisitorAbstract
         }
 
         if ($node instanceof StaticPropertyFetch && $node->class instanceof Name) {
+            $this->collectOwnerUsageFromName($node->class, OwnerUsageType::STATIC_PROPERTY_FETCH);
             $this->collectStaticPropertyFetchUsage($node);
 
             return null;
@@ -275,6 +327,7 @@ final class MemberGraphBuilderVisitor extends NodeVisitorAbstract
         }
 
         if ($node instanceof StaticCall && $node->class instanceof Name && $node->name instanceof Identifier) {
+            $this->collectOwnerUsageFromName($node->class, OwnerUsageType::STATIC_CALL);
             $this->collectStaticCallUsage($node);
 
             return null;
@@ -301,6 +354,8 @@ final class MemberGraphBuilderVisitor extends NodeVisitorAbstract
         }
 
         $this->state->enterClassLike($node->namespacedName->toString());
+        $this->ownerDeclarationCollector->collect($node);
+        $this->collectClassLikeOwnerUsages($node);
         $this->collectTemplateDefinitions($node);
     }
 
@@ -313,6 +368,7 @@ final class MemberGraphBuilderVisitor extends NodeVisitorAbstract
     {
         $this->state->enterMethod($node);
         $this->collectTemplateDefinitions($node);
+        $this->collectFunctionLikeTypeReferenceUsages(array_values($node->params), $node->returnType);
         $this->localVariableTypeCollector->collectParameters(
             $node->params,
             $this->state->currentMethod(),
@@ -336,6 +392,7 @@ final class MemberGraphBuilderVisitor extends NodeVisitorAbstract
 
         $this->state->enterFunction($node, $node->namespacedName->toString());
         $this->collectTemplateDefinitions($node);
+        $this->collectFunctionLikeTypeReferenceUsages(array_values($node->params), $node->returnType);
         $this->localVariableTypeCollector->collectParameters(
             $node->params,
             $this->state->currentFunction(),
@@ -353,7 +410,131 @@ final class MemberGraphBuilderVisitor extends NodeVisitorAbstract
     private function enterClosureLikeNode(Closure|ArrowFunction $node): void
     {
         $this->state->pushClosureVariableScope();
+        $this->collectFunctionLikeTypeReferenceUsages(array_values($node->params), $node->returnType);
         $this->localVariableTypeCollector->collectParameters($node->params, '', $this->state);
+    }
+
+    /**
+     * Collects owner usages declared by class-like structural clauses.
+     *
+     * @param Class_|Trait_|Interface_|Enum_ $node the class-like node
+     */
+    private function collectClassLikeOwnerUsages(Class_|Trait_|Interface_|Enum_ $node): void
+    {
+        if ($node instanceof Class_ && null !== $node->extends) {
+            $this->collectOwnerUsageFromName($node->extends, OwnerUsageType::EXTENDS);
+        }
+
+        if ($node instanceof Class_ || $node instanceof Enum_) {
+            foreach ($node->implements as $interface) {
+                $this->collectOwnerUsageFromName($interface, OwnerUsageType::IMPLEMENTS);
+            }
+        }
+
+        if ($node instanceof Interface_) {
+            foreach ($node->extends as $interface) {
+                $this->collectOwnerUsageFromName($interface, OwnerUsageType::EXTENDS);
+            }
+        }
+    }
+
+    /**
+     * Collects owner usages from function-like native parameter and return types.
+     *
+     * @param array<int, Node\Param>           $parameters the function-like parameters
+     * @param Identifier|Name|ComplexType|null $returnType the function-like return type
+     */
+    private function collectFunctionLikeTypeReferenceUsages(array $parameters, Identifier|Name|ComplexType|null $returnType): void
+    {
+        foreach ($parameters as $parameter) {
+            $this->collectTypeReferenceUsages($parameter->type);
+        }
+
+        $this->collectTypeReferenceUsages($returnType);
+    }
+
+    /**
+     * Collects owner usages from one native type node.
+     *
+     * @param Identifier|Name|ComplexType|null $type the native type node
+     */
+    private function collectTypeReferenceUsages(Identifier|Name|ComplexType|null $type): void
+    {
+        if (null === $type || $type instanceof Identifier) {
+            return;
+        }
+
+        if ($type instanceof Name) {
+            $this->collectOwnerUsageFromName($type, OwnerUsageType::TYPE_REFERENCE);
+
+            return;
+        }
+
+        if ($type instanceof NullableType) {
+            $this->collectTypeReferenceUsages($type->type);
+
+            return;
+        }
+
+        if ($type instanceof UnionType || $type instanceof IntersectionType) {
+            foreach ($type->types as $innerType) {
+                $this->collectTypeReferenceUsages($innerType);
+            }
+        }
+    }
+
+    /**
+     * Collects one owner usage from a class-name node.
+     *
+     * @param Name           $name the class-name node
+     * @param OwnerUsageType $type the owner usage type
+     */
+    private function collectOwnerUsageFromName(Name $name, OwnerUsageType $type): void
+    {
+        $owner = $this->resolveOwnerName($name);
+
+        if ('' === $owner) {
+            return;
+        }
+
+        $this->ownerUsageCollector->collect(
+            sourceSymbol: $this->state->sourceSymbol(),
+            target: $owner,
+            type: $type,
+            sourceNodeId: SourceNodeId::fromNode($this->state->virtualFilePath(), $name),
+        );
+    }
+
+    /**
+     * Resolves an owner name node with NameResolver attributes when available.
+     *
+     * @param Name $name the owner name node
+     */
+    private function resolveOwnerName(Name $name): string
+    {
+        $lowerName = $name->toLowerString();
+
+        if ('self' === $lowerName || 'static' === $lowerName || 'parent' === $lowerName) {
+            return '';
+        }
+
+        $resolvedName = $name->getAttribute('resolvedName');
+
+        if ($resolvedName instanceof Name) {
+            return $resolvedName->toString();
+        }
+
+        $namespacedName = $name->getAttribute('namespacedName');
+
+        if ($namespacedName instanceof Name) {
+            return $namespacedName->toString();
+        }
+
+        if (is_string($namespacedName) && '' !== $namespacedName) {
+            return $namespacedName;
+        }
+
+        return $name->toString();
     }
 
     /**

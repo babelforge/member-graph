@@ -4,7 +4,7 @@ Navigation: [Next: Overview](01-overview.md)
 
 This documentation describes the `MemberGraph` component, how to use it, how it works internally, and which rules should guide future changes.
 
-The `MemberGraph` component builds a dependency graph at PHP member level: methods, functions, properties, class constants, and named parameters. It complements the class dependency graph with a finer-grained view of declarations and usages.
+The `MemberGraph` component builds a dependency graph at PHP member and owner level: classes, interfaces, traits, enums, methods, functions, properties, class constants, and named parameters. It complements class-level dependencies with a finer-grained view of declarations and usages.
 
 ## Pages
 

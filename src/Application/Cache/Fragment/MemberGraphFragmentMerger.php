@@ -11,6 +11,8 @@ use PhpNoobs\MemberGraph\Domain\Declaration\MemberDeclarationCollection;
 use PhpNoobs\MemberGraph\Domain\Graph\MemberDependencyGraph;
 use PhpNoobs\MemberGraph\Domain\Index\Polymorphism\PolymorphicImplementationsIndex;
 use PhpNoobs\MemberGraph\Domain\Owner\KnownOwnerCollection;
+use PhpNoobs\MemberGraph\Domain\Owner\OwnerDeclarationCollection;
+use PhpNoobs\MemberGraph\Domain\Owner\OwnerUsageCollection;
 use PhpNoobs\MemberGraph\Domain\Parameter\ParameterUsageCollection;
 use PhpNoobs\MemberGraph\Domain\Usage\MemberUsageCollection;
 use PhpNoobs\MemberGraph\Infrastructure\PhpParser\Indexing\PolymorphicImplementationsIndexBuilder;
@@ -53,6 +55,8 @@ final readonly class MemberGraphFragmentMerger
             knownOwners: $knownOwners,
             interfaceImplementationsIndex: new PolymorphicImplementationsIndexBuilder()->build($knownOwners),
             dependencyGraphIssues: $mergedGraph->dependencyGraphIssues,
+            ownerDeclarations: $mergedGraph->ownerDeclarations,
+            ownerUsages: $mergedGraph->ownerUsages,
         );
     }
 
@@ -66,6 +70,8 @@ final readonly class MemberGraphFragmentMerger
         $declarations = new MemberDeclarationCollection();
         $usages = new MemberUsageCollection();
         $parameterUsages = new ParameterUsageCollection();
+        $ownerDeclarations = new OwnerDeclarationCollection();
+        $ownerUsages = new OwnerUsageCollection();
         $firstFragment = null;
 
         foreach ($fragments as $fragment) {
@@ -86,6 +92,16 @@ final readonly class MemberGraphFragmentMerger
                     $parameterUsages->add($usage);
                 }
             }
+
+            foreach ($fragment->ownerDeclarations->all() as $declaration) {
+                $ownerDeclarations->add($declaration);
+            }
+
+            foreach ($fragment->ownerUsages->all() as $usagesByTarget) {
+                foreach ($usagesByTarget as $usage) {
+                    $ownerUsages->add($usage);
+                }
+            }
         }
 
         return new MemberDependencyGraph(
@@ -96,6 +112,8 @@ final readonly class MemberGraphFragmentMerger
             knownOwners: $firstFragment->knownOwners ?? new KnownOwnerCollection(),
             interfaceImplementationsIndex: $firstFragment->interfaceImplementationsIndex ?? new PolymorphicImplementationsIndex(),
             dependencyGraphIssues: $firstFragment->dependencyGraphIssues ?? new MemberGraphIssueCollection(),
+            ownerDeclarations: $ownerDeclarations,
+            ownerUsages: $ownerUsages,
         );
     }
 }

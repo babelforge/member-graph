@@ -38,6 +38,17 @@ final readonly class MemberGraphFileIndexBuilder
             }
         }
 
+        foreach ($graph->ownerDeclarations->all() as $declaration) {
+            $index->addOwnerFile($declaration->fqcn, $declaration->file);
+        }
+
+        foreach ($graph->ownerUsages->all() as $usagesByTarget) {
+            foreach ($usagesByTarget as $usage) {
+                $index->addOwnerFile($usage->target, $usage->file);
+                $index->addOwnerFile($this->ownerFromSourceSymbol($usage->sourceSymbol), $usage->file);
+            }
+        }
+
         return $index;
     }
 

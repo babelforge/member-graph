@@ -89,7 +89,9 @@ final readonly class MemberDependencyGraphBuilder
             availableMembers: $availableMembers,
             knownOwners: $globalIndexes->knownOwners,
             interfaceImplementationsIndex: $globalIndexes->polymorphicImplementationsIndex,
-            dependencyGraphIssues: $this->dependencyGraphIssues
+            dependencyGraphIssues: $this->dependencyGraphIssues,
+            ownerDeclarations: $partialGraphs->ownerDeclarations(),
+            ownerUsages: $partialGraphs->ownerUsages(),
         );
     }
 }

@@ -6,6 +6,8 @@ namespace PhpNoobs\MemberGraph\Application\Cache\Fragment;
 
 use PhpNoobs\MemberGraph\Domain\Declaration\MemberDeclarationCollection;
 use PhpNoobs\MemberGraph\Domain\Graph\MemberDependencyGraph;
+use PhpNoobs\MemberGraph\Domain\Owner\OwnerDeclarationCollection;
+use PhpNoobs\MemberGraph\Domain\Owner\OwnerUsageCollection;
 use PhpNoobs\MemberGraph\Domain\Parameter\ParameterUsageCollection;
 use PhpNoobs\MemberGraph\Domain\Usage\MemberUsageCollection;
 use PhpNoobs\PhpSource\VirtualPhpSourceFileCollection;
@@ -54,6 +56,8 @@ final readonly class MemberGraphFragmenter
         $declarations = new MemberDeclarationCollection();
         $usages = new MemberUsageCollection();
         $parameterUsages = new ParameterUsageCollection();
+        $ownerDeclarations = new OwnerDeclarationCollection();
+        $ownerUsages = new OwnerUsageCollection();
 
         foreach ($graph->declarations->all() as $declaration) {
             if ($this->belongsToPhysicalFile($declaration->file, $physicalFilePath, $virtualToPhysicalFilePaths)) {
@@ -77,6 +81,20 @@ final readonly class MemberGraphFragmenter
             }
         }
 
+        foreach ($graph->ownerDeclarations->all() as $declaration) {
+            if ($this->belongsToPhysicalFile($declaration->file, $physicalFilePath, $virtualToPhysicalFilePaths)) {
+                $ownerDeclarations->add($declaration);
+            }
+        }
+
+        foreach ($graph->ownerUsages->all() as $usagesByTarget) {
+            foreach ($usagesByTarget as $usage) {
+                if ($this->belongsToPhysicalFile($usage->file, $physicalFilePath, $virtualToPhysicalFilePaths)) {
+                    $ownerUsages->add($usage);
+                }
+            }
+        }
+
         return new MemberDependencyGraph(
             declarations: $declarations,
             usages: $usages,
@@ -85,6 +103,8 @@ final readonly class MemberGraphFragmenter
             knownOwners: $graph->knownOwners,
             interfaceImplementationsIndex: $graph->interfaceImplementationsIndex,
             dependencyGraphIssues: $graph->dependencyGraphIssues,
+            ownerDeclarations: $ownerDeclarations,
+            ownerUsages: $ownerUsages,
         );
     }
 
