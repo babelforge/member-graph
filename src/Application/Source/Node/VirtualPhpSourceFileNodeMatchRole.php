@@ -42,4 +42,9 @@ enum VirtualPhpSourceFileNodeMatchRole
      * The node uses a parameter through a named argument.
      */
     case PARAMETER_USAGE;
+
+    /**
+     * The node uses a function-like parameter as a local variable inside its declaring body.
+     */
+    case PARAMETER_LOCAL_USAGE;
 }

@@ -20,6 +20,7 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\NullsafeMethodCall;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Name;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\Class_;
@@ -293,6 +294,101 @@ final class MemberGraphSourceNodeLocatorIntegrationTest extends TestCase
         foreach ($matches as $match) {
             self::assertSame(1, $match->target->parameterId?->parameterIndex);
         }
+    }
+
+    /**
+     * Ensures parameter lookup exposes local variable usages inside the declaring method body.
+     */
+    public function testFactoryBuildLocatesMethodParameterLocalUsages(): void
+    {
+        $locator = $this->createLocatorFromSources([
+            'Mailer.php' => <<<'PHP'
+                <?php
+
+                namespace App;
+
+                final class Mailer
+                {
+                    public function send(string $message): void
+                    {
+                        $normalized = trim($message);
+                        $this->log($message);
+                    }
+
+                    private function log(string $message): void
+                    {
+                    }
+                }
+                PHP,
+        ]);
+
+        $matches = $locator->parameter('App\\Mailer', 'send', 'message');
+
+        self::assertSame(1, $this->countMatches($matches, VirtualPhpSourceFileNodeMatchRole::PARAMETER_DECLARATION, Param::class));
+        self::assertSame(2, $this->countMatches($matches, VirtualPhpSourceFileNodeMatchRole::PARAMETER_LOCAL_USAGE, Variable::class));
+        self::assertSame(0, $this->countMatches($matches, VirtualPhpSourceFileNodeMatchRole::PARAMETER_USAGE, Arg::class));
+        self::assertCount(2, $matches->parameterLocalUsages());
+    }
+
+    /**
+     * Ensures parameter lookup exposes local variable usages inside the declaring function body.
+     */
+    public function testFactoryBuildLocatesFunctionParameterLocalUsages(): void
+    {
+        $locator = $this->createLocatorFromSources([
+            'functions.php' => <<<'PHP'
+                <?php
+
+                namespace App;
+
+                function send_mail(string $message): void
+                {
+                    $normalized = trim($message);
+                    echo $message;
+                }
+                PHP,
+        ]);
+
+        $matches = $locator->parameter('', 'App\\send_mail', 'message');
+
+        self::assertSame(1, $this->countMatches($matches, VirtualPhpSourceFileNodeMatchRole::PARAMETER_DECLARATION, Param::class));
+        self::assertSame(2, $this->countMatches($matches, VirtualPhpSourceFileNodeMatchRole::PARAMETER_LOCAL_USAGE, Variable::class));
+        self::assertSame(0, $this->countMatches($matches, VirtualPhpSourceFileNodeMatchRole::PARAMETER_USAGE, Arg::class));
+    }
+
+    /**
+     * Ensures parameter local lookup respects nested closure and arrow-function shadowing.
+     */
+    public function testFactoryBuildLocatesParameterLocalUsagesWithoutShadowedNestedVariables(): void
+    {
+        $locator = $this->createLocatorFromSources([
+            'Mailer.php' => <<<'PHP'
+                <?php
+
+                namespace App;
+
+                final class Mailer
+                {
+                    public function send(string $message): void
+                    {
+                        $outer = $message;
+                        $shadowedClosure = static function (string $message): string {
+                            return $message;
+                        };
+                        $capturedClosure = static function () use ($message): string {
+                            return $message;
+                        };
+                        $capturedArrow = static fn (): string => $message;
+                        $shadowedArrow = static fn (string $message): string => $message;
+                    }
+                }
+                PHP,
+        ]);
+
+        $matches = $locator->parameter('App\\Mailer', 'send', 'message');
+
+        self::assertSame(1, $this->countMatches($matches, VirtualPhpSourceFileNodeMatchRole::PARAMETER_DECLARATION, Param::class));
+        self::assertSame(4, $this->countMatches($matches, VirtualPhpSourceFileNodeMatchRole::PARAMETER_LOCAL_USAGE, Variable::class));
     }
 
     /**

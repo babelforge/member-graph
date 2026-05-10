@@ -47,6 +47,8 @@ use PhpParser\Node\VarLikeIdentifier;
  */
 final readonly class MemberGraphSourceNodeLocator
 {
+    private ParameterLocalUsageNodeLocator $parameterLocalUsageNodeLocator;
+
     /**
      * Constructor.
      *
@@ -57,6 +59,7 @@ final readonly class MemberGraphSourceNodeLocator
         private MemberGraphImpactService $impactService,
         private bool $allowFallbackMatching = false,
     ) {
+        $this->parameterLocalUsageNodeLocator = new ParameterLocalUsageNodeLocator();
     }
 
     /**
@@ -667,7 +670,41 @@ final readonly class MemberGraphSourceNodeLocator
             role: VirtualPhpSourceFileNodeMatchRole::PARAMETER_DECLARATION,
         ));
 
+        $this->matchParameterLocalUsageNodes($node, $virtualFile, $target, $parameterId, $matches);
+
         return true;
+    }
+
+    /**
+     * Matches local variable usages for one parameter declaration.
+     *
+     * @param Param                                   $parameterNode the matched parameter declaration node
+     * @param VirtualPhpSourceFile                    $virtualFile    the virtual file containing the node
+     * @param MemberImpactTarget                      $target         the original impact target
+     * @param ParameterId                             $parameterId    the parameter identifier
+     * @param VirtualPhpSourceFileNodeMatchCollection $matches        the output match collection
+     */
+    private function matchParameterLocalUsageNodes(
+        Param $parameterNode,
+        VirtualPhpSourceFile $virtualFile,
+        MemberImpactTarget $target,
+        ParameterId $parameterId,
+        VirtualPhpSourceFileNodeMatchCollection $matches,
+    ): void {
+        $functionLike = $this->declaringFunctionLike($parameterNode);
+
+        if (null === $functionLike) {
+            return;
+        }
+
+        foreach ($this->parameterLocalUsageNodeLocator->locate($functionLike, $parameterId) as $usageNode) {
+            $matches->add(new VirtualPhpSourceFileNodeMatch(
+                virtualFile: $virtualFile,
+                node: $usageNode,
+                target: $target,
+                role: VirtualPhpSourceFileNodeMatchRole::PARAMETER_LOCAL_USAGE,
+            ));
+        }
     }
 
     /**
@@ -985,6 +1022,10 @@ final readonly class MemberGraphSourceNodeLocator
         string $currentOwner,
         string $currentFunctionLike,
     ): bool {
+        if (null === $this->declaringFunctionLike($node)) {
+            return false;
+        }
+
         return $parameterId->owner === $currentOwner
             && $parameterId->functionLikeName === $currentFunctionLike
             && $node->var instanceof Variable
@@ -1015,9 +1056,9 @@ final readonly class MemberGraphSourceNodeLocator
      */
     private function parameterDeclarationIndex(Param $node): ?int
     {
-        $parent = $node->getAttribute('parent');
+        $parent = $this->declaringFunctionLike($node);
 
-        if (!$parent instanceof ClassMethod && !$parent instanceof Function_) {
+        if (null === $parent) {
             return null;
         }
 
@@ -1025,6 +1066,22 @@ final readonly class MemberGraphSourceNodeLocator
             if ($parameter === $node) {
                 return $index;
             }
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns the declaring function-like node for one parameter.
+     *
+     * @param Param $node the parameter node to inspect
+     */
+    private function declaringFunctionLike(Param $node): ClassMethod|Function_|null
+    {
+        $parent = $node->getAttribute('parent');
+
+        if ($parent instanceof ClassMethod || $parent instanceof Function_) {
+            return $parent;
         }
 
         return null;

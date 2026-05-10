@@ -194,6 +194,8 @@ This prevents same-name nodes in the same virtual file from being returned when 
 
 For parameter targets, the locator also includes the declaration virtual file of the method or function so callers can inspect both the parameter declaration and named-argument usages.
 Parameter usage nodes are matched by `SourceNodeId`; parameter declaration nodes are matched inside the exact target function-like declaration by parameter name.
+The locator also computes `PARAMETER_LOCAL_USAGE` matches at query time for local `Variable` nodes that refer to the targeted parameter inside its declaring body.
+These local usages are not persisted in `MemberDependencyGraph` and are not stored in cache.
 
 Parameter lookup can optionally receive a zero-based declaration index:
 
@@ -205,6 +207,7 @@ When the index is provided, `PARAMETER_DECLARATION` matches must satisfy both th
 The index is part of the `ParameterId` identity used by impact targets, so indexed and non-indexed parameter targets do not share the same exact hash.
 This allows rename tooling to target one parameter during temporary swap states where two parameters may currently have the same name.
 Named-argument `PARAMETER_USAGE` matches remain graph-driven and continue to be returned through the name-scoped parameter lookup when the graph can relate them to the targeted parameter name.
+Local `PARAMETER_LOCAL_USAGE` matches are source-level facts for refactoring tools; nested closures and arrow functions are inspected only when they can refer to the outer parameter without shadowing it.
 
 This API does not mutate code.
 It only provides source-level facts a higher-level tool may inspect.

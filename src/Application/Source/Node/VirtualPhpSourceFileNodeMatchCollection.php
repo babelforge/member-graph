@@ -108,6 +108,14 @@ final class VirtualPhpSourceFileNodeMatchCollection implements \Countable, \Iter
     }
 
     /**
+     * Returns matches using function-like parameters as local variables.
+     */
+    public function parameterLocalUsages(): self
+    {
+        return $this->byRole(VirtualPhpSourceFileNodeMatchRole::PARAMETER_LOCAL_USAGE);
+    }
+
+    /**
      * Returns matches contained in one virtual file.
      *
      * @param string $virtualFilePath the virtual file path to keep

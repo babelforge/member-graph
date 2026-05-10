@@ -63,6 +63,8 @@ Use this entry point when the caller needs AST nodes for owner declarations, own
 The locator is strict by default and uses `SourceNodeId` when graph facts carry parser-position metadata.
 Parameter lookup accepts an optional zero-based declaration index so refactoring tools can target the exact `Param` node during rename swaps.
 That index is carried by the underlying `ParameterId`; indexed targets have an exact indexed hash, while named-argument usages remain discoverable through the compatible name-scoped lookup.
+Parameter lookup also returns `PARAMETER_LOCAL_USAGE` matches for local `Variable` nodes inside the declaring body.
+Those matches are computed on demand from the already loaded AST and are not persisted in the graph cache.
 
 ## Topology
 
