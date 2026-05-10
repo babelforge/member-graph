@@ -84,6 +84,16 @@ $build = MemberDependencyGraphFactory::fromDirectory(
 $graph = $build->memberDependencyGraph;
 ```
 
+For transactional in-memory workflows, rebuild from the current virtual-file ASTs:
+
+```php
+$virtualFile->update($virtualFile->nodes);
+
+$build = MemberDependencyGraphFactory::fromVirtualFiles($build->virtualFiles);
+```
+
+This path does not scan directories, read physical files, or write the persistent cache.
+
 ## Query Usage
 
 ```php

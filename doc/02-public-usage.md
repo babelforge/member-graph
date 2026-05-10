@@ -39,6 +39,28 @@ $graph = $build->memberDependencyGraph;
 
 `virtualFileReferences` contains lightweight source metadata and remains available when the factory uses the cache fast path.
 
+## In-Memory Virtual-File Rebuild
+
+When a caller already owns virtual files, it can rebuild a fresh graph directly from those in-memory ASTs:
+
+```php
+$freshBuild = MemberDependencyGraphFactory::fromVirtualFiles(
+    virtualFiles: $build->virtualFiles,
+);
+```
+
+Use this entry point for transactional source-modification workflows. For example, a refactoring tool can locate exact nodes, mutate the `VirtualPhpSourceFile` ASTs, call `update()` on touched virtual files, then rebuild semantic facts before planning the next action:
+
+```php
+$virtualFile->update($virtualFile->nodes);
+
+$build = MemberDependencyGraphFactory::fromVirtualFiles($build->virtualFiles);
+```
+
+This rebuild does not scan directories, does not read physical files, and does not write the persistent cache.
+
+If a virtual file reports `isUpdated()`, the factory refreshes structural PHPParser attributes before recomputing known owners and rebuilding the graph.
+
 ## Builder Input
 
 `MemberDependencyGraphBuilder` remains the lower-level build orchestrator.

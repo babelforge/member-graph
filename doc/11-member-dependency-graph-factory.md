@@ -2,7 +2,7 @@
 
 Navigation: [Back to README](README.md) | [Previous: Query Service](10-query-service.md) | [Next: Partial Rebuild Design](12-partial-rebuild-design.md)
 
-`MemberDependencyGraphFactory` is the current directory-based entry point for building a `MemberDependencyGraph`.
+`MemberDependencyGraphFactory` is the current entry point for building a `MemberDependencyGraph` from directories or from already loaded virtual files.
 
 ## Entry Point
 
@@ -29,6 +29,23 @@ $build = MemberDependencyGraphFactory::fromDirectory(
 
 Without explicit options, partial rebuild candidates are still reported as dry-run data and executed through the full build path.
 
+The factory can also rebuild a graph from an existing in-memory virtual-file collection:
+
+```php
+$freshBuild = MemberDependencyGraphFactory::fromVirtualFiles(
+    virtualFiles: $build->virtualFiles,
+);
+```
+
+This entry point is intended for transactional workflows that already mutated PHPParser nodes inside `VirtualPhpSourceFile` instances.
+It returns a normal `MemberDependencyGraphBuild`, so the result can be passed to source-node, impact, query, and symbol-scope APIs.
+
+`fromVirtualFiles()` recomputes known owners from the provided ASTs and rebuilds the graph from the provided virtual files.
+It does not scan directories, does not read physical files, and does not write or refresh the persistent cache.
+
+When a virtual file reports `isUpdated()`, the factory refreshes structural PHPParser attributes before recomputing owners and building the graph.
+Unchanged virtual files keep their existing parser attributes.
+
 The factory returns a `MemberDependencyGraphBuild`.
 
 The build exposes:
@@ -52,12 +69,12 @@ $build->hasLoadedVirtualFiles();
 $build->loadedVirtualFiles();
 ```
 
-`fromFiles()` is intentionally private. File selection and cache planning are part of the factory orchestration.
+`fromFiles()` is intentionally private. File selection and cache planning are part of the directory-based factory orchestration.
 Cache updates are owned by the selected runner.
 
 `MemberGraphPhpFileScanner` owns directory normalization, recursive PHP file discovery, exclusion filtering, and deterministic file ordering.
 
-The factory itself only orchestrates scanning, cache planning, rebuild planning, and runner selection.
+For directory builds, the factory orchestrates scanning, cache planning, rebuild planning, and runner selection.
 Executable build behavior lives in:
 
 - `MemberDependencyGraphFastPathRunner`;
@@ -72,9 +89,29 @@ Executable build behavior lives in:
 
 `MemberDependencyGraphPartialRebuildSourceMetadataMerger` centralizes partial post-execution source metadata merging.
 
+## In-Memory Rebuild Flow
+
+The `fromVirtualFiles()` flow is deliberately cache-free:
+
+1. Receive an existing `VirtualPhpSourceFileCollection`.
+2. Refresh structural PHPParser attributes for virtual files marked as updated.
+3. Recompute `KnownOwnerCollection` from the current ASTs.
+4. Build a fresh `MemberDependencyGraph`.
+5. Build virtual-file references from the provided virtual files.
+6. Return a normal `MemberDependencyGraphBuild`.
+
+The build report for this path is explicit:
+
+- `buildMode` is `FULL_BUILD`;
+- `rebuildPlan->mode` is `FULL_BUILD`;
+- `scannedFileCount` is `0`;
+- `loadedVirtualFileCount` is the number of provided virtual files;
+- `cacheWriteResult->isWritten()` is `false`;
+- the cache path marker is `memory://member-graph`.
+
 ## Build Flow
 
-The current flow is:
+The current directory build flow is:
 
 1. Reset `PhpSourceRegistry`.
 2. Scan PHP files recursively from the configured directories through `MemberGraphPhpFileScanner`.

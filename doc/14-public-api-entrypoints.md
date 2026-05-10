@@ -20,6 +20,25 @@ The factory returns a `MemberDependencyGraphBuild` containing the graph, loaded 
 
 Use this entry point when the caller owns physical directories and wants the component to scan, cache, and build the graph.
 
+Use `fromVirtualFiles()` when the caller already owns virtual files and needs a fresh in-memory graph from the current AST state:
+
+```php
+$freshBuild = MemberDependencyGraphFactory::fromVirtualFiles(
+    virtualFiles: $build->virtualFiles,
+);
+```
+
+Use this entry point after in-memory AST mutations. The caller should call `update()` on touched virtual files before rebuilding:
+
+```php
+$virtualFile->update($virtualFile->nodes);
+
+$freshBuild = MemberDependencyGraphFactory::fromVirtualFiles($build->virtualFiles);
+```
+
+This path returns a normal `MemberDependencyGraphBuild`, but it does not scan directories, does not read physical files, and does not write the persistent cache.
+Updated virtual files refresh their structural PHPParser attributes before the graph is rebuilt.
+
 ## Query
 
 Use `MemberGraphQueryService` for direct read-side graph queries:
