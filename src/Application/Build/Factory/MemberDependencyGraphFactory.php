@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace PhpNoobs\MemberGraph\Application\Build\Factory;
 
+use PhpNoobs\MemberGraph\Application\Build\Factory\Mode\MemberDependencyGraphFactoryBuildMode;
 use PhpNoobs\MemberGraph\Application\Build\Factory\Mode\MemberDependencyGraphFactoryRebuildMode;
+use PhpNoobs\MemberGraph\Application\Build\Factory\Mode\MemberDependencyGraphFactoryRebuildReason;
 use PhpNoobs\MemberGraph\Application\Build\Factory\Plan\MemberDependencyGraphFactoryRebuildPlan;
 use PhpNoobs\MemberGraph\Application\Build\Factory\Runner\MemberDependencyGraphFastPathRunner;
 use PhpNoobs\MemberGraph\Application\Build\Factory\Runner\MemberDependencyGraphFullBuildRunner;
 use PhpNoobs\MemberGraph\Application\Build\Factory\Runner\MemberDependencyGraphPartialBuildRunner;
+use PhpNoobs\MemberGraph\Application\Build\Input\MemberGraphBuildInput;
+use PhpNoobs\MemberGraph\Application\Build\MemberDependencyGraphBuilder;
 use PhpNoobs\MemberGraph\Application\Build\PartialGraph\Assembly\MemberDependencyGraphPartialRebuildAssembler;
 use PhpNoobs\MemberGraph\Application\Build\PartialGraph\Input\MemberDependencyGraphPartialRebuildInput;
 use PhpNoobs\MemberGraph\Application\Build\PartialGraph\Input\MemberDependencyGraphPartialRebuildInputService;
@@ -17,14 +21,77 @@ use PhpNoobs\MemberGraph\Application\Build\PartialGraph\WorkingSet\MemberDepende
 use PhpNoobs\MemberGraph\Application\Build\PartialGraph\WorkingSet\MemberDependencyGraphPartialRebuildWorkingSetResolver;
 use PhpNoobs\MemberGraph\Application\Build\Source\MemberGraphPhpFileScanner;
 use PhpNoobs\MemberGraph\Application\Cache\Core\MemberGraphCache;
+use PhpNoobs\MemberGraph\Application\Cache\Core\MemberGraphCacheLoadResult;
+use PhpNoobs\MemberGraph\Application\Cache\Core\MemberGraphCacheLoadStatus;
+use PhpNoobs\MemberGraph\Application\Cache\Core\MemberGraphCacheWriteResult;
+use PhpNoobs\MemberGraph\Application\Cache\Plan\MemberGraphCacheFileCollection;
+use PhpNoobs\MemberGraph\Application\Cache\Plan\MemberGraphCachePlan;
+use PhpNoobs\MemberGraph\Application\Cache\VirtualFile\MemberGraphVirtualFileReferenceCollection;
 use PhpNoobs\MemberGraph\Application\Issue\MemberGraphIssueCollection;
 use PhpNoobs\MemberGraph\Application\Source\MemberGraphPhpSourceRegistryInstance;
+use PhpNoobs\MemberGraph\Infrastructure\PhpParser\Indexing\KnownOwnersCollectionBuilder;
+use PhpNoobs\MemberGraph\Infrastructure\PhpParser\Indexing\StructuralNodeIndexBuilder;
+use PhpNoobs\PhpSource\VirtualPhpSourceFileCollection;
 
 /**
  * Builds member dependency graphs from project directories.
  */
 final readonly class MemberDependencyGraphFactory
 {
+    /**
+     * Builds a fresh in-memory member dependency graph from existing virtual files.
+     *
+     * This entry point is intended for transactional workflows that already mutated
+     * VirtualPhpSourceFile AST nodes and need a fresh semantic build without reading
+     * physical files or refreshing the persistent cache.
+     *
+     * @param VirtualPhpSourceFileCollection           $virtualFiles          the virtual files to analyze
+     * @param MemberGraphIssueCollection|null          $dependencyGraphIssues the optional dependency graph issue collection
+     * @param MemberDependencyGraphFactoryOptions|null $options               reserved factory behavior flags
+     */
+    public static function fromVirtualFiles(
+        VirtualPhpSourceFileCollection $virtualFiles,
+        ?MemberGraphIssueCollection $dependencyGraphIssues = null,
+        ?MemberDependencyGraphFactoryOptions $options = null,
+    ): MemberDependencyGraphBuild {
+        $dependencyGraphIssues ??= new MemberGraphIssueCollection();
+        $fileRegistry = new MemberGraphPhpSourceRegistryInstance();
+        $knownOwners = $fileRegistry->getKnownOwners();
+        $knownOwnersCollectionBuilder = new KnownOwnersCollectionBuilder();
+        $structuralNodeIndexBuilder = new StructuralNodeIndexBuilder();
+
+        foreach ($virtualFiles as $virtualFile) {
+            $nodes = $virtualFile->getAst();
+
+            if ($virtualFile->isUpdated()) {
+                $structuralNodeIndexBuilder->build(array_values($nodes));
+            }
+
+            $knownOwnersCollectionBuilder->build($nodes, $knownOwners);
+        }
+
+        $memberDependencyGraph = new MemberDependencyGraphBuilder(
+            fileRegistry: $fileRegistry,
+            dependencyGraphIssues: $dependencyGraphIssues,
+        )->build(new MemberGraphBuildInput(
+            knownOwners: $knownOwners,
+            virtualFiles: $virtualFiles,
+        ));
+        $virtualFileReferences = MemberGraphVirtualFileReferenceCollection::fromVirtualFiles($virtualFiles);
+
+        return new MemberDependencyGraphBuild(
+            memberDependencyGraph: $memberDependencyGraph,
+            virtualFiles: $virtualFiles,
+            virtualFileReferences: $virtualFileReferences,
+            knownOwners: $knownOwners,
+            dependencyGraphIssues: $dependencyGraphIssues,
+            buildReport: self::createInMemoryBuildReport(
+                loadedVirtualFileCount: count($virtualFiles),
+                virtualFileReferenceCount: count($virtualFileReferences),
+            ),
+        );
+    }
+
     /**
      * Builds a member dependency graph from directories.
      *
@@ -161,5 +228,41 @@ final readonly class MemberDependencyGraphFactory
         }
 
         return new MemberDependencyGraphPartialRebuildWorkingSetResolver()->resolve($preparedInput);
+    }
+
+    /**
+     * Creates a build report for cache-free in-memory virtual-file builds.
+     *
+     * @param int $loadedVirtualFileCount    the number of virtual files analyzed
+     * @param int $virtualFileReferenceCount the number of virtual file references exposed by the result
+     */
+    private static function createInMemoryBuildReport(
+        int $loadedVirtualFileCount,
+        int $virtualFileReferenceCount,
+    ): MemberDependencyGraphFactoryBuildReport {
+        $cachePlan = new MemberGraphCachePlan(
+            freshFiles: new MemberGraphCacheFileCollection(),
+            staleFiles: new MemberGraphCacheFileCollection(),
+            missingFiles: new MemberGraphCacheFileCollection(),
+            canUseFastPath: false,
+        );
+        $rebuildPlan = new MemberDependencyGraphFactoryRebuildPlan(
+            mode: MemberDependencyGraphFactoryRebuildMode::FULL_BUILD,
+            reason: MemberDependencyGraphFactoryRebuildReason::GLOBAL_INDEX_REBUILD_REQUIRED,
+            cachePlan: $cachePlan,
+            filesToBuild: new MemberGraphCacheFileCollection(),
+            fragmentsToReuse: new MemberGraphCacheFileCollection(),
+        );
+
+        return new MemberDependencyGraphFactoryBuildReport(
+            buildMode: MemberDependencyGraphFactoryBuildMode::FULL_BUILD,
+            cacheLoadResult: MemberGraphCacheLoadResult::notLoaded(MemberGraphCacheLoadStatus::CACHE_FILE_MISSING),
+            cacheWriteResult: MemberGraphCacheWriteResult::notWritten('memory://member-graph'),
+            cachePlan: $cachePlan,
+            rebuildPlan: $rebuildPlan,
+            scannedFileCount: 0,
+            loadedVirtualFileCount: $loadedVirtualFileCount,
+            virtualFileReferenceCount: $virtualFileReferenceCount,
+        );
     }
 }

@@ -16,6 +16,10 @@ use PhpNoobs\MemberGraph\Application\Query\MemberGraphQueryService;
 use PhpNoobs\MemberGraph\Domain\Graph\MemberId;
 use PhpNoobs\MemberGraph\Domain\Graph\MemberType;
 use PhpNoobs\MemberGraph\Domain\Usage\MemberUsageType;
+use PhpParser\Node;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Stmt\Class_;
+use PhpParser\Node\Stmt\ClassMethod;
 
 /**
  * Covers basic member dependency graph factory build behavior.
@@ -151,6 +155,113 @@ final class MemberDependencyGraphFactoryBasicTest extends MemberDependencyGraphF
             usageType: MemberUsageType::STATIC_METHOD_CALL,
             file: (realpath($aFilePath) ?: $aFilePath).'.virtual.0',
         )));
+    }
+
+    /**
+     * Ensures in-memory virtual-file builds do not read changed physical files.
+     */
+    public function testItBuildsFromVirtualFilesWithoutReadingPhysicalFiles(): void
+    {
+        $srcDirectory = $this->workspace.'/src';
+        $filePath = $srcDirectory.'/Mailer.php';
+        $cacheFilePath = $this->workspace.'/member-graph.cache';
+
+        mkdir($srcDirectory, 0o777, true);
+        file_put_contents($filePath, <<<'PHP'
+            <?php
+
+            namespace App;
+
+            final class Mailer
+            {
+                public function send(): void
+                {
+                }
+            }
+            PHP);
+
+        $initialBuild = MemberDependencyGraphFactory::fromDirectory(
+            directories: [$srcDirectory],
+            cacheFilePath: $cacheFilePath,
+        );
+
+        file_put_contents($filePath, <<<'PHP'
+            <?php
+
+            namespace App;
+
+            final class PhysicalFileChanged
+            {
+                public function changed(): void
+                {
+                }
+            }
+            PHP);
+
+        $rebuilt = MemberDependencyGraphFactory::fromVirtualFiles($initialBuild->virtualFiles);
+
+        self::assertSame(MemberDependencyGraphFactoryBuildMode::FULL_BUILD, $rebuilt->buildReport->buildMode);
+        self::assertSame(MemberDependencyGraphFactoryRebuildMode::FULL_BUILD, $rebuilt->buildReport->rebuildPlan->mode);
+        self::assertSame(0, $rebuilt->buildReport->scannedFileCount);
+        self::assertSame(1, $rebuilt->buildReport->loadedVirtualFileCount);
+        self::assertFalse($rebuilt->buildReport->cacheWriteResult->isWritten());
+        self::assertNotNull($rebuilt->knownOwners->get('App\\Mailer'));
+        self::assertNull($rebuilt->knownOwners->get('App\\PhysicalFileChanged'));
+        self::assertNotNull($rebuilt->memberDependencyGraph->declarations->get(
+            new MemberId('App\\Mailer', 'send', MemberType::METHOD),
+        ));
+        self::assertNull($rebuilt->memberDependencyGraph->declarations->get(
+            new MemberId('App\\PhysicalFileChanged', 'changed', MemberType::METHOD),
+        ));
+    }
+
+    /**
+     * Ensures in-memory virtual-file builds use the current mutated AST nodes.
+     */
+    public function testItBuildsFromMutatedVirtualFileAst(): void
+    {
+        $srcDirectory = $this->workspace.'/src';
+        $filePath = $srcDirectory.'/Mailer.php';
+        $cacheFilePath = $this->workspace.'/member-graph.cache';
+
+        mkdir($srcDirectory, 0o777, true);
+        file_put_contents($filePath, <<<'PHP'
+            <?php
+
+            namespace App;
+
+            final class Mailer
+            {
+                public function send(): void
+                {
+                }
+            }
+            PHP);
+
+        $initialBuild = MemberDependencyGraphFactory::fromDirectory(
+            directories: [$srcDirectory],
+            cacheFilePath: $cacheFilePath,
+        );
+        $virtualFile = $initialBuild->virtualFiles->get(0);
+
+        self::assertNotNull($virtualFile);
+
+        $class = self::firstClass($virtualFile->nodes);
+        $method = self::firstClassMethod($class);
+        $class->name = new Identifier('Sender');
+        $method->name = new Identifier('deliver');
+        $virtualFile->update($virtualFile->nodes);
+
+        $rebuilt = MemberDependencyGraphFactory::fromVirtualFiles($initialBuild->virtualFiles);
+
+        self::assertNotNull($rebuilt->knownOwners->get('App\\Sender'));
+        self::assertNull($rebuilt->knownOwners->get('App\\Mailer'));
+        self::assertNotNull($rebuilt->memberDependencyGraph->declarations->get(
+            new MemberId('App\\Sender', 'deliver', MemberType::METHOD),
+        ));
+        self::assertNull($rebuilt->memberDependencyGraph->declarations->get(
+            new MemberId('App\\Mailer', 'send', MemberType::METHOD),
+        ));
     }
 
     /**
@@ -651,5 +762,85 @@ final class MemberDependencyGraphFactoryBasicTest extends MemberDependencyGraphF
             name: 'added',
             type: MemberType::METHOD,
         )));
+    }
+
+    /**
+     * Returns the first class declaration found in an AST.
+     *
+     * @param array<Node> $nodes the AST nodes to inspect
+     *
+     * @throws \RuntimeException when no class declaration exists
+     */
+    private static function firstClass(array $nodes): Class_
+    {
+        foreach ($nodes as $node) {
+            $class = self::firstClassInNode($node);
+
+            if (null !== $class) {
+                return $class;
+            }
+        }
+
+        throw new \RuntimeException('Expected a class declaration in the fixture AST.');
+    }
+
+    /**
+     * Returns the first class declaration found below one node.
+     *
+     * @param Node $node the node to inspect
+     */
+    private static function firstClassInNode(Node $node): ?Class_
+    {
+        if ($node instanceof Class_) {
+            return $node;
+        }
+
+        foreach ($node->getSubNodeNames() as $subNodeName) {
+            $subNode = $node->{$subNodeName};
+
+            if ($subNode instanceof Node) {
+                $class = self::firstClassInNode($subNode);
+
+                if (null !== $class) {
+                    return $class;
+                }
+            }
+
+            if (!is_array($subNode)) {
+                continue;
+            }
+
+            foreach ($subNode as $childNode) {
+                if (!$childNode instanceof Node) {
+                    continue;
+                }
+
+                $class = self::firstClassInNode($childNode);
+
+                if (null !== $class) {
+                    return $class;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns the first class method declared by one class.
+     *
+     * @param Class_ $class the class to inspect
+     *
+     * @throws \RuntimeException when no method declaration exists
+     */
+    private static function firstClassMethod(Class_ $class): ClassMethod
+    {
+        foreach ($class->stmts as $statement) {
+            if ($statement instanceof ClassMethod) {
+                return $statement;
+            }
+        }
+
+        throw new \RuntimeException('Expected a class method declaration in the fixture AST.');
     }
 }
