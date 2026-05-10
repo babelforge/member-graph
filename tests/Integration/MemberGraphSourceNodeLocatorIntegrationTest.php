@@ -617,6 +617,33 @@ final class MemberGraphSourceNodeLocatorIntegrationTest extends TestCase
     }
 
     /**
+     * Ensures promoted property lookup returns local usages of its backing constructor parameter.
+     */
+    public function testFactoryBuildSourceNodeIdsDrivePromotedPropertyParameterLocalUsageLookup(): void
+    {
+        $srcDirectory = $this->workspace.'/src';
+        $cacheFilePath = $this->workspace.'/member-graph.cache';
+        $mailerFilePath = $srcDirectory.'/Mailer.php';
+
+        mkdir($srcDirectory, 0o777, true);
+        $this->writePromotedPropertyMailerWithConstructorBodyFile($mailerFilePath);
+
+        $build = MemberDependencyGraphFactory::fromDirectory(
+            directories: [$srcDirectory],
+            cacheFilePath: $cacheFilePath,
+        );
+        $locator = MemberGraphSourceNodeLocator::fromBuild($build);
+
+        $matches = $locator->property('App\\Mailer', 'transport');
+
+        self::assertCount(7, $matches);
+        self::assertSame(1, $this->countMatches($matches, VirtualPhpSourceFileNodeMatchRole::MEMBER_DECLARATION, Param::class));
+        self::assertSame(1, $this->countMatches($matches, VirtualPhpSourceFileNodeMatchRole::MEMBER_USAGE, PropertyFetch::class));
+        self::assertSame(5, $this->countMatches($matches, VirtualPhpSourceFileNodeMatchRole::PROMOTED_PROPERTY_PARAMETER_LOCAL_USAGE, Variable::class));
+        self::assertCount(5, $matches->promotedPropertyParameterLocalUsages());
+    }
+
+    /**
      * Ensures real factory builds drive strict function, static-call, and nullsafe-call source lookup.
      */
     public function testFactoryBuildSourceNodeIdsDriveStrictFunctionStaticCallAndNullsafeCallLookup(): void
@@ -812,6 +839,37 @@ final class MemberGraphSourceNodeLocatorIntegrationTest extends TestCase
                 public function transport(): string
                 {
                     return $this->transport;
+                }
+            }
+            PHP);
+    }
+
+    /**
+     * Writes a mailer fixture exposing promoted-property parameter usages in the constructor body.
+     *
+     * @param string $filePath the file path
+     */
+    private function writePromotedPropertyMailerWithConstructorBodyFile(string $filePath): void
+    {
+        file_put_contents($filePath, <<<'PHP'
+            <?php
+
+            namespace App;
+
+            final class Mailer
+            {
+                public function __construct(public string $transport)
+                {
+                    $this->transport = $transport;
+                    $copy = $transport;
+                    $capturedClosure = static function () use ($transport): string {
+                        return $transport;
+                    };
+                    $capturedArrow = static fn (): string => $transport;
+                    $shadowedClosure = static function (string $transport): string {
+                        return $transport;
+                    };
+                    $shadowedArrow = static fn (string $transport): string => $transport;
                 }
             }
             PHP);

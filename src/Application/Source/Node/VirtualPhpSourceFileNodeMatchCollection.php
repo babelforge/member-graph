@@ -134,6 +134,14 @@ final class VirtualPhpSourceFileNodeMatchCollection implements \Countable, \Iter
     }
 
     /**
+     * Returns matches using promoted-property parameters as local constructor variables.
+     */
+    public function promotedPropertyParameterLocalUsages(): self
+    {
+        return $this->byRole(VirtualPhpSourceFileNodeMatchRole::PROMOTED_PROPERTY_PARAMETER_LOCAL_USAGE);
+    }
+
+    /**
      * Indicates whether the collection contains a node with the given variable-like name.
      *
      * @param string $name the name to find without the leading "$"

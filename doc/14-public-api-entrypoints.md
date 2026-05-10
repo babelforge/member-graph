@@ -60,12 +60,14 @@ $parameterScope = $locator->parameterScope('App\\Service\\UserService', 'send', 
 $ownerMatches = $locator->owner('App\\Service\\UserService');
 ```
 
-Use this entry point when the caller needs AST nodes for owner declarations, owner usages, member declarations, member usages, parameter declarations, or named-argument usages.
+Use this entry point when the caller needs AST nodes for owner declarations, owner usages, member declarations, member usages, parameter declarations, named-argument usages, or local usages of parameters that are exposed as source-level facts.
 The locator is strict by default and uses `SourceNodeId` when graph facts carry parser-position metadata.
 Parameter lookup accepts an optional zero-based declaration index so refactoring tools can target the exact `Param` node during rename swaps.
 That index is carried by the underlying `ParameterId`; indexed targets have an exact indexed hash, while named-argument usages remain discoverable through the compatible name-scoped lookup.
 Parameter lookup also returns `PARAMETER_LOCAL_USAGE` matches for local `Variable` nodes inside the declaring body.
 Those matches are computed on demand from the already loaded AST and are not persisted in the graph cache.
+Property lookup returns promoted-property `Param` nodes as `MEMBER_DECLARATION`.
+When the property target is a promoted property, lookup also returns `PROMOTED_PROPERTY_PARAMETER_LOCAL_USAGE` matches for local `Variable` nodes that refer to the promoted constructor parameter.
 Use `parameterScope()` when a caller needs neutral facts about the declaring scope: same-signature `Param` nodes, assigned local `Variable` nodes, and targeted parameter local usages.
 MemberGraph exposes those facts without deciding whether they are rename conflicts.
 

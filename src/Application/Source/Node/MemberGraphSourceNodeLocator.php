@@ -467,13 +467,17 @@ final readonly class MemberGraphSourceNodeLocator
             return false;
         }
 
-        if ($this->matchesDeclarationSourceNodeId($sourceNodeId, $impact)) {
+        $declaration = $this->matchingDeclarationSourceNodeId($sourceNodeId, $impact);
+
+        if (null !== $declaration) {
             $matches->add(new VirtualPhpSourceFileNodeMatch(
                 virtualFile: $virtualFile,
                 node: $node,
                 target: $target,
                 role: VirtualPhpSourceFileNodeMatchRole::MEMBER_DECLARATION,
             ));
+
+            $this->matchPromotedPropertyParameterLocalUsageNodes($node, $virtualFile, $target, $declaration, $matches);
 
             return true;
         }
@@ -543,20 +547,20 @@ final readonly class MemberGraphSourceNodeLocator
     }
 
     /**
-     * Indicates whether one source node id matches an impacted declaration.
+     * Returns the impacted declaration matching one source node id.
      *
      * @param SourceNodeId      $sourceNodeId the source node identifier
      * @param MemberGraphImpact $impact       the graph impact
      */
-    private function matchesDeclarationSourceNodeId(SourceNodeId $sourceNodeId, MemberGraphImpact $impact): bool
+    private function matchingDeclarationSourceNodeId(SourceNodeId $sourceNodeId, MemberGraphImpact $impact): ?MemberDeclaration
     {
         foreach ($impact->memberImpact->declarations->all() as $declaration) {
             if ($declaration instanceof MemberDeclaration && $declaration->sourceNodeId?->equals($sourceNodeId)) {
-                return true;
+                return $declaration;
             }
         }
 
-        return false;
+        return null;
     }
 
     /**
@@ -646,6 +650,11 @@ final readonly class MemberGraphSourceNodeLocator
                 target: $target,
                 role: VirtualPhpSourceFileNodeMatchRole::MEMBER_DECLARATION,
             ));
+
+            if ($node instanceof Param) {
+                $declaration = new MemberDeclaration($memberId, $virtualFile->virtualFilePath);
+                $this->matchPromotedPropertyParameterLocalUsageNodes($node, $virtualFile, $target, $declaration, $matches);
+            }
         }
 
         if (!$this->hasMemberUsageSourceNodeIds($impact) && $this->isMemberUsageNode($node, $memberId)) {
@@ -761,6 +770,54 @@ final readonly class MemberGraphSourceNodeLocator
                 node: $usageNode,
                 target: $target,
                 role: VirtualPhpSourceFileNodeMatchRole::PARAMETER_LOCAL_USAGE,
+            ));
+        }
+    }
+
+    /**
+     * Matches local variable usages for one promoted-property parameter declaration.
+     *
+     * @param Node                                    $node        the matched declaration node
+     * @param VirtualPhpSourceFile                    $virtualFile the virtual file containing the node
+     * @param MemberImpactTarget                      $target      the original impact target
+     * @param MemberDeclaration                       $declaration the matched member declaration
+     * @param VirtualPhpSourceFileNodeMatchCollection $matches     the output match collection
+     */
+    private function matchPromotedPropertyParameterLocalUsageNodes(
+        Node $node,
+        VirtualPhpSourceFile $virtualFile,
+        MemberImpactTarget $target,
+        MemberDeclaration $declaration,
+        VirtualPhpSourceFileNodeMatchCollection $matches,
+    ): void {
+        if (
+            null === $target->memberId
+            || MemberType::PROPERTY !== $target->memberId->type
+            || !$node instanceof Param
+            || !$this->isPromotedPropertyDeclaration($node, $declaration->id)
+        ) {
+            return;
+        }
+
+        $functionLike = $this->declaringFunctionLike($node);
+
+        if (!$functionLike instanceof ClassMethod || '__construct' !== $functionLike->name->toString()) {
+            return;
+        }
+
+        $parameterId = new ParameterId(
+            owner: $declaration->id->owner,
+            functionLikeName: '__construct',
+            parameterName: $declaration->id->name,
+            parameterIndex: $this->parameterDeclarationIndex($node),
+        );
+
+        foreach ($this->parameterLocalUsageNodeLocator->locate($functionLike, $parameterId) as $usageNode) {
+            $matches->add(new VirtualPhpSourceFileNodeMatch(
+                virtualFile: $virtualFile,
+                node: $usageNode,
+                target: $target,
+                role: VirtualPhpSourceFileNodeMatchRole::PROMOTED_PROPERTY_PARAMETER_LOCAL_USAGE,
             ));
         }
     }

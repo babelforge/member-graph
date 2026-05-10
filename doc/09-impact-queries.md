@@ -173,7 +173,7 @@ $sourceFiles = $matches->virtualFiles();
 $nodes = $matches->nodes();
 ```
 
-Available filters are `byRole()`, `ownerDeclarations()`, `ownerUsages()`, `memberDeclarations()`, `memberUsages()`, `parameterDeclarations()`, `parameterUsages()`, `parameterLocalUsages()`, `parameterScopeParameters()`, `parameterScopeLocalVariables()`, `byVirtualFilePath()`, `byNodeClass()`, and `hasName()`.
+Available filters are `byRole()`, `ownerDeclarations()`, `ownerUsages()`, `memberDeclarations()`, `memberUsages()`, `parameterDeclarations()`, `parameterUsages()`, `parameterLocalUsages()`, `parameterScopeParameters()`, `parameterScopeLocalVariables()`, `promotedPropertyParameterLocalUsages()`, `byVirtualFilePath()`, `byNodeClass()`, and `hasName()`.
 
 Match roles are intentionally split between owners, members, and parameters.
 Owners are class-like symbols such as classes, interfaces, traits, and enums.
@@ -188,7 +188,8 @@ Parameters are the named inputs of a method, closure, or function and are tracke
 - `PARAMETER_USAGE`: the node uses the target parameter through a named argument;
 - `PARAMETER_LOCAL_USAGE`: the `Variable` node uses the target parameter inside its declaring body;
 - `PARAMETER_SCOPE_PARAMETER`: the `Param` node declares one parameter in the same signature as the target parameter;
-- `PARAMETER_SCOPE_LOCAL_VARIABLE`: the `Variable` node declares or assigns one local variable in the same body as the target parameter.
+- `PARAMETER_SCOPE_LOCAL_VARIABLE`: the `Variable` node declares or assigns one local variable in the same body as the target parameter;
+- `PROMOTED_PROPERTY_PARAMETER_LOCAL_USAGE`: the `Variable` node uses a promoted-property parameter inside the declaring constructor body.
 
 The locator does not rebuild the graph and does not scan the full codebase.
 It first asks the impact service for impacted virtual files, then re-traverses only those ASTs.
@@ -212,6 +213,19 @@ The index is part of the `ParameterId` identity used by impact targets, so index
 This allows rename tooling to target one parameter during temporary swap states where two parameters may currently have the same name.
 Named-argument `PARAMETER_USAGE` matches remain graph-driven and continue to be returned through the name-scoped parameter lookup when the graph can relate them to the targeted parameter name.
 Local `PARAMETER_LOCAL_USAGE` matches are source-level facts for refactoring tools; nested closures and arrow functions are inspected only when they can refer to the outer parameter without shadowing it.
+
+For promoted property targets, property lookup keeps returning the promoted `Param` as `MEMBER_DECLARATION` and normal property fetches as `MEMBER_USAGE`.
+It also computes `PROMOTED_PROPERTY_PARAMETER_LOCAL_USAGE` matches for local `Variable` nodes that refer to the promoted constructor parameter:
+
+```php
+$matches = $locator->property('App\\Mailer', 'transport');
+
+$declaration = $matches->memberDeclarations();
+$propertyFetches = $matches->memberUsages();
+$constructorVariables = $matches->promotedPropertyParameterLocalUsages();
+```
+
+These promoted-parameter local usages are computed on demand from the constructor AST and are not persisted in `MemberDependencyGraph` or in the cache.
 
 Parameter scope lookup exposes broader neutral facts around the exact matched declaration:
 

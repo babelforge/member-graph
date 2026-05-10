@@ -57,4 +57,9 @@ enum VirtualPhpSourceFileNodeMatchRole
      * The node declares or assigns one local variable in the same function-like body as a targeted parameter.
      */
     case PARAMETER_SCOPE_LOCAL_VARIABLE;
+
+    /**
+     * The node uses a promoted-property parameter as a local variable inside the declaring constructor body.
+     */
+    case PROMOTED_PROPERTY_PARAMETER_LOCAL_USAGE;
 }
