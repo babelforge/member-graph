@@ -29,7 +29,6 @@ use PhpNoobs\MemberGraph\Application\Cache\Plan\MemberGraphCachePlan;
 use PhpNoobs\MemberGraph\Application\Cache\VirtualFile\MemberGraphVirtualFileReferenceCollection;
 use PhpNoobs\MemberGraph\Application\Issue\MemberGraphIssueCollection;
 use PhpNoobs\MemberGraph\Application\Source\MemberGraphPhpSourceRegistryInstance;
-use PhpNoobs\MemberGraph\Infrastructure\PhpParser\Indexing\KnownOwnersCollectionBuilder;
 use PhpNoobs\MemberGraph\Infrastructure\PhpParser\Indexing\StructuralNodeIndexBuilder;
 use PhpNoobs\PhpSource\VirtualPhpSourceFileCollection;
 
@@ -57,7 +56,6 @@ final readonly class MemberDependencyGraphFactory
         $dependencyGraphIssues ??= new MemberGraphIssueCollection();
         $fileRegistry = new MemberGraphPhpSourceRegistryInstance();
         $knownOwners = $fileRegistry->getKnownOwners();
-        $knownOwnersCollectionBuilder = new KnownOwnersCollectionBuilder();
         $structuralNodeIndexBuilder = new StructuralNodeIndexBuilder();
 
         foreach ($virtualFiles as $virtualFile) {
@@ -66,9 +64,9 @@ final readonly class MemberDependencyGraphFactory
             if ($virtualFile->isUpdated()) {
                 $structuralNodeIndexBuilder->build(array_values($nodes));
             }
-
-            $knownOwnersCollectionBuilder->build($nodes, $knownOwners);
         }
+
+        $fileRegistry->registerVirtualFiles($virtualFiles);
 
         $memberDependencyGraph = new MemberDependencyGraphBuilder(
             fileRegistry: $fileRegistry,
@@ -89,6 +87,7 @@ final readonly class MemberDependencyGraphFactory
                 loadedVirtualFileCount: count($virtualFiles),
                 virtualFileReferenceCount: count($virtualFileReferences),
             ),
+            sourceRegistry: $fileRegistry,
         );
     }
 
@@ -149,7 +148,7 @@ final readonly class MemberDependencyGraphFactory
         $partialRebuildWorkingSet = self::resolvePartialRebuildWorkingSet($partialRebuildPreparedInput);
 
         if (MemberDependencyGraphFactoryRebuildMode::FAST_PATH === $rebuildPlan->mode) {
-            return new MemberDependencyGraphFastPathRunner()->run(
+            return new MemberDependencyGraphFastPathRunner($fileRegistry)->run(
                 files: $files,
                 cache: $cache,
                 cachePlan: $cachePlan,

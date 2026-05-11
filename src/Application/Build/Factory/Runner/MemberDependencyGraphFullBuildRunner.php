@@ -102,6 +102,7 @@ final readonly class MemberDependencyGraphFullBuildRunner
                 partialRebuildInput: $partialRebuildInput,
                 partialRebuildWorkingSet: $partialRebuildWorkingSet,
             ),
+            sourceRegistry: $this->fileRegistry,
         );
     }
 }

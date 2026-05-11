@@ -38,6 +38,11 @@ $freshBuild = MemberDependencyGraphFactory::fromVirtualFiles($build->virtualFile
 
 This path returns a normal `MemberDependencyGraphBuild`, but it does not scan directories, does not read physical files, and does not write the persistent cache.
 Updated virtual files refresh their structural PHPParser attributes before the graph is rebuilt.
+The returned build exposes the source registry that owns its virtual files:
+
+```php
+$freshBuild->sourceRegistry()->save();
+```
 
 Use `MemberGraphProjectedBuildFactory` when the caller only needs supported semantic identity updates and wants to avoid a full AST rebuild:
 
@@ -52,6 +57,7 @@ $projectedBuild = MemberGraphProjectedBuildFactory::fromBuild($build, $overlay);
 ```
 
 The projected build is a normal `MemberDependencyGraphBuild`.
+It preserves the base build source registry instance.
 Supported projections cover owner FQCN updates, method updates, property updates, class-constant updates, enum-case updates, function FQCN updates, namespace-level constant FQCN updates, and parameter updates with an optional declaration index.
 Member and parameter updates can be expressed with current projected owner/function-like identities.
 The projection is policy-free: it does not mutate AST nodes, write files, refresh cache, decide conflicts, or infer refactoring intent.

@@ -15,6 +15,7 @@ use PhpNoobs\MemberGraph\Application\Cache\Core\MemberGraphCacheWriteResult;
 use PhpNoobs\MemberGraph\Application\Cache\Fragment\MemberGraphFragmentMerger;
 use PhpNoobs\MemberGraph\Application\Cache\Plan\MemberGraphCachePlan;
 use PhpNoobs\MemberGraph\Application\Issue\MemberGraphIssueCollection;
+use PhpNoobs\MemberGraph\Application\Source\MemberGraphPhpSourceRegistryInstance;
 use PhpNoobs\MemberGraph\Domain\Owner\KnownOwnerCollection;
 use PhpNoobs\PhpSource\VirtualPhpSourceFileCollection;
 
@@ -26,10 +27,12 @@ final readonly class MemberDependencyGraphFastPathRunner
     /**
      * Constructor.
      *
+     * @param MemberGraphPhpSourceRegistryInstance           $fileRegistry       the source registry instance used by the factory
      * @param MemberGraphFragmentMerger                      $fragmentMerger     the graph fragment merger
      * @param MemberDependencyGraphFactoryBuildReportFactory $buildReportFactory the build report factory
      */
     public function __construct(
+        private MemberGraphPhpSourceRegistryInstance $fileRegistry,
         private MemberGraphFragmentMerger $fragmentMerger = new MemberGraphFragmentMerger(),
         private MemberDependencyGraphFactoryBuildReportFactory $buildReportFactory = new MemberDependencyGraphFactoryBuildReportFactory(),
     ) {
@@ -79,6 +82,7 @@ final readonly class MemberDependencyGraphFastPathRunner
                 partialRebuildInput: $partialRebuildInput,
                 partialRebuildWorkingSet: $partialRebuildWorkingSet,
             ),
+            sourceRegistry: $this->fileRegistry,
         );
     }
 }

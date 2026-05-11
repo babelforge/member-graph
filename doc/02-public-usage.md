@@ -34,10 +34,17 @@ $graph = $build->memberDependencyGraph;
 - `knownOwners`;
 - `dependencyGraphIssues`;
 - `buildReport`.
+- `sourceRegistry`.
 
 `virtualFiles` contains virtual files loaded during the current run.
 
 `virtualFileReferences` contains lightweight source metadata and remains available when the factory uses the cache fast path.
+
+`sourceRegistry` is the `MemberGraphPhpSourceRegistryInstance` used by the build. It owns the loaded virtual files and can be used by caller-owned write workflows:
+
+```php
+$build->sourceRegistry()->save();
+```
 
 ## In-Memory Virtual-File Rebuild
 
@@ -58,6 +65,7 @@ $build = MemberDependencyGraphFactory::fromVirtualFiles($build->virtualFiles);
 ```
 
 This rebuild does not scan directories, does not read physical files, and does not write the persistent cache.
+It registers the provided virtual files in the returned build source registry, so caller-owned write workflows can still call `sourceRegistry()->save()`.
 
 If a virtual file reports `isUpdated()`, the factory refreshes structural PHPParser attributes before recomputing known owners and rebuilding the graph.
 
@@ -77,6 +85,7 @@ $build = MemberGraphProjectedBuildFactory::fromBuild($build, $overlay);
 
 The projected build is a normal `MemberDependencyGraphBuild`.
 It preserves virtual files, PHPParser nodes, source-node identifiers, and file paths while projecting graph identities.
+It also preserves the source registry instance from the base build.
 
 Supported projections cover owner FQCN updates, method updates, property updates, class-constant updates, enum-case updates, function FQCN updates, namespace-level constant FQCN updates, and parameter updates with an optional declaration index.
 Member and parameter updates can be expressed against current projected owner/function-like identities.

@@ -85,6 +85,7 @@ final readonly class MemberGraphProjectedBuildFactory
             knownOwners: $projectedGraph->knownOwners,
             dependencyGraphIssues: $build->dependencyGraphIssues,
             buildReport: $build->buildReport,
+            sourceRegistry: $build->sourceRegistry,
         );
     }
 

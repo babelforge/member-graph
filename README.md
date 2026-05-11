@@ -82,6 +82,7 @@ $build = MemberDependencyGraphFactory::fromDirectory(
 );
 
 $graph = $build->memberDependencyGraph;
+$sourceRegistry = $build->sourceRegistry();
 ```
 
 For transactional in-memory workflows, rebuild from the current virtual-file ASTs:
@@ -93,6 +94,11 @@ $build = MemberDependencyGraphFactory::fromVirtualFiles($build->virtualFiles);
 ```
 
 This path does not scan directories, read physical files, or write the persistent cache.
+The returned build exposes the source registry that owns its virtual files:
+
+```php
+$build->sourceRegistry()->save();
+```
 
 For supported transaction identity updates, project a build without a full AST rebuild:
 
