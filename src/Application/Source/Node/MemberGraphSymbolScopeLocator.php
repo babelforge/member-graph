@@ -498,10 +498,10 @@ final readonly class MemberGraphSymbolScopeLocator
         string $namespace,
         MemberGraphSymbolScopeFactCollection $facts,
     ): void {
-        if ($node instanceof ClassLike && $node->namespacedName instanceof Name) {
-            $fqcn = $node->namespacedName->toString();
+        if ($node instanceof ClassLike) {
+            $fqcn = $this->classLikeDeclarationName($node);
 
-            if ($this->namespaceOf($fqcn) === $namespace) {
+            if (null !== $fqcn && $this->namespaceOf($fqcn) === $namespace) {
                 $shortName = $this->shortName($fqcn);
                 $facts->add(new MemberGraphSymbolScopeFact(
                     virtualFile: $virtualFile,
@@ -534,8 +534,8 @@ final readonly class MemberGraphSymbolScopeLocator
         string $namespace,
         MemberGraphSymbolScopeFactCollection $facts,
     ): void {
-        if ($node instanceof Function_ && $node->namespacedName instanceof Name) {
-            $fqcn = $node->namespacedName->toString();
+        if ($node instanceof Function_) {
+            $fqcn = $this->functionDeclarationName($node);
 
             if ($this->namespaceOf($fqcn) === $namespace) {
                 $shortName = $this->shortName($fqcn);
@@ -730,6 +730,42 @@ final readonly class MemberGraphSymbolScopeLocator
         }
 
         return $name;
+    }
+
+    /**
+     * Resolves one class-like declaration FQCN from the current source node state.
+     *
+     * @param ClassLike $classLike the class-like declaration node
+     */
+    private function classLikeDeclarationName(ClassLike $classLike): ?string
+    {
+        if (null === $classLike->name) {
+            return null;
+        }
+
+        $parent = $classLike->getAttribute('parent');
+
+        if ($parent instanceof Namespace_ && $parent->name instanceof Name) {
+            return $parent->name->toString().'\\'.$classLike->name->toString();
+        }
+
+        return $classLike->name->toString();
+    }
+
+    /**
+     * Resolves one function declaration FQCN from the current source node state.
+     *
+     * @param Function_ $function the function declaration node
+     */
+    private function functionDeclarationName(Function_ $function): string
+    {
+        $parent = $function->getAttribute('parent');
+
+        if ($parent instanceof Namespace_ && $parent->name instanceof Name) {
+            return $parent->name->toString().'\\'.$function->name->toString();
+        }
+
+        return $function->name->toString();
     }
 
     /**

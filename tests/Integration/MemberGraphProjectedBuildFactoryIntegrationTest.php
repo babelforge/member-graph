@@ -32,6 +32,9 @@ use PhpParser\Node\Stmt\EnumCase;
 use PhpParser\Node\Stmt\Function_;
 use PhpParser\Node\Stmt\Namespace_;
 use PhpParser\Node\Stmt\PropertyProperty;
+use PhpParser\Node\Stmt\TraitUseAdaptation\Alias;
+use PhpParser\Node\Stmt\TraitUseAdaptation\Precedence;
+use PhpParser\Node\UseItem;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -171,6 +174,104 @@ final class MemberGraphProjectedBuildFactoryIntegrationTest extends TestCase
         self::assertFalse($propertyScope->propertyDeclarations()->hasName('transport'));
         self::assertNotNull($propertyImpact->declarations->get($projectedProperty));
         self::assertCount(1, $propertyImpact->usages->getByTarget($projectedProperty));
+    }
+
+    /**
+     * Ensures promoted-property parameter local usages remain available after projection.
+     */
+    public function testItProjectsPromotedPropertyParameterLocalUsages(): void
+    {
+        $baseBuild = $this->createBuildFromSources([
+            'PromotedPropertyFixture.php' => <<<'PHP'
+                <?php
+
+                namespace App;
+
+                final class Mailer
+                {
+                    public function __construct(public string $transport)
+                    {
+                        $this->transport = $transport;
+                    }
+                }
+                PHP,
+        ]);
+
+        foreach ($baseBuild->virtualFiles as $virtualFile) {
+            $this->updatePromotedPropertySourceNames($virtualFile->nodes);
+            $virtualFile->update($virtualFile->nodes);
+        }
+
+        $projectedBuild = MemberGraphProjectedBuildFactory::fromBuild(
+            build: $baseBuild,
+            overlay: MemberGraphBuildOverlay::empty()
+                ->withPropertyUpdate('App\\Mailer', 'transport', 'mailerTransport')
+                ->withParameterUpdate('App\\Mailer', '__construct', 'transport', 'mailerTransport', 0),
+        );
+        $locator = MemberGraphSourceNodeLocator::fromBuild($projectedBuild);
+
+        $propertyMatches = $locator->property('App\\Mailer', 'mailerTransport');
+
+        self::assertSame(1, count($propertyMatches->memberDeclarations()->byNodeClass(Param::class)));
+        self::assertSame(1, count($propertyMatches->memberUsages()->byNodeClass(PropertyFetch::class)));
+        self::assertSame(1, count($propertyMatches->promotedPropertyParameterLocalUsages()->byNodeClass(Variable::class)));
+        self::assertTrue($propertyMatches->promotedPropertyParameterLocalUsages()->hasName('mailerTransport'));
+    }
+
+    /**
+     * Updates promoted-property source names in fixture AST nodes.
+     *
+     * @param array<Node> $nodes the nodes to update
+     */
+    private function updatePromotedPropertySourceNames(array $nodes): void
+    {
+        foreach ($nodes as $node) {
+            $this->updatePromotedPropertySourceNamesInNode($node);
+        }
+    }
+
+    /**
+     * Updates promoted-property source names in one fixture node.
+     *
+     * @param Node $node the node to update
+     */
+    private function updatePromotedPropertySourceNamesInNode(Node $node): void
+    {
+        if (
+            $node instanceof Param
+            && $node->var instanceof Variable
+            && 'transport' === $node->var->name
+        ) {
+            $node->var->name = 'mailerTransport';
+        }
+
+        if ($node instanceof PropertyFetch && $node->name instanceof Identifier && 'transport' === $node->name->toString()) {
+            $node->name = new Identifier('mailerTransport');
+        }
+
+        if ($node instanceof Variable && 'transport' === $node->name) {
+            $node->name = 'mailerTransport';
+        }
+
+        foreach ($node->getSubNodeNames() as $subNodeName) {
+            $subNode = $node->{$subNodeName};
+
+            if ($subNode instanceof Node) {
+                $this->updatePromotedPropertySourceNamesInNode($subNode);
+
+                continue;
+            }
+
+            if (!is_array($subNode)) {
+                continue;
+            }
+
+            foreach ($subNode as $childNode) {
+                if ($childNode instanceof Node) {
+                    $this->updatePromotedPropertySourceNamesInNode($childNode);
+                }
+            }
+        }
     }
 
     /**
@@ -365,6 +466,7 @@ final class MemberGraphProjectedBuildFactoryIntegrationTest extends TestCase
                 {
                     public function send(string $message, string $copy): void
                     {
+                        $data = trim($message);
                     }
                 }
 
@@ -394,12 +496,287 @@ final class MemberGraphProjectedBuildFactoryIntegrationTest extends TestCase
         $impactService = MemberGraphImpactService::fromBuild($projectedBuild);
 
         $parameterMatches = $locator->parameter('App\\Infrastructure\\Sender', 'deliver', 'emailMessage', 0);
+        $parameterScope = $locator->parameterScope('App\\Infrastructure\\Sender', 'deliver', 'emailMessage', 0);
         $parameterImpact = $impactService->parameter('App\\Infrastructure\\Sender', 'deliver', 'emailMessage', 0);
 
         self::assertSame(1, count($parameterMatches->parameterDeclarations()->byNodeClass(Param::class)));
         self::assertSame(1, count($parameterMatches->parameterUsages()->byNodeClass(Arg::class)));
+        self::assertCount(2, $parameterScope->parameters());
+        self::assertTrue($parameterScope->parameters()->hasName('emailMessage'));
+        self::assertTrue($parameterScope->parameters()->hasName('copy'));
+        self::assertCount(1, $parameterScope->localVariables());
+        self::assertTrue($parameterScope->localVariables()->hasName('data'));
+        self::assertCount(1, $parameterScope->parameterLocalUsages());
         self::assertCount(1, $parameterImpact->parameterUsages->getByTarget($projectedParameter));
         self::assertCount(0, $projectedBuild->memberDependencyGraph->parameterUsages->getByTarget(new ParameterId('App\\Mailer', 'send', 'message', 0)));
+    }
+
+    /**
+     * Ensures method family projections cover trait declarations, adaptations, and projected consumer calls.
+     */
+    public function testItProjectsTraitMethodFamilyIdentityUpdates(): void
+    {
+        $baseBuild = $this->createBuildFromSources([
+            'TraitMethodFixture.php' => <<<'PHP'
+                <?php
+
+                namespace App;
+
+                trait MailerTrait
+                {
+                    public function send(): void
+                    {
+                    }
+                }
+
+                trait BackupMailerTrait
+                {
+                    public function send(): void
+                    {
+                    }
+                }
+
+                final class Mailer
+                {
+                    use MailerTrait {
+                        send as traitSend;
+                    }
+
+                    use BackupMailerTrait {
+                        MailerTrait::send insteadof BackupMailerTrait;
+                    }
+                }
+
+                final class Runner
+                {
+                    public function run(Mailer $mailer): void
+                    {
+                        $mailer->send();
+                    }
+                }
+                PHP,
+        ]);
+
+        foreach ($baseBuild->virtualFiles as $virtualFile) {
+            $this->updateTraitMethodSourceNames($virtualFile->nodes);
+            $virtualFile->update($virtualFile->nodes);
+        }
+
+        $projectedBuild = MemberGraphProjectedBuildFactory::fromBuild(
+            build: $baseBuild,
+            overlay: MemberGraphBuildOverlay::empty()
+                ->withMethodUpdate('App\\MailerTrait', 'send', 'deliver'),
+        );
+        $projectedTraitMethod = new MemberId('App\\MailerTrait', 'deliver', MemberType::METHOD);
+        $projectedConsumerMethod = new MemberId('App\\Mailer', 'deliver', MemberType::METHOD);
+        $locator = MemberGraphSourceNodeLocator::fromBuild($projectedBuild);
+        $scopeLocator = MemberGraphSymbolScopeLocator::fromBuild($projectedBuild);
+        $impactService = MemberGraphImpactService::fromBuild($projectedBuild);
+
+        $methodMatches = $locator->method('App\\MailerTrait', 'deliver');
+        $methodScope = $scopeLocator->methodScope('App\\Mailer', 'deliver');
+        $methodImpact = $impactService->method('App\\MailerTrait', 'deliver');
+
+        self::assertNotNull($projectedBuild->memberDependencyGraph->declarations->get($projectedTraitMethod));
+        self::assertNull($projectedBuild->memberDependencyGraph->declarations->get(new MemberId('App\\MailerTrait', 'send', MemberType::METHOD)));
+        self::assertSame(1, count($methodMatches->memberDeclarations()->byNodeClass(ClassMethod::class)));
+        self::assertSame(1, count($methodMatches->memberUsages()->byNodeClass(MethodCall::class)));
+        self::assertSame(1, count($methodMatches->traitAliasAdaptationSources()->byNodeClass(Alias::class)));
+        self::assertSame(1, count($methodMatches->traitPrecedenceAdaptationMethods()->byNodeClass(Precedence::class)));
+        self::assertTrue($methodScope->methodDeclarations()->hasName('deliver'));
+        self::assertFalse($methodScope->methodDeclarations()->hasName('send'));
+        self::assertCount(1, $methodImpact->usages->getByTarget($projectedConsumerMethod));
+    }
+
+    /**
+     * Ensures source-level namespace and import scopes reflect caller-updated AST nodes in projected builds.
+     */
+    public function testItProjectsUpdatedNamespaceAndImportSourceScopes(): void
+    {
+        $baseBuild = $this->createBuildFromSources([
+            'Types.php' => <<<'PHP'
+                <?php
+
+                namespace App\Domain;
+
+                final class Mailer
+                {
+                }
+                PHP,
+            'Functions.php' => <<<'PHP'
+                <?php
+
+                namespace App\Domain;
+
+                function send_mail(): void
+                {
+                }
+                PHP,
+            'Constants.php' => <<<'PHP'
+                <?php
+
+                namespace App\Domain;
+
+                const ENABLED = true;
+                PHP,
+            'Imports.php' => <<<'PHP'
+                <?php
+
+                namespace App\Domain;
+
+                use App\Support\Mailer as ImportedMailer;
+                use function App\Support\send_mail as imported_send_mail;
+                use const App\Support\ENABLED as IMPORTED_ENABLED;
+                PHP,
+        ]);
+
+        foreach ($baseBuild->virtualFiles as $virtualFile) {
+            $this->updateNamespaceScopeSourceNames($virtualFile->nodes);
+            $virtualFile->update($virtualFile->nodes);
+        }
+
+        $projectedBuild = MemberGraphProjectedBuildFactory::fromBuild(
+            build: $baseBuild,
+            overlay: MemberGraphBuildOverlay::empty()
+                ->withOwnerUpdate('App\\Domain\\Mailer', 'App\\Infrastructure\\Sender')
+                ->withFunctionUpdate('App\\Domain\\send_mail', 'App\\Infrastructure\\deliver_mail')
+                ->withNamespaceConstantUpdate('App\\Domain\\ENABLED', 'App\\Infrastructure\\ACTIVE'),
+        );
+        $scopeLocator = MemberGraphSymbolScopeLocator::fromBuild($projectedBuild);
+
+        $classLikeScope = $scopeLocator->classLikeNamespaceScope('App\\Infrastructure');
+        $functionScope = $scopeLocator->functionNamespaceScope('App\\Infrastructure');
+        $constantScope = $scopeLocator->constantNamespaceScope('App\\Infrastructure');
+        $importScope = null;
+
+        foreach ($projectedBuild->virtualFiles as $virtualFile) {
+            $currentImportScope = $scopeLocator->fileImportScope($virtualFile);
+
+            if ($currentImportScope->classLikeImports()->hasAlias('ImportedSender')) {
+                $importScope = $currentImportScope;
+
+                break;
+            }
+        }
+
+        self::assertNotNull($importScope);
+
+        self::assertTrue($classLikeScope->classLikeDeclarations()->hasShortName('Sender'));
+        self::assertFalse($classLikeScope->classLikeDeclarations()->hasShortName('Mailer'));
+        self::assertTrue($functionScope->functionDeclarations()->hasShortName('deliver_mail'));
+        self::assertFalse($functionScope->functionDeclarations()->hasShortName('send_mail'));
+        self::assertTrue($constantScope->constantDeclarations()->hasShortName('ACTIVE'));
+        self::assertFalse($constantScope->constantDeclarations()->hasShortName('ENABLED'));
+        self::assertTrue($importScope->classLikeImports()->hasAlias('ImportedSender'));
+        self::assertTrue($importScope->functionImports()->hasAlias('imported_deliver_mail'));
+        self::assertTrue($importScope->constantImports()->hasAlias('IMPORTED_ACTIVE'));
+    }
+
+    /**
+     * Updates trait-method source names in fixture AST nodes.
+     *
+     * @param array<Node> $nodes the nodes to update
+     */
+    private function updateTraitMethodSourceNames(array $nodes): void
+    {
+        foreach ($nodes as $node) {
+            $this->updateTraitMethodSourceNamesInNode($node);
+        }
+    }
+
+    /**
+     * Updates trait-method source names in one fixture node.
+     *
+     * @param Node $node the node to update
+     */
+    private function updateTraitMethodSourceNamesInNode(Node $node): void
+    {
+        if ($node instanceof ClassMethod && 'send' === $node->name->toString()) {
+            $node->name = new Identifier('deliver');
+        }
+
+        if ($node instanceof MethodCall && $node->name instanceof Identifier && 'send' === $node->name->toString()) {
+            $node->name = new Identifier('deliver');
+        }
+
+        if ($node instanceof Alias && 'send' === $node->method->toString()) {
+            $node->method = new Identifier('deliver');
+        }
+
+        if ($node instanceof Precedence && 'send' === $node->method->toString()) {
+            $node->method = new Identifier('deliver');
+        }
+
+        $this->updateChildNodes($node, $this->updateTraitMethodSourceNamesInNode(...));
+    }
+
+    /**
+     * Updates namespace-scope source names in fixture AST nodes.
+     *
+     * @param array<Node> $nodes the nodes to update
+     */
+    private function updateNamespaceScopeSourceNames(array $nodes): void
+    {
+        foreach ($nodes as $node) {
+            $this->updateNamespaceScopeSourceNamesInNode($node);
+        }
+    }
+
+    /**
+     * Updates namespace-scope source names in one fixture node.
+     *
+     * @param Node $node the node to update
+     */
+    private function updateNamespaceScopeSourceNamesInNode(Node $node): void
+    {
+        if ($node instanceof Namespace_ && null !== $node->name && 'App\\Domain' === $node->name->toString()) {
+            $node->name = new Name('App\\Infrastructure');
+        }
+
+        if ($node instanceof Class_ && null !== $node->name && 'Mailer' === $node->name->toString()) {
+            $node->name = new Identifier('Sender');
+        }
+
+        if ($node instanceof Function_ && 'send_mail' === $node->name->toString()) {
+            $node->name = new Identifier('deliver_mail');
+        }
+
+        if ($node instanceof Const_ && 'ENABLED' === $node->name->toString()) {
+            $node->name = new Identifier('ACTIVE');
+        }
+
+        if ($node instanceof UseItem) {
+            $this->updateNamespaceScopeUseItem($node);
+        }
+
+        $this->updateChildNodes($node, $this->updateNamespaceScopeSourceNamesInNode(...));
+    }
+
+    /**
+     * Updates one namespace-scope import item.
+     *
+     * @param UseItem $useItem the import item to update
+     */
+    private function updateNamespaceScopeUseItem(UseItem $useItem): void
+    {
+        if ('App\\Support\\Mailer' === $useItem->name->toString()) {
+            $useItem->name = new Name('App\\Support\\Sender');
+            $useItem->alias = new Identifier('ImportedSender');
+
+            return;
+        }
+
+        if ('App\\Support\\send_mail' === $useItem->name->toString()) {
+            $useItem->name = new Name('App\\Support\\deliver_mail');
+            $useItem->alias = new Identifier('imported_deliver_mail');
+
+            return;
+        }
+
+        if ('App\\Support\\ENABLED' === $useItem->name->toString()) {
+            $useItem->name = new Name('App\\Support\\ACTIVE');
+            $useItem->alias = new Identifier('IMPORTED_ACTIVE');
+        }
     }
 
     /**
@@ -511,6 +888,10 @@ final class MemberGraphProjectedBuildFactoryIntegrationTest extends TestCase
             $node->name = new Identifier('emailMessage');
         }
 
+        if ($node instanceof Variable && 'message' === $node->name) {
+            $node->name = 'emailMessage';
+        }
+
         foreach ($node->getSubNodeNames() as $subNodeName) {
             $subNode = $node->{$subNodeName};
 
@@ -527,6 +908,35 @@ final class MemberGraphProjectedBuildFactoryIntegrationTest extends TestCase
             foreach ($subNode as $childNode) {
                 if ($childNode instanceof Node) {
                     $this->updateProjectedTransactionSourceNamesInNode($childNode);
+                }
+            }
+        }
+    }
+
+    /**
+     * Applies one recursive updater to child nodes.
+     *
+     * @param Node                 $node    the parent node
+     * @param callable(Node): void $updater the updater to apply to children
+     */
+    private function updateChildNodes(Node $node, callable $updater): void
+    {
+        foreach ($node->getSubNodeNames() as $subNodeName) {
+            $subNode = $node->{$subNodeName};
+
+            if ($subNode instanceof Node) {
+                $updater($subNode);
+
+                continue;
+            }
+
+            if (!is_array($subNode)) {
+                continue;
+            }
+
+            foreach ($subNode as $childNode) {
+                if ($childNode instanceof Node) {
+                    $updater($childNode);
                 }
             }
         }
