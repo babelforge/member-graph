@@ -2,17 +2,11 @@
 
 Navigation: [Back to README](README.md) | [Previous: Overview](01-overview.md) | [Next: Build Pipeline](03-build-pipeline.md)
 
-This page describes how the component is expected to be used by the rest of the system.
+This page describes how applications use `MemberGraph`.
 
 ## Directory Entry Point
 
 The main entry point for project directories is `MemberDependencyGraphFactory`.
-
-Current path:
-
-```text
-src/Test/DependencyGraph/MemberGraph/Application/Build/Factory/MemberDependencyGraphFactory.php
-```
 
 The factory uses `MemberGraphPhpFileScanner` to scan PHP files and apply directory exclusions, manages cache metadata, and returns a `MemberDependencyGraphBuild`.
 
@@ -108,7 +102,7 @@ $graph = $builder->build($input);
 
 The caller is responsible for adapting the file registry into this input. The builder does not depend directly on the global registry.
 
-Most consumers should prefer `MemberDependencyGraphFactory::fromDirectory()` unless they already own a prepared `MemberGraphBuildInput`.
+Most consumers use `MemberDependencyGraphFactory::fromDirectory()` unless they already own a prepared `MemberGraphBuildInput`.
 
 ## Reading Declarations
 

@@ -163,6 +163,6 @@ The component builds and exposes dependency facts.
 It does not mutate source code, apply transformation rules, or reassemble physical files.
 Those responsibilities belong to higher-level tools built above the graph.
 
-If `MemberGraph` is later extracted into a standalone library, these entry points should remain the stable public surface unless a dedicated facade is introduced.
+These entry points are the stable public surface for package consumers.
 
 Navigation: [Back to README](README.md) | [Previous: Topology Service](13-topology-service.md)

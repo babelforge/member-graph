@@ -2,34 +2,24 @@
 
 [![CI](https://github.com/php-noobs/member-graph/actions/workflows/ci.yml/badge.svg)](https://github.com/php-noobs/member-graph/actions/workflows/ci.yml)
 
-PHP member-level dependency graph builder.
+`php-noobs/member-graph` builds a PHP member-level dependency graph from source files.
 
-`MemberGraph` analyzes PHP source code and builds dependency facts at member level: methods, functions, properties, class constants, enum cases, and named parameters.
+It indexes class-like owners, methods, functions, properties, class constants, enum cases, parameters, source-node locations, impact sets, topology views, and cache metadata. It is built for refactoring and analysis tools that need semantic graph facts rather than textual search.
 
-It is designed for tools that need to answer questions such as:
+## Features
 
-- where is this method declared?
-- where is this property used?
-- which files are impacted by this member?
-- which owners expose this member after inheritance, interfaces, and traits?
-- which source nodes correspond to graph declarations and usages?
-
-## Status
-
-This package is currently extracted locally from the main project.
-It already uses its target package and namespace:
-
-```text
-php-noobs/member-graph
-```
-
-```php
-namespace PhpNoobs\MemberGraph;
-```
+- Build a `MemberDependencyGraph` from directories or existing virtual source files.
+- Query declarations, usages, owners, parameters, available members, and impacted files.
+- Locate exact PHPParser nodes for declarations and usages.
+- Resolve semantic scopes for methods, properties, constants, parameters, namespaces, and imports.
+- Export topology views as arrays, JSON, Mermaid, or DOT.
+- Use cache-backed fast paths and partial rebuilds for directory builds.
+- Project supported in-memory identity updates without rebuilding the full graph.
 
 ## Requirements
 
 - PHP 8.4+
+- Composer
 - `php-noobs/php-source-registry`
 - `nikic/php-parser`
 - `phpstan/phpdoc-parser`
@@ -37,40 +27,27 @@ namespace PhpNoobs\MemberGraph;
 
 ## Installation
 
-During local development, consume the package through a Composer path repository:
+```bash
+composer require php-noobs/member-graph:dev-main
+```
+
+When `php-noobs/php-source-registry` is consumed from GitHub, declare the VCS repository in your project:
 
 ```json
 {
   "repositories": [
     {
-      "type": "path",
-      "url": "../PhpNoobs/php-source-registry",
-      "options": {
-        "symlink": true
-      }
-    },
-    {
-      "type": "path",
-      "url": "packages/member-graph",
-      "options": {
-        "symlink": true
-      }
+      "type": "vcs",
+      "url": "https://github.com/php-noobs/php-source-registry"
     }
   ],
   "require": {
-    "php-noobs/php-source-registry": "dev-main",
     "php-noobs/member-graph": "dev-main"
   }
 }
 ```
 
-Then run:
-
-```bash
-composer update php-noobs/member-graph
-```
-
-## Basic Usage
+## Build From Directories
 
 ```php
 use PhpNoobs\MemberGraph\Application\Build\Factory\MemberDependencyGraphFactory;
@@ -85,7 +62,47 @@ $graph = $build->memberDependencyGraph;
 $sourceRegistry = $build->sourceRegistry();
 ```
 
-For transactional in-memory workflows, rebuild from the current virtual-file ASTs:
+The returned `MemberDependencyGraphBuild` contains the graph, loaded virtual files, source registry, known owners, cache references, issues, and build report.
+
+## Query The Graph
+
+```php
+use PhpNoobs\MemberGraph\Application\Query\MemberGraphQueryService;
+
+$query = MemberGraphQueryService::fromGraph($graph);
+
+$declarations = $query->allDeclarations();
+$usages = $query->allMemberUsages();
+$owners = $query->allOwners();
+```
+
+## Resolve Impact
+
+```php
+use PhpNoobs\MemberGraph\Application\Impact\MemberGraphImpactService;
+
+$impactService = MemberGraphImpactService::fromBuild($build);
+
+$impact = $impactService->method('App\\Service\\UserService', 'send');
+```
+
+The impact DTO exposes graph files, physical files, virtual files, owners, declarations, member usages, parameter usages, and available members.
+
+## Locate Source Nodes
+
+```php
+use PhpNoobs\MemberGraph\Application\Source\Node\MemberGraphSourceNodeLocator;
+
+$locator = MemberGraphSourceNodeLocator::fromBuild($build);
+
+$matches = $locator->method('App\\Service\\UserService', 'send');
+```
+
+Source-node matches expose the `VirtualPhpSourceFile`, exact PHPParser node, target, and role.
+
+## In-Memory Rebuilds
+
+Callers that already own virtual files can rebuild from current in-memory ASTs:
 
 ```php
 $virtualFile->update($virtualFile->nodes);
@@ -93,14 +110,15 @@ $virtualFile->update($virtualFile->nodes);
 $build = MemberDependencyGraphFactory::fromVirtualFiles($build->virtualFiles);
 ```
 
-This path does not scan directories, read physical files, or write the persistent cache.
-The returned build exposes the source registry that owns its virtual files:
+This path does not scan directories, read physical files, or write the persistent cache. The returned build exposes the source registry that owns its virtual files:
 
 ```php
 $build->sourceRegistry()->save();
 ```
 
-For supported transaction identity updates, project a build without a full AST rebuild:
+## Projected Builds
+
+For supported semantic identity updates, project a build without a full AST rebuild:
 
 ```php
 use PhpNoobs\MemberGraph\Application\Build\Projection\MemberGraphBuildOverlay;
@@ -114,66 +132,37 @@ $overlay = MemberGraphBuildOverlay::empty()
 $build = MemberGraphProjectedBuildFactory::fromBuild($build, $overlay);
 ```
 
-The projected build is a normal `MemberDependencyGraphBuild` for the supported update families.
-
-## Query Usage
-
-```php
-use PhpNoobs\MemberGraph\Application\Query\MemberGraphQueryService;
-
-$query = MemberGraphQueryService::fromGraph($graph);
-
-$declarations = $query->allDeclarations();
-$usages = $query->allMemberUsages();
-$owners = $query->allOwners();
-```
-
-## Impact Usage
-
-```php
-use PhpNoobs\MemberGraph\Application\Impact\MemberGraphImpactService;
-
-$impactService = MemberGraphImpactService::fromBuild($build);
-
-$impact = $impactService->method('App\\Service\\UserService', 'send');
-```
-
-The returned impact DTO exposes graph files, physical files, virtual files, owners, declarations, member usages, parameter usages, and available members.
+Projected builds are normal `MemberDependencyGraphBuild` instances for supported owner, member, function, namespace-constant, and parameter identity updates.
 
 ## Documentation
 
 Detailed documentation lives in [`doc/README.md`](doc/README.md).
 
-The documentation covers:
+Start with:
 
-- public usage;
-- build pipeline;
-- domain model;
-- type and expression resolution;
-- PHPDoc and structured types;
-- testing and debugging;
-- cache and partial rebuild design;
-- impact queries;
-- query service;
-- topology service;
-- public API entry points.
+- [Public Usage](doc/02-public-usage.md)
+- [Impact Queries](doc/09-impact-queries.md)
+- [Query Service](doc/10-query-service.md)
+- [Member Dependency Graph Factory](doc/11-member-dependency-graph-factory.md)
+- [Public API Entry Points](doc/14-public-api-entrypoints.md)
 
 ## Boundaries
 
 `MemberGraph` owns dependency graph facts, semantic indexes, impact queries, source-node lookup, topology, cache, and partial rebuild behavior.
 
-It does not own physical PHP file loading, virtual source files, AST storage, source updates, or physical-file reassembly. Those concerns belong to `php-noobs/php-source-registry`.
+Physical PHP file loading, virtual source files, AST storage, source updates, and physical-file reassembly are provided by `php-noobs/php-source-registry`.
 
-## Tests
-
-From the consuming project, run the MemberGraph test suites:
+## Quality
 
 ```bash
-vendor/bin/phpunit tests/Unit/MemberGraph tests/Integration/MemberGraph
+composer qa
 ```
 
-When this package gets its own autonomous test suite, it should be runnable from the package root with:
+Individual commands:
 
 ```bash
-vendor/bin/phpunit
+composer analyse
+composer test
+composer cs
+composer cs-fix
 ```
