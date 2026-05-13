@@ -16,6 +16,7 @@ use PhpNoobs\MemberGraph\Application\Query\MemberGraphQueryService;
 use PhpNoobs\MemberGraph\Domain\Graph\MemberId;
 use PhpNoobs\MemberGraph\Domain\Graph\MemberType;
 use PhpNoobs\MemberGraph\Domain\Usage\MemberUsageType;
+use PhpNoobs\PhpSource\VirtualPhpSourceFileCollection;
 use PhpParser\Node;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Class_;
@@ -261,6 +262,86 @@ final class MemberDependencyGraphFactoryBasicTest extends MemberDependencyGraphF
         ));
         self::assertNull($rebuilt->memberDependencyGraph->declarations->get(
             new MemberId('App\\Mailer', 'send', MemberType::METHOD),
+        ));
+    }
+
+    /**
+     * Ensures touched virtual files refresh a complete in-memory source view.
+     */
+    public function testItRefreshesFromTouchedVirtualFilesWithACompleteSourceView(): void
+    {
+        $srcDirectory = $this->workspace.'/src';
+        $aFilePath = $srcDirectory.'/A.php';
+        $bFilePath = $srcDirectory.'/B.php';
+        $cacheFilePath = $this->workspace.'/member-graph.cache';
+
+        mkdir($srcDirectory, 0o777, true);
+        file_put_contents($aFilePath, <<<'PHP'
+            <?php
+
+            namespace App;
+
+            final class A
+            {
+                public function run(): void
+                {
+                }
+            }
+            PHP);
+        file_put_contents($bFilePath, <<<'PHP'
+            <?php
+
+            namespace App;
+
+            final class B
+            {
+                public function send(): void
+                {
+                }
+            }
+            PHP);
+
+        $initialBuild = MemberDependencyGraphFactory::fromDirectory(
+            directories: [$srcDirectory],
+            cacheFilePath: $cacheFilePath,
+        );
+        $touchedVirtualFile = $initialBuild->virtualFiles->get(0);
+
+        self::assertNotNull($touchedVirtualFile);
+
+        $class = self::firstClass($touchedVirtualFile->nodes);
+        $method = self::firstClassMethod($class);
+        $class->name = new Identifier('C');
+        $method->name = new Identifier('changed');
+
+        $refreshedBuild = MemberDependencyGraphFactory::refreshFromTouchedVirtualFiles(
+            previousBuild: $initialBuild,
+            touchedVirtualFiles: new VirtualPhpSourceFileCollection()->add($touchedVirtualFile),
+        );
+
+        self::assertSame(
+            MemberDependencyGraphFactoryBuildMode::IN_MEMORY_FULL_FALLBACK,
+            $refreshedBuild->buildReport->buildMode,
+        );
+        self::assertTrue($refreshedBuild->usedFullBuild());
+        self::assertTrue($refreshedBuild->usedInMemoryFullFallback());
+        self::assertFalse($refreshedBuild->usedInMemoryPartialRefresh());
+        self::assertSame(0, $refreshedBuild->buildReport->scannedFileCount);
+        self::assertSame(2, $refreshedBuild->buildReport->loadedVirtualFileCount);
+        self::assertCount(2, $refreshedBuild->virtualFiles);
+        self::assertTrue($refreshedBuild->sourceRegistry()->hasFile(realpath($aFilePath) ?: $aFilePath));
+        self::assertTrue($refreshedBuild->sourceRegistry()->hasFile(realpath($bFilePath) ?: $bFilePath));
+        self::assertNotNull($refreshedBuild->knownOwners->get('App\\C'));
+        self::assertNotNull($refreshedBuild->knownOwners->get('App\\B'));
+        self::assertNull($refreshedBuild->knownOwners->get('App\\A'));
+        self::assertNotNull($refreshedBuild->memberDependencyGraph->declarations->get(
+            new MemberId('App\\C', 'changed', MemberType::METHOD),
+        ));
+        self::assertNotNull($refreshedBuild->memberDependencyGraph->declarations->get(
+            new MemberId('App\\B', 'send', MemberType::METHOD),
+        ));
+        self::assertNull($refreshedBuild->memberDependencyGraph->declarations->get(
+            new MemberId('App\\A', 'run', MemberType::METHOD),
         ));
     }
 

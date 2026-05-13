@@ -30,6 +30,7 @@ use PhpNoobs\MemberGraph\Application\Cache\VirtualFile\MemberGraphVirtualFileRef
 use PhpNoobs\MemberGraph\Application\Issue\MemberGraphIssueCollection;
 use PhpNoobs\MemberGraph\Application\Source\MemberGraphPhpSourceRegistryInstance;
 use PhpNoobs\MemberGraph\Infrastructure\PhpParser\Indexing\StructuralNodeIndexBuilder;
+use PhpNoobs\PhpSource\VirtualPhpSourceFile;
 use PhpNoobs\PhpSource\VirtualPhpSourceFileCollection;
 
 /**
@@ -53,19 +54,59 @@ final readonly class MemberDependencyGraphFactory
         ?MemberGraphIssueCollection $dependencyGraphIssues = null,
         ?MemberDependencyGraphFactoryOptions $options = null,
     ): MemberDependencyGraphBuild {
+        return self::buildFromVirtualFiles(
+            virtualFiles: $virtualFiles,
+            dependencyGraphIssues: $dependencyGraphIssues,
+            buildMode: MemberDependencyGraphFactoryBuildMode::FULL_BUILD,
+            refreshAllVirtualFiles: false,
+        );
+    }
+
+    /**
+     * Refreshes a graph from touched in-memory virtual files and a previous complete build.
+     *
+     * This entry point is intended for transactional tools that mutate a subset of
+     * VirtualPhpSourceFile ASTs and need a complete current build without reading
+     * physical files. The current implementation is a conservative full in-memory
+     * fallback: it merges touched virtual files into the previous source view and
+     * rebuilds the full graph from that merged collection.
+     *
+     * @param MemberDependencyGraphBuild     $previousBuild       the previous complete member graph build
+     * @param VirtualPhpSourceFileCollection $touchedVirtualFiles the AST-mutated virtual files
+     */
+    public static function refreshFromTouchedVirtualFiles(
+        MemberDependencyGraphBuild $previousBuild,
+        VirtualPhpSourceFileCollection $touchedVirtualFiles,
+    ): MemberDependencyGraphBuild {
+        self::refreshStructuralAttributes($touchedVirtualFiles, true);
+
+        return self::buildFromVirtualFiles(
+            virtualFiles: self::mergeTouchedVirtualFiles($previousBuild->virtualFiles, $touchedVirtualFiles),
+            dependencyGraphIssues: new MemberGraphIssueCollection(),
+            buildMode: MemberDependencyGraphFactoryBuildMode::IN_MEMORY_FULL_FALLBACK,
+            refreshAllVirtualFiles: false,
+        );
+    }
+
+    /**
+     * Builds a member dependency graph from a complete in-memory virtual-file collection.
+     *
+     * @param VirtualPhpSourceFileCollection        $virtualFiles           the complete virtual-file collection
+     * @param MemberGraphIssueCollection|null       $dependencyGraphIssues  the optional dependency graph issue collection
+     * @param MemberDependencyGraphFactoryBuildMode $buildMode              the build mode to expose in the build report
+     * @param bool                                  $refreshAllVirtualFiles whether every virtual file must refresh structural attributes
+     */
+    private static function buildFromVirtualFiles(
+        VirtualPhpSourceFileCollection $virtualFiles,
+        ?MemberGraphIssueCollection $dependencyGraphIssues,
+        MemberDependencyGraphFactoryBuildMode $buildMode,
+        bool $refreshAllVirtualFiles,
+    ): MemberDependencyGraphBuild {
         $dependencyGraphIssues ??= new MemberGraphIssueCollection();
         $fileRegistry = new MemberGraphPhpSourceRegistryInstance();
         $knownOwners = $fileRegistry->getKnownOwners();
-        $structuralNodeIndexBuilder = new StructuralNodeIndexBuilder();
 
-        foreach ($virtualFiles as $virtualFile) {
-            $nodes = $virtualFile->getAst();
-
-            if ($virtualFile->isUpdated()) {
-                $structuralNodeIndexBuilder->build(array_values($nodes));
-            }
-        }
-
+        self::refreshStructuralAttributes($virtualFiles, $refreshAllVirtualFiles);
         $fileRegistry->registerVirtualFiles($virtualFiles);
 
         $memberDependencyGraph = new MemberDependencyGraphBuilder(
@@ -86,6 +127,7 @@ final readonly class MemberDependencyGraphFactory
             buildReport: self::createInMemoryBuildReport(
                 loadedVirtualFileCount: count($virtualFiles),
                 virtualFileReferenceCount: count($virtualFileReferences),
+                buildMode: $buildMode,
             ),
             sourceRegistry: $fileRegistry,
         );
@@ -230,14 +272,82 @@ final readonly class MemberDependencyGraphFactory
     }
 
     /**
+     * Merges touched virtual files into a previous complete virtual-file collection.
+     *
+     * @param VirtualPhpSourceFileCollection $previousVirtualFiles the previous complete virtual-file collection
+     * @param VirtualPhpSourceFileCollection $touchedVirtualFiles  the touched virtual files to replace or append
+     */
+    private static function mergeTouchedVirtualFiles(
+        VirtualPhpSourceFileCollection $previousVirtualFiles,
+        VirtualPhpSourceFileCollection $touchedVirtualFiles,
+    ): VirtualPhpSourceFileCollection {
+        $mergedVirtualFiles = new VirtualPhpSourceFileCollection();
+        $touchedByVirtualFilePath = self::indexVirtualFilesByVirtualFilePath($touchedVirtualFiles);
+
+        foreach ($previousVirtualFiles as $previousVirtualFile) {
+            $replacement = $touchedByVirtualFilePath[$previousVirtualFile->virtualFilePath] ?? null;
+            $mergedVirtualFiles->add($replacement ?? $previousVirtualFile);
+            unset($touchedByVirtualFilePath[$previousVirtualFile->virtualFilePath]);
+        }
+
+        foreach ($touchedByVirtualFilePath as $touchedVirtualFile) {
+            $mergedVirtualFiles->add($touchedVirtualFile);
+        }
+
+        return $mergedVirtualFiles;
+    }
+
+    /**
+     * Indexes virtual files by their stable virtual-file path.
+     *
+     * @param VirtualPhpSourceFileCollection $virtualFiles the virtual files to index
+     *
+     * @return array<string, VirtualPhpSourceFile>
+     */
+    private static function indexVirtualFilesByVirtualFilePath(
+        VirtualPhpSourceFileCollection $virtualFiles,
+    ): array {
+        $indexedVirtualFiles = [];
+
+        foreach ($virtualFiles as $virtualFile) {
+            $indexedVirtualFiles[$virtualFile->virtualFilePath] = $virtualFile;
+        }
+
+        return $indexedVirtualFiles;
+    }
+
+    /**
+     * Refreshes structural PHPParser attributes for selected virtual files.
+     *
+     * @param VirtualPhpSourceFileCollection $virtualFiles           the virtual files to inspect
+     * @param bool                           $refreshAllVirtualFiles whether every virtual file must be refreshed
+     */
+    private static function refreshStructuralAttributes(
+        VirtualPhpSourceFileCollection $virtualFiles,
+        bool $refreshAllVirtualFiles,
+    ): void {
+        $structuralNodeIndexBuilder = new StructuralNodeIndexBuilder();
+
+        foreach ($virtualFiles as $virtualFile) {
+            if (!$refreshAllVirtualFiles && !$virtualFile->isUpdated()) {
+                continue;
+            }
+
+            $structuralNodeIndexBuilder->build(array_values($virtualFile->getAst()));
+        }
+    }
+
+    /**
      * Creates a build report for cache-free in-memory virtual-file builds.
      *
-     * @param int $loadedVirtualFileCount    the number of virtual files analyzed
-     * @param int $virtualFileReferenceCount the number of virtual file references exposed by the result
+     * @param int                                   $loadedVirtualFileCount    the number of virtual files analyzed
+     * @param int                                   $virtualFileReferenceCount the number of virtual file references exposed by the result
+     * @param MemberDependencyGraphFactoryBuildMode $buildMode                 the in-memory build mode
      */
     private static function createInMemoryBuildReport(
         int $loadedVirtualFileCount,
         int $virtualFileReferenceCount,
+        MemberDependencyGraphFactoryBuildMode $buildMode,
     ): MemberDependencyGraphFactoryBuildReport {
         $cachePlan = new MemberGraphCachePlan(
             freshFiles: new MemberGraphCacheFileCollection(),
@@ -254,7 +364,7 @@ final readonly class MemberDependencyGraphFactory
         );
 
         return new MemberDependencyGraphFactoryBuildReport(
-            buildMode: MemberDependencyGraphFactoryBuildMode::FULL_BUILD,
+            buildMode: $buildMode,
             cacheLoadResult: MemberGraphCacheLoadResult::notLoaded(MemberGraphCacheLoadStatus::CACHE_FILE_MISSING),
             cacheWriteResult: MemberGraphCacheWriteResult::notWritten('memory://member-graph'),
             cachePlan: $cachePlan,

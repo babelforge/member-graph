@@ -52,7 +52,14 @@ final readonly class MemberDependencyGraphBuild
      */
     public function usedFullBuild(): bool
     {
-        return MemberDependencyGraphFactoryBuildMode::FULL_BUILD === $this->buildReport->buildMode;
+        return in_array(
+            $this->buildReport->buildMode,
+            [
+                MemberDependencyGraphFactoryBuildMode::FULL_BUILD,
+                MemberDependencyGraphFactoryBuildMode::IN_MEMORY_FULL_FALLBACK,
+            ],
+            true,
+        );
     }
 
     /**
@@ -61,6 +68,22 @@ final readonly class MemberDependencyGraphBuild
     public function usedPartialBuild(): bool
     {
         return MemberDependencyGraphFactoryBuildMode::PARTIAL_BUILD === $this->buildReport->buildMode;
+    }
+
+    /**
+     * Indicates whether this build used the conservative in-memory full fallback.
+     */
+    public function usedInMemoryFullFallback(): bool
+    {
+        return MemberDependencyGraphFactoryBuildMode::IN_MEMORY_FULL_FALLBACK === $this->buildReport->buildMode;
+    }
+
+    /**
+     * Indicates whether this build used in-memory partial refresh.
+     */
+    public function usedInMemoryPartialRefresh(): bool
+    {
+        return MemberDependencyGraphFactoryBuildMode::IN_MEMORY_PARTIAL_REFRESH === $this->buildReport->buildMode;
     }
 
     /**

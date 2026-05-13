@@ -44,6 +44,18 @@ The returned build exposes the source registry that owns its virtual files:
 $freshBuild->sourceRegistry()->save();
 ```
 
+Use `refreshFromTouchedVirtualFiles()` when the caller owns a previous complete build and only wants to pass the virtual files that were touched by an in-memory transaction:
+
+```php
+$freshBuild = MemberDependencyGraphFactory::refreshFromTouchedVirtualFiles(
+    previousBuild: $build,
+    touchedVirtualFiles: $stepResult->virtualFiles,
+);
+```
+
+This method returns a complete current build: untouched virtual files come from the previous build, touched virtual files replace previous files by `virtualFilePath`, and structural PHPParser attributes are refreshed for every touched file unconditionally.
+The current implementation uses the conservative cache-free in-memory full fallback and reports it with `MemberDependencyGraphFactoryBuildMode::IN_MEMORY_FULL_FALLBACK`.
+
 Use `MemberGraphProjectedBuildFactory` when the caller only needs supported semantic identity updates and wants to avoid a full AST rebuild:
 
 ```php

@@ -46,6 +46,23 @@ It does not scan directories, does not read physical files, and does not write o
 When a virtual file reports `isUpdated()`, the factory refreshes structural PHPParser attributes before recomputing owners and building the graph.
 Unchanged virtual files keep their existing parser attributes.
 
+For transactional tools that only receive touched virtual files, use `refreshFromTouchedVirtualFiles()`:
+
+```php
+$freshBuild = MemberDependencyGraphFactory::refreshFromTouchedVirtualFiles(
+    previousBuild: $previousBuild,
+    touchedVirtualFiles: $touchedVirtualFiles,
+);
+```
+
+This entry point merges the touched virtual files into the previous build source view and returns a complete current build.
+Untouched virtual files are preserved, touched virtual files replace previous files by `virtualFilePath`, and new touched virtual files are appended.
+The method refreshes structural PHPParser attributes for every touched virtual file unconditionally, so callers do not need to mark those files as updated before calling it.
+
+The current implementation uses a conservative full in-memory fallback.
+It does not scan directories, does not read physical files, and does not write the persistent cache.
+The build report exposes this path through `buildMode === MemberDependencyGraphFactoryBuildMode::IN_MEMORY_FULL_FALLBACK`.
+
 The factory returns a `MemberDependencyGraphBuild`.
 
 The build exposes:
@@ -65,6 +82,8 @@ The build also exposes convenience methods for common runtime checks:
 $build->usedFastPath();
 $build->usedFullBuild();
 $build->usedPartialBuild();
+$build->usedInMemoryFullFallback();
+$build->usedInMemoryPartialRefresh();
 $build->hasLoadedVirtualFiles();
 $build->loadedVirtualFiles();
 ```
@@ -108,6 +127,19 @@ The build report for this path is explicit:
 - `loadedVirtualFileCount` is the number of provided virtual files;
 - `cacheWriteResult->isWritten()` is `false`;
 - the cache path marker is `memory://member-graph`.
+
+`refreshFromTouchedVirtualFiles()` follows the same cache-free build pipeline after composing the complete current virtual-file collection.
+Its build report differs in one important way:
+
+- `buildMode` is `IN_MEMORY_FULL_FALLBACK`;
+- `usedFullBuild()` returns `true`;
+- `usedInMemoryFullFallback()` returns `true`;
+- `scannedFileCount` is `0`;
+- `loadedVirtualFileCount` is the number of virtual files in the merged source view;
+- `cacheWriteResult->isWritten()` is `false`.
+
+This is the stable public contract for the first refresh increment.
+Future in-memory partial refresh can keep the same method signature and use `IN_MEMORY_PARTIAL_REFRESH` when a closed working set is rebuilt without falling back.
 
 ## Build Flow
 
