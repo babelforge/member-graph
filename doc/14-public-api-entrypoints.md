@@ -54,8 +54,9 @@ $freshBuild = MemberDependencyGraphFactory::refreshFromTouchedVirtualFiles(
 ```
 
 This method returns a complete current build: untouched virtual files come from the previous build, touched virtual files replace previous files by `virtualFilePath`, and structural PHPParser attributes are refreshed for every touched file unconditionally.
-The current implementation uses the conservative cache-free in-memory full fallback and reports it with `MemberDependencyGraphFactoryBuildMode::IN_MEMORY_FULL_FALLBACK`.
-The report also exposes `inMemoryRefreshWorkingSet`, which contains the touched and impacted physical files selected for future partial refresh.
+The implementation attempts a cache-free in-memory partial refresh and reports it with `MemberDependencyGraphFactoryBuildMode::IN_MEMORY_PARTIAL_REFRESH`.
+If the working set cannot be represented safely, it falls back to `MemberDependencyGraphFactoryBuildMode::IN_MEMORY_FULL_FALLBACK`.
+The report also exposes `inMemoryRefreshWorkingSet`, which contains the touched and impacted physical files selected for refresh.
 
 Use `MemberGraphProjectedBuildFactory` when the caller only needs supported semantic identity updates and wants to avoid a full AST rebuild:
 

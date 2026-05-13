@@ -59,9 +59,10 @@ This entry point merges the touched virtual files into the previous build source
 Untouched virtual files are preserved, touched virtual files replace previous files by `virtualFilePath`, and new touched virtual files are appended.
 The method refreshes structural PHPParser attributes for every touched virtual file unconditionally, so callers do not need to mark those files as updated before calling it.
 
-The current implementation uses a conservative full in-memory fallback.
+The current implementation first attempts an in-memory partial refresh from the closed working set.
+When this working set cannot be represented safely by the merged source view, it uses a conservative full in-memory fallback.
 It does not scan directories, does not read physical files, and does not write the persistent cache.
-The build report exposes this path through `buildMode === MemberDependencyGraphFactoryBuildMode::IN_MEMORY_FULL_FALLBACK`.
+The build report exposes these paths through `buildMode === MemberDependencyGraphFactoryBuildMode::IN_MEMORY_PARTIAL_REFRESH` or `buildMode === MemberDependencyGraphFactoryBuildMode::IN_MEMORY_FULL_FALLBACK`.
 It also exposes the computed in-memory refresh working set through `buildReport->inMemoryRefreshWorkingSet`.
 
 The factory returns a `MemberDependencyGraphBuild`.
@@ -129,8 +130,19 @@ The build report for this path is explicit:
 - `cacheWriteResult->isWritten()` is `false`;
 - the cache path marker is `memory://member-graph`.
 
-`refreshFromTouchedVirtualFiles()` follows the same cache-free build pipeline after composing the complete current virtual-file collection.
-Its build report differs in one important way:
+`refreshFromTouchedVirtualFiles()` composes the complete current virtual-file collection, computes a physical-file working set, and rebuilds graph fragments from the current in-memory ASTs for that working set.
+Reusable fragments come from the previous build, while global facts such as known owners, available members, and polymorphism indexes are recomputed from the merged current source view.
+Its partial-refresh build report is explicit:
+
+- `buildMode` is `IN_MEMORY_PARTIAL_REFRESH`;
+- `usedInMemoryPartialRefresh()` returns `true`;
+- `usedInMemoryFullFallback()` returns `false`;
+- `scannedFileCount` is `0`;
+- `loadedVirtualFileCount` is the number of virtual files rebuilt from the working set;
+- `cacheWriteResult->isWritten()` is `false`;
+- `inMemoryRefreshWorkingSet` contains the touched and impacted physical files selected for refresh.
+
+When the working set cannot be represented safely, the method falls back to the full in-memory path:
 
 - `buildMode` is `IN_MEMORY_FULL_FALLBACK`;
 - `usedFullBuild()` returns `true`;
@@ -138,10 +150,7 @@ Its build report differs in one important way:
 - `scannedFileCount` is `0`;
 - `loadedVirtualFileCount` is the number of virtual files in the merged source view;
 - `cacheWriteResult->isWritten()` is `false`.
-- `inMemoryRefreshWorkingSet` contains the touched and impacted physical files currently selected for future partial refresh.
-
-This is the stable public contract for the first refresh increment.
-Future in-memory partial refresh can keep the same method signature and use `IN_MEMORY_PARTIAL_REFRESH` when a closed working set is rebuilt without falling back.
+- `inMemoryRefreshWorkingSet` remains available for diagnostics.
 
 ## Build Flow
 

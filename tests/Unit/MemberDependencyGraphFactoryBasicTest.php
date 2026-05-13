@@ -16,6 +16,7 @@ use PhpNoobs\MemberGraph\Application\Query\MemberGraphQueryService;
 use PhpNoobs\MemberGraph\Domain\Graph\MemberId;
 use PhpNoobs\MemberGraph\Domain\Graph\MemberType;
 use PhpNoobs\MemberGraph\Domain\Usage\MemberUsageType;
+use PhpNoobs\PhpSource\VirtualPhpSourceFile;
 use PhpNoobs\PhpSource\VirtualPhpSourceFileCollection;
 use PhpParser\Node;
 use PhpParser\Node\Identifier;
@@ -320,18 +321,18 @@ final class MemberDependencyGraphFactoryBasicTest extends MemberDependencyGraphF
         );
 
         self::assertSame(
-            MemberDependencyGraphFactoryBuildMode::IN_MEMORY_FULL_FALLBACK,
+            MemberDependencyGraphFactoryBuildMode::IN_MEMORY_PARTIAL_REFRESH,
             $refreshedBuild->buildReport->buildMode,
         );
-        self::assertTrue($refreshedBuild->usedFullBuild());
-        self::assertTrue($refreshedBuild->usedInMemoryFullFallback());
-        self::assertFalse($refreshedBuild->usedInMemoryPartialRefresh());
+        self::assertFalse($refreshedBuild->usedFullBuild());
+        self::assertFalse($refreshedBuild->usedInMemoryFullFallback());
+        self::assertTrue($refreshedBuild->usedInMemoryPartialRefresh());
         self::assertNotNull($refreshedBuild->buildReport->inMemoryRefreshWorkingSet);
         self::assertTrue($refreshedBuild->buildReport->inMemoryRefreshWorkingSet->hasFileToRebuildGraph(
             realpath($aFilePath) ?: $aFilePath,
         ));
         self::assertSame(0, $refreshedBuild->buildReport->scannedFileCount);
-        self::assertSame(2, $refreshedBuild->buildReport->loadedVirtualFileCount);
+        self::assertSame(1, $refreshedBuild->buildReport->loadedVirtualFileCount);
         self::assertCount(2, $refreshedBuild->virtualFiles);
         self::assertTrue($refreshedBuild->sourceRegistry()->hasFile(realpath($aFilePath) ?: $aFilePath));
         self::assertTrue($refreshedBuild->sourceRegistry()->hasFile(realpath($bFilePath) ?: $bFilePath));
@@ -347,6 +348,79 @@ final class MemberDependencyGraphFactoryBasicTest extends MemberDependencyGraphF
         self::assertNull($refreshedBuild->memberDependencyGraph->declarations->get(
             new MemberId('App\\A', 'run', MemberType::METHOD),
         ));
+    }
+
+    /**
+     * Ensures in-memory partial refresh rebuilds touched and impacted files.
+     */
+    public function testItRefreshesImpactedFilesPartiallyFromTouchedVirtualFiles(): void
+    {
+        $srcDirectory = $this->workspace.'/src';
+        $aFilePath = $srcDirectory.'/A.php';
+        $bFilePath = $srcDirectory.'/B.php';
+        $cacheFilePath = $this->workspace.'/member-graph.cache';
+
+        mkdir($srcDirectory, 0o777, true);
+        file_put_contents($aFilePath, <<<'PHP'
+            <?php
+
+            namespace App;
+
+            final class A
+            {
+                public function run(B $b): void
+                {
+                    $b->changed();
+                }
+            }
+            PHP);
+        file_put_contents($bFilePath, <<<'PHP'
+            <?php
+
+            namespace App;
+
+            final class B
+            {
+                public function changed(): void
+                {
+                }
+            }
+            PHP);
+
+        $initialBuild = MemberDependencyGraphFactory::fromDirectory(
+            directories: [$srcDirectory],
+            cacheFilePath: $cacheFilePath,
+        );
+        $touchedVirtualFile = self::virtualFileForPhysicalFile($initialBuild, $bFilePath);
+        $method = self::firstClassMethod(self::firstClass($touchedVirtualFile->nodes));
+        $method->name = new Identifier('next');
+
+        $refreshedBuild = MemberDependencyGraphFactory::refreshFromTouchedVirtualFiles(
+            previousBuild: $initialBuild,
+            touchedVirtualFiles: new VirtualPhpSourceFileCollection()->add($touchedVirtualFile),
+        );
+        $fullBuild = MemberDependencyGraphFactory::fromVirtualFiles($refreshedBuild->virtualFiles);
+
+        self::assertSame(
+            MemberDependencyGraphFactoryBuildMode::IN_MEMORY_PARTIAL_REFRESH,
+            $refreshedBuild->buildReport->buildMode,
+        );
+        self::assertNotNull($refreshedBuild->buildReport->inMemoryRefreshWorkingSet);
+        self::assertTrue($refreshedBuild->buildReport->inMemoryRefreshWorkingSet->hasFileToRebuildGraph(
+            realpath($aFilePath) ?: $aFilePath,
+        ));
+        self::assertTrue($refreshedBuild->buildReport->inMemoryRefreshWorkingSet->hasFileToRebuildGraph(
+            realpath($bFilePath) ?: $bFilePath,
+        ));
+        self::assertSame(2, $refreshedBuild->buildReport->loadedVirtualFileCount);
+        self::assertSame(
+            $this->declarationHashes($fullBuild->memberDependencyGraph),
+            $this->declarationHashes($refreshedBuild->memberDependencyGraph),
+        );
+        self::assertSame(
+            $this->usageSignatures($fullBuild->memberDependencyGraph),
+            $this->usageSignatures($refreshedBuild->memberDependencyGraph),
+        );
     }
 
     /**
@@ -927,5 +1001,28 @@ final class MemberDependencyGraphFactoryBasicTest extends MemberDependencyGraphF
         }
 
         throw new \RuntimeException('Expected a class method declaration in the fixture AST.');
+    }
+
+    /**
+     * Returns the virtual file associated with one physical file path.
+     *
+     * @param MemberDependencyGraphBuild $build    the build to inspect
+     * @param string                     $filePath the expected physical file path
+     *
+     * @throws \RuntimeException when no matching virtual file exists
+     */
+    private static function virtualFileForPhysicalFile(
+        MemberDependencyGraphBuild $build,
+        string $filePath,
+    ): VirtualPhpSourceFile {
+        $normalizedFilePath = realpath($filePath) ?: $filePath;
+
+        foreach ($build->virtualFiles as $virtualFile) {
+            if ($normalizedFilePath === $virtualFile->fullFilePath) {
+                return $virtualFile;
+            }
+        }
+
+        throw new \RuntimeException('Expected a virtual file for the provided physical file path.');
     }
 }

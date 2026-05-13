@@ -11,6 +11,7 @@ use PhpNoobs\MemberGraph\Application\Build\Factory\Plan\MemberDependencyGraphFac
 use PhpNoobs\MemberGraph\Application\Build\Factory\Runner\MemberDependencyGraphFastPathRunner;
 use PhpNoobs\MemberGraph\Application\Build\Factory\Runner\MemberDependencyGraphFullBuildRunner;
 use PhpNoobs\MemberGraph\Application\Build\Factory\Runner\MemberDependencyGraphPartialBuildRunner;
+use PhpNoobs\MemberGraph\Application\Build\InMemoryRefresh\MemberGraphInMemoryRefreshExecutor;
 use PhpNoobs\MemberGraph\Application\Build\InMemoryRefresh\MemberGraphInMemoryRefreshWorkingSet;
 use PhpNoobs\MemberGraph\Application\Build\InMemoryRefresh\MemberGraphInMemoryRefreshWorkingSetResolver;
 use PhpNoobs\MemberGraph\Application\Build\Input\MemberGraphBuildInput;
@@ -80,15 +81,28 @@ final readonly class MemberDependencyGraphFactory
         MemberDependencyGraphBuild $previousBuild,
         VirtualPhpSourceFileCollection $touchedVirtualFiles,
     ): MemberDependencyGraphBuild {
+        $dependencyGraphIssues = new MemberGraphIssueCollection();
+        $mergedVirtualFiles = self::mergeTouchedVirtualFiles($previousBuild->virtualFiles, $touchedVirtualFiles);
+
         self::refreshStructuralAttributes($touchedVirtualFiles, true);
         $workingSet = new MemberGraphInMemoryRefreshWorkingSetResolver()->resolve(
             previousBuild: $previousBuild,
             touchedVirtualFiles: $touchedVirtualFiles,
         );
+        $partialRefreshBuild = new MemberGraphInMemoryRefreshExecutor()->execute(
+            previousBuild: $previousBuild,
+            mergedVirtualFiles: $mergedVirtualFiles,
+            workingSet: $workingSet,
+            dependencyGraphIssues: $dependencyGraphIssues,
+        );
+
+        if (null !== $partialRefreshBuild) {
+            return $partialRefreshBuild;
+        }
 
         return self::buildFromVirtualFiles(
-            virtualFiles: self::mergeTouchedVirtualFiles($previousBuild->virtualFiles, $touchedVirtualFiles),
-            dependencyGraphIssues: new MemberGraphIssueCollection(),
+            virtualFiles: $mergedVirtualFiles,
+            dependencyGraphIssues: $dependencyGraphIssues,
             buildMode: MemberDependencyGraphFactoryBuildMode::IN_MEMORY_FULL_FALLBACK,
             refreshAllVirtualFiles: false,
             inMemoryRefreshWorkingSet: $workingSet,
