@@ -326,6 +326,10 @@ final class MemberDependencyGraphFactoryBasicTest extends MemberDependencyGraphF
         self::assertTrue($refreshedBuild->usedFullBuild());
         self::assertTrue($refreshedBuild->usedInMemoryFullFallback());
         self::assertFalse($refreshedBuild->usedInMemoryPartialRefresh());
+        self::assertNotNull($refreshedBuild->buildReport->inMemoryRefreshWorkingSet);
+        self::assertTrue($refreshedBuild->buildReport->inMemoryRefreshWorkingSet->hasFileToRebuildGraph(
+            realpath($aFilePath) ?: $aFilePath,
+        ));
         self::assertSame(0, $refreshedBuild->buildReport->scannedFileCount);
         self::assertSame(2, $refreshedBuild->buildReport->loadedVirtualFileCount);
         self::assertCount(2, $refreshedBuild->virtualFiles);

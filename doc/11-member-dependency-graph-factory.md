@@ -62,6 +62,7 @@ The method refreshes structural PHPParser attributes for every touched virtual f
 The current implementation uses a conservative full in-memory fallback.
 It does not scan directories, does not read physical files, and does not write the persistent cache.
 The build report exposes this path through `buildMode === MemberDependencyGraphFactoryBuildMode::IN_MEMORY_FULL_FALLBACK`.
+It also exposes the computed in-memory refresh working set through `buildReport->inMemoryRefreshWorkingSet`.
 
 The factory returns a `MemberDependencyGraphBuild`.
 
@@ -137,6 +138,7 @@ Its build report differs in one important way:
 - `scannedFileCount` is `0`;
 - `loadedVirtualFileCount` is the number of virtual files in the merged source view;
 - `cacheWriteResult->isWritten()` is `false`.
+- `inMemoryRefreshWorkingSet` contains the touched and impacted physical files currently selected for future partial refresh.
 
 This is the stable public contract for the first refresh increment.
 Future in-memory partial refresh can keep the same method signature and use `IN_MEMORY_PARTIAL_REFRESH` when a closed working set is rebuilt without falling back.

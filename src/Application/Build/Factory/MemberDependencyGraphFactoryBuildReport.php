@@ -7,6 +7,7 @@ namespace PhpNoobs\MemberGraph\Application\Build\Factory;
 use PhpNoobs\MemberGraph\Application\Build\Factory\Mode\MemberDependencyGraphFactoryBuildMode;
 use PhpNoobs\MemberGraph\Application\Build\Factory\Plan\MemberDependencyGraphFactoryRebuildPlan;
 use PhpNoobs\MemberGraph\Application\Build\Factory\Warning\MemberDependencyGraphFactoryWarningCollection;
+use PhpNoobs\MemberGraph\Application\Build\InMemoryRefresh\MemberGraphInMemoryRefreshWorkingSet;
 use PhpNoobs\MemberGraph\Application\Build\PartialGraph\Input\MemberDependencyGraphPartialRebuildInput;
 use PhpNoobs\MemberGraph\Application\Build\PartialGraph\WorkingSet\MemberDependencyGraphPartialRebuildWorkingSet;
 use PhpNoobs\MemberGraph\Application\Cache\Core\MemberGraphCacheLoadResult;
@@ -31,6 +32,7 @@ final readonly class MemberDependencyGraphFactoryBuildReport
      * @param int                                                $virtualFileReferenceCount the number of virtual file references exposed by the result
      * @param MemberDependencyGraphPartialRebuildInput|null      $partialRebuildInput       the prepared partial rebuild input when available
      * @param MemberDependencyGraphPartialRebuildWorkingSet|null $partialRebuildWorkingSet  the resolved partial rebuild working set when available
+     * @param MemberGraphInMemoryRefreshWorkingSet|null          $inMemoryRefreshWorkingSet the resolved in-memory refresh working set when available
      * @param MemberDependencyGraphFactoryWarningCollection      $warnings                  the non-blocking factory warnings
      */
     public function __construct(
@@ -44,6 +46,7 @@ final readonly class MemberDependencyGraphFactoryBuildReport
         public int $virtualFileReferenceCount,
         public ?MemberDependencyGraphPartialRebuildInput $partialRebuildInput = null,
         public ?MemberDependencyGraphPartialRebuildWorkingSet $partialRebuildWorkingSet = null,
+        public ?MemberGraphInMemoryRefreshWorkingSet $inMemoryRefreshWorkingSet = null,
         public MemberDependencyGraphFactoryWarningCollection $warnings = new MemberDependencyGraphFactoryWarningCollection(),
     ) {
     }

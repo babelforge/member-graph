@@ -11,6 +11,8 @@ use PhpNoobs\MemberGraph\Application\Build\Factory\Plan\MemberDependencyGraphFac
 use PhpNoobs\MemberGraph\Application\Build\Factory\Runner\MemberDependencyGraphFastPathRunner;
 use PhpNoobs\MemberGraph\Application\Build\Factory\Runner\MemberDependencyGraphFullBuildRunner;
 use PhpNoobs\MemberGraph\Application\Build\Factory\Runner\MemberDependencyGraphPartialBuildRunner;
+use PhpNoobs\MemberGraph\Application\Build\InMemoryRefresh\MemberGraphInMemoryRefreshWorkingSet;
+use PhpNoobs\MemberGraph\Application\Build\InMemoryRefresh\MemberGraphInMemoryRefreshWorkingSetResolver;
 use PhpNoobs\MemberGraph\Application\Build\Input\MemberGraphBuildInput;
 use PhpNoobs\MemberGraph\Application\Build\MemberDependencyGraphBuilder;
 use PhpNoobs\MemberGraph\Application\Build\PartialGraph\Assembly\MemberDependencyGraphPartialRebuildAssembler;
@@ -79,28 +81,35 @@ final readonly class MemberDependencyGraphFactory
         VirtualPhpSourceFileCollection $touchedVirtualFiles,
     ): MemberDependencyGraphBuild {
         self::refreshStructuralAttributes($touchedVirtualFiles, true);
+        $workingSet = new MemberGraphInMemoryRefreshWorkingSetResolver()->resolve(
+            previousBuild: $previousBuild,
+            touchedVirtualFiles: $touchedVirtualFiles,
+        );
 
         return self::buildFromVirtualFiles(
             virtualFiles: self::mergeTouchedVirtualFiles($previousBuild->virtualFiles, $touchedVirtualFiles),
             dependencyGraphIssues: new MemberGraphIssueCollection(),
             buildMode: MemberDependencyGraphFactoryBuildMode::IN_MEMORY_FULL_FALLBACK,
             refreshAllVirtualFiles: false,
+            inMemoryRefreshWorkingSet: $workingSet,
         );
     }
 
     /**
      * Builds a member dependency graph from a complete in-memory virtual-file collection.
      *
-     * @param VirtualPhpSourceFileCollection        $virtualFiles           the complete virtual-file collection
-     * @param MemberGraphIssueCollection|null       $dependencyGraphIssues  the optional dependency graph issue collection
-     * @param MemberDependencyGraphFactoryBuildMode $buildMode              the build mode to expose in the build report
-     * @param bool                                  $refreshAllVirtualFiles whether every virtual file must refresh structural attributes
+     * @param VirtualPhpSourceFileCollection            $virtualFiles              the complete virtual-file collection
+     * @param MemberGraphIssueCollection|null           $dependencyGraphIssues     the optional dependency graph issue collection
+     * @param MemberDependencyGraphFactoryBuildMode     $buildMode                 the build mode to expose in the build report
+     * @param bool                                      $refreshAllVirtualFiles    whether every virtual file must refresh structural attributes
+     * @param MemberGraphInMemoryRefreshWorkingSet|null $inMemoryRefreshWorkingSet the in-memory refresh working set when available
      */
     private static function buildFromVirtualFiles(
         VirtualPhpSourceFileCollection $virtualFiles,
         ?MemberGraphIssueCollection $dependencyGraphIssues,
         MemberDependencyGraphFactoryBuildMode $buildMode,
         bool $refreshAllVirtualFiles,
+        ?MemberGraphInMemoryRefreshWorkingSet $inMemoryRefreshWorkingSet = null,
     ): MemberDependencyGraphBuild {
         $dependencyGraphIssues ??= new MemberGraphIssueCollection();
         $fileRegistry = new MemberGraphPhpSourceRegistryInstance();
@@ -128,6 +137,7 @@ final readonly class MemberDependencyGraphFactory
                 loadedVirtualFileCount: count($virtualFiles),
                 virtualFileReferenceCount: count($virtualFileReferences),
                 buildMode: $buildMode,
+                inMemoryRefreshWorkingSet: $inMemoryRefreshWorkingSet,
             ),
             sourceRegistry: $fileRegistry,
         );
@@ -340,14 +350,16 @@ final readonly class MemberDependencyGraphFactory
     /**
      * Creates a build report for cache-free in-memory virtual-file builds.
      *
-     * @param int                                   $loadedVirtualFileCount    the number of virtual files analyzed
-     * @param int                                   $virtualFileReferenceCount the number of virtual file references exposed by the result
-     * @param MemberDependencyGraphFactoryBuildMode $buildMode                 the in-memory build mode
+     * @param int                                       $loadedVirtualFileCount    the number of virtual files analyzed
+     * @param int                                       $virtualFileReferenceCount the number of virtual file references exposed by the result
+     * @param MemberDependencyGraphFactoryBuildMode     $buildMode                 the in-memory build mode
+     * @param MemberGraphInMemoryRefreshWorkingSet|null $inMemoryRefreshWorkingSet the in-memory refresh working set when available
      */
     private static function createInMemoryBuildReport(
         int $loadedVirtualFileCount,
         int $virtualFileReferenceCount,
         MemberDependencyGraphFactoryBuildMode $buildMode,
+        ?MemberGraphInMemoryRefreshWorkingSet $inMemoryRefreshWorkingSet = null,
     ): MemberDependencyGraphFactoryBuildReport {
         $cachePlan = new MemberGraphCachePlan(
             freshFiles: new MemberGraphCacheFileCollection(),
@@ -372,6 +384,7 @@ final readonly class MemberDependencyGraphFactory
             scannedFileCount: 0,
             loadedVirtualFileCount: $loadedVirtualFileCount,
             virtualFileReferenceCount: $virtualFileReferenceCount,
+            inMemoryRefreshWorkingSet: $inMemoryRefreshWorkingSet,
         );
     }
 }
