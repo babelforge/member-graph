@@ -20,6 +20,7 @@ use PhpNoobs\PhpSource\VirtualPhpSourceFile;
 use PhpNoobs\PhpSource\VirtualPhpSourceFileCollection;
 use PhpParser\Node;
 use PhpParser\Node\Identifier;
+use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 
@@ -413,6 +414,153 @@ final class MemberDependencyGraphFactoryBasicTest extends MemberDependencyGraphF
             realpath($bFilePath) ?: $bFilePath,
         ));
         self::assertSame(2, $refreshedBuild->buildReport->loadedVirtualFileCount);
+        self::assertSame(
+            $this->declarationHashes($fullBuild->memberDependencyGraph),
+            $this->declarationHashes($refreshedBuild->memberDependencyGraph),
+        );
+        self::assertSame(
+            $this->usageSignatures($fullBuild->memberDependencyGraph),
+            $this->usageSignatures($refreshedBuild->memberDependencyGraph),
+        );
+    }
+
+    /**
+     * Ensures in-memory partial refresh recomputes global facts from the merged source view.
+     */
+    public function testItRefreshesGlobalFactsFromTouchedVirtualFiles(): void
+    {
+        $srcDirectory = $this->workspace.'/src';
+        $contractFilePath = $srcDirectory.'/Contract.php';
+        $serviceFilePath = $srcDirectory.'/Service.php';
+        $cacheFilePath = $this->workspace.'/member-graph.cache';
+
+        mkdir($srcDirectory, 0o777, true);
+        file_put_contents($contractFilePath, <<<'PHP'
+            <?php
+
+            namespace App;
+
+            interface Contract
+            {
+                public function process(): void;
+            }
+            PHP);
+        file_put_contents($serviceFilePath, <<<'PHP'
+            <?php
+
+            namespace App;
+
+            final class Service
+            {
+                public function process(): void
+                {
+                }
+            }
+            PHP);
+
+        $initialBuild = MemberDependencyGraphFactory::fromDirectory(
+            directories: [$srcDirectory],
+            cacheFilePath: $cacheFilePath,
+        );
+        $touchedVirtualFile = self::virtualFileContainingClass($initialBuild, 'Service');
+        $class = self::firstClass($touchedVirtualFile->nodes);
+        $class->implements[] = new Name('Contract');
+
+        $refreshedBuild = MemberDependencyGraphFactory::refreshFromTouchedVirtualFiles(
+            previousBuild: $initialBuild,
+            touchedVirtualFiles: new VirtualPhpSourceFileCollection()->add($touchedVirtualFile),
+        );
+        $fullBuild = MemberDependencyGraphFactory::fromVirtualFiles($refreshedBuild->virtualFiles);
+
+        self::assertSame(
+            MemberDependencyGraphFactoryBuildMode::IN_MEMORY_PARTIAL_REFRESH,
+            $refreshedBuild->buildReport->buildMode,
+        );
+        self::assertSame(
+            $this->availableMemberSignatures($fullBuild->memberDependencyGraph),
+            $this->availableMemberSignatures($refreshedBuild->memberDependencyGraph),
+        );
+        self::assertEquals(
+            $fullBuild->memberDependencyGraph->interfaceImplementationsIndex,
+            $refreshedBuild->memberDependencyGraph->interfaceImplementationsIndex,
+        );
+        self::assertNotNull($refreshedBuild->knownOwners->get('App\\Service'));
+        self::assertNotNull($refreshedBuild->knownOwners->get('App\\Contract'));
+    }
+
+    /**
+     * Ensures one touched virtual file rebuilds every virtual file from the same physical file.
+     */
+    public function testItRefreshesAllVirtualFilesFromTouchedPhysicalFile(): void
+    {
+        $srcDirectory = $this->workspace.'/src';
+        $comboFilePath = $srcDirectory.'/Combo.php';
+        $runnerFilePath = $srcDirectory.'/Runner.php';
+        $cacheFilePath = $this->workspace.'/member-graph.cache';
+
+        mkdir($srcDirectory, 0o777, true);
+        file_put_contents($comboFilePath, <<<'PHP'
+            <?php
+
+            namespace App;
+
+            final class A
+            {
+                public function keep(): void
+                {
+                }
+            }
+
+            final class B
+            {
+                public function changed(): void
+                {
+                }
+            }
+            PHP);
+        file_put_contents($runnerFilePath, <<<'PHP'
+            <?php
+
+            namespace App;
+
+            final class Runner
+            {
+                public function run(B $b): void
+                {
+                    $b->changed();
+                }
+            }
+            PHP);
+
+        $initialBuild = MemberDependencyGraphFactory::fromDirectory(
+            directories: [$srcDirectory],
+            cacheFilePath: $cacheFilePath,
+        );
+        $touchedVirtualFile = self::virtualFileContainingClass($initialBuild, 'B');
+        $method = self::firstClassMethod(self::firstClass($touchedVirtualFile->nodes));
+        $method->name = new Identifier('next');
+
+        $refreshedBuild = MemberDependencyGraphFactory::refreshFromTouchedVirtualFiles(
+            previousBuild: $initialBuild,
+            touchedVirtualFiles: new VirtualPhpSourceFileCollection()->add($touchedVirtualFile),
+        );
+        $fullBuild = MemberDependencyGraphFactory::fromVirtualFiles($refreshedBuild->virtualFiles);
+
+        self::assertSame(
+            MemberDependencyGraphFactoryBuildMode::IN_MEMORY_PARTIAL_REFRESH,
+            $refreshedBuild->buildReport->buildMode,
+        );
+        self::assertNotNull($refreshedBuild->buildReport->inMemoryRefreshWorkingSet);
+        self::assertTrue($refreshedBuild->buildReport->inMemoryRefreshWorkingSet->hasFileToRebuildGraph(
+            realpath($comboFilePath) ?: $comboFilePath,
+        ));
+        self::assertTrue($refreshedBuild->buildReport->inMemoryRefreshWorkingSet->hasFileToRebuildGraph(
+            realpath($runnerFilePath) ?: $runnerFilePath,
+        ));
+        self::assertSame(3, $refreshedBuild->buildReport->loadedVirtualFileCount);
+        self::assertCount(2, $refreshedBuild->virtualFileReferences->getByFullFilePath(
+            realpath($comboFilePath) ?: $comboFilePath,
+        ));
         self::assertSame(
             $this->declarationHashes($fullBuild->memberDependencyGraph),
             $this->declarationHashes($refreshedBuild->memberDependencyGraph),
@@ -1024,5 +1172,46 @@ final class MemberDependencyGraphFactoryBasicTest extends MemberDependencyGraphF
         }
 
         throw new \RuntimeException('Expected a virtual file for the provided physical file path.');
+    }
+
+    /**
+     * Returns the virtual file containing one class short name.
+     *
+     * @param MemberDependencyGraphBuild $build          the build to inspect
+     * @param string                     $classShortName the expected class short name
+     *
+     * @throws \RuntimeException when no matching virtual file exists
+     */
+    private static function virtualFileContainingClass(
+        MemberDependencyGraphBuild $build,
+        string $classShortName,
+    ): VirtualPhpSourceFile {
+        foreach ($build->virtualFiles as $virtualFile) {
+            $class = self::firstClassOrNull($virtualFile->nodes);
+
+            if ($classShortName === $class?->name?->toString()) {
+                return $virtualFile;
+            }
+        }
+
+        throw new \RuntimeException('Expected a virtual file containing the provided class.');
+    }
+
+    /**
+     * Returns the first class declaration found in an AST, or null when none exists.
+     *
+     * @param array<Node> $nodes the AST nodes to inspect
+     */
+    private static function firstClassOrNull(array $nodes): ?Class_
+    {
+        foreach ($nodes as $node) {
+            $class = self::firstClassInNode($node);
+
+            if (null !== $class) {
+                return $class;
+            }
+        }
+
+        return null;
     }
 }
