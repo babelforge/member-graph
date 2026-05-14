@@ -792,6 +792,90 @@ final class MemberGraphSourceNodeLocatorIntegrationTest extends TestCase
     }
 
     /**
+     * Ensures attribute arguments expose normal semantic usages through the source-node locator.
+     */
+    public function testFactoryBuildSourceNodeIdsDriveAttributeArgumentReferenceLookup(): void
+    {
+        $locator = $this->createLocatorFromSources([
+            'Mailer.php' => <<<'PHP'
+                <?php
+
+                namespace App\Service;
+
+                final class Mailer
+                {
+                }
+                PHP,
+            'Status.php' => <<<'PHP'
+                <?php
+
+                namespace App\Domain;
+
+                enum Status
+                {
+                    case ACTIVE;
+                }
+                PHP,
+            'config.php' => <<<'PHP'
+                <?php
+
+                namespace App\Config;
+
+                const ENABLED = true;
+                PHP,
+            'functions.php' => <<<'PHP'
+                <?php
+
+                namespace App;
+
+                function send_mail(): void
+                {
+                }
+                PHP,
+            'AttributeConsumer.php' => <<<'PHP'
+                <?php
+
+                namespace App\Consumer;
+
+                #[SomeAttribute(
+                    target: \App\Service\Mailer::class,
+                    status: \App\Domain\Status::ACTIVE,
+                    option: \App\Config\ENABLED,
+                    callback: \App\send_mail(...),
+                )]
+                final class AttributeConsumer
+                {
+                }
+
+                final class SomeAttribute
+                {
+                    public function __construct(
+                        public mixed $target = null,
+                        public mixed $status = null,
+                        public mixed $option = null,
+                        public mixed $callback = null,
+                    ) {
+                    }
+                }
+                PHP,
+        ]);
+
+        $ownerMatches = $locator->owner('App\Service\Mailer');
+        $enumCaseMatches = $locator->classConstant('App\Domain\Status', 'ACTIVE');
+        $constantMatches = $locator->constant('App\Config\ENABLED');
+        $functionMatches = $locator->function('App\send_mail');
+
+        self::assertSame(1, $this->countMatches($ownerMatches, VirtualPhpSourceFileNodeMatchRole::OWNER_DECLARATION, Class_::class));
+        self::assertSame(1, $this->countMatches($ownerMatches, VirtualPhpSourceFileNodeMatchRole::OWNER_USAGE, Name::class));
+        self::assertSame(1, $this->countMatches($enumCaseMatches, VirtualPhpSourceFileNodeMatchRole::MEMBER_DECLARATION, EnumCase::class));
+        self::assertSame(1, $this->countMatches($enumCaseMatches, VirtualPhpSourceFileNodeMatchRole::MEMBER_USAGE, ClassConstFetch::class));
+        self::assertSame(1, $this->countMatches($constantMatches, VirtualPhpSourceFileNodeMatchRole::MEMBER_DECLARATION, Const_::class));
+        self::assertSame(1, $this->countMatches($constantMatches, VirtualPhpSourceFileNodeMatchRole::MEMBER_USAGE, ConstFetch::class));
+        self::assertSame(1, $this->countMatches($functionMatches, VirtualPhpSourceFileNodeMatchRole::MEMBER_DECLARATION, Function_::class));
+        self::assertSame(1, $this->countMatches($functionMatches, VirtualPhpSourceFileNodeMatchRole::MEMBER_USAGE, FuncCall::class));
+    }
+
+    /**
      * Writes the mailer fixture.
      *
      * @param string $filePath the file path
