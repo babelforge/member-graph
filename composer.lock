@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/babelforge/php-source-registry.git",
-                "reference": "2a457f656f963dc61f7dd6844f6a2ee15a578b58"
+                "reference": "424f679956726a3c5987771b002b00de1af0b63e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/babelforge/php-source-registry/zipball/2a457f656f963dc61f7dd6844f6a2ee15a578b58",
-                "reference": "2a457f656f963dc61f7dd6844f6a2ee15a578b58",
+                "url": "https://api.github.com/repos/babelforge/php-source-registry/zipball/424f679956726a3c5987771b002b00de1af0b63e",
+                "reference": "424f679956726a3c5987771b002b00de1af0b63e",
                 "shasum": ""
             },
             "require": {
@@ -68,7 +68,7 @@
                 "source": "https://github.com/babelforge/php-source-registry/tree/main",
                 "issues": "https://github.com/babelforge/php-source-registry/issues"
             },
-            "time": "2026-05-24T08:37:53+00:00"
+            "time": "2026-05-24T15:19:21+00:00"
         },
         {
             "name": "nikic/php-parser",
