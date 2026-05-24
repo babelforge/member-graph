@@ -1,6 +1,7 @@
 name: CI
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -8,14 +9,21 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+
 jobs:
   qa:
     name: PHP 8.4 QA
     runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.BABELFORGE_GITHUB_TOKEN }}
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
+        with:
+          persist-credentials: false
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -24,11 +32,36 @@ jobs:
           coverage: none
           tools: composer:v2
 
+      - name: Configure Composer GitHub access
+        run: |
+          if [ -z "${GH_TOKEN}" ]; then
+            echo "Missing BABELFORGE_GITHUB_TOKEN secret with read access to private babelforge repositories."
+            exit 1
+          fi
+
+          composer config --global github-oauth.github.com "${GH_TOKEN}"
+
+          {
+            echo "machine github.com"
+            echo "  login x-access-token"
+            echo "  password ${GH_TOKEN}"
+          } > ~/.netrc
+          chmod 600 ~/.netrc
+
+          if git config --global --get-all http.https://github.com/.extraheader >/dev/null 2>&1; then
+            git config --global --unset-all http.https://github.com/.extraheader
+          fi
+
+          if ! git ls-remote "https://github.com/babelforge/php-source-registry.git" HEAD >/dev/null 2>&1; then
+            echo "::error::BABELFORGE_GITHUB_TOKEN cannot clone https://github.com/babelforge/php-source-registry.git over HTTPS. Check that the token has read access to the private repository and that checkout credentials are not overriding it."
+            exit 1
+          fi
+
       - name: Validate Composer configuration
         run: composer validate --strict --no-check-publish
 
       - name: Cache Composer dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ~/.composer/cache/files
           key: composer-${{ runner.os }}-${{ hashFiles('composer.lock') }}
