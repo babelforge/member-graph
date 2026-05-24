@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Query;
+namespace BabelForge\MemberGraph\Application\Query;
 
-use PhpNoobs\MemberGraph\Domain\Graph\MemberId;
-use PhpNoobs\MemberGraph\Domain\Usage\MemberUsageType;
+use BabelForge\MemberGraph\Domain\Graph\MemberId;
+use BabelForge\MemberGraph\Domain\Usage\MemberUsageType;
 
 /**
  * Represents one exact member-to-member dependency observed in the graph.

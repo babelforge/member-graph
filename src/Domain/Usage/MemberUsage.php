@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Domain\Usage;
+namespace BabelForge\MemberGraph\Domain\Usage;
 
-use PhpNoobs\MemberGraph\Domain\Graph\MemberId;
-use PhpNoobs\MemberGraph\Domain\Source\SourceNodeId;
+use BabelForge\MemberGraph\Domain\Graph\MemberId;
+use BabelForge\MemberGraph\Domain\Source\SourceNodeId;
 
 /**
  * Represents a usage of a member.

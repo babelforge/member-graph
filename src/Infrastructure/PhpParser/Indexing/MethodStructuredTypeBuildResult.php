@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Infrastructure\PhpParser\Indexing;
+namespace BabelForge\MemberGraph\Infrastructure\PhpParser\Indexing;
 
-use PhpNoobs\MemberGraph\Domain\Index\Method\MethodParameterStructuredTypeIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Method\MethodReturnStructuredTypeIndex;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
+use BabelForge\MemberGraph\Domain\Index\Method\MethodParameterStructuredTypeIndex;
+use BabelForge\MemberGraph\Domain\Index\Method\MethodReturnStructuredTypeIndex;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
 
 /**
  * Class MethodStructuredTypeBuildResult.

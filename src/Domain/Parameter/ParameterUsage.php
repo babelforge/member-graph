@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Domain\Parameter;
+namespace BabelForge\MemberGraph\Domain\Parameter;
 
-use PhpNoobs\MemberGraph\Domain\Source\SourceNodeId;
+use BabelForge\MemberGraph\Domain\Source\SourceNodeId;
 
 /**
  * Represents one parameter usage.

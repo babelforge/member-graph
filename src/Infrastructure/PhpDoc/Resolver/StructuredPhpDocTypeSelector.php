@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver;
+namespace BabelForge\MemberGraph\Infrastructure\PhpDoc\Resolver;
 
 /**
  * Selects the richest structured PHPDoc type while preserving the current tie-break policy.

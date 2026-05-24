@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Cache\Snapshot\Declaration;
+namespace BabelForge\MemberGraph\Application\Cache\Snapshot\Declaration;
 
-use PhpNoobs\MemberGraph\Application\Cache\Plan\MemberGraphCacheFileCollection;
+use BabelForge\MemberGraph\Application\Cache\Plan\MemberGraphCacheFileCollection;
 
 /**
  * Merges cached and loaded declaration snapshots for a future partial rebuild.

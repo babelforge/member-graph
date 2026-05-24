@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Domain\Type;
+namespace BabelForge\MemberGraph\Domain\Type;
 
-use PhpNoobs\MemberGraph\Domain\Symbol\SymbolCollection;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
+use BabelForge\MemberGraph\Domain\Symbol\SymbolCollection;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
 
 /**
  * Class VariableTypeInfo.

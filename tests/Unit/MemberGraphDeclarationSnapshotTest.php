@@ -2,23 +2,23 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Tests\Unit;
+namespace BabelForge\MemberGraph\Tests\Unit;
 
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\Declaration\ClassConstantDeclarationSnapshot;
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\Declaration\ClassConstantDeclarationSnapshotCollection;
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\Declaration\FunctionDeclarationSnapshot;
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\Declaration\FunctionDeclarationSnapshotCollection;
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\Declaration\MethodDeclarationSnapshot;
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\Declaration\MethodDeclarationSnapshotCollection;
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\Declaration\OwnerDeclarationSnapshot;
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\Declaration\OwnerDeclarationSnapshotCollection;
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\Declaration\ParameterDeclarationSnapshot;
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\Declaration\ParameterDeclarationSnapshotCollection;
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\Declaration\PropertyDeclarationSnapshot;
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\Declaration\PropertyDeclarationSnapshotCollection;
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\Declaration\TemplateDeclarationSnapshot;
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\Declaration\TemplateDeclarationSnapshotCollection;
-use PhpNoobs\MemberGraph\Domain\Owner\OwnerKind;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\Declaration\ClassConstantDeclarationSnapshot;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\Declaration\ClassConstantDeclarationSnapshotCollection;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\Declaration\FunctionDeclarationSnapshot;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\Declaration\FunctionDeclarationSnapshotCollection;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\Declaration\MethodDeclarationSnapshot;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\Declaration\MethodDeclarationSnapshotCollection;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\Declaration\OwnerDeclarationSnapshot;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\Declaration\OwnerDeclarationSnapshotCollection;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\Declaration\ParameterDeclarationSnapshot;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\Declaration\ParameterDeclarationSnapshotCollection;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\Declaration\PropertyDeclarationSnapshot;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\Declaration\PropertyDeclarationSnapshotCollection;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\Declaration\TemplateDeclarationSnapshot;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\Declaration\TemplateDeclarationSnapshotCollection;
+use BabelForge\MemberGraph\Domain\Owner\OwnerKind;
 use PHPUnit\Framework\TestCase;
 
 /**

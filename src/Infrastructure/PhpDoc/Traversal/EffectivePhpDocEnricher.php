@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Traversal;
+namespace BabelForge\MemberGraph\Infrastructure\PhpDoc\Traversal;
 
-use PhpNoobs\MemberGraph\Domain\Owner\KnownOwnerCollection;
-use PhpNoobs\MemberGraph\Domain\Type\TypeIndexContext;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Inheritance\ParentMethodNodeResolver;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Inheritance\PhpDocInheritDocResolver;
+use BabelForge\MemberGraph\Domain\Owner\KnownOwnerCollection;
+use BabelForge\MemberGraph\Domain\Type\TypeIndexContext;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\Inheritance\ParentMethodNodeResolver;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\Inheritance\PhpDocInheritDocResolver;
 use PhpParser\Node\Stmt\ClassMethod;
 
 /**

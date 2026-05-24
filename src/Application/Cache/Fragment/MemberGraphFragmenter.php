@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Cache\Fragment;
+namespace BabelForge\MemberGraph\Application\Cache\Fragment;
 
-use PhpNoobs\MemberGraph\Domain\Declaration\MemberDeclarationCollection;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberDependencyGraph;
-use PhpNoobs\MemberGraph\Domain\Owner\OwnerDeclarationCollection;
-use PhpNoobs\MemberGraph\Domain\Owner\OwnerUsageCollection;
-use PhpNoobs\MemberGraph\Domain\Parameter\ParameterUsageCollection;
-use PhpNoobs\MemberGraph\Domain\Usage\MemberUsageCollection;
-use PhpNoobs\PhpSource\VirtualPhpSourceFileCollection;
+use BabelForge\MemberGraph\Domain\Declaration\MemberDeclarationCollection;
+use BabelForge\MemberGraph\Domain\Graph\MemberDependencyGraph;
+use BabelForge\MemberGraph\Domain\Owner\OwnerDeclarationCollection;
+use BabelForge\MemberGraph\Domain\Owner\OwnerUsageCollection;
+use BabelForge\MemberGraph\Domain\Parameter\ParameterUsageCollection;
+use BabelForge\MemberGraph\Domain\Usage\MemberUsageCollection;
+use BabelForge\PhpSource\VirtualPhpSourceFileCollection;
 
 /**
  * Splits a global member dependency graph into fragments indexed by physical file.

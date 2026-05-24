@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Tests\Unit;
+namespace BabelForge\MemberGraph\Tests\Unit;
 
-use PhpNoobs\MemberGraph\Application\Build\Source\MemberGraphPhpFileScanner;
+use BabelForge\MemberGraph\Application\Build\Source\MemberGraphPhpFileScanner;
 use PHPUnit\Framework\TestCase;
 
 /**

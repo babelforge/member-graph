@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Traversal;
+namespace BabelForge\MemberGraph\Infrastructure\PhpDoc\Traversal;
 
-use PhpNoobs\MemberGraph\Domain\Type\TypeIndexContext;
-use PhpNoobs\MemberGraph\Infrastructure\UseStatements\UsesByAliasCollection;
+use BabelForge\MemberGraph\Domain\Type\TypeIndexContext;
+use BabelForge\MemberGraph\Infrastructure\UseStatements\UsesByAliasCollection;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\GroupUse;

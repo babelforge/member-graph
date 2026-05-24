@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Project;
+namespace BabelForge\MemberGraph\Application\Project;
 
-use PhpNoobs\MemberGraph\Application\Validator\CompatibilityValidatorInterface;
-use PhpNoobs\MemberGraph\Domain\Availability\AvailableMember;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberType;
+use BabelForge\MemberGraph\Application\Validator\CompatibilityValidatorInterface;
+use BabelForge\MemberGraph\Domain\Availability\AvailableMember;
+use BabelForge\MemberGraph\Domain\Graph\MemberType;
 
 /**
  * Groups available members that must be checked for compatibility.

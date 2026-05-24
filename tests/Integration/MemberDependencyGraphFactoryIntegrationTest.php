@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Tests\Integration;
+namespace BabelForge\MemberGraph\Tests\Integration;
 
-use PhpNoobs\MemberGraph\Application\Build\Factory\MemberDependencyGraphBuild;
-use PhpNoobs\MemberGraph\Application\Build\Factory\MemberDependencyGraphFactory;
-use PhpNoobs\MemberGraph\Application\Build\Factory\Mode\MemberDependencyGraphFactoryBuildMode;
-use PhpNoobs\MemberGraph\Application\Query\MemberDependency;
-use PhpNoobs\MemberGraph\Application\Query\MemberGraphQueryService;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberId;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberType;
-use PhpNoobs\MemberGraph\Domain\Usage\MemberUsageType;
+use BabelForge\MemberGraph\Application\Build\Factory\MemberDependencyGraphBuild;
+use BabelForge\MemberGraph\Application\Build\Factory\MemberDependencyGraphFactory;
+use BabelForge\MemberGraph\Application\Build\Factory\Mode\MemberDependencyGraphFactoryBuildMode;
+use BabelForge\MemberGraph\Application\Query\MemberDependency;
+use BabelForge\MemberGraph\Application\Query\MemberGraphQueryService;
+use BabelForge\MemberGraph\Domain\Graph\MemberId;
+use BabelForge\MemberGraph\Domain\Graph\MemberType;
+use BabelForge\MemberGraph\Domain\Usage\MemberUsageType;
 use PHPUnit\Framework\TestCase;
 
 /**

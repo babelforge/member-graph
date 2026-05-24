@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Build\PartialGraph\Assembly;
+namespace BabelForge\MemberGraph\Application\Build\PartialGraph\Assembly;
 
-use PhpNoobs\MemberGraph\Application\Build\GlobalIndex\MemberGraphPartialGlobalIndexesBuilder;
-use PhpNoobs\MemberGraph\Application\Build\PartialGraph\Input\MemberDependencyGraphPartialRebuildInput;
-use PhpNoobs\MemberGraph\Application\Build\PartialGraph\Input\MemberDependencyGraphPartialRebuildPreparedInput;
-use PhpNoobs\MemberGraph\Application\Build\PartialGraph\SourceView\MemberDependencyGraphPartialRebuildSourceViewBuilder;
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\Declaration\MemberGraphDeclarationSnapshot;
-use PhpNoobs\MemberGraph\Application\Source\MemberGraphPhpSourceRegistryInstance;
+use BabelForge\MemberGraph\Application\Build\GlobalIndex\MemberGraphPartialGlobalIndexesBuilder;
+use BabelForge\MemberGraph\Application\Build\PartialGraph\Input\MemberDependencyGraphPartialRebuildInput;
+use BabelForge\MemberGraph\Application\Build\PartialGraph\Input\MemberDependencyGraphPartialRebuildPreparedInput;
+use BabelForge\MemberGraph\Application\Build\PartialGraph\SourceView\MemberDependencyGraphPartialRebuildSourceViewBuilder;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\Declaration\MemberGraphDeclarationSnapshot;
+use BabelForge\MemberGraph\Application\Source\MemberGraphPhpSourceRegistryInstance;
 
 /**
  * Assembles the reusable data required by a future partial member dependency graph rebuild.

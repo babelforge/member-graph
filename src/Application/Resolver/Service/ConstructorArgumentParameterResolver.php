@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Resolver\Service;
+namespace BabelForge\MemberGraph\Application\Resolver\Service;
 
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\Variable;

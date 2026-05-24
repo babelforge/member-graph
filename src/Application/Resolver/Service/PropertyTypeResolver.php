@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Resolver\Service;
+namespace BabelForge\MemberGraph\Application\Resolver\Service;
 
-use PhpNoobs\MemberGraph\Domain\Index\Property\PropertyStructuredTypeIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Property\PropertyTypeIndex;
-use PhpNoobs\MemberGraph\Domain\Owner\KnownOwnerCollection;
-use PhpNoobs\MemberGraph\Domain\Symbol\SymbolCollection;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
+use BabelForge\MemberGraph\Domain\Index\Property\PropertyStructuredTypeIndex;
+use BabelForge\MemberGraph\Domain\Index\Property\PropertyTypeIndex;
+use BabelForge\MemberGraph\Domain\Owner\KnownOwnerCollection;
+use BabelForge\MemberGraph\Domain\Symbol\SymbolCollection;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
 use PhpParser\Node\Expr\StaticPropertyFetch;
 use PhpParser\Node\Name;
 use PhpParser\Node\VarLikeIdentifier;

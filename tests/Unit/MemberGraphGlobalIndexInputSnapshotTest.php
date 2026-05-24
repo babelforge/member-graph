@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Tests\Unit;
+namespace BabelForge\MemberGraph\Tests\Unit;
 
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\MemberGraphGlobalIndexInputSnapshot;
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\MemberGraphGlobalIndexInputSnapshotBuilder;
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\MemberGraphVirtualSourceMetadata;
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\MemberGraphVirtualSourceMetadataCollection;
-use PhpNoobs\MemberGraph\Domain\Owner\KnownOwner;
-use PhpNoobs\MemberGraph\Domain\Owner\KnownOwnerCollection;
-use PhpNoobs\MemberGraph\Domain\Owner\OwnerKind;
-use PhpNoobs\PhpSource\VirtualPhpSourceFile;
-use PhpNoobs\PhpSource\VirtualPhpSourceFileCollection;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\MemberGraphGlobalIndexInputSnapshot;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\MemberGraphGlobalIndexInputSnapshotBuilder;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\MemberGraphVirtualSourceMetadata;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\MemberGraphVirtualSourceMetadataCollection;
+use BabelForge\MemberGraph\Domain\Owner\KnownOwner;
+use BabelForge\MemberGraph\Domain\Owner\KnownOwnerCollection;
+use BabelForge\MemberGraph\Domain\Owner\OwnerKind;
+use BabelForge\PhpSource\VirtualPhpSourceFile;
+use BabelForge\PhpSource\VirtualPhpSourceFileCollection;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\Function_;

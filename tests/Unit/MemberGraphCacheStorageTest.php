@@ -2,23 +2,23 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Tests\Unit;
+namespace BabelForge\MemberGraph\Tests\Unit;
 
-use PhpNoobs\MemberGraph\Application\Cache\Core\MemberGraphCacheLoadStatus;
-use PhpNoobs\MemberGraph\Application\Cache\Core\MemberGraphCachePayload;
-use PhpNoobs\MemberGraph\Application\Cache\Core\MemberGraphCachePayloadCompatibilityChecker;
-use PhpNoobs\MemberGraph\Application\Cache\Core\MemberGraphCachePayloadMigrationStatus;
-use PhpNoobs\MemberGraph\Application\Cache\Core\MemberGraphCachePayloadMigrator;
-use PhpNoobs\MemberGraph\Application\Cache\Core\MemberGraphCachePayloadSerializer;
-use PhpNoobs\MemberGraph\Application\Cache\Core\MemberGraphCacheStorage;
-use PhpNoobs\MemberGraph\Application\Cache\Core\MemberGraphCacheWriteStatus;
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\Declaration\MemberGraphDeclarationSnapshot;
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\Declaration\OwnerDeclarationSnapshot;
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\Declaration\OwnerDeclarationSnapshotCollection;
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\MemberGraphGlobalIndexInputSnapshot;
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\MemberGraphVirtualSourceMetadata;
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\MemberGraphVirtualSourceMetadataCollection;
-use PhpNoobs\MemberGraph\Domain\Owner\OwnerKind;
+use BabelForge\MemberGraph\Application\Cache\Core\MemberGraphCacheLoadStatus;
+use BabelForge\MemberGraph\Application\Cache\Core\MemberGraphCachePayload;
+use BabelForge\MemberGraph\Application\Cache\Core\MemberGraphCachePayloadCompatibilityChecker;
+use BabelForge\MemberGraph\Application\Cache\Core\MemberGraphCachePayloadMigrationStatus;
+use BabelForge\MemberGraph\Application\Cache\Core\MemberGraphCachePayloadMigrator;
+use BabelForge\MemberGraph\Application\Cache\Core\MemberGraphCachePayloadSerializer;
+use BabelForge\MemberGraph\Application\Cache\Core\MemberGraphCacheStorage;
+use BabelForge\MemberGraph\Application\Cache\Core\MemberGraphCacheWriteStatus;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\Declaration\MemberGraphDeclarationSnapshot;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\Declaration\OwnerDeclarationSnapshot;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\Declaration\OwnerDeclarationSnapshotCollection;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\MemberGraphGlobalIndexInputSnapshot;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\MemberGraphVirtualSourceMetadata;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\MemberGraphVirtualSourceMetadataCollection;
+use BabelForge\MemberGraph\Domain\Owner\OwnerKind;
 use PHPUnit\Framework\TestCase;
 
 /**

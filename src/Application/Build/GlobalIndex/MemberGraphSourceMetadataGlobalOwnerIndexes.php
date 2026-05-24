@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Build\GlobalIndex;
+namespace BabelForge\MemberGraph\Application\Build\GlobalIndex;
 
-use PhpNoobs\MemberGraph\Domain\Index\Polymorphism\PolymorphicImplementationsIndex;
-use PhpNoobs\MemberGraph\Domain\Owner\KnownOwnerCollection;
+use BabelForge\MemberGraph\Domain\Index\Polymorphism\PolymorphicImplementationsIndex;
+use BabelForge\MemberGraph\Domain\Owner\KnownOwnerCollection;
 
 /**
  * Carries global owner indexes rebuilt from cacheable source metadata.

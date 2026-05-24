@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Tests\Unit;
+namespace BabelForge\MemberGraph\Tests\Unit;
 
-use PhpNoobs\MemberGraph\Application\Build\Factory\MemberDependencyGraphFactory;
-use PhpNoobs\MemberGraph\Application\Build\Factory\MemberDependencyGraphFactoryOptions;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberId;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberType;
+use BabelForge\MemberGraph\Application\Build\Factory\MemberDependencyGraphFactory;
+use BabelForge\MemberGraph\Application\Build\Factory\MemberDependencyGraphFactoryOptions;
+use BabelForge\MemberGraph\Domain\Graph\MemberId;
+use BabelForge\MemberGraph\Domain\Graph\MemberType;
 
 /**
  * Covers generic partial rebuild impact, deletion, and replacement scenarios for the member dependency graph factory.

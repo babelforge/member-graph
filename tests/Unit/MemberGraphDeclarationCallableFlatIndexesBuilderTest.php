@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Tests\Unit;
+namespace BabelForge\MemberGraph\Tests\Unit;
 
-use PhpNoobs\MemberGraph\Application\Build\GlobalIndex\MemberGraphDeclarationCallableFlatIndexesBuilder;
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\Declaration\FunctionDeclarationSnapshot;
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\Declaration\MemberGraphDeclarationSnapshot;
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\Declaration\MethodDeclarationSnapshot;
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\Declaration\ParameterDeclarationSnapshot;
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\Declaration\ParameterDeclarationSnapshotCollection;
+use BabelForge\MemberGraph\Application\Build\GlobalIndex\MemberGraphDeclarationCallableFlatIndexesBuilder;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\Declaration\FunctionDeclarationSnapshot;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\Declaration\MemberGraphDeclarationSnapshot;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\Declaration\MethodDeclarationSnapshot;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\Declaration\ParameterDeclarationSnapshot;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\Declaration\ParameterDeclarationSnapshotCollection;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;

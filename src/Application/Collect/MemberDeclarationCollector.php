@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Collect;
+namespace BabelForge\MemberGraph\Application\Collect;
 
-use PhpNoobs\MemberGraph\Domain\Declaration\MemberDeclaration;
-use PhpNoobs\MemberGraph\Domain\Declaration\MemberDeclarationCollection;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberId;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberType;
-use PhpNoobs\MemberGraph\Domain\Source\SourceNodeId;
+use BabelForge\MemberGraph\Domain\Declaration\MemberDeclaration;
+use BabelForge\MemberGraph\Domain\Declaration\MemberDeclarationCollection;
+use BabelForge\MemberGraph\Domain\Graph\MemberId;
+use BabelForge\MemberGraph\Domain\Graph\MemberType;
+use BabelForge\MemberGraph\Domain\Source\SourceNodeId;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassMethod;

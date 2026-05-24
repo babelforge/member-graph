@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Query;
+namespace BabelForge\MemberGraph\Application\Query;
 
 /**
  * Stores member dependencies without duplicates.

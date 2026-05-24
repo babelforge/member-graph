@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Traversal;
+namespace BabelForge\MemberGraph\Infrastructure\PhpDoc\Traversal;
 
-use PhpNoobs\MemberGraph\Application\Issue\MemberGraphIssueCollection;
-use PhpNoobs\MemberGraph\Application\Source\MemberGraphPhpSourceRegistryInstance;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Extractor\ParamPhpDocTypeExtractorFactory;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Extractor\ReturnPhpDocTypeExtractorFactory;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Inheritance\ParentMethodNodeResolver;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Template\PhpDocTemplateDefinitionExtractorFactory;
+use BabelForge\MemberGraph\Application\Issue\MemberGraphIssueCollection;
+use BabelForge\MemberGraph\Application\Source\MemberGraphPhpSourceRegistryInstance;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\Extractor\ParamPhpDocTypeExtractorFactory;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\Extractor\ReturnPhpDocTypeExtractorFactory;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\Inheritance\ParentMethodNodeResolver;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\Template\PhpDocTemplateDefinitionExtractorFactory;
 
 /**
  * Class EffectivePhpDocEnricherFactory.

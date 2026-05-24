@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver;
+namespace BabelForge\MemberGraph\Infrastructure\PhpDoc\Resolver;
 
-use PhpNoobs\MemberGraph\Domain\Symbol\SymbolCollection;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Template\PhpDocTemplateSubstitutionContext;
+use BabelForge\MemberGraph\Domain\Symbol\SymbolCollection;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\Template\PhpDocTemplateSubstitutionContext;
 
 /**
  * Substitutes template references inside one resolved PHPDoc type tree.

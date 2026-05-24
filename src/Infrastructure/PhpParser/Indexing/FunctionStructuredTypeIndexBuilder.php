@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Infrastructure\PhpParser\Indexing;
+namespace BabelForge\MemberGraph\Infrastructure\PhpParser\Indexing;
 
-use PhpNoobs\MemberGraph\Domain\Index\Function\FunctionParameterStructuredTypeIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Function\FunctionReturnStructuredTypeIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Function\FunctionReturnTypeIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Template\PhpDocTemplateDefinitionCollection;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Extractor\ParamPhpDocTypeExtractor;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Extractor\PhpDocTemplateDefinitionExtractor;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Extractor\ReturnPhpDocTypeExtractor;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\PhpDocTagKind;
+use BabelForge\MemberGraph\Domain\Index\Function\FunctionParameterStructuredTypeIndex;
+use BabelForge\MemberGraph\Domain\Index\Function\FunctionReturnStructuredTypeIndex;
+use BabelForge\MemberGraph\Domain\Index\Function\FunctionReturnTypeIndex;
+use BabelForge\MemberGraph\Domain\Index\Template\PhpDocTemplateDefinitionCollection;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\Extractor\ParamPhpDocTypeExtractor;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\Extractor\PhpDocTemplateDefinitionExtractor;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\Extractor\ReturnPhpDocTypeExtractor;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\Resolver\PhpDocTagKind;
 use PhpParser\Node\Stmt\Function_;
 
 /**

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Build\Factory;
+namespace BabelForge\MemberGraph\Application\Build\Factory;
 
 /**
  * Carries optional member dependency graph factory behavior flags.

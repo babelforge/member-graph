@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Tests\Integration;
+namespace BabelForge\MemberGraph\Tests\Integration;
 
-use PhpNoobs\MemberGraph\Application\Build\Factory\MemberDependencyGraphFactory;
-use PhpNoobs\MemberGraph\Application\Topology\Api\MemberGraphTopologyApi;
-use PhpNoobs\MemberGraph\Application\Topology\Export\MemberGraphTopologyArrayExporter;
-use PhpNoobs\MemberGraph\Application\Topology\Export\MemberGraphTopologyJsonExporter;
-use PhpNoobs\MemberGraph\Application\Topology\Export\MemberGraphTopologyMermaidExporter;
-use PhpNoobs\MemberGraph\Application\Topology\Filter\MemberGraphTopologyFilter;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberType;
+use BabelForge\MemberGraph\Application\Build\Factory\MemberDependencyGraphFactory;
+use BabelForge\MemberGraph\Application\Topology\Api\MemberGraphTopologyApi;
+use BabelForge\MemberGraph\Application\Topology\Export\MemberGraphTopologyArrayExporter;
+use BabelForge\MemberGraph\Application\Topology\Export\MemberGraphTopologyJsonExporter;
+use BabelForge\MemberGraph\Application\Topology\Export\MemberGraphTopologyMermaidExporter;
+use BabelForge\MemberGraph\Application\Topology\Filter\MemberGraphTopologyFilter;
+use BabelForge\MemberGraph\Domain\Graph\MemberType;
 use PHPUnit\Framework\TestCase;
 
 /**

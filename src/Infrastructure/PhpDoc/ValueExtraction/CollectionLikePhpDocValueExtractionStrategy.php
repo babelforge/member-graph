@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Infrastructure\PhpDoc\ValueExtraction;
+namespace BabelForge\MemberGraph\Infrastructure\PhpDoc\ValueExtraction;
 
-use PhpNoobs\MemberGraph\Domain\Symbol\SymbolCollection;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
+use BabelForge\MemberGraph\Domain\Symbol\SymbolCollection;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
 
 /**
  * Extracts value-like symbols from common collection-like PHPDoc types.

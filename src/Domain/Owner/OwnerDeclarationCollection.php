@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Domain\Owner;
+namespace BabelForge\MemberGraph\Domain\Owner;
 
 /**
  * Stores owner declarations indexed by owner FQCN.

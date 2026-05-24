@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Domain\Index\Function;
+namespace BabelForge\MemberGraph\Domain\Index\Function;
 
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
 
 /**
  * Class FunctionStructuredParameterTypeIndex.

@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Source\Node;
+namespace BabelForge\MemberGraph\Application\Source\Node;
 
-use PhpNoobs\MemberGraph\Application\Build\Factory\MemberDependencyGraphBuild;
-use PhpNoobs\MemberGraph\Domain\Availability\AvailableMember;
-use PhpNoobs\MemberGraph\Domain\Declaration\MemberDeclaration;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberDependencyGraph;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberId;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberType;
-use PhpNoobs\MemberGraph\Domain\Source\SourceNodeId;
-use PhpNoobs\PhpSource\VirtualPhpSourceFile;
-use PhpNoobs\PhpSource\VirtualPhpSourceFileCollection;
+use BabelForge\MemberGraph\Application\Build\Factory\MemberDependencyGraphBuild;
+use BabelForge\MemberGraph\Domain\Availability\AvailableMember;
+use BabelForge\MemberGraph\Domain\Declaration\MemberDeclaration;
+use BabelForge\MemberGraph\Domain\Graph\MemberDependencyGraph;
+use BabelForge\MemberGraph\Domain\Graph\MemberId;
+use BabelForge\MemberGraph\Domain\Graph\MemberType;
+use BabelForge\MemberGraph\Domain\Source\SourceNodeId;
+use BabelForge\PhpSource\VirtualPhpSourceFile;
+use BabelForge\PhpSource\VirtualPhpSourceFileCollection;
 use PhpParser\Node;
 use PhpParser\Node\Const_;
 use PhpParser\Node\Expr\Variable;

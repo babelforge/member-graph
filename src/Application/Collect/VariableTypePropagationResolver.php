@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Collect;
+namespace BabelForge\MemberGraph\Application\Collect;
 
-use PhpNoobs\MemberGraph\Domain\Symbol\SymbolCollection;
-use PhpNoobs\MemberGraph\Domain\Type\VariableTypeInfo;
-use PhpNoobs\MemberGraph\Domain\Type\VariableTypeSource;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\ValueExtraction\FallbackPhpDocValueExtractionStrategy;
+use BabelForge\MemberGraph\Domain\Symbol\SymbolCollection;
+use BabelForge\MemberGraph\Domain\Type\VariableTypeInfo;
+use BabelForge\MemberGraph\Domain\Type\VariableTypeSource;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\ValueExtraction\FallbackPhpDocValueExtractionStrategy;
 
 /**
  * Resolves variable type information produced by local assignments.

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Source\Node;
+namespace BabelForge\MemberGraph\Application\Source\Node;
 
 /**
  * Describes the kind of neutral symbol-scope fact exposed by source scope queries.

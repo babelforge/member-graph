@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Build\Factory\Mode;
+namespace BabelForge\MemberGraph\Application\Build\Factory\Mode;
 
 /**
  * Enumerates member dependency graph factory build modes.

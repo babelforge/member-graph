@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Domain\Index\Method;
+namespace BabelForge\MemberGraph\Domain\Index\Method;
 
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
 
 /**
  * Stores inferred structured return types for methods.

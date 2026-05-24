@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Cache\VirtualFile;
+namespace BabelForge\MemberGraph\Application\Cache\VirtualFile;
 
 /**
  * References a virtual registry file through lightweight cacheable metadata.

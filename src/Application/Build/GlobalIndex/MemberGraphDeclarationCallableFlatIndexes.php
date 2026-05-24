@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Build\GlobalIndex;
+namespace BabelForge\MemberGraph\Application\Build\GlobalIndex;
 
-use PhpNoobs\MemberGraph\Domain\Index\Function\FunctionParameterTypeIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Function\FunctionReturnTypeIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Method\MethodParameterTypeIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Method\MethodReturnTypeIndex;
+use BabelForge\MemberGraph\Domain\Index\Function\FunctionParameterTypeIndex;
+use BabelForge\MemberGraph\Domain\Index\Function\FunctionReturnTypeIndex;
+use BabelForge\MemberGraph\Domain\Index\Method\MethodParameterTypeIndex;
+use BabelForge\MemberGraph\Domain\Index\Method\MethodReturnTypeIndex;
 
 /**
  * Carries callable flat indexes rebuilt from cacheable declaration snapshots.

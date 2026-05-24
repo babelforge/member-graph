@@ -2,27 +2,27 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Query;
+namespace BabelForge\MemberGraph\Application\Query;
 
-use PhpNoobs\MemberGraph\Application\Impact\ImpactedFileCollection;
-use PhpNoobs\MemberGraph\Application\Impact\ImpactedOwnerCollection;
-use PhpNoobs\MemberGraph\Application\Impact\MemberImpact;
-use PhpNoobs\MemberGraph\Application\Impact\MemberImpactResolver;
-use PhpNoobs\MemberGraph\Application\Impact\MemberImpactTarget;
-use PhpNoobs\MemberGraph\Domain\Availability\AvailableMemberCollection;
-use PhpNoobs\MemberGraph\Domain\Declaration\MemberDeclaration;
-use PhpNoobs\MemberGraph\Domain\Declaration\MemberDeclarationCollection;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberDependencyGraph;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberId;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberType;
-use PhpNoobs\MemberGraph\Domain\Owner\KnownOwnerCollection;
-use PhpNoobs\MemberGraph\Domain\Owner\OwnerDeclaration;
-use PhpNoobs\MemberGraph\Domain\Owner\OwnerDeclarationCollection;
-use PhpNoobs\MemberGraph\Domain\Owner\OwnerUsageCollection;
-use PhpNoobs\MemberGraph\Domain\Parameter\ParameterId;
-use PhpNoobs\MemberGraph\Domain\Parameter\ParameterUsageCollection;
-use PhpNoobs\MemberGraph\Domain\Usage\MemberUsage;
-use PhpNoobs\MemberGraph\Domain\Usage\MemberUsageCollection;
+use BabelForge\MemberGraph\Application\Impact\ImpactedFileCollection;
+use BabelForge\MemberGraph\Application\Impact\ImpactedOwnerCollection;
+use BabelForge\MemberGraph\Application\Impact\MemberImpact;
+use BabelForge\MemberGraph\Application\Impact\MemberImpactResolver;
+use BabelForge\MemberGraph\Application\Impact\MemberImpactTarget;
+use BabelForge\MemberGraph\Domain\Availability\AvailableMemberCollection;
+use BabelForge\MemberGraph\Domain\Declaration\MemberDeclaration;
+use BabelForge\MemberGraph\Domain\Declaration\MemberDeclarationCollection;
+use BabelForge\MemberGraph\Domain\Graph\MemberDependencyGraph;
+use BabelForge\MemberGraph\Domain\Graph\MemberId;
+use BabelForge\MemberGraph\Domain\Graph\MemberType;
+use BabelForge\MemberGraph\Domain\Owner\KnownOwnerCollection;
+use BabelForge\MemberGraph\Domain\Owner\OwnerDeclaration;
+use BabelForge\MemberGraph\Domain\Owner\OwnerDeclarationCollection;
+use BabelForge\MemberGraph\Domain\Owner\OwnerUsageCollection;
+use BabelForge\MemberGraph\Domain\Parameter\ParameterId;
+use BabelForge\MemberGraph\Domain\Parameter\ParameterUsageCollection;
+use BabelForge\MemberGraph\Domain\Usage\MemberUsage;
+use BabelForge\MemberGraph\Domain\Usage\MemberUsageCollection;
 
 /**
  * Provides read-side queries over a member dependency graph.

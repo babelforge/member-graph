@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Cache\Snapshot;
+namespace BabelForge\MemberGraph\Application\Cache\Snapshot;
 
-use PhpNoobs\MemberGraph\Domain\Owner\KnownOwner;
-use PhpNoobs\MemberGraph\Domain\Owner\OwnerKind;
+use BabelForge\MemberGraph\Domain\Owner\KnownOwner;
+use BabelForge\MemberGraph\Domain\Owner\OwnerKind;
 
 /**
  * Stores cacheable source metadata for one virtual registry file.

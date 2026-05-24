@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Build\PartialGraph\Input;
+namespace BabelForge\MemberGraph\Application\Build\PartialGraph\Input;
 
-use PhpNoobs\MemberGraph\Application\Build\GlobalIndex\MemberGraphPartialGlobalIndexes;
-use PhpNoobs\MemberGraph\Application\Build\PartialGraph\SourceView\MemberDependencyGraphPartialRebuildSourceView;
-use PhpNoobs\MemberGraph\Application\Cache\Fragment\MemberGraphFragmentCollection;
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\Declaration\MemberGraphDeclarationSnapshot;
+use BabelForge\MemberGraph\Application\Build\GlobalIndex\MemberGraphPartialGlobalIndexes;
+use BabelForge\MemberGraph\Application\Build\PartialGraph\SourceView\MemberDependencyGraphPartialRebuildSourceView;
+use BabelForge\MemberGraph\Application\Cache\Fragment\MemberGraphFragmentCollection;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\Declaration\MemberGraphDeclarationSnapshot;
 
 /**
  * Carries the data prepared for a future partial member dependency graph rebuild.

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Build\Source;
+namespace BabelForge\MemberGraph\Application\Build\Source;
 
 /**
  * Scans PHP source files for member dependency graph builds.

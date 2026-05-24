@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Topology;
+namespace BabelForge\MemberGraph\Application\Topology;
 
 /**
  * Enum describing topology node families.

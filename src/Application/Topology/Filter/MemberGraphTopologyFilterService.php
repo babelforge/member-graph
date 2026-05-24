@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Topology\Filter;
+namespace BabelForge\MemberGraph\Application\Topology\Filter;
 
-use PhpNoobs\MemberGraph\Application\Topology\MemberGraphTopology;
-use PhpNoobs\MemberGraph\Application\Topology\MemberGraphTopologyEdge;
-use PhpNoobs\MemberGraph\Application\Topology\MemberGraphTopologyEdgeCollection;
-use PhpNoobs\MemberGraph\Application\Topology\MemberGraphTopologyEdgeKind;
-use PhpNoobs\MemberGraph\Application\Topology\MemberGraphTopologyNode;
-use PhpNoobs\MemberGraph\Application\Topology\MemberGraphTopologyNodeCollection;
-use PhpNoobs\MemberGraph\Application\Topology\MemberGraphTopologyNodeKind;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberType;
+use BabelForge\MemberGraph\Application\Topology\MemberGraphTopology;
+use BabelForge\MemberGraph\Application\Topology\MemberGraphTopologyEdge;
+use BabelForge\MemberGraph\Application\Topology\MemberGraphTopologyEdgeCollection;
+use BabelForge\MemberGraph\Application\Topology\MemberGraphTopologyEdgeKind;
+use BabelForge\MemberGraph\Application\Topology\MemberGraphTopologyNode;
+use BabelForge\MemberGraph\Application\Topology\MemberGraphTopologyNodeCollection;
+use BabelForge\MemberGraph\Application\Topology\MemberGraphTopologyNodeKind;
+use BabelForge\MemberGraph\Domain\Graph\MemberType;
 
 /**
  * Applies read-side filters to topology projections.

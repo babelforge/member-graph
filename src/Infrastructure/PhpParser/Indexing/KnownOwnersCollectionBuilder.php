@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Infrastructure\PhpParser\Indexing;
+namespace BabelForge\MemberGraph\Infrastructure\PhpParser\Indexing;
 
-use PhpNoobs\MemberGraph\Domain\Owner\KnownOwnerCollection;
+use BabelForge\MemberGraph\Domain\Owner\KnownOwnerCollection;
 use PhpParser\Node;
 use PhpParser\NodeTraverser;
 

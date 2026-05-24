@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Tests\Integration;
+namespace BabelForge\MemberGraph\Tests\Integration;
 
-use PhpNoobs\MemberGraph\Application\Build\Factory\MemberDependencyGraphBuild;
-use PhpNoobs\MemberGraph\Application\Build\Factory\MemberDependencyGraphFactory;
-use PhpNoobs\MemberGraph\Application\Build\Projection\MemberGraphBuildOverlay;
-use PhpNoobs\MemberGraph\Application\Build\Projection\MemberGraphProjectedBuildFactory;
-use PhpNoobs\MemberGraph\Application\Impact\MemberGraphImpactService;
-use PhpNoobs\MemberGraph\Application\Source\Node\MemberGraphSourceNodeLocator;
-use PhpNoobs\MemberGraph\Application\Source\Node\MemberGraphSymbolScopeLocator;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberId;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberType;
-use PhpNoobs\MemberGraph\Domain\Parameter\ParameterId;
+use BabelForge\MemberGraph\Application\Build\Factory\MemberDependencyGraphBuild;
+use BabelForge\MemberGraph\Application\Build\Factory\MemberDependencyGraphFactory;
+use BabelForge\MemberGraph\Application\Build\Projection\MemberGraphBuildOverlay;
+use BabelForge\MemberGraph\Application\Build\Projection\MemberGraphProjectedBuildFactory;
+use BabelForge\MemberGraph\Application\Impact\MemberGraphImpactService;
+use BabelForge\MemberGraph\Application\Source\Node\MemberGraphSourceNodeLocator;
+use BabelForge\MemberGraph\Application\Source\Node\MemberGraphSymbolScopeLocator;
+use BabelForge\MemberGraph\Domain\Graph\MemberId;
+use BabelForge\MemberGraph\Domain\Graph\MemberType;
+use BabelForge\MemberGraph\Domain\Parameter\ParameterId;
 use PhpParser\Node;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Const_;

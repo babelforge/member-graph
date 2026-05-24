@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Domain\Index\ClassLike;
+namespace BabelForge\MemberGraph\Domain\Index\ClassLike;
 
 use PhpParser\Node\Stmt\ClassLike;
 

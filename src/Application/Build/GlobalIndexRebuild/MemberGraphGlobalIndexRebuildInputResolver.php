@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Build\GlobalIndexRebuild;
+namespace BabelForge\MemberGraph\Application\Build\GlobalIndexRebuild;
 
-use PhpNoobs\MemberGraph\Application\Build\PartialGraph\Input\MemberDependencyGraphPartialRebuildInput;
-use PhpNoobs\MemberGraph\Application\Cache\Plan\MemberGraphCachePathNormalizer;
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\MemberGraphVirtualSourceMetadataCollection;
+use BabelForge\MemberGraph\Application\Build\PartialGraph\Input\MemberDependencyGraphPartialRebuildInput;
+use BabelForge\MemberGraph\Application\Cache\Plan\MemberGraphCachePathNormalizer;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\MemberGraphVirtualSourceMetadataCollection;
 
 /**
  * Resolves cache-backed source metadata for future global-index rebuilds.

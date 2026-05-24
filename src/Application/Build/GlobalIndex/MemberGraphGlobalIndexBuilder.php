@@ -2,32 +2,32 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Build\GlobalIndex;
+namespace BabelForge\MemberGraph\Application\Build\GlobalIndex;
 
-use PhpNoobs\MemberGraph\Application\Build\Input\MemberGraphBuildInput;
-use PhpNoobs\MemberGraph\Application\Issue\MemberGraphIssueCollection;
-use PhpNoobs\MemberGraph\Application\Source\MemberGraphPhpSourceRegistryInstance;
-use PhpNoobs\MemberGraph\Domain\Index\ClassLike\ClassLikeNodeIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Constant\ClassConstantTypeIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Constant\ClassConstantValueIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Function\FunctionNodeIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Function\FunctionParameterTypeIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Function\FunctionReturnInferredStructuredTypeIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Function\FunctionReturnTypeIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Method\MethodNodeIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Method\MethodParameterTypeIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Method\MethodReturnInferredStructuredTypeIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Method\MethodReturnTypeIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Property\PropertyStructuredTypeIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Property\PropertyTypeIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Template\ClassTemplateDefinitionIndex;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\PhpDocTypeNodeResolver;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Template\ClassTemplateDefinitionIndexBuilder;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Template\PhpDocTemplateDefinitionExtractorFactory;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Traversal\EffectivePhpDocEnrichmentTraverser;
-use PhpNoobs\MemberGraph\Infrastructure\PhpParser\Indexing\FileTypeIndexesBuilder;
-use PhpNoobs\MemberGraph\Infrastructure\PhpParser\Indexing\PolymorphicImplementationsIndexBuilder;
-use PhpNoobs\MemberGraph\Infrastructure\PhpParser\Indexing\StructuralNodeIndexBuilder;
+use BabelForge\MemberGraph\Application\Build\Input\MemberGraphBuildInput;
+use BabelForge\MemberGraph\Application\Issue\MemberGraphIssueCollection;
+use BabelForge\MemberGraph\Application\Source\MemberGraphPhpSourceRegistryInstance;
+use BabelForge\MemberGraph\Domain\Index\ClassLike\ClassLikeNodeIndex;
+use BabelForge\MemberGraph\Domain\Index\Constant\ClassConstantTypeIndex;
+use BabelForge\MemberGraph\Domain\Index\Constant\ClassConstantValueIndex;
+use BabelForge\MemberGraph\Domain\Index\Function\FunctionNodeIndex;
+use BabelForge\MemberGraph\Domain\Index\Function\FunctionParameterTypeIndex;
+use BabelForge\MemberGraph\Domain\Index\Function\FunctionReturnInferredStructuredTypeIndex;
+use BabelForge\MemberGraph\Domain\Index\Function\FunctionReturnTypeIndex;
+use BabelForge\MemberGraph\Domain\Index\Method\MethodNodeIndex;
+use BabelForge\MemberGraph\Domain\Index\Method\MethodParameterTypeIndex;
+use BabelForge\MemberGraph\Domain\Index\Method\MethodReturnInferredStructuredTypeIndex;
+use BabelForge\MemberGraph\Domain\Index\Method\MethodReturnTypeIndex;
+use BabelForge\MemberGraph\Domain\Index\Property\PropertyStructuredTypeIndex;
+use BabelForge\MemberGraph\Domain\Index\Property\PropertyTypeIndex;
+use BabelForge\MemberGraph\Domain\Index\Template\ClassTemplateDefinitionIndex;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\Resolver\PhpDocTypeNodeResolver;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\Template\ClassTemplateDefinitionIndexBuilder;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\Template\PhpDocTemplateDefinitionExtractorFactory;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\Traversal\EffectivePhpDocEnrichmentTraverser;
+use BabelForge\MemberGraph\Infrastructure\PhpParser\Indexing\FileTypeIndexesBuilder;
+use BabelForge\MemberGraph\Infrastructure\PhpParser\Indexing\PolymorphicImplementationsIndexBuilder;
+use BabelForge\MemberGraph\Infrastructure\PhpParser\Indexing\StructuralNodeIndexBuilder;
 
 /**
  * Builds the global indexes needed by the member dependency graph pipeline.

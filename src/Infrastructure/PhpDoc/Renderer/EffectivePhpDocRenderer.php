@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Renderer;
+namespace BabelForge\MemberGraph\Infrastructure\PhpDoc\Renderer;
 
-use PhpNoobs\MemberGraph\Domain\Index\Template\PhpDocTemplateDefinition;
-use PhpNoobs\MemberGraph\Domain\Index\Template\PhpDocTemplateDefinitionCollection;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
+use BabelForge\MemberGraph\Domain\Index\Template\PhpDocTemplateDefinition;
+use BabelForge\MemberGraph\Domain\Index\Template\PhpDocTemplateDefinitionCollection;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
 use PhpParser\Comment\Doc;
 
 /**

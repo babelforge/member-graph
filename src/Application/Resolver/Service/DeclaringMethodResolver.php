@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Resolver\Service;
+namespace BabelForge\MemberGraph\Application\Resolver\Service;
 
-use PhpNoobs\MemberGraph\Domain\Index\Method\MethodNodeIndex;
-use PhpNoobs\MemberGraph\Domain\Owner\KnownOwnerCollection;
+use BabelForge\MemberGraph\Domain\Index\Method\MethodNodeIndex;
+use BabelForge\MemberGraph\Domain\Owner\KnownOwnerCollection;
 
 /**
  * Resolves the class-like owner that actually declares an inherited method.

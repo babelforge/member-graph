@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Cache\Snapshot;
+namespace BabelForge\MemberGraph\Application\Cache\Snapshot;
 
-use PhpNoobs\MemberGraph\Domain\Owner\KnownOwnerCollection;
-use PhpNoobs\PhpSource\VirtualPhpSourceFile;
-use PhpNoobs\PhpSource\VirtualPhpSourceFileCollection;
+use BabelForge\MemberGraph\Domain\Owner\KnownOwnerCollection;
+use BabelForge\PhpSource\VirtualPhpSourceFile;
+use BabelForge\PhpSource\VirtualPhpSourceFileCollection;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\Namespace_;

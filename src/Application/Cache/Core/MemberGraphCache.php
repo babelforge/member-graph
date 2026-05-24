@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Cache\Core;
+namespace BabelForge\MemberGraph\Application\Cache\Core;
 
-use PhpNoobs\MemberGraph\Application\Cache\Fingerprint\MemberGraphFileFingerprintResolver;
-use PhpNoobs\MemberGraph\Application\Cache\Fragment\MemberGraphFragmentCollection;
-use PhpNoobs\MemberGraph\Application\Cache\Plan\MemberGraphCacheFilePayload;
-use PhpNoobs\MemberGraph\Application\Cache\Plan\MemberGraphCachePathNormalizer;
-use PhpNoobs\MemberGraph\Application\Cache\Plan\MemberGraphCachePlan;
-use PhpNoobs\MemberGraph\Application\Cache\Plan\MemberGraphCachePlanner;
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\Declaration\MemberGraphDeclarationSnapshot;
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\MemberGraphGlobalIndexInputSnapshot;
-use PhpNoobs\MemberGraph\Application\Cache\VirtualFile\MemberGraphVirtualFileReferenceCollection;
-use PhpNoobs\MemberGraph\Application\Issue\MemberGraphIssueCollection;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberDependencyGraph;
-use PhpNoobs\MemberGraph\Domain\Owner\KnownOwnerCollection;
+use BabelForge\MemberGraph\Application\Cache\Fingerprint\MemberGraphFileFingerprintResolver;
+use BabelForge\MemberGraph\Application\Cache\Fragment\MemberGraphFragmentCollection;
+use BabelForge\MemberGraph\Application\Cache\Plan\MemberGraphCacheFilePayload;
+use BabelForge\MemberGraph\Application\Cache\Plan\MemberGraphCachePathNormalizer;
+use BabelForge\MemberGraph\Application\Cache\Plan\MemberGraphCachePlan;
+use BabelForge\MemberGraph\Application\Cache\Plan\MemberGraphCachePlanner;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\Declaration\MemberGraphDeclarationSnapshot;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\MemberGraphGlobalIndexInputSnapshot;
+use BabelForge\MemberGraph\Application\Cache\VirtualFile\MemberGraphVirtualFileReferenceCollection;
+use BabelForge\MemberGraph\Application\Issue\MemberGraphIssueCollection;
+use BabelForge\MemberGraph\Domain\Graph\MemberDependencyGraph;
+use BabelForge\MemberGraph\Domain\Owner\KnownOwnerCollection;
 
 /**
  * Holds cache configuration for member dependency graph factory builds.

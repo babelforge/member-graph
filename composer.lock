@@ -4,8 +4,72 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fb7d5f7b6a6c677024d2984f351b8b18",
+    "content-hash": "a31ac29ab12a38a02e42524d461122ed",
     "packages": [
+        {
+            "name": "babelforge/php-source-registry",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/babelforge/php-source-registry.git",
+                "reference": "2a457f656f963dc61f7dd6844f6a2ee15a578b58"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/babelforge/php-source-registry/zipball/2a457f656f963dc61f7dd6844f6a2ee15a578b58",
+                "reference": "2a457f656f963dc61f7dd6844f6a2ee15a578b58",
+                "shasum": ""
+            },
+            "require": {
+                "nikic/php-parser": "^5.7",
+                "php": ">=8.4",
+                "psr/log": "^3.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.95",
+                "phpstan/phpstan-deprecation-rules": "^2.0",
+                "phpunit/phpunit": "^12.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "BabelForge\\PhpSource\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "BabelForge\\PhpSource\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "cs": [
+                    "php-cs-fixer fix --dry-run --diff"
+                ],
+                "cs-fix": [
+                    "php-cs-fixer fix"
+                ],
+                "test": [
+                    "phpunit"
+                ],
+                "analyse": [
+                    "phpstan analyse"
+                ],
+                "qa": [
+                    "@cs",
+                    "@analyse",
+                    "@test"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "support": {
+                "source": "https://github.com/babelforge/php-source-registry/tree/main",
+                "issues": "https://github.com/babelforge/php-source-registry/issues"
+            },
+            "time": "2026-05-24T08:37:53+00:00"
+        },
         {
             "name": "nikic/php-parser",
             "version": "v5.7.0",
@@ -63,70 +127,6 @@
                 "source": "https://github.com/nikic/PHP-Parser/tree/v5.7.0"
             },
             "time": "2025-12-06T11:56:16+00:00"
-        },
-        {
-            "name": "php-noobs/php-source-registry",
-            "version": "dev-main",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-noobs/php-source-registry.git",
-                "reference": "7012a7189374b14039970fb935718c3c0f840739"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-noobs/php-source-registry/zipball/7012a7189374b14039970fb935718c3c0f840739",
-                "reference": "7012a7189374b14039970fb935718c3c0f840739",
-                "shasum": ""
-            },
-            "require": {
-                "nikic/php-parser": "^5.7",
-                "php": ">=8.4",
-                "psr/log": "^3.0"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.95",
-                "phpstan/phpstan-deprecation-rules": "^2.0",
-                "phpunit/phpunit": "^12.0"
-            },
-            "default-branch": true,
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "PhpNoobs\\PhpSource\\": "src/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "PhpNoobs\\PhpSource\\Tests\\": "tests/"
-                }
-            },
-            "scripts": {
-                "cs": [
-                    "php-cs-fixer fix --dry-run --diff"
-                ],
-                "cs-fix": [
-                    "php-cs-fixer fix"
-                ],
-                "test": [
-                    "phpunit"
-                ],
-                "analyse": [
-                    "phpstan analyse"
-                ],
-                "qa": [
-                    "@cs",
-                    "@analyse",
-                    "@test"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "support": {
-                "source": "https://github.com/php-noobs/php-source-registry/tree/main",
-                "issues": "https://github.com/php-noobs/php-source-registry/issues"
-            },
-            "time": "2026-05-11T12:15:44+00:00"
         },
         {
             "name": "phpstan/phpdoc-parser",
@@ -4616,7 +4616,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "php-noobs/php-source-registry": 20
+        "babelforge/php-source-registry": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

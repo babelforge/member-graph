@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Build\Projection;
+namespace BabelForge\MemberGraph\Application\Build\Projection;
 
-use PhpNoobs\MemberGraph\Domain\Graph\MemberType;
+use BabelForge\MemberGraph\Domain\Graph\MemberType;
 
 /**
  * Carries semantic identity updates used to project one member graph build.

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Build;
+namespace BabelForge\MemberGraph\Application\Build;
 
-use PhpNoobs\MemberGraph\Application\Build\Context\MemberGraphBuildContext;
-use PhpNoobs\MemberGraph\Application\Resolver\Contracts\ExpressionTypeResolverInterface;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberDependencyGraph;
+use BabelForge\MemberGraph\Application\Build\Context\MemberGraphBuildContext;
+use BabelForge\MemberGraph\Application\Resolver\Contracts\ExpressionTypeResolverInterface;
+use BabelForge\MemberGraph\Domain\Graph\MemberDependencyGraph;
 use PhpParser\Node;
 
 /**

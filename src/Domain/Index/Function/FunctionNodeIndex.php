@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Domain\Index\Function;
+namespace BabelForge\MemberGraph\Domain\Index\Function;
 
 use PhpParser\Node\Stmt\Function_;
 

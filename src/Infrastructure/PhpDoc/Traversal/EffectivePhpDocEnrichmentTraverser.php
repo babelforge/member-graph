@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Traversal;
+namespace BabelForge\MemberGraph\Infrastructure\PhpDoc\Traversal;
 
-use PhpNoobs\MemberGraph\Application\Issue\MemberGraphIssueCollection;
-use PhpNoobs\MemberGraph\Application\Source\MemberGraphPhpSourceRegistryInstance;
-use PhpNoobs\MemberGraph\Domain\Index\Method\MethodNodeIndex;
-use PhpNoobs\MemberGraph\Domain\Owner\KnownOwnerCollection;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Inheritance\ParentMethodNodeResolver;
+use BabelForge\MemberGraph\Application\Issue\MemberGraphIssueCollection;
+use BabelForge\MemberGraph\Application\Source\MemberGraphPhpSourceRegistryInstance;
+use BabelForge\MemberGraph\Domain\Index\Method\MethodNodeIndex;
+use BabelForge\MemberGraph\Domain\Owner\KnownOwnerCollection;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\Inheritance\ParentMethodNodeResolver;
 use PhpParser\Node;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitor\ParentConnectingVisitor;

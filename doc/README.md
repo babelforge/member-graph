@@ -29,7 +29,7 @@ The main pipeline is summarized in [Flowchart.md](./assets/Flowchart.md).
 
 ## External Dependency
 
-`MemberGraph` consumes `php-noobs/php-source-registry` for physical PHP files, virtual source files, PHPParser AST storage, updates, and reassembly.
+`MemberGraph` consumes `babelforge/php-source-registry` for physical PHP files, virtual source files, PHPParser AST storage, updates, and reassembly.
 
 `MemberGraph` owns dependency graph facts, semantic indexes, impact queries, source-node lookup, topology, cache, and partial rebuild behavior.
 

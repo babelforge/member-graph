@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Tests\Integration\Stability;
+namespace BabelForge\MemberGraph\Tests\Integration\Stability;
 
-use PhpNoobs\MemberGraph\Application\Validator\PhpDoc\PhpDocResolutionIssue;
-use PhpNoobs\MemberGraph\Application\Validator\PhpDoc\PhpDocResolutionIssueType;
+use BabelForge\MemberGraph\Application\Validator\PhpDoc\PhpDocResolutionIssue;
+use BabelForge\MemberGraph\Application\Validator\PhpDoc\PhpDocResolutionIssueType;
 
 /**
  * Covers migrated legacy member graph stability fixtures.

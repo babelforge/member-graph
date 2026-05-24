@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Validator;
+namespace BabelForge\MemberGraph\Application\Validator;
 
-use PhpNoobs\MemberGraph\Domain\Availability\AvailableMember;
+use BabelForge\MemberGraph\Domain\Availability\AvailableMember;
 
 /**
  * Optional compatibility validator hook.

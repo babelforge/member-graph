@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Source\Node;
+namespace BabelForge\MemberGraph\Application\Source\Node;
 
-use PhpNoobs\MemberGraph\Application\Build\Factory\MemberDependencyGraphBuild;
-use PhpNoobs\MemberGraph\Application\Impact\MemberGraphImpact;
-use PhpNoobs\MemberGraph\Application\Impact\MemberGraphImpactService;
-use PhpNoobs\MemberGraph\Application\Impact\MemberImpactTarget;
-use PhpNoobs\MemberGraph\Domain\Declaration\MemberDeclaration;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberDependencyGraph;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberId;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberType;
-use PhpNoobs\MemberGraph\Domain\Parameter\ParameterId;
-use PhpNoobs\MemberGraph\Domain\Source\SourceNodeId;
-use PhpNoobs\PhpSource\VirtualPhpSourceFile;
-use PhpNoobs\PhpSource\VirtualPhpSourceFileCollection;
+use BabelForge\MemberGraph\Application\Build\Factory\MemberDependencyGraphBuild;
+use BabelForge\MemberGraph\Application\Impact\MemberGraphImpact;
+use BabelForge\MemberGraph\Application\Impact\MemberGraphImpactService;
+use BabelForge\MemberGraph\Application\Impact\MemberImpactTarget;
+use BabelForge\MemberGraph\Domain\Declaration\MemberDeclaration;
+use BabelForge\MemberGraph\Domain\Graph\MemberDependencyGraph;
+use BabelForge\MemberGraph\Domain\Graph\MemberId;
+use BabelForge\MemberGraph\Domain\Graph\MemberType;
+use BabelForge\MemberGraph\Domain\Parameter\ParameterId;
+use BabelForge\MemberGraph\Domain\Source\SourceNodeId;
+use BabelForge\PhpSource\VirtualPhpSourceFile;
+use BabelForge\PhpSource\VirtualPhpSourceFileCollection;
 use PhpParser\Node;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Const_;

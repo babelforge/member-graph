@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Build\PartialGraph\SourceView;
+namespace BabelForge\MemberGraph\Application\Build\PartialGraph\SourceView;
 
-use PhpNoobs\MemberGraph\Application\Build\GlobalIndexRebuild\MemberGraphGlobalIndexRebuildInputMerger;
-use PhpNoobs\MemberGraph\Application\Build\GlobalIndexRebuild\MemberGraphGlobalIndexRebuildInputResolver;
-use PhpNoobs\MemberGraph\Application\Build\PartialGraph\Input\MemberDependencyGraphPartialRebuildInput;
-use PhpNoobs\MemberGraph\Application\Build\PartialGraph\Loading\MemberDependencyGraphPartialRebuildLoader;
-use PhpNoobs\MemberGraph\Application\Source\MemberGraphPhpSourceRegistryInstance;
+use BabelForge\MemberGraph\Application\Build\GlobalIndexRebuild\MemberGraphGlobalIndexRebuildInputMerger;
+use BabelForge\MemberGraph\Application\Build\GlobalIndexRebuild\MemberGraphGlobalIndexRebuildInputResolver;
+use BabelForge\MemberGraph\Application\Build\PartialGraph\Input\MemberDependencyGraphPartialRebuildInput;
+use BabelForge\MemberGraph\Application\Build\PartialGraph\Loading\MemberDependencyGraphPartialRebuildLoader;
+use BabelForge\MemberGraph\Application\Source\MemberGraphPhpSourceRegistryInstance;
 
 /**
  * Builds the complete source metadata view for a future partial rebuild.

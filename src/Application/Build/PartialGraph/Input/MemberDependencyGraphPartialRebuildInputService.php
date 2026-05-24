@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Build\PartialGraph\Input;
+namespace BabelForge\MemberGraph\Application\Build\PartialGraph\Input;
 
-use PhpNoobs\MemberGraph\Application\Build\Factory\Mode\MemberDependencyGraphFactoryRebuildMode;
-use PhpNoobs\MemberGraph\Application\Build\Factory\Plan\MemberDependencyGraphFactoryRebuildPlan;
-use PhpNoobs\MemberGraph\Application\Cache\Core\MemberGraphCache;
+use BabelForge\MemberGraph\Application\Build\Factory\Mode\MemberDependencyGraphFactoryRebuildMode;
+use BabelForge\MemberGraph\Application\Build\Factory\Plan\MemberDependencyGraphFactoryRebuildPlan;
+use BabelForge\MemberGraph\Application\Cache\Core\MemberGraphCache;
 
 /**
  * Prepares cache-backed inputs for future partial member graph rebuilds.

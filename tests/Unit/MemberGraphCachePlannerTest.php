@@ -2,26 +2,26 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Tests\Unit;
+namespace BabelForge\MemberGraph\Tests\Unit;
 
-use PhpNoobs\MemberGraph\Application\Cache\Core\MemberGraphCacheEntry;
-use PhpNoobs\MemberGraph\Application\Cache\Core\MemberGraphCacheState;
-use PhpNoobs\MemberGraph\Application\Cache\Fingerprint\MemberGraphFileFingerprintResolver;
-use PhpNoobs\MemberGraph\Application\Cache\Plan\MemberGraphCacheFastPathBlocker;
-use PhpNoobs\MemberGraph\Application\Cache\Plan\MemberGraphCacheFilePayload;
-use PhpNoobs\MemberGraph\Application\Cache\Plan\MemberGraphCachePlanner;
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\Declaration\MemberGraphDeclarationSnapshot;
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\MemberGraphGlobalIndexInputSnapshot;
-use PhpNoobs\MemberGraph\Application\Cache\VirtualFile\MemberGraphVirtualFileMetadata;
-use PhpNoobs\MemberGraph\Application\Cache\VirtualFile\MemberGraphVirtualFileReference;
-use PhpNoobs\MemberGraph\Application\Cache\VirtualFile\MemberGraphVirtualFileReferenceCollection;
-use PhpNoobs\MemberGraph\Domain\Availability\AvailableMemberCollection;
-use PhpNoobs\MemberGraph\Domain\Declaration\MemberDeclarationCollection;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberDependencyGraph;
-use PhpNoobs\MemberGraph\Domain\Index\Polymorphism\PolymorphicImplementationsIndex;
-use PhpNoobs\MemberGraph\Domain\Owner\KnownOwnerCollection;
-use PhpNoobs\MemberGraph\Domain\Parameter\ParameterUsageCollection;
-use PhpNoobs\MemberGraph\Domain\Usage\MemberUsageCollection;
+use BabelForge\MemberGraph\Application\Cache\Core\MemberGraphCacheEntry;
+use BabelForge\MemberGraph\Application\Cache\Core\MemberGraphCacheState;
+use BabelForge\MemberGraph\Application\Cache\Fingerprint\MemberGraphFileFingerprintResolver;
+use BabelForge\MemberGraph\Application\Cache\Plan\MemberGraphCacheFastPathBlocker;
+use BabelForge\MemberGraph\Application\Cache\Plan\MemberGraphCacheFilePayload;
+use BabelForge\MemberGraph\Application\Cache\Plan\MemberGraphCachePlanner;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\Declaration\MemberGraphDeclarationSnapshot;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\MemberGraphGlobalIndexInputSnapshot;
+use BabelForge\MemberGraph\Application\Cache\VirtualFile\MemberGraphVirtualFileMetadata;
+use BabelForge\MemberGraph\Application\Cache\VirtualFile\MemberGraphVirtualFileReference;
+use BabelForge\MemberGraph\Application\Cache\VirtualFile\MemberGraphVirtualFileReferenceCollection;
+use BabelForge\MemberGraph\Domain\Availability\AvailableMemberCollection;
+use BabelForge\MemberGraph\Domain\Declaration\MemberDeclarationCollection;
+use BabelForge\MemberGraph\Domain\Graph\MemberDependencyGraph;
+use BabelForge\MemberGraph\Domain\Index\Polymorphism\PolymorphicImplementationsIndex;
+use BabelForge\MemberGraph\Domain\Owner\KnownOwnerCollection;
+use BabelForge\MemberGraph\Domain\Parameter\ParameterUsageCollection;
+use BabelForge\MemberGraph\Domain\Usage\MemberUsageCollection;
 use PHPUnit\Framework\TestCase;
 
 /**

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Resolver\Service;
+namespace BabelForge\MemberGraph\Application\Resolver\Service;
 
-use PhpNoobs\MemberGraph\Domain\Index\Method\MethodReturnInferredStructuredTypeIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Method\MethodReturnStructuredTypeIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Method\MethodReturnTypeIndex;
-use PhpNoobs\MemberGraph\Domain\Type\FunctionLikeReturnType;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
+use BabelForge\MemberGraph\Domain\Index\Method\MethodReturnInferredStructuredTypeIndex;
+use BabelForge\MemberGraph\Domain\Index\Method\MethodReturnStructuredTypeIndex;
+use BabelForge\MemberGraph\Domain\Index\Method\MethodReturnTypeIndex;
+use BabelForge\MemberGraph\Domain\Type\FunctionLikeReturnType;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
 
 /**
  * Resolves native and structured return metadata for methods.

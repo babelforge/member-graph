@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Resolver\Service;
+namespace BabelForge\MemberGraph\Application\Resolver\Service;
 
-use PhpNoobs\MemberGraph\Application\Resolver\Contracts\ExpressionTypeResolverInterface;
-use PhpNoobs\MemberGraph\Application\Resolver\ExpressionResolutionContext;
-use PhpNoobs\MemberGraph\Domain\Index\Method\MethodNodeIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Template\ClassTemplateDefinitionIndex;
-use PhpNoobs\MemberGraph\Domain\Symbol\SymbolCollection;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocTemplateReference;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocTypeCollection;
+use BabelForge\MemberGraph\Application\Resolver\Contracts\ExpressionTypeResolverInterface;
+use BabelForge\MemberGraph\Application\Resolver\ExpressionResolutionContext;
+use BabelForge\MemberGraph\Domain\Index\Method\MethodNodeIndex;
+use BabelForge\MemberGraph\Domain\Index\Template\ClassTemplateDefinitionIndex;
+use BabelForge\MemberGraph\Domain\Symbol\SymbolCollection;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocTemplateReference;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocTypeCollection;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Name;

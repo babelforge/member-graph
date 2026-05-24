@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Enrich;
+namespace BabelForge\MemberGraph\Application\Enrich;
 
-use PhpNoobs\MemberGraph\Application\Build\Context\MemberGraphBuildContext;
-use PhpNoobs\MemberGraph\Application\Issue\MemberGraphIssueCollection;
-use PhpNoobs\MemberGraph\Application\Source\MemberGraphPhpSourceRegistryInstance;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Extractor\ParamPhpDocTypeExtractorFactory;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Extractor\ReturnPhpDocTypeExtractorFactory;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Inheritance\ParentMethodNodeResolver;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Inheritance\PhpDocInheritDocResolverFactory;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Template\PhpDocTemplateDefinitionExtractorFactory;
-use PhpNoobs\MemberGraph\Infrastructure\PhpParser\Indexing\FunctionStructuredTypeIndexBuilder;
-use PhpNoobs\MemberGraph\Infrastructure\PhpParser\Indexing\MethodStructuredTypeIndexBuilder;
+use BabelForge\MemberGraph\Application\Build\Context\MemberGraphBuildContext;
+use BabelForge\MemberGraph\Application\Issue\MemberGraphIssueCollection;
+use BabelForge\MemberGraph\Application\Source\MemberGraphPhpSourceRegistryInstance;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\Extractor\ParamPhpDocTypeExtractorFactory;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\Extractor\ReturnPhpDocTypeExtractorFactory;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\Inheritance\ParentMethodNodeResolver;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\Inheritance\PhpDocInheritDocResolverFactory;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\Template\PhpDocTemplateDefinitionExtractorFactory;
+use BabelForge\MemberGraph\Infrastructure\PhpParser\Indexing\FunctionStructuredTypeIndexBuilder;
+use BabelForge\MemberGraph\Infrastructure\PhpParser\Indexing\MethodStructuredTypeIndexBuilder;
 
 /**
  * Enriches a member graph build context with structured callable type indexes.

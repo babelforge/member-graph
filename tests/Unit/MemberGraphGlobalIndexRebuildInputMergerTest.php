@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Tests\Unit;
+namespace BabelForge\MemberGraph\Tests\Unit;
 
-use PhpNoobs\MemberGraph\Application\Build\GlobalIndexRebuild\MemberGraphGlobalIndexRebuildInput;
-use PhpNoobs\MemberGraph\Application\Build\GlobalIndexRebuild\MemberGraphGlobalIndexRebuildInputMerger;
-use PhpNoobs\MemberGraph\Application\Build\GlobalIndexRebuild\MemberGraphLoadedSourceMetadata;
-use PhpNoobs\MemberGraph\Application\Cache\Fragment\MemberGraphFragmentCollection;
-use PhpNoobs\MemberGraph\Application\Cache\Plan\MemberGraphCacheFileCollection;
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\MemberGraphVirtualSourceMetadata;
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\MemberGraphVirtualSourceMetadataCollection;
-use PhpNoobs\MemberGraph\Application\Cache\VirtualFile\MemberGraphVirtualFileReferenceCollection;
-use PhpNoobs\MemberGraph\Domain\Owner\KnownOwnerCollection;
+use BabelForge\MemberGraph\Application\Build\GlobalIndexRebuild\MemberGraphGlobalIndexRebuildInput;
+use BabelForge\MemberGraph\Application\Build\GlobalIndexRebuild\MemberGraphGlobalIndexRebuildInputMerger;
+use BabelForge\MemberGraph\Application\Build\GlobalIndexRebuild\MemberGraphLoadedSourceMetadata;
+use BabelForge\MemberGraph\Application\Cache\Fragment\MemberGraphFragmentCollection;
+use BabelForge\MemberGraph\Application\Cache\Plan\MemberGraphCacheFileCollection;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\MemberGraphVirtualSourceMetadata;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\MemberGraphVirtualSourceMetadataCollection;
+use BabelForge\MemberGraph\Application\Cache\VirtualFile\MemberGraphVirtualFileReferenceCollection;
+use BabelForge\MemberGraph\Domain\Owner\KnownOwnerCollection;
 use PHPUnit\Framework\TestCase;
 
 /**

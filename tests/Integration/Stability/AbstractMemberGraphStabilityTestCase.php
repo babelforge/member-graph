@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Tests\Integration\Stability;
+namespace BabelForge\MemberGraph\Tests\Integration\Stability;
 
-use PhpNoobs\MemberGraph\Application\Build\Factory\MemberDependencyGraphFactory;
-use PhpNoobs\MemberGraph\Domain\Declaration\MemberDeclaration;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberDependencyGraph;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberId;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberType;
-use PhpNoobs\MemberGraph\Domain\Parameter\ParameterId;
-use PhpNoobs\MemberGraph\Domain\Parameter\ParameterUsageType;
-use PhpNoobs\MemberGraph\Domain\Usage\MemberUsage;
-use PhpNoobs\MemberGraph\Domain\Usage\MemberUsageType;
+use BabelForge\MemberGraph\Application\Build\Factory\MemberDependencyGraphFactory;
+use BabelForge\MemberGraph\Domain\Declaration\MemberDeclaration;
+use BabelForge\MemberGraph\Domain\Graph\MemberDependencyGraph;
+use BabelForge\MemberGraph\Domain\Graph\MemberId;
+use BabelForge\MemberGraph\Domain\Graph\MemberType;
+use BabelForge\MemberGraph\Domain\Parameter\ParameterId;
+use BabelForge\MemberGraph\Domain\Parameter\ParameterUsageType;
+use BabelForge\MemberGraph\Domain\Usage\MemberUsage;
+use BabelForge\MemberGraph\Domain\Usage\MemberUsageType;
 use PHPUnit\Framework\TestCase;
 use Random\RandomException;
 

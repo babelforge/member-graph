@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Build\Factory\Cache;
+namespace BabelForge\MemberGraph\Application\Build\Factory\Cache;
 
-use PhpNoobs\MemberGraph\Application\Cache\Core\MemberGraphCacheWriteResult;
-use PhpNoobs\MemberGraph\Application\Cache\VirtualFile\MemberGraphVirtualFileReferenceCollection;
+use BabelForge\MemberGraph\Application\Cache\Core\MemberGraphCacheWriteResult;
+use BabelForge\MemberGraph\Application\Cache\VirtualFile\MemberGraphVirtualFileReferenceCollection;
 
 /**
  * Reports the result of refreshing member graph cache metadata after a build.

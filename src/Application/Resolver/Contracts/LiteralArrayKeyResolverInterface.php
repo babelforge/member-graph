@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Resolver\Contracts;
+namespace BabelForge\MemberGraph\Application\Resolver\Contracts;
 
 use PhpParser\Node\Expr;
 

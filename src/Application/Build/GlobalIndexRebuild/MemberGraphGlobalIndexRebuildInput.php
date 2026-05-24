@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Build\GlobalIndexRebuild;
+namespace BabelForge\MemberGraph\Application\Build\GlobalIndexRebuild;
 
-use PhpNoobs\MemberGraph\Application\Cache\Fragment\MemberGraphFragmentCollection;
-use PhpNoobs\MemberGraph\Application\Cache\Plan\MemberGraphCacheFileCollection;
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\MemberGraphVirtualSourceMetadataCollection;
-use PhpNoobs\MemberGraph\Application\Cache\VirtualFile\MemberGraphVirtualFileReferenceCollection;
-use PhpNoobs\MemberGraph\Domain\Owner\KnownOwnerCollection;
+use BabelForge\MemberGraph\Application\Cache\Fragment\MemberGraphFragmentCollection;
+use BabelForge\MemberGraph\Application\Cache\Plan\MemberGraphCacheFileCollection;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\MemberGraphVirtualSourceMetadataCollection;
+use BabelForge\MemberGraph\Application\Cache\VirtualFile\MemberGraphVirtualFileReferenceCollection;
+use BabelForge\MemberGraph\Domain\Owner\KnownOwnerCollection;
 
 /**
  * Carries source metadata prepared for a future global-index rebuild.

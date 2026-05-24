@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Resolver;
+namespace BabelForge\MemberGraph\Application\Resolver;
 
-use PhpNoobs\MemberGraph\Application\Resolver\Service\ClosureExpressionStructuredTypeResolver;
+use BabelForge\MemberGraph\Application\Resolver\Service\ClosureExpressionStructuredTypeResolver;
 
 /**
  * Carries the runtime resolver graph used by the expression type resolver facade.

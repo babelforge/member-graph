@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Domain\Symbol;
+namespace BabelForge\MemberGraph\Domain\Symbol;
 
 /**
  * Class SymbolCollection.

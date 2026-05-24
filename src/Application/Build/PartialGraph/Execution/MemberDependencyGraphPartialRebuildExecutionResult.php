@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Build\PartialGraph\Execution;
+namespace BabelForge\MemberGraph\Application\Build\PartialGraph\Execution;
 
-use PhpNoobs\MemberGraph\Application\Cache\Fragment\MemberGraphFragmentCollection;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberDependencyGraph;
-use PhpNoobs\PhpSource\VirtualPhpSourceFileCollection;
+use BabelForge\MemberGraph\Application\Cache\Fragment\MemberGraphFragmentCollection;
+use BabelForge\MemberGraph\Domain\Graph\MemberDependencyGraph;
+use BabelForge\PhpSource\VirtualPhpSourceFileCollection;
 
 /**
  * Carries the result of one isolated partial rebuild execution.

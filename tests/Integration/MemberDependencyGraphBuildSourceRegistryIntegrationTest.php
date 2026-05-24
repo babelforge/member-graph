@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Tests\Integration;
+namespace BabelForge\MemberGraph\Tests\Integration;
 
-use PhpNoobs\MemberGraph\Application\Build\Factory\MemberDependencyGraphFactory;
-use PhpNoobs\MemberGraph\Application\Build\Projection\MemberGraphBuildOverlay;
-use PhpNoobs\MemberGraph\Application\Build\Projection\MemberGraphProjectedBuildFactory;
-use PhpNoobs\MemberGraph\Application\Source\MemberGraphPhpSourceRegistryInstance;
+use BabelForge\MemberGraph\Application\Build\Factory\MemberDependencyGraphFactory;
+use BabelForge\MemberGraph\Application\Build\Projection\MemberGraphBuildOverlay;
+use BabelForge\MemberGraph\Application\Build\Projection\MemberGraphProjectedBuildFactory;
+use BabelForge\MemberGraph\Application\Source\MemberGraphPhpSourceRegistryInstance;
 use PHPUnit\Framework\TestCase;
 
 /**

@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Collect;
+namespace BabelForge\MemberGraph\Application\Collect;
 
-use PhpNoobs\MemberGraph\Domain\Graph\MemberId;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberType;
-use PhpNoobs\MemberGraph\Domain\Index\Polymorphism\PolymorphicImplementationsIndex;
-use PhpNoobs\MemberGraph\Domain\Source\SourceNodeId;
-use PhpNoobs\MemberGraph\Domain\Symbol\SymbolCollection;
-use PhpNoobs\MemberGraph\Domain\Usage\MemberUsage;
-use PhpNoobs\MemberGraph\Domain\Usage\MemberUsageCollection;
-use PhpNoobs\MemberGraph\Domain\Usage\MemberUsageType;
+use BabelForge\MemberGraph\Domain\Graph\MemberId;
+use BabelForge\MemberGraph\Domain\Graph\MemberType;
+use BabelForge\MemberGraph\Domain\Index\Polymorphism\PolymorphicImplementationsIndex;
+use BabelForge\MemberGraph\Domain\Source\SourceNodeId;
+use BabelForge\MemberGraph\Domain\Symbol\SymbolCollection;
+use BabelForge\MemberGraph\Domain\Usage\MemberUsage;
+use BabelForge\MemberGraph\Domain\Usage\MemberUsageCollection;
+use BabelForge\MemberGraph\Domain\Usage\MemberUsageType;
 
 /**
  * Collects member usages discovered during member graph traversal.

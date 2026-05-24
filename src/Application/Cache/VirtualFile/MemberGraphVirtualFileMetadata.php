@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Cache\VirtualFile;
+namespace BabelForge\MemberGraph\Application\Cache\VirtualFile;
 
-use PhpNoobs\PhpSource\VirtualPhpSourceFile;
+use BabelForge\PhpSource\VirtualPhpSourceFile;
 
 /**
  * Stores lightweight metadata for one virtual registry file.

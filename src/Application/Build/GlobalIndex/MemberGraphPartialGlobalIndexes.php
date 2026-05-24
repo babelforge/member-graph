@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Build\GlobalIndex;
+namespace BabelForge\MemberGraph\Application\Build\GlobalIndex;
 
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\Declaration\MemberGraphDeclarationSnapshot;
-use PhpNoobs\MemberGraph\Domain\Index\Constant\ClassConstantTypeIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Constant\ClassConstantValueIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Function\FunctionParameterTypeIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Function\FunctionReturnTypeIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Method\MethodParameterTypeIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Method\MethodReturnTypeIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Polymorphism\PolymorphicImplementationsIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Property\PropertyTypeIndex;
-use PhpNoobs\MemberGraph\Domain\Owner\KnownOwnerCollection;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\Declaration\MemberGraphDeclarationSnapshot;
+use BabelForge\MemberGraph\Domain\Index\Constant\ClassConstantTypeIndex;
+use BabelForge\MemberGraph\Domain\Index\Constant\ClassConstantValueIndex;
+use BabelForge\MemberGraph\Domain\Index\Function\FunctionParameterTypeIndex;
+use BabelForge\MemberGraph\Domain\Index\Function\FunctionReturnTypeIndex;
+use BabelForge\MemberGraph\Domain\Index\Method\MethodParameterTypeIndex;
+use BabelForge\MemberGraph\Domain\Index\Method\MethodReturnTypeIndex;
+use BabelForge\MemberGraph\Domain\Index\Polymorphism\PolymorphicImplementationsIndex;
+use BabelForge\MemberGraph\Domain\Index\Property\PropertyTypeIndex;
+use BabelForge\MemberGraph\Domain\Owner\KnownOwnerCollection;
 
 /**
  * Carries the partial-compatible global indexes that can already be rebuilt without PHPParser nodes.

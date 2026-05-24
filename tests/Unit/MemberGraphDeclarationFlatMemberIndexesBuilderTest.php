@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Tests\Unit;
+namespace BabelForge\MemberGraph\Tests\Unit;
 
-use PhpNoobs\MemberGraph\Application\Build\GlobalIndex\MemberGraphDeclarationFlatMemberIndexesBuilder;
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\Declaration\ClassConstantDeclarationSnapshot;
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\Declaration\MemberGraphDeclarationSnapshot;
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\Declaration\PropertyDeclarationSnapshot;
+use BabelForge\MemberGraph\Application\Build\GlobalIndex\MemberGraphDeclarationFlatMemberIndexesBuilder;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\Declaration\ClassConstantDeclarationSnapshot;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\Declaration\MemberGraphDeclarationSnapshot;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\Declaration\PropertyDeclarationSnapshot;
 use PHPUnit\Framework\TestCase;
 
 /**

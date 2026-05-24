@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Build\PartialGraph\Execution;
+namespace BabelForge\MemberGraph\Application\Build\PartialGraph\Execution;
 
-use PhpNoobs\MemberGraph\Application\Build\Input\MemberGraphBuildInput;
-use PhpNoobs\MemberGraph\Application\Build\MemberDependencyGraphBuilder;
-use PhpNoobs\MemberGraph\Application\Build\PartialGraph\Input\MemberDependencyGraphPartialRebuildPreparedInput;
-use PhpNoobs\MemberGraph\Application\Build\PartialGraph\WorkingSet\MemberDependencyGraphPartialRebuildWorkingSet;
-use PhpNoobs\MemberGraph\Application\Cache\Fragment\MemberGraphFragmentCollection;
-use PhpNoobs\MemberGraph\Application\Cache\Fragment\MemberGraphFragmenter;
-use PhpNoobs\MemberGraph\Application\Cache\Fragment\MemberGraphFragmentMerger;
-use PhpNoobs\MemberGraph\Application\Issue\MemberGraphIssueCollection;
-use PhpNoobs\MemberGraph\Application\Source\MemberGraphPhpSourceRegistryInstance;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberDependencyGraph;
-use PhpNoobs\PhpSource\VirtualPhpSourceFileCollection;
+use BabelForge\MemberGraph\Application\Build\Input\MemberGraphBuildInput;
+use BabelForge\MemberGraph\Application\Build\MemberDependencyGraphBuilder;
+use BabelForge\MemberGraph\Application\Build\PartialGraph\Input\MemberDependencyGraphPartialRebuildPreparedInput;
+use BabelForge\MemberGraph\Application\Build\PartialGraph\WorkingSet\MemberDependencyGraphPartialRebuildWorkingSet;
+use BabelForge\MemberGraph\Application\Cache\Fragment\MemberGraphFragmentCollection;
+use BabelForge\MemberGraph\Application\Cache\Fragment\MemberGraphFragmenter;
+use BabelForge\MemberGraph\Application\Cache\Fragment\MemberGraphFragmentMerger;
+use BabelForge\MemberGraph\Application\Issue\MemberGraphIssueCollection;
+use BabelForge\MemberGraph\Application\Source\MemberGraphPhpSourceRegistryInstance;
+use BabelForge\MemberGraph\Domain\Graph\MemberDependencyGraph;
+use BabelForge\PhpSource\VirtualPhpSourceFileCollection;
 
 /**
  * Executes an isolated partial member dependency graph rebuild.

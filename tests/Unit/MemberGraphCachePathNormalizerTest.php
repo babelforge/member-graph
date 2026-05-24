@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Tests\Unit;
+namespace BabelForge\MemberGraph\Tests\Unit;
 
-use PhpNoobs\MemberGraph\Application\Cache\Plan\MemberGraphCachePathNormalizer;
+use BabelForge\MemberGraph\Application\Cache\Plan\MemberGraphCachePathNormalizer;
 use PHPUnit\Framework\TestCase;
 
 /**

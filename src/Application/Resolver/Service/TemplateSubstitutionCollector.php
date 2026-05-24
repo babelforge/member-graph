@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Resolver\Service;
+namespace BabelForge\MemberGraph\Application\Resolver\Service;
 
-use PhpNoobs\MemberGraph\Application\Resolver\Service\TemplateSubstitution\TemplateArgumentSubstitutionResolver;
-use PhpNoobs\MemberGraph\Application\Resolver\Service\TemplateSubstitution\TemplateSubstitutionMerger;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Template\PhpDocTemplateSubstitutionContext;
+use BabelForge\MemberGraph\Application\Resolver\Service\TemplateSubstitution\TemplateArgumentSubstitutionResolver;
+use BabelForge\MemberGraph\Application\Resolver\Service\TemplateSubstitution\TemplateSubstitutionMerger;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\Template\PhpDocTemplateSubstitutionContext;
 
 /**
  * Coordinates PHPDoc template substitution collection while preserving the public service API.

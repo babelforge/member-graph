@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Impact;
+namespace BabelForge\MemberGraph\Application\Impact;
 
-use PhpNoobs\MemberGraph\Domain\Declaration\MemberDeclarationCollection;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberDependencyGraph;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberId;
-use PhpNoobs\MemberGraph\Domain\Owner\MemberLineageResolverV2;
-use PhpNoobs\MemberGraph\Domain\Owner\OwnerDeclarationCollection;
-use PhpNoobs\MemberGraph\Domain\Owner\OwnerUsage;
-use PhpNoobs\MemberGraph\Domain\Owner\OwnerUsageCollection;
-use PhpNoobs\MemberGraph\Domain\Parameter\ParameterUsage;
-use PhpNoobs\MemberGraph\Domain\Parameter\ParameterUsageCollection;
-use PhpNoobs\MemberGraph\Domain\Usage\MemberUsage;
-use PhpNoobs\MemberGraph\Domain\Usage\MemberUsageCollection;
+use BabelForge\MemberGraph\Domain\Declaration\MemberDeclarationCollection;
+use BabelForge\MemberGraph\Domain\Graph\MemberDependencyGraph;
+use BabelForge\MemberGraph\Domain\Graph\MemberId;
+use BabelForge\MemberGraph\Domain\Owner\MemberLineageResolverV2;
+use BabelForge\MemberGraph\Domain\Owner\OwnerDeclarationCollection;
+use BabelForge\MemberGraph\Domain\Owner\OwnerUsage;
+use BabelForge\MemberGraph\Domain\Owner\OwnerUsageCollection;
+use BabelForge\MemberGraph\Domain\Parameter\ParameterUsage;
+use BabelForge\MemberGraph\Domain\Parameter\ParameterUsageCollection;
+use BabelForge\MemberGraph\Domain\Usage\MemberUsage;
+use BabelForge\MemberGraph\Domain\Usage\MemberUsageCollection;
 
 /**
  * Resolves the graph impact for one member or parameter target.

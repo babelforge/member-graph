@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Infrastructure\PhpParser\Indexing;
+namespace BabelForge\MemberGraph\Infrastructure\PhpParser\Indexing;
 
-use PhpNoobs\MemberGraph\Domain\Symbol\SymbolCollection;
+use BabelForge\MemberGraph\Domain\Symbol\SymbolCollection;
 use PhpParser\Node\ComplexType;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\IntersectionType;

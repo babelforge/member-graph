@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Validator\PhpDoc;
+namespace BabelForge\MemberGraph\Application\Validator\PhpDoc;
 
 /**
  * Class PhpDocResolutionIssueType.

@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Build\Factory\Report;
+namespace BabelForge\MemberGraph\Application\Build\Factory\Report;
 
-use PhpNoobs\MemberGraph\Application\Build\Factory\MemberDependencyGraphFactoryBuildReport;
-use PhpNoobs\MemberGraph\Application\Build\Factory\Mode\MemberDependencyGraphFactoryBuildMode;
-use PhpNoobs\MemberGraph\Application\Build\Factory\Plan\MemberDependencyGraphFactoryRebuildPlan;
-use PhpNoobs\MemberGraph\Application\Build\Factory\Warning\MemberDependencyGraphFactoryWarningCollection;
-use PhpNoobs\MemberGraph\Application\Build\PartialGraph\Input\MemberDependencyGraphPartialRebuildInput;
-use PhpNoobs\MemberGraph\Application\Build\PartialGraph\WorkingSet\MemberDependencyGraphPartialRebuildWorkingSet;
-use PhpNoobs\MemberGraph\Application\Cache\Core\MemberGraphCache;
-use PhpNoobs\MemberGraph\Application\Cache\Core\MemberGraphCacheWriteResult;
-use PhpNoobs\MemberGraph\Application\Cache\Plan\MemberGraphCachePlan;
+use BabelForge\MemberGraph\Application\Build\Factory\MemberDependencyGraphFactoryBuildReport;
+use BabelForge\MemberGraph\Application\Build\Factory\Mode\MemberDependencyGraphFactoryBuildMode;
+use BabelForge\MemberGraph\Application\Build\Factory\Plan\MemberDependencyGraphFactoryRebuildPlan;
+use BabelForge\MemberGraph\Application\Build\Factory\Warning\MemberDependencyGraphFactoryWarningCollection;
+use BabelForge\MemberGraph\Application\Build\PartialGraph\Input\MemberDependencyGraphPartialRebuildInput;
+use BabelForge\MemberGraph\Application\Build\PartialGraph\WorkingSet\MemberDependencyGraphPartialRebuildWorkingSet;
+use BabelForge\MemberGraph\Application\Cache\Core\MemberGraphCache;
+use BabelForge\MemberGraph\Application\Cache\Core\MemberGraphCacheWriteResult;
+use BabelForge\MemberGraph\Application\Cache\Plan\MemberGraphCachePlan;
 
 /**
  * Builds member dependency graph factory reports from runner facts.

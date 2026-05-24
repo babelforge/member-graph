@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Domain\Type;
+namespace BabelForge\MemberGraph\Domain\Type;
 
-use PhpNoobs\MemberGraph\Domain\Symbol\SymbolCollection;
+use BabelForge\MemberGraph\Domain\Symbol\SymbolCollection;
 use PhpParser\Node;
 use PhpParser\Node\Param;
 

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Cache\VirtualFile;
+namespace BabelForge\MemberGraph\Application\Cache\VirtualFile;
 
-use PhpNoobs\PhpSource\VirtualPhpSourceFileCollection;
+use BabelForge\PhpSource\VirtualPhpSourceFileCollection;
 
 /**
  * Stores virtual file references indexed by virtual file path and physical file path.

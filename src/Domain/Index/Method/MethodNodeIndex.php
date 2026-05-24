@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Domain\Index\Method;
+namespace BabelForge\MemberGraph\Domain\Index\Method;
 
 use PhpParser\Node\Stmt\ClassMethod;
 

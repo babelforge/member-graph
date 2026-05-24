@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Domain\Owner;
+namespace BabelForge\MemberGraph\Domain\Owner;
 
-use PhpNoobs\MemberGraph\Domain\Type\TraitAliasAdaptation;
-use PhpNoobs\MemberGraph\Domain\Type\TraitInsteadOfAdaptation;
+use BabelForge\MemberGraph\Domain\Type\TraitAliasAdaptation;
+use BabelForge\MemberGraph\Domain\Type\TraitInsteadOfAdaptation;
 
 /**
  * Represents one known class-like owner discovered during graph collection.

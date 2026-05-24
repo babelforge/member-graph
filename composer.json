@@ -1,26 +1,26 @@
 {
-    "name": "php-noobs/member-graph",
+    "name": "babelforge/member-graph",
     "type": "library",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "PhpNoobs\\MemberGraph\\": "src/"
+            "BabelForge\\MemberGraph\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "PhpNoobs\\MemberGraph\\Tests\\": "tests/"
+            "BabelForge\\MemberGraph\\Tests\\": "tests/"
         }
     },
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/php-noobs/php-source-registry"
+            "url": "https://github.com/babelforge/php-source-registry"
         }
     ],
     "require": {
         "php": ">=8.4",
-        "php-noobs/php-source-registry": "dev-main",
+        "babelforge/php-source-registry": "dev-main",
         "nikic/php-parser": "^5.7",
         "phpstan/phpdoc-parser": "^2.3",
         "psr/log": "^3.0"

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Domain\Declaration;
+namespace BabelForge\MemberGraph\Domain\Declaration;
 
-use PhpNoobs\MemberGraph\Domain\Graph\MemberId;
+use BabelForge\MemberGraph\Domain\Graph\MemberId;
 
 /**
  * Stores declared members.

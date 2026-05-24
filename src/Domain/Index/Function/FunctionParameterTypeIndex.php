@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Domain\Index\Function;
+namespace BabelForge\MemberGraph\Domain\Index\Function;
 
-use PhpNoobs\MemberGraph\Domain\Symbol\SymbolCollection;
-use PhpNoobs\MemberGraph\Domain\Type\FunctionParameterType;
+use BabelForge\MemberGraph\Domain\Symbol\SymbolCollection;
+use BabelForge\MemberGraph\Domain\Type\FunctionParameterType;
 
 /**
  * Stores simple function return types.

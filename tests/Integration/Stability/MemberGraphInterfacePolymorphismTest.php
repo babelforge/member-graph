@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Tests\Integration\Stability;
+namespace BabelForge\MemberGraph\Tests\Integration\Stability;
 
-use PhpNoobs\MemberGraph\Domain\Graph\MemberOriginType;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberType;
+use BabelForge\MemberGraph\Domain\Graph\MemberOriginType;
+use BabelForge\MemberGraph\Domain\Graph\MemberType;
 
 /**
  * Covers migrated legacy member graph stability fixtures.

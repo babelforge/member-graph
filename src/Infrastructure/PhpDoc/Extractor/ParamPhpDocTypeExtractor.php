@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Extractor;
+namespace BabelForge\MemberGraph\Infrastructure\PhpDoc\Extractor;
 
-use PhpNoobs\MemberGraph\Application\Issue\MemberGraphIssueCollection;
-use PhpNoobs\MemberGraph\Application\Validator\PhpDoc\PhpDocIssueCollection;
-use PhpNoobs\MemberGraph\Application\Validator\PhpDoc\PhpDocResolutionIssueType;
-use PhpNoobs\MemberGraph\Domain\Index\Template\PhpDocTemplateDefinitionCollection;
-use PhpNoobs\MemberGraph\Domain\Type\TypeIndexContext;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Inheritance\PhpDocInheritDocResolver;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\PhpDocHelper;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\PhpDocTagKind;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\PhpDocTypeNodeResolverInterface;
-use PhpNoobs\MemberGraph\Infrastructure\UseStatements\UsesByAliasCollection;
+use BabelForge\MemberGraph\Application\Issue\MemberGraphIssueCollection;
+use BabelForge\MemberGraph\Application\Validator\PhpDoc\PhpDocIssueCollection;
+use BabelForge\MemberGraph\Application\Validator\PhpDoc\PhpDocResolutionIssueType;
+use BabelForge\MemberGraph\Domain\Index\Template\PhpDocTemplateDefinitionCollection;
+use BabelForge\MemberGraph\Domain\Type\TypeIndexContext;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\Inheritance\PhpDocInheritDocResolver;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\PhpDocHelper;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\Resolver\PhpDocTagKind;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\Resolver\PhpDocTypeNodeResolverInterface;
+use BabelForge\MemberGraph\Infrastructure\UseStatements\UsesByAliasCollection;
 use PhpParser\Comment\Doc;
 use PhpParser\Node;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;

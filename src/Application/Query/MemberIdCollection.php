@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Query;
+namespace BabelForge\MemberGraph\Application\Query;
 
-use PhpNoobs\MemberGraph\Domain\Graph\MemberId;
+use BabelForge\MemberGraph\Domain\Graph\MemberId;
 
 /**
  * Stores member identifiers without duplicates.

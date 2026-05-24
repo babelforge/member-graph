@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Infrastructure\PhpParser\Indexing;
+namespace BabelForge\MemberGraph\Infrastructure\PhpParser\Indexing;
 
-use PhpNoobs\MemberGraph\Domain\Index\ClassLike\ClassLikeNodeIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Function\FunctionNodeIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Method\MethodNodeIndex;
+use BabelForge\MemberGraph\Domain\Index\ClassLike\ClassLikeNodeIndex;
+use BabelForge\MemberGraph\Domain\Index\Function\FunctionNodeIndex;
+use BabelForge\MemberGraph\Domain\Index\Method\MethodNodeIndex;
 use PhpParser\Node;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\ClassLike;

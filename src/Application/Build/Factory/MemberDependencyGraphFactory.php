@@ -2,39 +2,39 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Build\Factory;
+namespace BabelForge\MemberGraph\Application\Build\Factory;
 
-use PhpNoobs\MemberGraph\Application\Build\Factory\Mode\MemberDependencyGraphFactoryBuildMode;
-use PhpNoobs\MemberGraph\Application\Build\Factory\Mode\MemberDependencyGraphFactoryRebuildMode;
-use PhpNoobs\MemberGraph\Application\Build\Factory\Mode\MemberDependencyGraphFactoryRebuildReason;
-use PhpNoobs\MemberGraph\Application\Build\Factory\Plan\MemberDependencyGraphFactoryRebuildPlan;
-use PhpNoobs\MemberGraph\Application\Build\Factory\Runner\MemberDependencyGraphFastPathRunner;
-use PhpNoobs\MemberGraph\Application\Build\Factory\Runner\MemberDependencyGraphFullBuildRunner;
-use PhpNoobs\MemberGraph\Application\Build\Factory\Runner\MemberDependencyGraphPartialBuildRunner;
-use PhpNoobs\MemberGraph\Application\Build\InMemoryRefresh\MemberGraphInMemoryRefreshExecutor;
-use PhpNoobs\MemberGraph\Application\Build\InMemoryRefresh\MemberGraphInMemoryRefreshWorkingSet;
-use PhpNoobs\MemberGraph\Application\Build\InMemoryRefresh\MemberGraphInMemoryRefreshWorkingSetResolver;
-use PhpNoobs\MemberGraph\Application\Build\Input\MemberGraphBuildInput;
-use PhpNoobs\MemberGraph\Application\Build\MemberDependencyGraphBuilder;
-use PhpNoobs\MemberGraph\Application\Build\PartialGraph\Assembly\MemberDependencyGraphPartialRebuildAssembler;
-use PhpNoobs\MemberGraph\Application\Build\PartialGraph\Input\MemberDependencyGraphPartialRebuildInput;
-use PhpNoobs\MemberGraph\Application\Build\PartialGraph\Input\MemberDependencyGraphPartialRebuildInputService;
-use PhpNoobs\MemberGraph\Application\Build\PartialGraph\Input\MemberDependencyGraphPartialRebuildPreparedInput;
-use PhpNoobs\MemberGraph\Application\Build\PartialGraph\WorkingSet\MemberDependencyGraphPartialRebuildWorkingSet;
-use PhpNoobs\MemberGraph\Application\Build\PartialGraph\WorkingSet\MemberDependencyGraphPartialRebuildWorkingSetResolver;
-use PhpNoobs\MemberGraph\Application\Build\Source\MemberGraphPhpFileScanner;
-use PhpNoobs\MemberGraph\Application\Cache\Core\MemberGraphCache;
-use PhpNoobs\MemberGraph\Application\Cache\Core\MemberGraphCacheLoadResult;
-use PhpNoobs\MemberGraph\Application\Cache\Core\MemberGraphCacheLoadStatus;
-use PhpNoobs\MemberGraph\Application\Cache\Core\MemberGraphCacheWriteResult;
-use PhpNoobs\MemberGraph\Application\Cache\Plan\MemberGraphCacheFileCollection;
-use PhpNoobs\MemberGraph\Application\Cache\Plan\MemberGraphCachePlan;
-use PhpNoobs\MemberGraph\Application\Cache\VirtualFile\MemberGraphVirtualFileReferenceCollection;
-use PhpNoobs\MemberGraph\Application\Issue\MemberGraphIssueCollection;
-use PhpNoobs\MemberGraph\Application\Source\MemberGraphPhpSourceRegistryInstance;
-use PhpNoobs\MemberGraph\Infrastructure\PhpParser\Indexing\StructuralNodeIndexBuilder;
-use PhpNoobs\PhpSource\VirtualPhpSourceFile;
-use PhpNoobs\PhpSource\VirtualPhpSourceFileCollection;
+use BabelForge\MemberGraph\Application\Build\Factory\Mode\MemberDependencyGraphFactoryBuildMode;
+use BabelForge\MemberGraph\Application\Build\Factory\Mode\MemberDependencyGraphFactoryRebuildMode;
+use BabelForge\MemberGraph\Application\Build\Factory\Mode\MemberDependencyGraphFactoryRebuildReason;
+use BabelForge\MemberGraph\Application\Build\Factory\Plan\MemberDependencyGraphFactoryRebuildPlan;
+use BabelForge\MemberGraph\Application\Build\Factory\Runner\MemberDependencyGraphFastPathRunner;
+use BabelForge\MemberGraph\Application\Build\Factory\Runner\MemberDependencyGraphFullBuildRunner;
+use BabelForge\MemberGraph\Application\Build\Factory\Runner\MemberDependencyGraphPartialBuildRunner;
+use BabelForge\MemberGraph\Application\Build\InMemoryRefresh\MemberGraphInMemoryRefreshExecutor;
+use BabelForge\MemberGraph\Application\Build\InMemoryRefresh\MemberGraphInMemoryRefreshWorkingSet;
+use BabelForge\MemberGraph\Application\Build\InMemoryRefresh\MemberGraphInMemoryRefreshWorkingSetResolver;
+use BabelForge\MemberGraph\Application\Build\Input\MemberGraphBuildInput;
+use BabelForge\MemberGraph\Application\Build\MemberDependencyGraphBuilder;
+use BabelForge\MemberGraph\Application\Build\PartialGraph\Assembly\MemberDependencyGraphPartialRebuildAssembler;
+use BabelForge\MemberGraph\Application\Build\PartialGraph\Input\MemberDependencyGraphPartialRebuildInput;
+use BabelForge\MemberGraph\Application\Build\PartialGraph\Input\MemberDependencyGraphPartialRebuildInputService;
+use BabelForge\MemberGraph\Application\Build\PartialGraph\Input\MemberDependencyGraphPartialRebuildPreparedInput;
+use BabelForge\MemberGraph\Application\Build\PartialGraph\WorkingSet\MemberDependencyGraphPartialRebuildWorkingSet;
+use BabelForge\MemberGraph\Application\Build\PartialGraph\WorkingSet\MemberDependencyGraphPartialRebuildWorkingSetResolver;
+use BabelForge\MemberGraph\Application\Build\Source\MemberGraphPhpFileScanner;
+use BabelForge\MemberGraph\Application\Cache\Core\MemberGraphCache;
+use BabelForge\MemberGraph\Application\Cache\Core\MemberGraphCacheLoadResult;
+use BabelForge\MemberGraph\Application\Cache\Core\MemberGraphCacheLoadStatus;
+use BabelForge\MemberGraph\Application\Cache\Core\MemberGraphCacheWriteResult;
+use BabelForge\MemberGraph\Application\Cache\Plan\MemberGraphCacheFileCollection;
+use BabelForge\MemberGraph\Application\Cache\Plan\MemberGraphCachePlan;
+use BabelForge\MemberGraph\Application\Cache\VirtualFile\MemberGraphVirtualFileReferenceCollection;
+use BabelForge\MemberGraph\Application\Issue\MemberGraphIssueCollection;
+use BabelForge\MemberGraph\Application\Source\MemberGraphPhpSourceRegistryInstance;
+use BabelForge\MemberGraph\Infrastructure\PhpParser\Indexing\StructuralNodeIndexBuilder;
+use BabelForge\PhpSource\VirtualPhpSourceFile;
+use BabelForge\PhpSource\VirtualPhpSourceFileCollection;
 
 /**
  * Builds member dependency graphs from project directories.

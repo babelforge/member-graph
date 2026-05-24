@@ -2,27 +2,27 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Tests\Unit;
+namespace BabelForge\MemberGraph\Tests\Unit;
 
-use PhpNoobs\MemberGraph\Application\Topology\Export\MemberGraphTopologyArrayExporter;
-use PhpNoobs\MemberGraph\Application\Topology\Export\MemberGraphTopologyDotExporter;
-use PhpNoobs\MemberGraph\Application\Topology\Export\MemberGraphTopologyJsonExporter;
-use PhpNoobs\MemberGraph\Application\Topology\Export\MemberGraphTopologyMermaidExporter;
-use PhpNoobs\MemberGraph\Application\Topology\MemberGraphTopologyService;
-use PhpNoobs\MemberGraph\Domain\Availability\AvailableMemberCollection;
-use PhpNoobs\MemberGraph\Domain\Declaration\MemberDeclaration;
-use PhpNoobs\MemberGraph\Domain\Declaration\MemberDeclarationCollection;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberDependencyGraph;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberId;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberType;
-use PhpNoobs\MemberGraph\Domain\Index\Polymorphism\PolymorphicImplementationsIndex;
-use PhpNoobs\MemberGraph\Domain\Owner\KnownOwner;
-use PhpNoobs\MemberGraph\Domain\Owner\KnownOwnerCollection;
-use PhpNoobs\MemberGraph\Domain\Owner\OwnerKind;
-use PhpNoobs\MemberGraph\Domain\Parameter\ParameterUsageCollection;
-use PhpNoobs\MemberGraph\Domain\Usage\MemberUsage;
-use PhpNoobs\MemberGraph\Domain\Usage\MemberUsageCollection;
-use PhpNoobs\MemberGraph\Domain\Usage\MemberUsageType;
+use BabelForge\MemberGraph\Application\Topology\Export\MemberGraphTopologyArrayExporter;
+use BabelForge\MemberGraph\Application\Topology\Export\MemberGraphTopologyDotExporter;
+use BabelForge\MemberGraph\Application\Topology\Export\MemberGraphTopologyJsonExporter;
+use BabelForge\MemberGraph\Application\Topology\Export\MemberGraphTopologyMermaidExporter;
+use BabelForge\MemberGraph\Application\Topology\MemberGraphTopologyService;
+use BabelForge\MemberGraph\Domain\Availability\AvailableMemberCollection;
+use BabelForge\MemberGraph\Domain\Declaration\MemberDeclaration;
+use BabelForge\MemberGraph\Domain\Declaration\MemberDeclarationCollection;
+use BabelForge\MemberGraph\Domain\Graph\MemberDependencyGraph;
+use BabelForge\MemberGraph\Domain\Graph\MemberId;
+use BabelForge\MemberGraph\Domain\Graph\MemberType;
+use BabelForge\MemberGraph\Domain\Index\Polymorphism\PolymorphicImplementationsIndex;
+use BabelForge\MemberGraph\Domain\Owner\KnownOwner;
+use BabelForge\MemberGraph\Domain\Owner\KnownOwnerCollection;
+use BabelForge\MemberGraph\Domain\Owner\OwnerKind;
+use BabelForge\MemberGraph\Domain\Parameter\ParameterUsageCollection;
+use BabelForge\MemberGraph\Domain\Usage\MemberUsage;
+use BabelForge\MemberGraph\Domain\Usage\MemberUsageCollection;
+use BabelForge\MemberGraph\Domain\Usage\MemberUsageType;
 use PHPUnit\Framework\TestCase;
 
 /**

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Cache\Plan;
+namespace BabelForge\MemberGraph\Application\Cache\Plan;
 
-use PhpNoobs\MemberGraph\Application\Cache\Core\MemberGraphCacheEntry;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberDependencyGraph;
+use BabelForge\MemberGraph\Application\Cache\Core\MemberGraphCacheEntry;
+use BabelForge\MemberGraph\Domain\Graph\MemberDependencyGraph;
 
 /**
  * Stores cache metadata and the optional graph fragment for one physical PHP file.

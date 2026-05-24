@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Cache\Fragment;
+namespace BabelForge\MemberGraph\Application\Cache\Fragment;
 
-use PhpNoobs\MemberGraph\Domain\Graph\MemberDependencyGraph;
+use BabelForge\MemberGraph\Domain\Graph\MemberDependencyGraph;
 
 /**
  * Stores member dependency graph fragments indexed by physical file path.

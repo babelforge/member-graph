@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Cache\Core;
+namespace BabelForge\MemberGraph\Application\Cache\Core;
 
 /**
  * Describes the result of reading a member graph cache payload.

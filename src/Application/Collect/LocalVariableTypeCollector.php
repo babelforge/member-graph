@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Collect;
+namespace BabelForge\MemberGraph\Application\Collect;
 
-use PhpNoobs\MemberGraph\Application\Resolver\Contracts\ExpressionTypeResolverInterface;
-use PhpNoobs\MemberGraph\Application\Traverse\MemberGraphTraversalState;
-use PhpNoobs\MemberGraph\Domain\Index\Function\FunctionParameterStructuredTypeIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Method\MethodParameterStructuredTypeIndex;
-use PhpNoobs\MemberGraph\Domain\Symbol\SymbolCollection;
-use PhpNoobs\MemberGraph\Domain\Type\VariableTypeInfo;
-use PhpNoobs\MemberGraph\Domain\Type\VariableTypeSource;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Extractor\LocalVarPhpDocTypeExtractor;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Extractor\ParamPhpDocTypeExtractor;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\PhpDocTagKind;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\StructuredPhpDocTypeSelector;
-use PhpNoobs\MemberGraph\Infrastructure\UseStatements\UsesByAliasCollection;
+use BabelForge\MemberGraph\Application\Resolver\Contracts\ExpressionTypeResolverInterface;
+use BabelForge\MemberGraph\Application\Traverse\MemberGraphTraversalState;
+use BabelForge\MemberGraph\Domain\Index\Function\FunctionParameterStructuredTypeIndex;
+use BabelForge\MemberGraph\Domain\Index\Method\MethodParameterStructuredTypeIndex;
+use BabelForge\MemberGraph\Domain\Symbol\SymbolCollection;
+use BabelForge\MemberGraph\Domain\Type\VariableTypeInfo;
+use BabelForge\MemberGraph\Domain\Type\VariableTypeSource;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\Extractor\LocalVarPhpDocTypeExtractor;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\Extractor\ParamPhpDocTypeExtractor;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\Resolver\PhpDocTagKind;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\Resolver\StructuredPhpDocTypeSelector;
+use BabelForge\MemberGraph\Infrastructure\UseStatements\UsesByAliasCollection;
 use PhpParser\Node\ComplexType;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Assign;

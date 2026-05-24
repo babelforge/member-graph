@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Query;
+namespace BabelForge\MemberGraph\Application\Query;
 
-use PhpNoobs\MemberGraph\Application\Impact\ImpactedFileCollection;
-use PhpNoobs\MemberGraph\Application\Impact\ImpactedOwnerCollection;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberId;
+use BabelForge\MemberGraph\Application\Impact\ImpactedFileCollection;
+use BabelForge\MemberGraph\Application\Impact\ImpactedOwnerCollection;
+use BabelForge\MemberGraph\Domain\Graph\MemberId;
 
 /**
  * Read-side file index derived from a member dependency graph.

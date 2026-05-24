@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Collect;
+namespace BabelForge\MemberGraph\Application\Collect;
 
-use PhpNoobs\MemberGraph\Domain\Owner\OwnerUsage;
-use PhpNoobs\MemberGraph\Domain\Owner\OwnerUsageCollection;
-use PhpNoobs\MemberGraph\Domain\Owner\OwnerUsageType;
-use PhpNoobs\MemberGraph\Domain\Source\SourceNodeId;
+use BabelForge\MemberGraph\Domain\Owner\OwnerUsage;
+use BabelForge\MemberGraph\Domain\Owner\OwnerUsageCollection;
+use BabelForge\MemberGraph\Domain\Owner\OwnerUsageType;
+use BabelForge\MemberGraph\Domain\Source\SourceNodeId;
 
 /**
  * Collects class-like owner usages discovered during graph traversal.

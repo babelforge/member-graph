@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Topology;
+namespace BabelForge\MemberGraph\Application\Topology;
 
-use PhpNoobs\MemberGraph\Domain\Graph\MemberId;
+use BabelForge\MemberGraph\Domain\Graph\MemberId;
 
 /**
  * Represents one node in a member graph topology projection.

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Cache\Plan;
+namespace BabelForge\MemberGraph\Application\Cache\Plan;
 
-use PhpNoobs\MemberGraph\Application\Cache\Core\MemberGraphCacheState;
-use PhpNoobs\MemberGraph\Application\Cache\Fingerprint\MemberGraphFileFingerprintResolver;
+use BabelForge\MemberGraph\Application\Cache\Core\MemberGraphCacheState;
+use BabelForge\MemberGraph\Application\Cache\Fingerprint\MemberGraphFileFingerprintResolver;
 
 /**
  * Builds cache reuse plans for scanned physical files.

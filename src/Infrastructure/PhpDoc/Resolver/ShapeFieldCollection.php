@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver;
+namespace BabelForge\MemberGraph\Infrastructure\PhpDoc\Resolver;
 
 /**
  * Class ShapeFieldCollection.

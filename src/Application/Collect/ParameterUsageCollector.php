@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Collect;
+namespace BabelForge\MemberGraph\Application\Collect;
 
-use PhpNoobs\MemberGraph\Domain\Index\Polymorphism\PolymorphicImplementationsIndex;
-use PhpNoobs\MemberGraph\Domain\Parameter\ParameterId;
-use PhpNoobs\MemberGraph\Domain\Parameter\ParameterUsage;
-use PhpNoobs\MemberGraph\Domain\Parameter\ParameterUsageCollection;
-use PhpNoobs\MemberGraph\Domain\Parameter\ParameterUsageType;
-use PhpNoobs\MemberGraph\Domain\Source\SourceNodeId;
+use BabelForge\MemberGraph\Domain\Index\Polymorphism\PolymorphicImplementationsIndex;
+use BabelForge\MemberGraph\Domain\Parameter\ParameterId;
+use BabelForge\MemberGraph\Domain\Parameter\ParameterUsage;
+use BabelForge\MemberGraph\Domain\Parameter\ParameterUsageCollection;
+use BabelForge\MemberGraph\Domain\Parameter\ParameterUsageType;
+use BabelForge\MemberGraph\Domain\Source\SourceNodeId;
 use PhpParser\Node\Arg;
 
 /**

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Cache\Snapshot;
+namespace BabelForge\MemberGraph\Application\Cache\Snapshot;
 
 /**
  * Stores versioned cacheable inputs for rebuilding global member indexes.

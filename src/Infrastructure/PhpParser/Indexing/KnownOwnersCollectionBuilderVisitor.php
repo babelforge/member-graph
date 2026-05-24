@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Infrastructure\PhpParser\Indexing;
+namespace BabelForge\MemberGraph\Infrastructure\PhpParser\Indexing;
 
-use PhpNoobs\MemberGraph\Domain\Owner\KnownOwner;
-use PhpNoobs\MemberGraph\Domain\Owner\KnownOwnerCollection;
-use PhpNoobs\MemberGraph\Domain\Owner\OwnerKind;
-use PhpNoobs\MemberGraph\Domain\Type\TraitAliasAdaptation;
-use PhpNoobs\MemberGraph\Domain\Type\TraitInsteadOfAdaptation;
+use BabelForge\MemberGraph\Domain\Owner\KnownOwner;
+use BabelForge\MemberGraph\Domain\Owner\KnownOwnerCollection;
+use BabelForge\MemberGraph\Domain\Owner\OwnerKind;
+use BabelForge\MemberGraph\Domain\Type\TraitAliasAdaptation;
+use BabelForge\MemberGraph\Domain\Type\TraitInsteadOfAdaptation;
 use PhpParser\Node;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\TraitUse;

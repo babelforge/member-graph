@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Topology;
+namespace BabelForge\MemberGraph\Application\Topology;
 
-use PhpNoobs\MemberGraph\Application\Query\MemberDependency;
-use PhpNoobs\MemberGraph\Application\Query\MemberGraphQueryService;
-use PhpNoobs\MemberGraph\Application\Query\MemberLevelDependencyGraph;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberDependencyGraph;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberId;
+use BabelForge\MemberGraph\Application\Query\MemberDependency;
+use BabelForge\MemberGraph\Application\Query\MemberGraphQueryService;
+use BabelForge\MemberGraph\Application\Query\MemberLevelDependencyGraph;
+use BabelForge\MemberGraph\Domain\Graph\MemberDependencyGraph;
+use BabelForge\MemberGraph\Domain\Graph\MemberId;
 
 /**
  * Builds bounded topology projections from member graph dependency facts.

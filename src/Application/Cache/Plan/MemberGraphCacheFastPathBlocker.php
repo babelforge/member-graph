@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Cache\Plan;
+namespace BabelForge\MemberGraph\Application\Cache\Plan;
 
 /**
  * Enumerates cache diagnostics that prevent fast-path reuse or future partial rebuild planning.

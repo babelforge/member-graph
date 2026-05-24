@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Topology\Export;
+namespace BabelForge\MemberGraph\Application\Topology\Export;
 
-use PhpNoobs\MemberGraph\Application\Query\MemberDependency;
-use PhpNoobs\MemberGraph\Application\Topology\MemberGraphTopology;
-use PhpNoobs\MemberGraph\Application\Topology\MemberGraphTopologyEdge;
-use PhpNoobs\MemberGraph\Application\Topology\MemberGraphTopologyNode;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberId;
+use BabelForge\MemberGraph\Application\Query\MemberDependency;
+use BabelForge\MemberGraph\Application\Topology\MemberGraphTopology;
+use BabelForge\MemberGraph\Application\Topology\MemberGraphTopologyEdge;
+use BabelForge\MemberGraph\Application\Topology\MemberGraphTopologyNode;
+use BabelForge\MemberGraph\Domain\Graph\MemberId;
 
 /**
  * Exports member graph topology DTOs to a stable array representation.

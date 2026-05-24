@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Topology;
+namespace BabelForge\MemberGraph\Application\Topology;
 
-use PhpNoobs\MemberGraph\Application\Query\MemberDependency;
+use BabelForge\MemberGraph\Application\Query\MemberDependency;
 
 /**
  * Represents one directed edge in a member graph topology projection.

@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Resolver\Expression;
+namespace BabelForge\MemberGraph\Application\Resolver\Expression;
 
-use PhpNoobs\MemberGraph\Application\Resolver\Contracts\ExpressionResolverInterface;
-use PhpNoobs\MemberGraph\Application\Resolver\Contracts\ExpressionTypeResolverInterface;
-use PhpNoobs\MemberGraph\Application\Resolver\ExpressionResolutionContext;
-use PhpNoobs\MemberGraph\Application\Resolver\Service\CallableInvocationStructuredTypeResolver;
-use PhpNoobs\MemberGraph\Application\Resolver\Service\FunctionLikeCallResolver;
-use PhpNoobs\MemberGraph\Application\Resolver\Service\FunctionNameResolver;
-use PhpNoobs\MemberGraph\Domain\Symbol\SymbolCollection;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
+use BabelForge\MemberGraph\Application\Resolver\Contracts\ExpressionResolverInterface;
+use BabelForge\MemberGraph\Application\Resolver\Contracts\ExpressionTypeResolverInterface;
+use BabelForge\MemberGraph\Application\Resolver\ExpressionResolutionContext;
+use BabelForge\MemberGraph\Application\Resolver\Service\CallableInvocationStructuredTypeResolver;
+use BabelForge\MemberGraph\Application\Resolver\Service\FunctionLikeCallResolver;
+use BabelForge\MemberGraph\Application\Resolver\Service\FunctionNameResolver;
+use BabelForge\MemberGraph\Domain\Symbol\SymbolCollection;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\FuncCall;

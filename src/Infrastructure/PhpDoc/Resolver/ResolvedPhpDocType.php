@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver;
+namespace BabelForge\MemberGraph\Infrastructure\PhpDoc\Resolver;
 
-use PhpNoobs\MemberGraph\Domain\Symbol\SymbolCollection;
+use BabelForge\MemberGraph\Domain\Symbol\SymbolCollection;
 
 /**
  * Represents one resolved PHPDoc type tree.

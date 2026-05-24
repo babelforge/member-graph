@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Build\GlobalIndex;
+namespace BabelForge\MemberGraph\Application\Build\GlobalIndex;
 
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\Declaration\ClassConstantDeclarationSnapshot;
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\Declaration\MemberGraphDeclarationSnapshot;
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\Declaration\PropertyDeclarationSnapshot;
-use PhpNoobs\MemberGraph\Domain\Index\Constant\ClassConstantTypeIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Constant\ClassConstantValueIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Property\PropertyTypeIndex;
-use PhpNoobs\MemberGraph\Domain\Symbol\SymbolCollection;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\Declaration\ClassConstantDeclarationSnapshot;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\Declaration\MemberGraphDeclarationSnapshot;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\Declaration\PropertyDeclarationSnapshot;
+use BabelForge\MemberGraph\Domain\Index\Constant\ClassConstantTypeIndex;
+use BabelForge\MemberGraph\Domain\Index\Constant\ClassConstantValueIndex;
+use BabelForge\MemberGraph\Domain\Index\Property\PropertyTypeIndex;
+use BabelForge\MemberGraph\Domain\Symbol\SymbolCollection;
 
 /**
  * Builds flat member indexes from cacheable declaration snapshots.

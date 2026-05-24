@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Source\Node;
+namespace BabelForge\MemberGraph\Application\Source\Node;
 
 /**
  * Exposes neutral symbol-scope facts with typed projections.

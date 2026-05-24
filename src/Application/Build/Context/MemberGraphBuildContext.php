@@ -2,25 +2,25 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Build\Context;
+namespace BabelForge\MemberGraph\Application\Build\Context;
 
-use PhpNoobs\MemberGraph\Domain\Index\Constant\ClassConstantTypeIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Constant\ClassConstantValueIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Function\FunctionParameterStructuredTypeIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Function\FunctionParameterTypeIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Function\FunctionReturnInferredStructuredTypeIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Function\FunctionReturnStructuredTypeIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Function\FunctionReturnTypeIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Method\MethodNodeIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Method\MethodParameterStructuredTypeIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Method\MethodReturnInferredStructuredTypeIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Method\MethodReturnStructuredTypeIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Method\MethodReturnTypeIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Polymorphism\PolymorphicImplementationsIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Property\PropertyStructuredTypeIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Property\PropertyTypeIndex;
-use PhpNoobs\MemberGraph\Domain\Index\Template\ClassTemplateDefinitionIndex;
-use PhpNoobs\MemberGraph\Domain\Owner\KnownOwnerCollection;
+use BabelForge\MemberGraph\Domain\Index\Constant\ClassConstantTypeIndex;
+use BabelForge\MemberGraph\Domain\Index\Constant\ClassConstantValueIndex;
+use BabelForge\MemberGraph\Domain\Index\Function\FunctionParameterStructuredTypeIndex;
+use BabelForge\MemberGraph\Domain\Index\Function\FunctionParameterTypeIndex;
+use BabelForge\MemberGraph\Domain\Index\Function\FunctionReturnInferredStructuredTypeIndex;
+use BabelForge\MemberGraph\Domain\Index\Function\FunctionReturnStructuredTypeIndex;
+use BabelForge\MemberGraph\Domain\Index\Function\FunctionReturnTypeIndex;
+use BabelForge\MemberGraph\Domain\Index\Method\MethodNodeIndex;
+use BabelForge\MemberGraph\Domain\Index\Method\MethodParameterStructuredTypeIndex;
+use BabelForge\MemberGraph\Domain\Index\Method\MethodReturnInferredStructuredTypeIndex;
+use BabelForge\MemberGraph\Domain\Index\Method\MethodReturnStructuredTypeIndex;
+use BabelForge\MemberGraph\Domain\Index\Method\MethodReturnTypeIndex;
+use BabelForge\MemberGraph\Domain\Index\Polymorphism\PolymorphicImplementationsIndex;
+use BabelForge\MemberGraph\Domain\Index\Property\PropertyStructuredTypeIndex;
+use BabelForge\MemberGraph\Domain\Index\Property\PropertyTypeIndex;
+use BabelForge\MemberGraph\Domain\Index\Template\ClassTemplateDefinitionIndex;
+use BabelForge\MemberGraph\Domain\Owner\KnownOwnerCollection;
 
 /**
  * Carries the global member graph indexes required to build one file graph.

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Cache\Snapshot;
+namespace BabelForge\MemberGraph\Application\Cache\Snapshot;
 
 /**
  * Stores virtual source metadata indexed by virtual file path.

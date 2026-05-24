@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Source\Node;
+namespace BabelForge\MemberGraph\Application\Source\Node;
 
-use PhpNoobs\MemberGraph\Application\Impact\MemberImpactTarget;
-use PhpNoobs\PhpSource\VirtualPhpSourceFile;
+use BabelForge\MemberGraph\Application\Impact\MemberImpactTarget;
+use BabelForge\PhpSource\VirtualPhpSourceFile;
 use PhpParser\Node;
 
 /**

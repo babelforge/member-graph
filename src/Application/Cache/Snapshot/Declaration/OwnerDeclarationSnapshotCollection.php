@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Cache\Snapshot\Declaration;
+namespace BabelForge\MemberGraph\Application\Cache\Snapshot\Declaration;
 
 /**
  * Stores owner declaration snapshots indexed by FQCN.

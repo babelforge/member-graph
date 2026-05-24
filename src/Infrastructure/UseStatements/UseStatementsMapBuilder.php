@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Infrastructure\UseStatements;
+namespace BabelForge\MemberGraph\Infrastructure\UseStatements;
 
 use PhpParser\Node;
 use PhpParser\NodeTraverser;

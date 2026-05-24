@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Domain\Index\Constant;
+namespace BabelForge\MemberGraph\Domain\Index\Constant;
 
 /**
  * Stores simple scalar class constant values.

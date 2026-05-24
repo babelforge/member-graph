@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Source\Node;
+namespace BabelForge\MemberGraph\Application\Source\Node;
 
-use PhpNoobs\MemberGraph\Domain\Parameter\ParameterId;
+use BabelForge\MemberGraph\Domain\Parameter\ParameterId;
 use PhpParser\Node;
 use PhpParser\Node\ClosureUse;
 use PhpParser\Node\Expr\ArrowFunction;

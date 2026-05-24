@@ -1,8 +1,8 @@
 # MemberGraph
 
-[![CI](https://github.com/php-noobs/member-graph/actions/workflows/ci.yml/badge.svg)](https://github.com/php-noobs/member-graph/actions/workflows/ci.yml)
+[![CI](https://github.com/babelforge/member-graph/actions/workflows/ci.yml/badge.svg)](https://github.com/babelforge/member-graph/actions/workflows/ci.yml)
 
-`php-noobs/member-graph` builds a PHP member-level dependency graph from source files.
+`babelforge/member-graph` builds a PHP member-level dependency graph from source files.
 
 It indexes class-like owners, methods, functions, properties, class constants, enum cases, parameters, source-node locations, impact sets, topology views, and cache metadata. It is built for refactoring and analysis tools that need semantic graph facts rather than textual search.
 
@@ -20,7 +20,7 @@ It indexes class-like owners, methods, functions, properties, class constants, e
 
 - PHP 8.4+
 - Composer
-- `php-noobs/php-source-registry`
+- `babelforge/php-source-registry`
 - `nikic/php-parser`
 - `phpstan/phpdoc-parser`
 - `psr/log`
@@ -28,21 +28,21 @@ It indexes class-like owners, methods, functions, properties, class constants, e
 ## Installation
 
 ```bash
-composer require php-noobs/member-graph:dev-main
+composer require babelforge/member-graph:dev-main
 ```
 
-When `php-noobs/php-source-registry` is consumed from GitHub, declare the VCS repository in your project:
+When `babelforge/php-source-registry` is consumed from GitHub, declare the VCS repository in your project:
 
 ```json
 {
   "repositories": [
     {
       "type": "vcs",
-      "url": "https://github.com/php-noobs/php-source-registry"
+      "url": "https://github.com/babelforge/php-source-registry"
     }
   ],
   "require": {
-    "php-noobs/member-graph": "dev-main"
+    "babelforge/member-graph": "dev-main"
   }
 }
 ```
@@ -50,7 +50,7 @@ When `php-noobs/php-source-registry` is consumed from GitHub, declare the VCS re
 ## Build From Directories
 
 ```php
-use PhpNoobs\MemberGraph\Application\Build\Factory\MemberDependencyGraphFactory;
+use BabelForge\MemberGraph\Application\Build\Factory\MemberDependencyGraphFactory;
 
 $build = MemberDependencyGraphFactory::fromDirectory(
     directories: ['/project/src'],
@@ -67,7 +67,7 @@ The returned `MemberDependencyGraphBuild` contains the graph, loaded virtual fil
 ## Query The Graph
 
 ```php
-use PhpNoobs\MemberGraph\Application\Query\MemberGraphQueryService;
+use BabelForge\MemberGraph\Application\Query\MemberGraphQueryService;
 
 $query = MemberGraphQueryService::fromGraph($graph);
 
@@ -79,7 +79,7 @@ $owners = $query->allOwners();
 ## Resolve Impact
 
 ```php
-use PhpNoobs\MemberGraph\Application\Impact\MemberGraphImpactService;
+use BabelForge\MemberGraph\Application\Impact\MemberGraphImpactService;
 
 $impactService = MemberGraphImpactService::fromBuild($build);
 
@@ -91,7 +91,7 @@ The impact DTO exposes graph files, physical files, virtual files, owners, decla
 ## Locate Source Nodes
 
 ```php
-use PhpNoobs\MemberGraph\Application\Source\Node\MemberGraphSourceNodeLocator;
+use BabelForge\MemberGraph\Application\Source\Node\MemberGraphSourceNodeLocator;
 
 $locator = MemberGraphSourceNodeLocator::fromBuild($build);
 
@@ -121,8 +121,8 @@ $build->sourceRegistry()->save();
 For supported semantic identity updates, project a build without a full AST rebuild:
 
 ```php
-use PhpNoobs\MemberGraph\Application\Build\Projection\MemberGraphBuildOverlay;
-use PhpNoobs\MemberGraph\Application\Build\Projection\MemberGraphProjectedBuildFactory;
+use BabelForge\MemberGraph\Application\Build\Projection\MemberGraphBuildOverlay;
+use BabelForge\MemberGraph\Application\Build\Projection\MemberGraphProjectedBuildFactory;
 
 $overlay = MemberGraphBuildOverlay::empty()
     ->withOwnerUpdate('App\\Mailer', 'App\\Infrastructure\\Sender')
@@ -150,7 +150,7 @@ Start with:
 
 `MemberGraph` owns dependency graph facts, semantic indexes, impact queries, source-node lookup, topology, cache, and partial rebuild behavior.
 
-Physical PHP file loading, virtual source files, AST storage, source updates, and physical-file reassembly are provided by `php-noobs/php-source-registry`.
+Physical PHP file loading, virtual source files, AST storage, source updates, and physical-file reassembly are provided by `babelforge/php-source-registry`.
 
 ## Quality
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Impact;
+namespace BabelForge\MemberGraph\Application\Impact;
 
 /**
  * Stores impacted owner symbols without duplicates.

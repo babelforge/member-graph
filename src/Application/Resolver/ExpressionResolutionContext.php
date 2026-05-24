@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Resolver;
+namespace BabelForge\MemberGraph\Application\Resolver;
 
-use PhpNoobs\MemberGraph\Domain\Index\Template\PhpDocTemplateDefinitionCollection;
-use PhpNoobs\MemberGraph\Domain\Type\VariableTypeInfo;
-use PhpNoobs\MemberGraph\Infrastructure\UseStatements\UsesByAliasCollection;
+use BabelForge\MemberGraph\Domain\Index\Template\PhpDocTemplateDefinitionCollection;
+use BabelForge\MemberGraph\Domain\Type\VariableTypeInfo;
+use BabelForge\MemberGraph\Infrastructure\UseStatements\UsesByAliasCollection;
 
 /**
  * Carries local expression-resolution state for one resolver invocation.

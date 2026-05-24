@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Domain\Index\Polymorphism;
+namespace BabelForge\MemberGraph\Domain\Index\Polymorphism;
 
 /**
  * Stores concrete implementations for interface contracts.

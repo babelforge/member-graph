@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Inheritance;
+namespace BabelForge\MemberGraph\Infrastructure\PhpDoc\Inheritance;
 
-use PhpNoobs\MemberGraph\Domain\Index\Method\MethodNodeIndex;
-use PhpNoobs\MemberGraph\Domain\Owner\KnownOwnerCollection;
+use BabelForge\MemberGraph\Domain\Index\Method\MethodNodeIndex;
+use BabelForge\MemberGraph\Domain\Owner\KnownOwnerCollection;
 use PhpParser\Node\Stmt\ClassMethod;
 
 /**

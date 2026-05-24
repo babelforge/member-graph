@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Resolver\Service;
+namespace BabelForge\MemberGraph\Application\Resolver\Service;
 
-use PhpNoobs\MemberGraph\Application\Resolver\Contracts\ExpressionTypeResolverInterface;
-use PhpNoobs\MemberGraph\Application\Resolver\ExpressionResolutionContext;
-use PhpNoobs\MemberGraph\Domain\Index\Method\MethodParameterStructuredTypeIndex;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
-use PhpNoobs\MemberGraph\Infrastructure\PhpDoc\Template\PhpDocTemplateSubstitutionContext;
+use BabelForge\MemberGraph\Application\Resolver\Contracts\ExpressionTypeResolverInterface;
+use BabelForge\MemberGraph\Application\Resolver\ExpressionResolutionContext;
+use BabelForge\MemberGraph\Domain\Index\Method\MethodParameterStructuredTypeIndex;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\Resolver\ResolvedPhpDocType;
+use BabelForge\MemberGraph\Infrastructure\PhpDoc\Template\PhpDocTemplateSubstitutionContext;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Stmt\ClassMethod;
 

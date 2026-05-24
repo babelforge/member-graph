@@ -2,22 +2,22 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Tests\Unit;
+namespace BabelForge\MemberGraph\Tests\Unit;
 
-use PhpNoobs\MemberGraph\Application\Build\Factory\MemberDependencyGraphFactory;
-use PhpNoobs\MemberGraph\Application\Build\Factory\Warning\MemberDependencyGraphFactoryWarningCode;
-use PhpNoobs\MemberGraph\Application\Cache\Core\MemberGraphCache;
-use PhpNoobs\MemberGraph\Application\Cache\Core\MemberGraphCacheLoadStatus;
-use PhpNoobs\MemberGraph\Application\Cache\Core\MemberGraphCachePayload;
-use PhpNoobs\MemberGraph\Application\Cache\Core\MemberGraphCacheWriteStatus;
-use PhpNoobs\MemberGraph\Application\Cache\Fingerprint\MemberGraphFileFingerprintResolver;
-use PhpNoobs\MemberGraph\Application\Cache\Fragment\MemberGraphFragmenter;
-use PhpNoobs\MemberGraph\Application\Cache\Fragment\MemberGraphFragmentMerger;
-use PhpNoobs\MemberGraph\Application\Cache\Plan\MemberGraphCacheFastPathBlocker;
-use PhpNoobs\MemberGraph\Application\Issue\MemberGraphIssueCollection;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberId;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberType;
-use PhpNoobs\MemberGraph\Domain\Owner\KnownOwnerCollection;
+use BabelForge\MemberGraph\Application\Build\Factory\MemberDependencyGraphFactory;
+use BabelForge\MemberGraph\Application\Build\Factory\Warning\MemberDependencyGraphFactoryWarningCode;
+use BabelForge\MemberGraph\Application\Cache\Core\MemberGraphCache;
+use BabelForge\MemberGraph\Application\Cache\Core\MemberGraphCacheLoadStatus;
+use BabelForge\MemberGraph\Application\Cache\Core\MemberGraphCachePayload;
+use BabelForge\MemberGraph\Application\Cache\Core\MemberGraphCacheWriteStatus;
+use BabelForge\MemberGraph\Application\Cache\Fingerprint\MemberGraphFileFingerprintResolver;
+use BabelForge\MemberGraph\Application\Cache\Fragment\MemberGraphFragmenter;
+use BabelForge\MemberGraph\Application\Cache\Fragment\MemberGraphFragmentMerger;
+use BabelForge\MemberGraph\Application\Cache\Plan\MemberGraphCacheFastPathBlocker;
+use BabelForge\MemberGraph\Application\Issue\MemberGraphIssueCollection;
+use BabelForge\MemberGraph\Domain\Graph\MemberId;
+use BabelForge\MemberGraph\Domain\Graph\MemberType;
+use BabelForge\MemberGraph\Domain\Owner\KnownOwnerCollection;
 
 /**
  * Covers member dependency graph factory cache, snapshot, and fragment behavior.

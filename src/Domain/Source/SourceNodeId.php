@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Domain\Source;
+namespace BabelForge\MemberGraph\Domain\Source;
 
 use PhpParser\Node;
 

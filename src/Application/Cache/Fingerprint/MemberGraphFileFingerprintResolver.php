@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Cache\Fingerprint;
+namespace BabelForge\MemberGraph\Application\Cache\Fingerprint;
 
 /**
  * Resolves filesystem fingerprints for member graph cache entries.

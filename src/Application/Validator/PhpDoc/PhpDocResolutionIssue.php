@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Validator\PhpDoc;
+namespace BabelForge\MemberGraph\Application\Validator\PhpDoc;
 
-use PhpNoobs\MemberGraph\Application\Issue\MemberGraphIssueInterface;
+use BabelForge\MemberGraph\Application\Issue\MemberGraphIssueInterface;
 
 /**
  * Class PhpDocResolutionIssue.

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Resolver\Service;
+namespace BabelForge\MemberGraph\Application\Resolver\Service;
 
-use PhpNoobs\MemberGraph\Application\Resolver\Contracts\LiteralArrayKeyResolverInterface;
-use PhpNoobs\MemberGraph\Domain\Index\Constant\ClassConstantValueIndex;
+use BabelForge\MemberGraph\Application\Resolver\Contracts\LiteralArrayKeyResolverInterface;
+use BabelForge\MemberGraph\Domain\Index\Constant\ClassConstantValueIndex;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Identifier;

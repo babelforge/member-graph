@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Domain\Owner;
+namespace BabelForge\MemberGraph\Domain\Owner;
 
-use PhpNoobs\MemberGraph\Domain\Source\SourceNodeId;
+use BabelForge\MemberGraph\Domain\Source\SourceNodeId;
 
 /**
  * Represents a usage of a class-like owner.

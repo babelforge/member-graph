@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Build\Factory\Mode;
+namespace BabelForge\MemberGraph\Application\Build\Factory\Mode;
 
 /**
  * Enumerates reasons behind the selected rebuild strategy.

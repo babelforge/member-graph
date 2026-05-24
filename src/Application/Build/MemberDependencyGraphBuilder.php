@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Build;
+namespace BabelForge\MemberGraph\Application\Build;
 
-use PhpNoobs\MemberGraph\Application\Build\GlobalIndex\MemberGraphGlobalIndexBuilder;
-use PhpNoobs\MemberGraph\Application\Build\Input\MemberGraphBuildInput;
-use PhpNoobs\MemberGraph\Application\Build\PartialGraph\PartialMemberGraphAccumulator;
-use PhpNoobs\MemberGraph\Application\Enrich\StructuredCallableIndexEnricher;
-use PhpNoobs\MemberGraph\Application\Issue\MemberGraphIssueCollection;
-use PhpNoobs\MemberGraph\Application\Project\AvailableMemberProjector;
-use PhpNoobs\MemberGraph\Application\Project\TraitSelfUsageProjector;
-use PhpNoobs\MemberGraph\Application\Resolver\ExpressionTypeResolver;
-use PhpNoobs\MemberGraph\Application\Source\MemberGraphPhpSourceRegistryInstance;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberDependencyGraph;
+use BabelForge\MemberGraph\Application\Build\GlobalIndex\MemberGraphGlobalIndexBuilder;
+use BabelForge\MemberGraph\Application\Build\Input\MemberGraphBuildInput;
+use BabelForge\MemberGraph\Application\Build\PartialGraph\PartialMemberGraphAccumulator;
+use BabelForge\MemberGraph\Application\Enrich\StructuredCallableIndexEnricher;
+use BabelForge\MemberGraph\Application\Issue\MemberGraphIssueCollection;
+use BabelForge\MemberGraph\Application\Project\AvailableMemberProjector;
+use BabelForge\MemberGraph\Application\Project\TraitSelfUsageProjector;
+use BabelForge\MemberGraph\Application\Resolver\ExpressionTypeResolver;
+use BabelForge\MemberGraph\Application\Source\MemberGraphPhpSourceRegistryInstance;
+use BabelForge\MemberGraph\Domain\Graph\MemberDependencyGraph;
 
 /**
  * Builds one global MemberDependencyGraph from VirtualPhpSourceFile instances.

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Cache\Snapshot\Declaration;
+namespace BabelForge\MemberGraph\Application\Cache\Snapshot\Declaration;
 
-use PhpNoobs\MemberGraph\Domain\Owner\OwnerKind;
+use BabelForge\MemberGraph\Domain\Owner\OwnerKind;
 
 /**
  * Stores one cacheable class-like owner declaration.

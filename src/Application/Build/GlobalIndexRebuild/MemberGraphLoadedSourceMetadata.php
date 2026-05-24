@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Build\GlobalIndexRebuild;
+namespace BabelForge\MemberGraph\Application\Build\GlobalIndexRebuild;
 
-use PhpNoobs\MemberGraph\Application\Cache\Snapshot\MemberGraphVirtualSourceMetadataCollection;
+use BabelForge\MemberGraph\Application\Cache\Snapshot\MemberGraphVirtualSourceMetadataCollection;
 
 /**
  * Carries source metadata loaded from files rebuilt during a partial rebuild attempt.

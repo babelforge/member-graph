@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Source;
+namespace BabelForge\MemberGraph\Application\Source;
 
-use PhpNoobs\MemberGraph\Domain\Owner\KnownOwnerCollection;
-use PhpNoobs\MemberGraph\Infrastructure\PhpParser\Indexing\KnownOwnersCollectionBuilder;
-use PhpNoobs\PhpSource\Contracts\FileWriterInterface;
-use PhpNoobs\PhpSource\PhpSourceFile;
-use PhpNoobs\PhpSource\PhpSourceRegistryInstance;
-use PhpNoobs\PhpSource\VirtualPhpSourceFileCollection;
-use PhpNoobs\PhpSource\Writer\NativeFileWriter;
+use BabelForge\MemberGraph\Domain\Owner\KnownOwnerCollection;
+use BabelForge\MemberGraph\Infrastructure\PhpParser\Indexing\KnownOwnersCollectionBuilder;
+use BabelForge\PhpSource\Contracts\FileWriterInterface;
+use BabelForge\PhpSource\PhpSourceFile;
+use BabelForge\PhpSource\PhpSourceRegistryInstance;
+use BabelForge\PhpSource\VirtualPhpSourceFileCollection;
+use BabelForge\PhpSource\Writer\NativeFileWriter;
 use Psr\Log\LoggerInterface;
 
 /**

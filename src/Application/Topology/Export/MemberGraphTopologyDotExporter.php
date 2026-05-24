@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Topology\Export;
+namespace BabelForge\MemberGraph\Application\Topology\Export;
 
-use PhpNoobs\MemberGraph\Application\Topology\MemberGraphTopology;
+use BabelForge\MemberGraph\Application\Topology\MemberGraphTopology;
 
 /**
  * Exports member graph topology DTOs to Graphviz DOT syntax.

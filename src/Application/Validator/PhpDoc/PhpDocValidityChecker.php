@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Validator\PhpDoc;
+namespace BabelForge\MemberGraph\Application\Validator\PhpDoc;
 
 /**
  * Validates whether structured PHPDoc fragments are usable by the member graph pipeline.

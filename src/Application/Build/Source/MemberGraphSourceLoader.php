@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Build\Source;
+namespace BabelForge\MemberGraph\Application\Build\Source;
 
-use PhpNoobs\MemberGraph\Application\Source\MemberGraphPhpSourceRegistryInstance;
+use BabelForge\MemberGraph\Application\Source\MemberGraphPhpSourceRegistryInstance;
 
 /**
  * Loads physical PHP files into virtual files for a full member graph build.

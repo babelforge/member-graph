@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Build\Projection;
+namespace BabelForge\MemberGraph\Application\Build\Projection;
 
 /**
  * Represents one owner identity update requested by a graph projection.

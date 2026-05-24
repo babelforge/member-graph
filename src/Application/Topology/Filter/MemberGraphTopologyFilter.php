@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Topology\Filter;
+namespace BabelForge\MemberGraph\Application\Topology\Filter;
 
-use PhpNoobs\MemberGraph\Application\Topology\MemberGraphTopologyEdgeKind;
-use PhpNoobs\MemberGraph\Application\Topology\MemberGraphTopologyNodeKind;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberType;
+use BabelForge\MemberGraph\Application\Topology\MemberGraphTopologyEdgeKind;
+use BabelForge\MemberGraph\Application\Topology\MemberGraphTopologyNodeKind;
+use BabelForge\MemberGraph\Domain\Graph\MemberType;
 
 /**
  * Describes optional filters to apply to a topology projection.

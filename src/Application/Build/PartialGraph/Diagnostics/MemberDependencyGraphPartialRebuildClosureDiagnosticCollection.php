@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Build\PartialGraph\Diagnostics;
+namespace BabelForge\MemberGraph\Application\Build\PartialGraph\Diagnostics;
 
 /**
  * Stores partial rebuild working set closure diagnostics.

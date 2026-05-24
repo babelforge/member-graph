@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Build\InMemoryRefresh;
+namespace BabelForge\MemberGraph\Application\Build\InMemoryRefresh;
 
-use PhpNoobs\MemberGraph\Application\Cache\Plan\MemberGraphCacheFileCollection;
+use BabelForge\MemberGraph\Application\Cache\Plan\MemberGraphCacheFileCollection;
 
 /**
  * Represents the physical-file working set for an in-memory graph refresh.

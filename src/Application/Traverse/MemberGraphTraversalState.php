@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Traverse;
+namespace BabelForge\MemberGraph\Application\Traverse;
 
-use PhpNoobs\MemberGraph\Domain\Index\Template\PhpDocTemplateDefinitionCollection;
-use PhpNoobs\MemberGraph\Domain\Type\TypeIndexContext;
-use PhpNoobs\MemberGraph\Domain\Type\VariableTypeInfo;
-use PhpNoobs\MemberGraph\Domain\Type\VariableTypeSource;
+use BabelForge\MemberGraph\Domain\Index\Template\PhpDocTemplateDefinitionCollection;
+use BabelForge\MemberGraph\Domain\Type\TypeIndexContext;
+use BabelForge\MemberGraph\Domain\Type\VariableTypeInfo;
+use BabelForge\MemberGraph\Domain\Type\VariableTypeSource;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
 

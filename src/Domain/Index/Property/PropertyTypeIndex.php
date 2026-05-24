@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Domain\Index\Property;
+namespace BabelForge\MemberGraph\Domain\Index\Property;
 
-use PhpNoobs\MemberGraph\Domain\Symbol\SymbolCollection;
+use BabelForge\MemberGraph\Domain\Symbol\SymbolCollection;
 
 /**
  * Stores simple property types.

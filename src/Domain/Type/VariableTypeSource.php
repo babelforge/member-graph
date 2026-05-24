@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Domain\Type;
+namespace BabelForge\MemberGraph\Domain\Type;
 
 /**
  * Enum VariableTypeSource.

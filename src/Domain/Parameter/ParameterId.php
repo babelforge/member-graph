@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Domain\Parameter;
+namespace BabelForge\MemberGraph\Domain\Parameter;
 
 /**
  * Represents one function-like parameter identifier.

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Tests\Integration\Stability;
+namespace BabelForge\MemberGraph\Tests\Integration\Stability;
 
 /**
  * Covers migrated legacy member graph stability fixtures.

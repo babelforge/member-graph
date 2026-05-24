@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Issue;
+namespace BabelForge\MemberGraph\Application\Issue;
 
 /**
  * Interface MemberGraphIssueInterface.

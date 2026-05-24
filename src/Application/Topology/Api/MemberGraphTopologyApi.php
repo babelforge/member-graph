@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Application\Topology\Api;
+namespace BabelForge\MemberGraph\Application\Topology\Api;
 
-use PhpNoobs\MemberGraph\Application\Query\MemberGraphQueryService;
-use PhpNoobs\MemberGraph\Application\Topology\Export\MemberGraphTopologyExporterInterface;
-use PhpNoobs\MemberGraph\Application\Topology\Filter\MemberGraphTopologyFilter;
-use PhpNoobs\MemberGraph\Application\Topology\Filter\MemberGraphTopologyFilterService;
-use PhpNoobs\MemberGraph\Application\Topology\MemberGraphTopology;
-use PhpNoobs\MemberGraph\Application\Topology\MemberGraphTopologyDirection;
-use PhpNoobs\MemberGraph\Application\Topology\MemberGraphTopologyService;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberDependencyGraph;
-use PhpNoobs\MemberGraph\Domain\Graph\MemberId;
+use BabelForge\MemberGraph\Application\Query\MemberGraphQueryService;
+use BabelForge\MemberGraph\Application\Topology\Export\MemberGraphTopologyExporterInterface;
+use BabelForge\MemberGraph\Application\Topology\Filter\MemberGraphTopologyFilter;
+use BabelForge\MemberGraph\Application\Topology\Filter\MemberGraphTopologyFilterService;
+use BabelForge\MemberGraph\Application\Topology\MemberGraphTopology;
+use BabelForge\MemberGraph\Application\Topology\MemberGraphTopologyDirection;
+use BabelForge\MemberGraph\Application\Topology\MemberGraphTopologyService;
+use BabelForge\MemberGraph\Domain\Graph\MemberDependencyGraph;
+use BabelForge\MemberGraph\Domain\Graph\MemberId;
 
 /**
  * Provides a compact facade for topology creation, filtering, and exporting.

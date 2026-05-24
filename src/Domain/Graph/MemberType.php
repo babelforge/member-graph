@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Domain\Graph;
+namespace BabelForge\MemberGraph\Domain\Graph;
 
 /**
  * Enum representing member types.

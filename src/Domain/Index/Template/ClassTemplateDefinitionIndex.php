@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpNoobs\MemberGraph\Domain\Index\Template;
+namespace BabelForge\MemberGraph\Domain\Index\Template;
 
 /**
  * Stores class template definitions indexed by owner FQCN.
