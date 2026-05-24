@@ -15,7 +15,7 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/babelforge/php-source-registry"
+            "url": "https://github.com/babelforge/php-source-registry.git"
         }
     ],
     "require": {

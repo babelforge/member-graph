@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a31ac29ab12a38a02e42524d461122ed",
+    "content-hash": "1e7fccdea1896732fa0b46122c3accba",
     "packages": [
         {
             "name": "babelforge/php-source-registry",
